@@ -38,11 +38,7 @@ export default async function Home() {
       <JsonLd data={faqJsonLd} />
 
       {/* Hero */}
-      <section className="relative overflow-hidden bg-[#1b4332]">
-        <div className="absolute inset-0">
-          <Image src="/hero.webp" alt="" fill className="object-cover opacity-30" priority sizes="100vw" />
-          <div className="absolute inset-0 bg-gradient-to-b from-[#1b4332]/60 via-[#1b4332]/40 to-[#1b4332]/80" />
-        </div>
+      <section className="relative overflow-hidden bg-gradient-to-br from-[#1b4332] via-[#2d6a4f] to-[#40916c]">
         <div className="relative mx-auto max-w-4xl px-4 sm:px-6 text-center">
           <div className="py-14 sm:py-20 lg:py-28">
             <h1 className="text-2xl sm:text-4xl lg:text-5xl font-bold text-white leading-tight">
