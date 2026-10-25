@@ -4,6 +4,8 @@ import { CATEGORIES, CATEGORY_SLUGS, ORIGINS, SITE_NAME } from "@/lib/constants"
 import { ProductCard } from "@/components/ProductCard";
 import { ShopCTA } from "@/components/ShopCTA";
 import { SearchForm } from "@/components/SearchForm";
+import { CategoryIcon } from "@/lib/category-icons";
+import { MapPin, Droplets } from "lucide-react";
 
 export const revalidate = 21600;
 
@@ -32,7 +34,7 @@ export default async function Home() {
     <main className="flex-1">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }} />
 
-      {/* Hero: sauna-ikitai style - 検索バー中央配置 */}
+      {/* Hero */}
       <section className="relative overflow-hidden bg-gradient-to-br from-[#1b4332] via-[#2d6a4f] to-[#40916c]">
         <div className="absolute inset-0 opacity-10">
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_50%,rgba(255,255,255,0.15),transparent_70%)]" />
@@ -49,7 +51,7 @@ export default async function Home() {
               産地・種類・用途から、あなたにぴったりの一品を。
             </p>
 
-            {/* 検索バー - sauna-ikitai風の中央配置 */}
+            {/* 検索バー */}
             <div className="mt-8 max-w-2xl mx-auto">
               <form action="/search" method="get" className="flex gap-2">
                 <input
@@ -96,7 +98,7 @@ export default async function Home() {
         </div>
       </section>
 
-      {/* カテゴリ タブ風ナビ - my-best style */}
+      {/* カテゴリ タブナビ */}
       <section className="bg-white border-b border-gray-100 sticky top-14 z-40">
         <div className="mx-auto max-w-7xl px-4 sm:px-6">
           <div className="flex gap-1 overflow-x-auto no-scrollbar py-2.5">
@@ -109,7 +111,7 @@ export default async function Home() {
                   href={`/category/${slug}`}
                   className="shrink-0 flex items-center gap-1.5 rounded-full border border-gray-200 bg-gray-50 px-3.5 py-1.5 text-xs font-medium text-gray-700 hover:border-[#52b788] hover:bg-[#d8f3dc] hover:text-[#1b4332] transition"
                 >
-                  <span>{meta.emoji}</span>
+                  <CategoryIcon slug={slug} className="w-3.5 h-3.5" />
                   <span>{meta.label}</span>
                   {count !== undefined && <span className="text-gray-400">({count})</span>}
                 </Link>
@@ -141,7 +143,7 @@ export default async function Home() {
         </section>
       )}
 
-      {/* 産地から探す - sauna-ikitai都道府県風 */}
+      {/* 産地から探す */}
       <section className="bg-[#f8faf8] border-b border-gray-100">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 py-10">
           <div className="mb-6">
@@ -157,7 +159,7 @@ export default async function Home() {
                 className="group rounded-xl border border-gray-100 bg-white hover:border-[#52b788] hover:shadow-md p-4 transition-all"
               >
                 <div className="flex items-center gap-2 mb-2">
-                  <span className="w-8 h-8 rounded-full bg-[#d8f3dc] flex items-center justify-center text-sm">🗾</span>
+                  <span className="w-8 h-8 rounded-full bg-[#d8f3dc] flex items-center justify-center"><MapPin className="w-4 h-4 text-[#2d6a4f]" /></span>
                   <div>
                     <h3 className="font-bold text-gray-900 group-hover:text-[#2d6a4f] transition text-sm">{info.label}</h3>
                     <p className="text-[10px] text-[#52b788]">{info.area}</p>
@@ -224,7 +226,7 @@ export default async function Home() {
         </div>
       </section>
 
-      {/* 昆布ガイド - my-best style */}
+      {/* 昆布ガイド */}
       <section className="bg-white border-b border-gray-100">
         <div className="mx-auto max-w-5xl px-4 sm:px-6 py-10">
           <div className="mb-6">
@@ -233,16 +235,16 @@ export default async function Home() {
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
             {[
-              { title: "昆布だしの取り方", desc: "水出し・煮出しの基本からプロの技まで", href: "/guide/how-to-make-dashi", emoji: "🍲" },
-              { title: "昆布の種類と選び方", desc: "利尻・羅臼・日高・真昆布の違いと選び方", href: "/guide/kombu-types", emoji: "📖" },
-              { title: "昆布の栄養と健康効果", desc: "食物繊維・ミネラル・フコイダンの力", href: "/guide/kombu-nutrition", emoji: "💪" },
+              { title: "昆布だしの取り方", desc: "水出し・煮出しの基本からプロの技まで", href: "/guide/how-to-make-dashi" },
+              { title: "昆布の種類と選び方", desc: "利尻・羅臼・日高・真昆布の違いと選び方", href: "/guide/kombu-types" },
+              { title: "昆布の栄養成分と期待される効果", desc: "食物繊維・ミネラル・フコイダンについて", href: "/guide/kombu-nutrition" },
             ].map((item) => (
               <Link
                 key={item.href}
                 href={item.href}
                 className="group flex items-start gap-3 rounded-xl border border-gray-100 bg-white p-4 hover:border-[#52b788] hover:shadow-md transition-all"
               >
-                <span className="text-2xl shrink-0 mt-0.5">{item.emoji}</span>
+                <span className="w-8 h-8 rounded-lg bg-[#d8f3dc] flex items-center justify-center shrink-0"><Droplets className="w-4 h-4 text-[#2d6a4f]" /></span>
                 <div>
                   <p className="text-sm font-bold text-gray-900 group-hover:text-[#2d6a4f] transition">{item.title}</p>
                   <p className="mt-1 text-xs text-gray-500 leading-relaxed">{item.desc}</p>

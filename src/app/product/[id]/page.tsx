@@ -66,12 +66,6 @@ export default async function ProductPage({ params }: Props) {
     brand: { "@type": "Brand", name: product.brand },
     description: product.description || `${product.brand}の${product.name}`,
     image: product.imageUrl || undefined,
-    ...(product.rating ? {
-      aggregateRating: { "@type": "AggregateRating", ratingValue: product.rating, bestRating: 5, ratingCount: product.reviewCount || 1 },
-    } : {}),
-    ...(product.price ? {
-      offers: { "@type": "Offer", price: product.price, priceCurrency: "JPY", availability: "https://schema.org/InStock" },
-    } : {}),
   };
 
   // BreadcrumbList構造化データ
@@ -173,7 +167,8 @@ export default async function ProductPage({ params }: Props) {
 
         {/* 味わいプロファイル */}
         <section className="mt-10 rounded-xl border border-gray-100 bg-[#f8faf8] p-5 sm:p-6">
-          <h2 className="text-base font-bold text-gray-900 mb-4">味わいプロファイル</h2>
+          <h2 className="text-base font-bold text-gray-900 mb-1">味わいプロファイル</h2>
+          <p className="text-[10px] text-gray-400 mb-4">※ カテゴリの一般的な傾向です。個々の商品で異なる場合があります。</p>
           <div className="space-y-2.5">
             {tasteProfile.map((t) => (
               <div key={t.label} className="flex items-center gap-3">

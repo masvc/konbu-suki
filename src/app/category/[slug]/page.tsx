@@ -4,6 +4,7 @@ import { prisma } from "@/lib/prisma";
 import { CATEGORIES, type CategorySlug, SITE_NAME } from "@/lib/constants";
 import { ProductCard } from "@/components/ProductCard";
 import { ShopCTA } from "@/components/ShopCTA";
+import { CategoryIcon } from "@/lib/category-icons";
 
 export const revalidate = 21600;
 
@@ -33,7 +34,7 @@ export default async function CategoryPage({ params }: Props) {
     <main className="flex-1">
       <section className="bg-gradient-to-b from-green-50 to-white border-b border-gray-100">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 py-10">
-          <p className="text-3xl mb-2">{cat.emoji}</p>
+          <CategoryIcon slug={slug} className="w-8 h-8 text-[#2d6a4f] mb-2" />
           <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">{cat.label}</h1>
           <p className="mt-2 text-sm text-gray-600">{cat.description}</p>
           <div className="mt-4">

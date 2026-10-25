@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { CATEGORIES, type CategorySlug } from "@/lib/constants";
+import { CategoryIcon } from "@/lib/category-icons";
 
 type ProductCardProps = {
   id: number;
@@ -31,12 +32,12 @@ export function ProductCard({ id, name, brand, category, price, imageUrl, origin
             sizes="(max-width: 768px) 50vw, 25vw"
           />
         ) : (
-          <div className="flex items-center justify-center h-full text-4xl text-gray-200">🫒</div>
+          <div className="flex items-center justify-center h-full"><CategoryIcon slug={category} className="w-12 h-12 text-gray-200" /></div>
         )}
         {/* カテゴリバッジ */}
         {cat && (
           <span className="absolute top-2 left-2 bg-white/90 backdrop-blur-sm rounded-full px-2 py-0.5 text-[10px] font-medium text-[#2d6a4f] border border-[#d8f3dc]">
-            {cat.emoji} {cat.label}
+            <CategoryIcon slug={category} className="w-3 h-3 inline" /> {cat.label}
           </span>
         )}
       </div>
@@ -63,7 +64,7 @@ export function ProductCard({ id, name, brand, category, price, imageUrl, origin
         </div>
 
         {origin && (
-          <p className="mt-1.5 text-[10px] text-[#52b788] font-medium">📍 {origin}</p>
+          <p className="mt-1.5 text-[10px] text-[#52b788] font-medium">{origin}</p>
         )}
       </div>
     </Link>

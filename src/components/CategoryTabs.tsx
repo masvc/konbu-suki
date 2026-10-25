@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { CATEGORIES, CATEGORY_SLUGS } from "@/lib/constants";
+import { CategoryIcon } from "@/lib/category-icons";
 
 type Props = {
   counts?: Record<string, number>;
@@ -23,7 +24,7 @@ export function CategoryTabs({ counts, activeSlug }: Props) {
                 : "border-gray-200 bg-gray-50 text-gray-700 hover:border-[#52b788] hover:bg-[#d8f3dc] hover:text-[#1b4332]"
             }`}
           >
-            <span>{meta.emoji}</span>
+            <CategoryIcon slug={slug} className="w-3.5 h-3.5" />
             <span>{meta.label}</span>
             {count !== undefined && <span className="text-gray-400">({count})</span>}
           </Link>

@@ -52,12 +52,12 @@ export default async function KombuBoxPage() {
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
             {[
-              { emoji: "🎁", title: "中身はお楽しみ", desc: "届いて開けるまで中身はわからない。フォーチュンボックス方式で、昆布との新しい出会いを。" },
-              { emoji: "🤝", title: "生産者を応援", desc: "知名度は低いけど品質は確か。そんな昆布生産者の商品を全国にお届け。" },
-              { emoji: "📖", title: "学べる昆布体験", desc: "各商品に生産者のストーリーと美味しい食べ方ガイドを同梱。昆布がもっと好きになる。" },
+              { title: "中身はお楽しみ", desc: "届いて開けるまで中身はわからない。昆布との新しい出会いを提供します。" },
+              { title: "生産者を応援", desc: "知名度は低いけど品質は確か。そんな昆布生産者の商品を全国にお届け。" },
+              { title: "学べる昆布体験", desc: "各商品に生産者のストーリーと美味しい食べ方ガイドを同梱。昆布がもっと好きになる。" },
             ].map((item) => (
               <div key={item.title} className="text-center">
-                <span className="text-3xl">{item.emoji}</span>
+                <div className="w-10 h-10 rounded-full bg-[#d8f3dc] flex items-center justify-center mx-auto" />
                 <h3 className="text-sm font-bold text-gray-900 mt-3 mb-2">{item.title}</h3>
                 <p className="text-xs text-gray-500 leading-relaxed">{item.desc}</p>
               </div>
@@ -95,7 +95,7 @@ export default async function KombuBoxPage() {
             </div>
           ) : (
             <div className="text-center py-12">
-              <p className="text-4xl mb-4">📦</p>
+              <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-[#d8f3dc]" />
               <p className="text-gray-500 text-sm mb-2">第1弾は準備中です</p>
               <p className="text-gray-400 text-xs">メルマガ登録で発売通知を受け取れます</p>
             </div>

@@ -46,7 +46,7 @@ export default async function ProducersPage() {
           </div>
         ) : (
           <div className="text-center py-20">
-            <p className="text-4xl mb-4">🤝</p>
+            <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-[#d8f3dc]" />
             <p className="text-gray-500 text-sm">生産者情報は準備中です。</p>
             <p className="text-gray-400 text-xs mt-2">昆布の生産者・メーカーの方で掲載をご希望の方はお問い合わせください。</p>
           </div>

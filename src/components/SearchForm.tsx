@@ -42,7 +42,7 @@ export function SearchForm({ initialQ = "", initialCategory = "", initialSort = 
         <option value="">全カテゴリ</option>
         {CATEGORY_SLUGS.map((slug) => (
           <option key={slug} value={slug}>
-            {CATEGORIES[slug].emoji} {CATEGORIES[slug].label}
+            {CATEGORIES[slug].label}
           </option>
         ))}
       </select>
