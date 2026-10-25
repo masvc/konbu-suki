@@ -10,11 +10,13 @@ export function ProducerInquiryForm() {
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     setStatus("loading");
+    const formEl = e.target as HTMLFormElement;
+    const honeypot = (formEl.querySelector('input[name="website"]') as HTMLInputElement)?.value || "";
     try {
       const res = await fetch("/api/producer-inquiry", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(form),
+        body: JSON.stringify({ ...form, website: honeypot }),
       });
       const data = await res.json();
       if (res.ok) {

@@ -36,7 +36,7 @@ export const ORIGINS = {
   makombu: { label: "真昆布", area: "北海道 函館", description: "上品な甘みのだし。大阪の昆布文化の主役。" },
   nagakombu: { label: "長昆布", area: "北海道 釧路", description: "昆布巻き・煮物に最適。リーズナブル。" },
   hosome: { label: "細目昆布", area: "北海道 函館", description: "粘りが強く、とろろ昆布の原料。" },
-  gagome: { label: "がごめ昆布", area: "北海道 函館", description: "フコイダン豊富。健康昆布として注目。" },
+  gagome: { label: "がごめ昆布", area: "北海道 函館", description: "強い粘りが特徴。とろろ昆布・松前漬けに。" },
 } as const;
 
 export type OriginSlug = keyof typeof ORIGINS;

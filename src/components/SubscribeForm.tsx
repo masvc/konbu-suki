@@ -11,11 +11,13 @@ export function SubscribeForm() {
     e.preventDefault();
     if (!email) return;
     setStatus("loading");
+    const formEl = e.target as HTMLFormElement;
+    const honeypot = (formEl.querySelector('input[name="website"]') as HTMLInputElement)?.value || "";
     try {
       const res = await fetch("/api/subscribe", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email }),
+        body: JSON.stringify({ email, website: honeypot }),
       });
       const data = await res.json();
       if (res.ok) {

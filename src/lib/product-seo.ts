@@ -244,7 +244,7 @@ export function getNutritionFacts(cat: string) {
       { label: "食物繊維", desc: "水溶性食物繊維（アルギン酸）が豊富。腸内環境を整える。" },
       { label: "ミネラル", desc: "カルシウム・マグネシウム・鉄分・ヨウ素を含む。" },
       { label: "グルタミン酸", desc: "旨味成分。昆布だしの旨味の正体。" },
-      { label: "フコイダン", desc: "免疫力サポートが期待される多糖類。" },
+      { label: "フコイダン", desc: "昆布に含まれる多糖類の一種。" },
     ];
   }
   return null;
