@@ -6,6 +6,8 @@ import { prisma } from "@/lib/prisma";
 import { CATEGORIES, type CategorySlug, SITE_NAME, SITE_URL } from "@/lib/constants";
 import { amazonProductUrl, amazonSearchUrl, rakutenProductUrl, rakutenSearchUrl } from "@/lib/affiliates";
 import { ProductCard } from "@/components/ProductCard";
+import { Breadcrumb } from "@/components/Breadcrumb";
+import { JsonLd } from "@/components/JsonLd";
 import { getTasteProfile, getUsageSuggestions, getPairings, getRecommendedFor, getNutritionFacts, getTextureAndFlavorTags } from "@/lib/product-seo";
 
 export const revalidate = 21600;
@@ -69,35 +71,16 @@ export default async function ProductPage({ params }: Props) {
     image: product.imageUrl || undefined,
   };
 
-  // BreadcrumbList構造化データ
-  const breadcrumbJsonLd = {
-    "@context": "https://schema.org",
-    "@type": "BreadcrumbList",
-    itemListElement: [
-      { "@type": "ListItem", position: 1, name: SITE_NAME, item: SITE_URL },
-      ...(cat ? [{ "@type": "ListItem", position: 2, name: cat.label, item: `${SITE_URL}/category/${product.category}` }] : []),
-      { "@type": "ListItem", position: cat ? 3 : 2, name: product.name },
-    ],
-  };
 
   return (
     <main className="flex-1">
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(productJsonLd) }} />
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }} />
+      <JsonLd data={productJsonLd} />
 
       <div className="mx-auto max-w-5xl px-4 sm:px-6 py-8">
-        {/* パンくず */}
-        <nav className="text-xs text-gray-400 mb-6" aria-label="パンくずリスト">
-          <Link href="/" className="hover:text-[#52b788]">{SITE_NAME}</Link>
-          <span className="mx-1.5">/</span>
-          {cat && (
-            <>
-              <Link href={`/category/${product.category}`} className="hover:text-[#52b788]">{cat.label}</Link>
-              <span className="mx-1.5">/</span>
-            </>
-          )}
-          <span className="text-gray-600">{product.name}</span>
-        </nav>
+        <Breadcrumb items={[
+          ...(cat ? [{ label: cat.label, href: `/category/${product.category}` }] : []),
+          { label: product.name },
+        ]} />
 
         {/* メインコンテンツ */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">

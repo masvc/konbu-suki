@@ -6,6 +6,8 @@ import { ShopCTA } from "@/components/ShopCTA";
 import { SearchForm } from "@/components/SearchForm";
 import { CategoryIcon } from "@/lib/category-icons";
 import { MapPin, Droplets } from "lucide-react";
+import { FaqAccordion } from "@/components/FaqAccordion";
+import { JsonLd } from "@/components/JsonLd";
 
 export const revalidate = 21600;
 
@@ -32,7 +34,7 @@ export default async function Home() {
 
   return (
     <main className="flex-1">
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }} />
+      <JsonLd data={faqJsonLd} />
 
       {/* Hero */}
       <section className="relative overflow-hidden bg-gradient-to-br from-[#1b4332] via-[#2d6a4f] to-[#40916c]">
@@ -262,24 +264,7 @@ export default async function Home() {
             <p className="text-[10px] font-bold text-[#52b788] tracking-widest mb-1">FAQ</p>
             <h2 className="text-lg sm:text-xl font-bold text-gray-900">よくある質問</h2>
           </div>
-          <dl className="space-y-2">
-            {FAQ_ITEMS.map((item, i) => (
-              <div key={i} className="rounded-xl border border-gray-100 bg-white overflow-hidden">
-                <details className="group">
-                  <summary className="w-full flex items-start justify-between gap-4 px-4 py-3.5 text-left hover:bg-gray-50 transition cursor-pointer list-none">
-                    <span className="flex items-start gap-2.5">
-                      <span className="text-[#52b788] font-bold text-sm mt-0.5">Q.</span>
-                      <span className="font-semibold text-gray-900 text-sm">{item.q}</span>
-                    </span>
-                    <svg className="w-4 h-4 text-gray-400 shrink-0 mt-1 transition-transform group-open:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                    </svg>
-                  </summary>
-                  <dd className="px-4 pb-4 pl-10 text-sm text-gray-600 leading-relaxed">{item.a}</dd>
-                </details>
-              </div>
-            ))}
-          </dl>
+          <FaqAccordion items={FAQ_ITEMS} />
         </div>
       </section>
     </main>

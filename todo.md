@@ -4,7 +4,7 @@
 - [ ] ドメイン取得（ラッコ メンテ明け）→ Vercel に追加 → NEXT_PUBLIC_SITE_URL 設定
 - [ ] Search Console 登録（ドメイン後）→ NEXT_PUBLIC_GOOGLE_VERIFICATION 設定
 - [ ] GA4 プロパティ作成 → NEXT_PUBLIC_GA_ID 設定
-- [ ] 楽天アフィ：つなぎで楽天直のIDを設定 → ドメイン後にもしもへサイト追加
+- [ ] 楽天：当面はリンクのクリック計測のみ（ID未設定）。もしもはドメイン取得後にサイト追加
 - [ ] 本番の購入リンクに tag=konbu-suki-22 が付いているか確認
 - [ ] Vercel の Production が最新コミットを指しているか確認（ロゴ反映問題）
 
