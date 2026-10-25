@@ -1,83 +1,110 @@
-# スキーマ変更計画
+# スキーマ変更計画 v2
 
-確認後にマイグレーション実行します。
+確認後にマイグレーション実行します。Neonでバックアップブランチを先に作ってください。
 
 ---
 
-## 1. Product テーブルに価格関連カラム追加
+## 1. Product テーブルに価格・リピート品カラム追加
 
-```sql
-ALTER TABLE products ADD COLUMN "priceFetchedAt" TIMESTAMP;
-ALTER TABLE products ADD COLUMN "listPrice" INTEGER;
+```prisma
+model Product {
+  // 既存フィールドに追加:
+  priceFetchedAt DateTime?  // 価格取得日時
+  listPrice      Int?       // 通常価格（セール時のみ）
+  isOwnerPick    Boolean @default(false)  // 運営者リピート品フラグ
+  ownerComment   String?    // 運営者コメント
+}
 ```
 
-| カラム | 型 | 用途 |
-|--------|------|------|
-| `priceFetchedAt` | DateTime? | 価格を取得した日時（JST表示用） |
-| `listPrice` | Int? | 通常価格（セール時のみ。savingBasis） |
-
-- `price`: セール時はセール価格、通常時は定価
-- `listPrice`: セール時のみ通常価格が入る。nullなら通常価格
-- `priceFetchedAt`: 価格取得スクリプト実行時の日時
-
-**表示例:**
-- 通常時: `¥1,280（2026/10/26 14:30時点）`
-- セール時: `¥980（セール価格・通常¥1,280）2026/10/26 14:30時点`
+**表示ルール:**
+- 価格日時: `priceFetchedAt` を Asia/Tokyo で表示
+- セール時: `price` < `listPrice` なら「セール価格・通常¥X」を併記
+- リピート品: `isOwnerPick: true` の商品に運営者コメント欄を表示
 
 ---
 
-## 2. タグ保存テーブル（/tag/[slug]ページ用）
+## 2. Tag + ProductTag テーブル（中間テーブル方式）
 
-```sql
-CREATE TABLE product_tags (
-  id SERIAL PRIMARY KEY,
-  "productId" INTEGER NOT NULL REFERENCES products(id) ON DELETE CASCADE,
-  tag VARCHAR NOT NULL,
-  UNIQUE("productId", tag)
-);
-CREATE INDEX idx_product_tags_tag ON product_tags(tag);
+```prisma
+model Tag {
+  id       Int          @id @default(autoincrement())
+  name     String       // 表示名（例: パリパリ食感）
+  slug     String       @unique  // URL用（例: paripari）
+  category String?      // texture / flavor / usage / material
+
+  products ProductTag[]
+
+  @@map("tags")
+}
+
+model ProductTag {
+  id        Int     @id @default(autoincrement())
+  productId Int
+  product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+  tagId     Int
+  tag       Tag     @relation(fields: [tagId], references: [id], onDelete: Cascade)
+
+  @@unique([productId, tagId])
+  @@map("product_tags")
+}
 ```
 
-- 食感・味わいタグをDB保存し、`/tag/パリパリ` 等の一覧ページを作成
-- タグはスクリプトで一括生成（getTextureAndFlavorTags の結果を保存）
+**用途:** `/tag/paripari` のような一覧ページを作成。ロングテールSEO。
 
 ---
 
-## 3. イベント計測テーブル（/api/track, /ranking用）
+## 3. ProductEvent テーブル（PV・クリック計測）
 
-```sql
-CREATE TABLE product_events (
-  id SERIAL PRIMARY KEY,
-  "productId" INTEGER NOT NULL REFERENCES products(id) ON DELETE CASCADE,
-  "eventType" VARCHAR NOT NULL,  -- 'view', 'amazon_click', 'rakuten_click', 'favorite'
-  "createdAt" TIMESTAMP DEFAULT NOW()
-);
-CREATE INDEX idx_product_events_type_date ON product_events("eventType", "createdAt");
-CREATE INDEX idx_product_events_product ON product_events("productId", "eventType");
+```prisma
+model ProductEvent {
+  id        Int      @id @default(autoincrement())
+  productId Int
+  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  eventType String   // view, amazon_click, rakuten_click, favorite
+  createdAt DateTime @default(now())
+
+  @@index([productId, eventType])
+  @@index([eventType, createdAt])
+  @@map("product_events")
+}
+```
+
+**注意:** IP・UAは保存しない。ランキングは日次集計で計算。
+
+---
+
+## 4. ProducerInquiry テーブル（生産者掲載募集フォーム）
+
+```prisma
+model ProducerInquiry {
+  id          Int      @id @default(autoincrement())
+  companyName String   // 会社名
+  contactName String   // 担当者名
+  email       String   // メールアドレス
+  phone       String?  // 電話番号
+  productInfo String?  // 商品概要
+  message     String?  // メッセージ
+  createdAt   DateTime @default(now())
+
+  @@map("producer_inquiries")
+}
 ```
 
 ---
 
-## 4. こんぶBOX事前登録（Subscriberテーブルは既存）
+## 5. Subscriber テーブル（既存、変更なし）
 
-既存の `subscribers` テーブルで対応可能。変更不要。
-
----
-
-## 5. 運営者リピート品フラグ
-
-```sql
-ALTER TABLE products ADD COLUMN "ownerComment" TEXT;
-ALTER TABLE products ADD COLUMN "isOwnerPick" BOOLEAN DEFAULT FALSE;
-```
+こんぶBOX事前登録用。既存のままで対応可能。
 
 ---
 
-## 実行順
+## マイグレーション実行順
 
-1. **価格カラム追加**（priceFetchedAt, listPrice）→ 価格取得スクリプト更新
-2. **リピート品フラグ**（ownerComment, isOwnerPick）
-3. **タグテーブル**（product_tags）→ タグ生成スクリプト → /tag/[slug]ページ
-4. **イベントテーブル**（product_events）→ /api/track → /ranking
+1. Product に priceFetchedAt / listPrice / isOwnerPick / ownerComment を追加
+2. Tag + ProductTag テーブル作成
+3. ProductEvent テーブル作成
+4. ProducerInquiry テーブル作成
 
-全部やりますか？それとも1から順にやりますか？
+全て1回の `prisma migrate dev` で適用。
+
+**Neonでバックアップブランチを作ってからOKを出してください。**
