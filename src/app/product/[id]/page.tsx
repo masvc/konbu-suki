@@ -48,23 +48,18 @@ export default async function ProductPage({ params }: Props) {
   const nutrition = getNutritionFacts(product.category);
   const textureTags = getTextureAndFlavorTags(product);
 
-  const [related, newerVersion] = await Promise.all([
-    prisma.product.findMany({
-      where: { category: product.category, id: { not: product.id } },
-      take: 4,
-      orderBy: { rating: "desc" },
-    }),
-    // 同ブランド・類似名の新しい商品を探す（リニューアル版導線）
-    prisma.product.findFirst({
-      where: {
-        brand: product.brand,
-        id: { not: product.id },
-        name: { contains: product.name.replace(/\d+[gGグラム].*$/, "").trim().substring(0, 15) },
-        createdAt: { gt: product.createdAt },
-      },
-      orderBy: { createdAt: "desc" },
-    }),
-  ]);
+  const related = await prisma.product.findMany({
+    where: { category: product.category, id: { not: product.id } },
+    take: 4,
+    orderBy: { rating: "desc" },
+  });
+
+  // リニューアル版への直書きマッピング
+  const RENEWAL_MAP: Record<number, number> = { 315: 149 };
+  const renewalId = RENEWAL_MAP[product.id];
+  const renewalProduct = renewalId
+    ? await prisma.product.findUnique({ where: { id: renewalId }, select: { id: true, name: true, price: true } })
+    : null;
 
   const amazonLink = product.amazonAsin
     ? amazonProductUrl(product.amazonAsin)
@@ -94,12 +89,11 @@ export default async function ProductPage({ params }: Props) {
           { label: product.name },
         ]} />
 
-        {/* リニューアル版への導線 */}
-        {newerVersion && (
-          <Link href={`/product/${newerVersion.id}`} className="block rounded-lg border border-[#b7e4c7] bg-[#f8faf8] p-3 mb-6 hover:bg-[#d8f3dc] transition">
+        {renewalProduct && (
+          <Link href={`/product/${renewalProduct.id}`} className="block rounded-lg border border-[#b7e4c7] bg-[#f8faf8] p-3 mb-6 hover:bg-[#d8f3dc] transition">
             <p className="text-xs font-medium text-[#2d6a4f]">
-              リニューアル版があります: {newerVersion.name}
-              {newerVersion.price && <span className="ml-2 font-bold">&yen;{newerVersion.price.toLocaleString()}</span>}
+              リニューアル版があります: {renewalProduct.name}
+              {renewalProduct.price && <span className="ml-2 font-bold">&yen;{renewalProduct.price.toLocaleString()}</span>}
               <span className="ml-1 text-[#52b788]">&rarr;</span>
             </p>
           </Link>
