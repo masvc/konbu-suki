@@ -38,16 +38,16 @@ export default async function Home() {
       <JsonLd data={faqJsonLd} />
 
       {/* Hero */}
-      <section className="relative overflow-hidden bg-[#1b4332]" style={{ maxHeight: "70vh" }}>
+      <section className="relative overflow-hidden bg-[#1b4332]">
         <div className="absolute inset-0">
-          <Image src="/hero-trimmed.webp" alt="" fill className="object-cover opacity-20" priority sizes="100vw" />
-          <div className="absolute inset-0 bg-gradient-to-b from-[#1b4332]/50 to-[#2d6a4f]/70" />
+          <Image src="/hero-trimmed.webp" alt="" fill className="object-cover opacity-40" priority sizes="100vw" />
+          <div className="absolute inset-0 bg-gradient-to-b from-[#1b4332]/40 to-[#2d6a4f]/50" />
         </div>
         <svg className="absolute bottom-0 left-0 right-0 text-white/5" viewBox="0 0 1440 120" preserveAspectRatio="none" style={{ height: "80px", width: "100%" }}>
           <path d="M0,60 C360,120 720,0 1080,60 C1260,90 1380,30 1440,60 L1440,120 L0,120 Z" fill="currentColor" />
         </svg>
         <div className="relative mx-auto max-w-4xl px-4 sm:px-6 text-center">
-          <div className="py-10 sm:py-14 lg:py-18">
+          <div className="py-10 sm:py-14 lg:py-16">
             <h1 className="text-2xl sm:text-4xl lg:text-5xl font-bold text-white leading-tight">
               あなたの好きな昆布を
               <br className="sm:hidden" />
