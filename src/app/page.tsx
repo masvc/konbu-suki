@@ -3,15 +3,16 @@ import { prisma } from "@/lib/prisma";
 import { CATEGORIES, CATEGORY_SLUGS, ORIGINS, SITE_NAME } from "@/lib/constants";
 import { ProductCard } from "@/components/ProductCard";
 import { ShopCTA } from "@/components/ShopCTA";
+import { SearchForm } from "@/components/SearchForm";
 
-export const revalidate = 21600; // 6h ISR
+export const revalidate = 21600;
 
 export default async function Home() {
   const [totalProducts, featuredProducts, categories, recentProducts] = await Promise.all([
     prisma.product.count(),
     prisma.product.findMany({ where: { isFeatured: true }, take: 8, orderBy: { createdAt: "desc" } }),
     prisma.product.groupBy({ by: ["category"], _count: { _all: true } }),
-    prisma.product.findMany({ orderBy: { createdAt: "desc" }, take: 8 }),
+    prisma.product.findMany({ orderBy: { createdAt: "desc" }, take: 12 }),
   ]);
 
   const catCounts = Object.fromEntries(categories.map((c) => [c.category, c._count._all]));
@@ -23,85 +24,113 @@ export default async function Home() {
   ];
 
   const faqJsonLd = {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    mainEntity: FAQ_ITEMS.map((item) => ({
-      "@type": "Question", name: item.q,
-      acceptedAnswer: { "@type": "Answer", text: item.a },
-    })),
+    "@context": "https://schema.org", "@type": "FAQPage",
+    mainEntity: FAQ_ITEMS.map((item) => ({ "@type": "Question", name: item.q, acceptedAnswer: { "@type": "Answer", text: item.a } })),
   };
 
   return (
     <main className="flex-1">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }} />
 
-      {/* Hero */}
-      <section className="relative overflow-hidden bg-gradient-to-br from-green-900 via-green-800 to-green-700">
-        <div className="absolute inset-0 opacity-20">
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_50%,rgba(255,255,255,0.1),transparent_70%)]" />
+      {/* Hero: sauna-ikitai style - 検索バー中央配置 */}
+      <section className="relative overflow-hidden bg-gradient-to-br from-[#1b4332] via-[#2d6a4f] to-[#40916c]">
+        <div className="absolute inset-0 opacity-10">
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_50%,rgba(255,255,255,0.15),transparent_70%)]" />
         </div>
-        <div className="relative mx-auto max-w-7xl px-4 sm:px-6">
-          <div className="py-12 sm:py-16 lg:py-24 max-w-2xl">
-            <p className="text-xs sm:text-sm font-medium text-green-300 tracking-wider mb-3">
-              {SITE_NAME} - 昆布専門キュレーションサイト
-            </p>
+        <div className="relative mx-auto max-w-4xl px-4 sm:px-6 text-center">
+          <div className="py-14 sm:py-20 lg:py-28">
             <h1 className="text-3xl sm:text-5xl lg:text-6xl font-bold text-white leading-tight">
-              日本の昆布を、
+              あなたの好きな昆布を
               <br />
-              もっと好きになる。
+              見つけよう。
             </h1>
-            <p className="mt-4 sm:mt-6 text-green-100 text-sm sm:text-base leading-relaxed max-w-lg">
-              利尻・羅臼・日高・真昆布。北海道から届く旨みの宝庫。
-              {totalProducts > 0 && `${totalProducts}点の昆布商品を網羅的に比較。`}
-              だし昆布から塩昆布、とろろ昆布、昆布茶まで。
+            <p className="mt-4 text-[#b7e4c7] text-sm sm:text-base max-w-md mx-auto">
+              {totalProducts.toLocaleString()}件の昆布商品を横断検索。
+              産地・種類・用途から、あなたにぴったりの一品を。
             </p>
-            <div className="mt-6 sm:mt-8 flex flex-wrap gap-3">
-              <Link
-                href="#categories"
-                className="inline-flex items-center rounded-lg bg-green-500 px-6 py-3 text-sm font-medium text-white hover:bg-green-400 transition"
-              >
-                昆布を探す
-              </Link>
-              <Link
-                href="/kombu-box"
-                className="inline-flex items-center rounded-lg border border-white/20 px-6 py-3 text-sm font-medium text-white hover:bg-white/10 transition"
-              >
-                こんぶBOX
-              </Link>
-              <Link
-                href="/guide"
-                className="inline-flex items-center rounded-lg border border-green-400/40 bg-green-500/10 px-6 py-3 text-sm font-medium text-green-200 hover:bg-green-500/20 transition"
-              >
-                昆布ガイド
-              </Link>
+
+            {/* 検索バー - sauna-ikitai風の中央配置 */}
+            <div className="mt-8 max-w-2xl mx-auto">
+              <form action="/search" method="get" className="flex gap-2">
+                <input
+                  type="text"
+                  name="q"
+                  placeholder="昆布を検索... (例: 利尻昆布、塩昆布、小倉屋山本)"
+                  className="flex-1 rounded-xl border-0 bg-white/95 px-5 py-3.5 text-sm text-gray-900 shadow-lg placeholder:text-gray-400 focus:ring-2 focus:ring-[#52b788] outline-none"
+                />
+                <button type="submit" className="rounded-xl bg-[#52b788] px-6 py-3.5 text-sm font-bold text-white shadow-lg hover:bg-[#40916c] transition">
+                  検索
+                </button>
+              </form>
             </div>
-            {totalProducts > 0 && (
-              <div className="mt-8 sm:mt-12 flex gap-10 text-sm text-green-200">
-                <div>
-                  <span className="block text-2xl font-bold text-white">{totalProducts}</span>
-                  昆布商品
-                </div>
-                <div>
-                  <span className="block text-2xl font-bold text-white">{CATEGORY_SLUGS.length}</span>
-                  カテゴリ
-                </div>
-                <div>
-                  <span className="block text-2xl font-bold text-white">{Object.keys(ORIGINS).length}</span>
-                  産地
-                </div>
+
+            {/* クイックリンク */}
+            <div className="mt-6 flex flex-wrap justify-center gap-2">
+              {["利尻昆布", "羅臼昆布", "塩昆布", "とろろ昆布", "昆布茶", "おしゃぶり昆布"].map((kw) => (
+                <Link
+                  key={kw}
+                  href={`/search?q=${encodeURIComponent(kw)}`}
+                  className="rounded-full bg-white/15 border border-white/20 px-3 py-1.5 text-xs text-white/90 hover:bg-white/25 transition"
+                >
+                  {kw}
+                </Link>
+              ))}
+            </div>
+
+            {/* Stats */}
+            <div className="mt-10 flex justify-center gap-10 text-sm text-[#b7e4c7]">
+              <div>
+                <span className="block text-2xl font-bold text-white">{totalProducts.toLocaleString()}</span>
+                昆布商品
               </div>
-            )}
+              <div>
+                <span className="block text-2xl font-bold text-white">{CATEGORY_SLUGS.length}</span>
+                カテゴリ
+              </div>
+              <div>
+                <span className="block text-2xl font-bold text-white">{Object.keys(ORIGINS).length}</span>
+                産地
+              </div>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* おすすめ昆布 */}
+      {/* カテゴリ タブ風ナビ - my-best style */}
+      <section className="bg-white border-b border-gray-100 sticky top-14 z-40">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6">
+          <div className="flex gap-1 overflow-x-auto no-scrollbar py-2.5">
+            {CATEGORY_SLUGS.map((slug) => {
+              const meta = CATEGORIES[slug];
+              const count = catCounts[slug];
+              return (
+                <Link
+                  key={slug}
+                  href={`/category/${slug}`}
+                  className="shrink-0 flex items-center gap-1.5 rounded-full border border-gray-200 bg-gray-50 px-3.5 py-1.5 text-xs font-medium text-gray-700 hover:border-[#52b788] hover:bg-[#d8f3dc] hover:text-[#1b4332] transition"
+                >
+                  <span>{meta.emoji}</span>
+                  <span>{meta.label}</span>
+                  {count !== undefined && <span className="text-gray-400">({count})</span>}
+                </Link>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
+      {/* おすすめ昆布 - カード型グリッド */}
       {featuredProducts.length > 0 && (
         <section className="bg-white border-b border-gray-100">
-          <div className="mx-auto max-w-7xl px-4 sm:px-6 py-12">
-            <div className="text-center mb-8">
-              <p className="text-xs font-semibold text-green-600 tracking-widest mb-2">FEATURED</p>
-              <h2 className="text-xl sm:text-2xl font-bold text-gray-900">おすすめの昆布</h2>
+          <div className="mx-auto max-w-7xl px-4 sm:px-6 py-10">
+            <div className="flex items-baseline justify-between mb-6">
+              <div>
+                <p className="text-[10px] font-bold text-[#52b788] tracking-widest mb-1">FEATURED</p>
+                <h2 className="text-lg sm:text-xl font-bold text-gray-900">おすすめの昆布</h2>
+              </div>
+              <Link href="/search?sort=rating" className="text-xs text-[#40916c] font-medium hover:underline">
+                もっと見る →
+              </Link>
             </div>
             <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
               {featuredProducts.map((p) => (
@@ -112,58 +141,28 @@ export default async function Home() {
         </section>
       )}
 
-      {/* カテゴリ一覧 */}
-      <section id="categories" className="bg-gray-50 border-b border-gray-100">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 py-12">
-          <div className="text-center mb-8">
-            <p className="text-xs font-semibold text-green-600 tracking-widest mb-2">CATEGORIES</p>
-            <h2 className="text-xl sm:text-2xl font-bold text-gray-900">カテゴリから探す</h2>
-            <p className="mt-2 text-sm text-gray-500">昆布の種類・用途別にカテゴリ分けしています</p>
-          </div>
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
-            {CATEGORY_SLUGS.map((slug) => {
-              const meta = CATEGORIES[slug];
-              const count = catCounts[slug];
-              return (
-                <Link
-                  key={slug}
-                  href={`/category/${slug}`}
-                  className="group rounded-2xl border border-gray-100 bg-white hover:border-green-300 hover:shadow-md p-4 transition-all"
-                >
-                  <div className="flex items-center justify-between mb-2">
-                    <span className="text-2xl">{meta.emoji}</span>
-                    {count !== undefined && (
-                      <span className="text-[10px] text-gray-400 bg-gray-50 rounded-full px-2 py-0.5">{count}</span>
-                    )}
-                  </div>
-                  <h3 className="font-bold text-gray-900 group-hover:text-green-700 transition text-sm mb-1">
-                    {meta.label}
-                  </h3>
-                  <p className="text-xs text-gray-500 line-clamp-2 leading-relaxed">{meta.description}</p>
-                </Link>
-              );
-            })}
-          </div>
-        </div>
-      </section>
-
-      {/* 産地別 */}
-      <section className="bg-white border-b border-gray-100">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 py-12">
-          <div className="text-center mb-8">
-            <p className="text-xs font-semibold text-green-600 tracking-widest mb-2">ORIGINS</p>
-            <h2 className="text-xl sm:text-2xl font-bold text-gray-900">産地から探す</h2>
-            <p className="mt-2 text-sm text-gray-500">日本各地の昆布産地と特徴</p>
+      {/* 産地から探す - sauna-ikitai都道府県風 */}
+      <section className="bg-[#f8faf8] border-b border-gray-100">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 py-10">
+          <div className="mb-6">
+            <p className="text-[10px] font-bold text-[#52b788] tracking-widest mb-1">ORIGINS</p>
+            <h2 className="text-lg sm:text-xl font-bold text-gray-900">産地から探す</h2>
+            <p className="text-xs text-gray-500 mt-1">北海道を中心とした昆布の産地と特徴</p>
           </div>
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
             {(Object.entries(ORIGINS) as [string, { label: string; area: string; description: string }][]).map(([slug, info]) => (
               <Link
                 key={slug}
                 href={`/origin/${slug}`}
-                className="group rounded-2xl border border-gray-100 bg-white hover:border-green-300 hover:shadow-md p-4 transition-all"
+                className="group rounded-xl border border-gray-100 bg-white hover:border-[#52b788] hover:shadow-md p-4 transition-all"
               >
-                <h3 className="font-bold text-gray-900 group-hover:text-green-700 transition text-sm mb-1">{info.label}</h3>
-                <p className="text-[10px] text-green-600 mb-1">{info.area}</p>
+                <div className="flex items-center gap-2 mb-2">
+                  <span className="w-8 h-8 rounded-full bg-[#d8f3dc] flex items-center justify-center text-sm">🗾</span>
+                  <div>
+                    <h3 className="font-bold text-gray-900 group-hover:text-[#2d6a4f] transition text-sm">{info.label}</h3>
+                    <p className="text-[10px] text-[#52b788]">{info.area}</p>
+                  </div>
+                </div>
                 <p className="text-xs text-gray-500 leading-relaxed">{info.description}</p>
               </Link>
             ))}
@@ -171,19 +170,20 @@ export default async function Home() {
         </div>
       </section>
 
-      {/* こんぶBOXバナー */}
+      {/* こんぶBOXバナー - D2C導線 */}
       <section className="border-b border-gray-100">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 py-6">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 py-5">
           <Link
             href="/kombu-box"
-            className="block rounded-xl bg-gradient-to-r from-green-700 to-green-600 p-5 sm:p-6 text-white hover:from-green-800 hover:to-green-700 transition-all shadow-sm"
+            className="group block rounded-2xl overflow-hidden bg-gradient-to-r from-[#1b4332] to-[#2d6a4f] p-6 sm:p-8 text-white hover:shadow-lg transition-all"
           >
             <div className="flex items-center justify-between gap-4">
               <div>
+                <p className="text-[10px] font-bold text-[#b7e4c7] tracking-widest mb-1">D2C SUBSCRIPTION</p>
                 <p className="text-lg sm:text-xl font-bold">こんぶBOX</p>
-                <p className="text-sm text-green-100 mt-1">全国の厳選昆布を詰め合わせた、昆布のフォーチュンボックス。毎月届く昆布の宝箱。</p>
+                <p className="text-sm text-[#b7e4c7] mt-1">全国の厳選昆布を毎月お届け。中身は届いてからのお楽しみ。</p>
               </div>
-              <span className="shrink-0 rounded-full bg-white/20 px-4 py-2 text-sm font-bold">
+              <span className="shrink-0 rounded-full bg-white/20 px-5 py-2.5 text-sm font-bold group-hover:bg-white/30 transition">
                 詳しく見る →
               </span>
             </div>
@@ -191,24 +191,18 @@ export default async function Home() {
         </div>
       </section>
 
-      {/* 昆布を購入する */}
-      <section className="bg-white border-b border-gray-100">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 py-10">
-          <div className="rounded-xl border border-amber-200 bg-amber-50/50 p-5 sm:p-6">
-            <p className="text-sm font-bold text-gray-900 mb-1">昆布を購入する</p>
-            <p className="text-xs text-gray-500 mb-4">Amazon・楽天で昆布を探す</p>
-            <ShopCTA keyword="昆布" amazonLabel="Amazonで昆布を探す" rakutenLabel="楽天で昆布を探す" />
-          </div>
-        </div>
-      </section>
-
-      {/* 最新追加商品 */}
+      {/* 新着商品 */}
       {recentProducts.length > 0 && (
-        <section className="bg-gray-50 border-b border-gray-100">
-          <div className="mx-auto max-w-7xl px-4 sm:px-6 py-12">
-            <div className="text-center mb-8">
-              <p className="text-xs font-semibold text-green-600 tracking-widest mb-2">NEW</p>
-              <h2 className="text-xl sm:text-2xl font-bold text-gray-900">最近追加された昆布</h2>
+        <section className="bg-white border-b border-gray-100">
+          <div className="mx-auto max-w-7xl px-4 sm:px-6 py-10">
+            <div className="flex items-baseline justify-between mb-6">
+              <div>
+                <p className="text-[10px] font-bold text-[#52b788] tracking-widest mb-1">NEW ARRIVALS</p>
+                <h2 className="text-lg sm:text-xl font-bold text-gray-900">新着の昆布商品</h2>
+              </div>
+              <Link href="/search" className="text-xs text-[#40916c] font-medium hover:underline">
+                すべて見る →
+              </Link>
             </div>
             <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
               {recentProducts.map((p) => (
@@ -219,26 +213,40 @@ export default async function Home() {
         </section>
       )}
 
-      {/* 昆布の豆知識 */}
-      <section className="bg-white border-b border-gray-100">
-        <div className="mx-auto max-w-6xl px-4 sm:px-6 py-12">
-          <div className="text-center mb-8">
-            <p className="text-xs font-semibold text-green-600 tracking-widest mb-2">KNOWLEDGE</p>
-            <h2 className="text-xl sm:text-2xl font-bold text-gray-900">昆布の豆知識</h2>
+      {/* 購入CTA */}
+      <section className="bg-[#f8faf8] border-b border-gray-100">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 py-8">
+          <div className="rounded-xl border border-[#b7e4c7] bg-white p-5 sm:p-6">
+            <p className="text-sm font-bold text-gray-900 mb-1">昆布を購入する</p>
+            <p className="text-xs text-gray-500 mb-4">Amazon・楽天で昆布を横断検索</p>
+            <ShopCTA keyword="昆布" amazonLabel="Amazonで昆布を探す" rakutenLabel="楽天で昆布を探す" />
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        </div>
+      </section>
+
+      {/* 昆布ガイド - my-best style */}
+      <section className="bg-white border-b border-gray-100">
+        <div className="mx-auto max-w-5xl px-4 sm:px-6 py-10">
+          <div className="mb-6">
+            <p className="text-[10px] font-bold text-[#52b788] tracking-widest mb-1">GUIDE</p>
+            <h2 className="text-lg sm:text-xl font-bold text-gray-900">昆布ガイド</h2>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
             {[
-              { title: "昆布だしの取り方", desc: "水出し・煮出しの基本からプロの技まで。昆布だしの取り方完全ガイド。", href: "/guide/how-to-make-dashi" },
-              { title: "昆布の種類と選び方", desc: "利尻・羅臼・日高・真昆布の違いと、料理別のおすすめ昆布。", href: "/guide/kombu-types" },
-              { title: "昆布の栄養と健康効果", desc: "食物繊維・ミネラル・フコイダン。昆布の驚くべき栄養価と健康効果。", href: "/guide/kombu-nutrition" },
+              { title: "昆布だしの取り方", desc: "水出し・煮出しの基本からプロの技まで", href: "/guide/how-to-make-dashi", emoji: "🍲" },
+              { title: "昆布の種類と選び方", desc: "利尻・羅臼・日高・真昆布の違いと選び方", href: "/guide/kombu-types", emoji: "📖" },
+              { title: "昆布の栄養と健康効果", desc: "食物繊維・ミネラル・フコイダンの力", href: "/guide/kombu-nutrition", emoji: "💪" },
             ].map((item) => (
               <Link
                 key={item.href}
                 href={item.href}
-                className="group rounded-xl border border-gray-100 bg-white p-5 hover:border-green-300 hover:shadow-md transition-all"
+                className="group flex items-start gap-3 rounded-xl border border-gray-100 bg-white p-4 hover:border-[#52b788] hover:shadow-md transition-all"
               >
-                <p className="text-sm font-bold text-gray-900 group-hover:text-green-700 transition">{item.title}</p>
-                <p className="mt-2 text-xs text-gray-500 leading-relaxed">{item.desc}</p>
+                <span className="text-2xl shrink-0 mt-0.5">{item.emoji}</span>
+                <div>
+                  <p className="text-sm font-bold text-gray-900 group-hover:text-[#2d6a4f] transition">{item.title}</p>
+                  <p className="mt-1 text-xs text-gray-500 leading-relaxed">{item.desc}</p>
+                </div>
               </Link>
             ))}
           </div>
@@ -246,26 +254,26 @@ export default async function Home() {
       </section>
 
       {/* FAQ */}
-      <section className="bg-gray-50 border-t border-gray-100">
-        <div className="mx-auto max-w-3xl px-4 sm:px-6 py-12">
-          <div className="text-center mb-8">
-            <p className="text-xs font-semibold text-green-600 tracking-widest mb-2">FAQ</p>
-            <h2 className="text-xl sm:text-2xl font-bold text-gray-900">よくある質問</h2>
+      <section className="bg-[#f8faf8] border-t border-gray-100">
+        <div className="mx-auto max-w-3xl px-4 sm:px-6 py-10">
+          <div className="text-center mb-6">
+            <p className="text-[10px] font-bold text-[#52b788] tracking-widest mb-1">FAQ</p>
+            <h2 className="text-lg sm:text-xl font-bold text-gray-900">よくある質問</h2>
           </div>
-          <dl className="space-y-3">
+          <dl className="space-y-2">
             {FAQ_ITEMS.map((item, i) => (
               <div key={i} className="rounded-xl border border-gray-100 bg-white overflow-hidden">
                 <details className="group">
-                  <summary className="w-full flex items-start justify-between gap-4 px-5 py-4 text-left hover:bg-gray-50 transition cursor-pointer list-none">
-                    <span className="flex items-start gap-3">
-                      <span className="text-green-600 font-bold text-sm mt-0.5">Q.</span>
+                  <summary className="w-full flex items-start justify-between gap-4 px-4 py-3.5 text-left hover:bg-gray-50 transition cursor-pointer list-none">
+                    <span className="flex items-start gap-2.5">
+                      <span className="text-[#52b788] font-bold text-sm mt-0.5">Q.</span>
                       <span className="font-semibold text-gray-900 text-sm">{item.q}</span>
                     </span>
                     <svg className="w-4 h-4 text-gray-400 shrink-0 mt-1 transition-transform group-open:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                     </svg>
                   </summary>
-                  <dd className="px-5 pb-5 pl-12 text-sm text-gray-600 leading-relaxed">{item.a}</dd>
+                  <dd className="px-4 pb-4 pl-10 text-sm text-gray-600 leading-relaxed">{item.a}</dd>
                 </details>
               </div>
             ))}

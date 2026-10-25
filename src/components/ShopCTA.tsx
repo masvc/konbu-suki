@@ -2,8 +2,6 @@ import { amazonSearchUrl, rakutenSearchUrl } from "@/lib/affiliates";
 
 type Props = {
   keyword: string;
-  amazonAsin?: string;
-  rakutenId?: string;
   amazonLabel?: string;
   rakutenLabel?: string;
 };
@@ -19,7 +17,7 @@ export function ShopCTA({
         href={amazonSearchUrl(keyword)}
         target="_blank"
         rel="noopener noreferrer nofollow"
-        className="inline-flex items-center gap-1.5 rounded-full bg-amber-500 px-4 py-2 text-sm font-medium text-white hover:bg-amber-600 transition"
+        className="inline-flex items-center gap-1.5 rounded-lg bg-[#ff9900] px-4 py-2.5 text-sm font-medium text-white hover:bg-[#e68a00] transition shadow-sm"
       >
         {amazonLabel} ↗
       </a>
@@ -27,7 +25,7 @@ export function ShopCTA({
         href={rakutenSearchUrl(keyword)}
         target="_blank"
         rel="noopener noreferrer nofollow"
-        className="inline-flex items-center gap-1.5 rounded-full bg-red-500 px-4 py-2 text-sm font-medium text-white hover:bg-red-600 transition"
+        className="inline-flex items-center gap-1.5 rounded-lg bg-[#bf0000] px-4 py-2.5 text-sm font-medium text-white hover:bg-[#a00000] transition shadow-sm"
       >
         {rakutenLabel} ↗
       </a>
