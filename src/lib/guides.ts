@@ -4,6 +4,9 @@ type FAQ = { q: string; a: string };
 type Guide = {
   title: string;
   description: string;
+  image?: string;
+  datePublished: string;
+  dateModified: string;
   searchKeyword?: string;
   sections: GuideSection[];
   faq?: FAQ[];
@@ -13,6 +16,9 @@ export const GUIDES: Record<string, Guide> = {
   "kombu-types": {
     title: "昆布の種類と選び方【産地別の特徴を解説】",
     description: "利尻昆布・羅臼昆布・日高昆布・真昆布など、主要な昆布の種類と産地別の特徴、料理ごとの選び方を解説します。",
+    image: "/guide/kombu-types.webp",
+    datePublished: "2026-10-25",
+    dateModified: "2026-10-26",
     searchKeyword: "昆布 種類",
     sections: [
       { heading: "昆布の主な種類と産地", body: "日本で流通する昆布の約90%は北海道産です。産地によって味わいや用途が大きく異なります。\n\n利尻昆布: 北海道の利尻島・礼文島周辺で採れる昆布。透明で上品なだしが特徴で、京都の料亭で重宝されています。お吸い物や湯豆腐に向いています。\n\n羅臼昆布: 知床半島の羅臼町沿岸で採れる「昆布の王様」。濃厚で旨みが強く、煮物やおでんに向いています。\n\n日高昆布: 北海道の日高地方で採れる万能昆布。柔らかく、だしを取った後そのまま食べられるのが特徴です。\n\n真昆布: 函館近海で採れる昆布。上品な甘みのだしが特徴で、大阪の昆布文化を支えています。" },
@@ -27,6 +33,9 @@ export const GUIDES: Record<string, Guide> = {
   "how-to-make-dashi": {
     title: "昆布だしの取り方【水出し・煮出し完全ガイド】",
     description: "昆布だしの基本的な取り方を、水出し・煮出しの2つの方法で解説。美味しいだしのコツや保存方法も紹介します。",
+    image: "/guide/how-to-make-dashi.webp",
+    datePublished: "2026-10-25",
+    dateModified: "2026-10-26",
     searchKeyword: "昆布だし 取り方",
     sections: [
       { heading: "水出し（昆布水）の作り方", body: "水1リットルに昆布10gを入れ、冷蔵庫で3時間以上（できれば一晩）置くだけです。\n\n手順:\n1. 昆布の表面をかたく絞った布巾で軽く拭く（水洗いは旨みが流れるのでNG）\n2. 水1リットルに昆布10gを入れる\n3. 冷蔵庫で3〜8時間置く\n4. 昆布を取り出して完成\n\n冷蔵で3日ほど保存できます。味噌汁・煮物・炊き込みご飯など万能に使えます。" },
@@ -41,6 +50,9 @@ export const GUIDES: Record<string, Guide> = {
   "kombu-nutrition": {
     title: "昆布の栄養成分と期待される効果",
     description: "昆布に含まれる食物繊維・ミネラル・フコイダンなどの栄養成分と、研究で示唆されている効果について、科学的な根拠をもとに紹介します。",
+    image: "/guide/kombu-nutrition.webp",
+    datePublished: "2026-10-25",
+    dateModified: "2026-10-26",
     searchKeyword: "昆布 栄養",
     sections: [
       { heading: "昆布の主な栄養成分", body: "文部科学省「日本食品標準成分表」によると、まこんぶ（素干し）100gあたりの主な栄養成分は以下の通りです。\n\nエネルギー: 145kcal\n水溶性食物繊維: 約34g\nカルシウム: 710mg\nカリウム: 6,100mg\nマグネシウム: 510mg\n鉄: 3.9mg\nヨウ素: 200,000μg以上\n\n※出典: 文部科学省 日本食品標準成分表2020年版（八訂）" },
@@ -56,6 +68,9 @@ export const GUIDES: Record<string, Guide> = {
   "shiokombu-guide": {
     title: "塩昆布の選び方・使い方ガイド",
     description: "ごはんのお供だけじゃない塩昆布の使い方。パスタ、サラダ、おにぎりなど、万能調味料としての塩昆布活用法を紹介。",
+    image: "/guide/shiokombu-guide.webp",
+    datePublished: "2026-10-25",
+    dateModified: "2026-10-26",
     searchKeyword: "塩昆布 おすすめ",
     sections: [
       { heading: "塩昆布の選び方", body: "塩昆布には大きく分けて「汐吹き昆布」と「角切り昆布」の2タイプがあります。\n\n汐吹き昆布: 薄く削った昆布に塩味をつけたもの。小倉屋山本のえびすめが代表格。\n角切り昆布: 角切りにした昆布を醤油・みりんで煮詰めたもの。くらこんやフジッコが代表。\n\n用途に合わせて選びましょう。" },
@@ -68,6 +83,9 @@ export const GUIDES: Record<string, Guide> = {
   "kombu-storage": {
     title: "昆布の保存方法【常温・冷蔵・冷凍の使い分け】",
     description: "昆布の正しい保存方法を解説。常温・冷蔵・冷凍の使い分けで美味しさを長持ちさせるコツ。",
+    image: "/guide/kombu-storage.webp",
+    datePublished: "2026-10-25",
+    dateModified: "2026-10-26",
     searchKeyword: "昆布 保存方法",
     sections: [
       { heading: "昆布の基本的な保存方法", body: "乾燥昆布は湿気を避けて常温保存が基本です。密閉容器や密閉袋に入れ、直射日光・高温多湿を避けた場所で保管してください。適切に保存すれば1年以上品質を維持できます。\n\n実は昆布は「蔵囲い」と呼ばれる熟成により、2〜3年寝かせた方が旨みが増すとも言われています。" },
@@ -77,6 +95,9 @@ export const GUIDES: Record<string, Guide> = {
   "kombu-recipes": {
     title: "昆布を使ったレシピ集",
     description: "だし昆布の二番出汁活用から、昆布巻き、昆布の佃煮まで、昆布を余すことなく使い切るレシピ集。",
+    image: "/guide/kombu-recipes.webp",
+    datePublished: "2026-10-25",
+    dateModified: "2026-10-26",
     searchKeyword: "昆布 レシピ",
     sections: [
       { heading: "だしを取った後の昆布活用", body: "だしを取った後の昆布は捨てずに活用しましょう。\n\n佃煮: 醤油・みりん・砂糖で甘辛く煮詰める\n刻み昆布: 細かく刻んでサラダや味噌汁の具に\nふりかけ: 乾燥させて砕き、ごまと合わせてふりかけに" },
@@ -86,6 +107,9 @@ export const GUIDES: Record<string, Guide> = {
   "kombu-history": {
     title: "昆布の歴史と文化",
     description: "北前船から大阪の昆布文化まで。日本人と昆布の深い関わりの歴史を解説。",
+    image: "/guide/kombu-history.webp",
+    datePublished: "2026-10-25",
+    dateModified: "2026-10-26",
     searchKeyword: "昆布 歴史",
     sections: [
       { heading: "昆布と日本の歴史", body: "昆布は縄文時代から日本人に食されてきたと言われています。奈良時代の記録にも「広布（ひろめ）」として登場し、朝廷への献上品として珍重されました。\n\n江戸時代には北前船によって北海道から大阪・京都へ運ばれ、「昆布ロード」と呼ばれる交易路が発達しました。" },
@@ -95,6 +119,9 @@ export const GUIDES: Record<string, Guide> = {
   "kombu-production": {
     title: "昆布の生産と流通",
     description: "北海道の昆布漁から加工、流通まで。昆布産業の全体像を解説。",
+    image: "/guide/kombu-production.webp",
+    datePublished: "2026-10-25",
+    dateModified: "2026-10-26",
     searchKeyword: "昆布 産地 北海道",
     sections: [
       { heading: "昆布の生産地", body: "日本の昆布生産量の約95%は北海道産です。主な産地は以下の通りです。\n\n道南地区（函館周辺）: 真昆布、がごめ昆布\n道東地区（釧路・根室）: 長昆布、厚葉昆布\n日高地区: 日高昆布（三石昆布）\n利尻・礼文: 利尻昆布\n羅臼: 羅臼昆布" },

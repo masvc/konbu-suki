@@ -5,7 +5,6 @@ import Link from "next/link";
 import { SITE_NAME, SITE_URL } from "@/lib/constants";
 import { GUIDES, type GuideSlug } from "@/lib/guides";
 import { ShopCTA } from "@/components/ShopCTA";
-import { existsSync } from "fs";
 
 export const revalidate = 86400;
 
@@ -27,8 +26,6 @@ export default async function GuidePage({ params }: Props) {
   const guide = GUIDES[slug as GuideSlug];
   if (!guide) notFound();
 
-  const hasImage = existsSync(`public/guide/${slug}.webp`);
-
   const breadcrumbJsonLd = {
     "@context": "https://schema.org", "@type": "BreadcrumbList",
     itemListElement: [
@@ -42,11 +39,11 @@ export default async function GuidePage({ params }: Props) {
     "@context": "https://schema.org", "@type": "Article",
     headline: guide.title,
     description: guide.description,
-    ...(hasImage ? { image: `${SITE_URL}/guide/${slug}.webp` } : {}),
+    ...(guide.image ? { image: `${SITE_URL}${guide.image}` } : {}),
     author: { "@type": "Organization", name: SITE_NAME },
     publisher: { "@type": "Organization", name: SITE_NAME },
-    datePublished: "2026-10-25",
-    dateModified: "2026-10-26",
+    datePublished: guide.datePublished,
+    dateModified: guide.dateModified,
   };
 
   // FAQ構造化データ
@@ -65,10 +62,10 @@ export default async function GuidePage({ params }: Props) {
       {faqJsonLd && <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }} />}
 
       {/* アイキャッチ */}
-      {hasImage && (
+      {guide.image && (
         <div className="relative w-full h-48 sm:h-64 lg:h-80 bg-[#1b4332]">
           <Image
-            src={`/guide/${slug}.webp`}
+            src={guide.image}
             alt={guide.title}
             fill
             className="object-cover opacity-80"
