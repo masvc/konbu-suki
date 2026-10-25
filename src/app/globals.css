@@ -10,6 +10,12 @@ html {
 :root {
   --background: #ffffff;
   --foreground: #111827;
+  --konbu-deep: #1b4332;
+  --konbu-green: #2d6a4f;
+  --konbu-sea: #52b788;
+  --konbu-light: #d8f3dc;
+  --konbu-amber: #d4a373;
+  --konbu-bg: #f8faf8;
   color-scheme: light only;
 }
 
@@ -18,6 +24,23 @@ body {
   color: var(--foreground);
 }
 
+/* コンブスキー ゆらゆらロゴ */
+@keyframes konbu-sway {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  25%      { transform: translateY(-2px) rotate(-2deg); }
+  75%      { transform: translateY(1px) rotate(1.5deg); }
+}
+
+.konbu-wave {
+  animation: konbu-sway 3s ease-in-out infinite;
+  display: inline-block;
+}
+
+.group:hover .konbu-wave {
+  animation-duration: 1.2s;
+}
+
+/* スライドイン */
 @keyframes slide-up {
   from { opacity: 0; transform: translateY(20px); }
   to   { opacity: 1; transform: translateY(0); }
@@ -26,5 +49,4 @@ body {
   animation: slide-up 0.3s ease-out;
 }
 
-/* min-height utility for line-clamp */
 .min-h-\[2\.5em\] { min-height: 2.5em; }

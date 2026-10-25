@@ -1,15 +1,12 @@
 import Link from "next/link";
-import { SITE_NAME } from "@/lib/constants";
+import { KonbuLogo } from "./KonbuLogo";
 
 export function SiteHeader() {
   return (
     <header className="sticky top-0 z-50 border-b border-gray-100 bg-white/95 backdrop-blur-sm">
       <div className="mx-auto max-w-7xl px-4 sm:px-6">
         <div className="flex h-14 items-center justify-between">
-          <Link href="/" className="flex items-center gap-2">
-            <span className="w-8 h-8 rounded-lg bg-[#2d6a4f] flex items-center justify-center text-white text-sm font-bold">昆</span>
-            <span className="text-base font-bold text-gray-900">{SITE_NAME}</span>
-          </Link>
+          <KonbuLogo />
           <nav className="hidden md:flex items-center gap-1">
             <Link href="/search" className="rounded-lg px-3 py-1.5 text-sm text-gray-600 hover:bg-[#d8f3dc] hover:text-[#1b4332] transition">検索</Link>
             <Link href="/category/dashi" className="rounded-lg px-3 py-1.5 text-sm text-gray-600 hover:bg-[#d8f3dc] hover:text-[#1b4332] transition">だし昆布</Link>
@@ -19,7 +16,6 @@ export function SiteHeader() {
             <Link href="/producers" className="rounded-lg px-3 py-1.5 text-sm text-gray-600 hover:bg-[#d8f3dc] hover:text-[#1b4332] transition">生産者</Link>
             <Link href="/kombu-box" className="rounded-lg bg-[#2d6a4f] px-3.5 py-1.5 text-sm font-medium text-white hover:bg-[#1b4332] transition ml-1">こんぶBOX</Link>
           </nav>
-          {/* Mobile: 検索アイコン + ハンバーガー */}
           <div className="flex items-center gap-2 md:hidden">
             <Link href="/search" className="p-2 text-gray-600 hover:text-[#2d6a4f]" aria-label="検索">
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">

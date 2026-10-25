@@ -1,8 +1,8 @@
-export const SITE_NAME = "こんぶ好き";
+export const SITE_NAME = "コンブスキー";
 export const SITE_URL = "https://konbu-suki.vercel.app";
-export const SITE_TAGLINE = "日本の昆布を、もっと好きになる。";
+export const SITE_TAGLINE = "日本の昆布を、もっとスキになる。";
 export const SITE_DESCRIPTION =
-  "昆布専門のキュレーションサイト。利尻・羅臼・日高・真昆布など産地別の特徴から、だし昆布・塩昆布・とろろ昆布まで。Amazon・楽天の昆布商品を網羅的に比較。昆布のD2Cと昆布商社を目指すプロジェクト。";
+  "昆布専門のキュレーションサイト「コンブスキー」。利尻・羅臼・日高・真昆布など産地別の特徴から、だし昆布・塩昆布・とろろ昆布まで。Amazon・楽天の昆布商品を網羅的に比較。昆布のD2Cと昆布商社を目指すプロジェクト。";
 
 export const GA_ID = process.env.NEXT_PUBLIC_GA_ID || "";
 
