@@ -6,7 +6,7 @@ import { prisma } from "@/lib/prisma";
 import { CATEGORIES, type CategorySlug, SITE_NAME, SITE_URL } from "@/lib/constants";
 import { amazonProductUrl, amazonSearchUrl, rakutenProductUrl, rakutenSearchUrl } from "@/lib/affiliates";
 import { ProductCard } from "@/components/ProductCard";
-import { getTasteProfile, getUsageSuggestions, getPairings, getRecommendedFor, getNutritionFacts } from "@/lib/product-seo";
+import { getTasteProfile, getUsageSuggestions, getPairings, getRecommendedFor, getNutritionFacts, getTextureAndFlavorTags } from "@/lib/product-seo";
 
 export const revalidate = 21600;
 
@@ -44,6 +44,7 @@ export default async function ProductPage({ params }: Props) {
   const pairings = getPairings(product);
   const recommendedFor = getRecommendedFor(product);
   const nutrition = getNutritionFacts(product.category);
+  const textureTags = getTextureAndFlavorTags(product);
 
   const related = await prisma.product.findMany({
     where: { category: product.category, id: { not: product.id } },
@@ -149,13 +150,26 @@ export default async function ProductPage({ params }: Props) {
               </div>
             )}
 
-            {/* 購入リンク */}
+            {/* 食感・味わいタグ */}
+            {textureTags.length > 0 && (
+              <div className="flex flex-wrap gap-1.5 mb-5">
+                {textureTags.map((tag) => (
+                  <span key={tag} className="rounded-full border border-[#d4a373] bg-[#fdf8f0] px-2.5 py-1 text-[10px] font-medium text-[#8b6914]">
+                    {tag}
+                  </span>
+                ))}
+              </div>
+            )}
+
+            {/* 購入リンク（GA4イベント計測付き） */}
             <div className="space-y-2">
               <a href={amazonLink} target="_blank" rel="noopener noreferrer nofollow"
+                data-ga-event="amazon_click" data-ga-product={product.name} data-ga-product-id={String(product.id)}
                 className="flex items-center justify-center gap-2 rounded-lg bg-[#ff9900] px-6 py-3 text-sm font-medium text-white hover:bg-[#e68a00] transition w-full shadow-sm">
                 Amazonで購入する
               </a>
               <a href={rakutenLink} target="_blank" rel="noopener noreferrer nofollow"
+                data-ga-event="rakuten_click" data-ga-product={product.name} data-ga-product-id={String(product.id)}
                 className="flex items-center justify-center gap-2 rounded-lg bg-[#bf0000] px-6 py-3 text-sm font-medium text-white hover:bg-[#a00000] transition w-full shadow-sm">
                 楽天で購入する
               </a>

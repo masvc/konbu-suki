@@ -12,6 +12,63 @@ type ProductInfo = {
   description?: string | null;
 };
 
+/** 食感・味わいタグを商品名・カテゴリから自動生成 */
+export function getTextureAndFlavorTags(p: ProductInfo): string[] {
+  const name = (p.name + " " + (p.description || "")).toLowerCase();
+  const tags: string[] = [];
+
+  // 食感タグ
+  if (name.includes("パリパリ") || name.includes("ぱりぱり") || name.includes("カリカリ")) tags.push("パリパリ食感");
+  if (name.includes("しっとり") || name.includes("ソフト") || name.includes("やわらか")) tags.push("しっとり食感");
+  if (name.includes("サクサク") || name.includes("さくさく")) tags.push("サクサク食感");
+  if (name.includes("とろろ") || name.includes("おぼろ") || name.includes("とろとろ")) tags.push("とろとろ食感");
+  if (name.includes("肉厚") || name.includes("厚切") || name.includes("厚葉")) tags.push("肉厚");
+
+  // 味わいタグ
+  if (name.includes("梅") || name.includes("うめ")) tags.push("梅味");
+  if (name.includes("酢") || name.includes("ビネガー")) tags.push("酢味");
+  if (name.includes("甘辛") || name.includes("佃煮")) tags.push("甘辛");
+  if (name.includes("しょうゆ") || name.includes("醤油")) tags.push("醤油味");
+  if (name.includes("山椒") || name.includes("さんしょう")) tags.push("山椒");
+  if (name.includes("ごま") || name.includes("胡麻")) tags.push("ごま風味");
+  if (name.includes("しそ") || name.includes("紫蘇")) tags.push("しそ風味");
+  if (name.includes("わさび")) tags.push("わさび味");
+  if (name.includes("ピリ辛") || name.includes("唐辛子") || name.includes("激辛") || name.includes("七味")) tags.push("ピリ辛");
+
+  // 素材・製法タグ
+  if (name.includes("無添加")) tags.push("無添加");
+  if (name.includes("天然")) tags.push("天然素材");
+  if (name.includes("減塩")) tags.push("減塩");
+  if (name.includes("有機") || name.includes("オーガニック")) tags.push("有機");
+  if (name.includes("国産")) tags.push("国産");
+  if (name.includes("北海道")) tags.push("北海道産");
+
+  // 用途タグ
+  if (name.includes("お茶漬け") || name.includes("茶漬")) tags.push("お茶漬けに合う");
+  if (name.includes("おにぎり")) tags.push("おにぎりに合う");
+  if (name.includes("お弁当") || name.includes("弁当")) tags.push("お弁当向き");
+  if (name.includes("おつまみ") || name.includes("ビール") || name.includes("晩酌")) tags.push("おつまみ向き");
+  if (name.includes("業務用") || name.includes("大容量")) tags.push("業務用・大容量");
+  if (name.includes("ギフト") || name.includes("贈答") || name.includes("詰め合わせ")) tags.push("ギフト向き");
+
+  // カテゴリベースのデフォルトタグ
+  if (tags.length === 0) {
+    switch (p.category) {
+      case "dashi": tags.push("だし用"); break;
+      case "shiokombu": tags.push("ごはんのお供"); break;
+      case "snack": tags.push("おやつ・間食"); break;
+      case "tsukudani": tags.push("ごはんのお供"); break;
+      case "tororo": tags.push("とろとろ食感"); break;
+      case "kombucha": tags.push("飲み物"); break;
+      case "seasoning": tags.push("調味料"); break;
+      case "health": tags.push("健康サポート"); break;
+      case "gift": tags.push("ギフト向き"); break;
+    }
+  }
+
+  return [...new Set(tags)]; // 重複除去
+}
+
 /** 味わいプロファイル */
 export function getTasteProfile(p: ProductInfo) {
   const tags = (p.tags || "").toLowerCase();

@@ -41,9 +41,9 @@ export default async function Home() {
         </div>
         <div className="relative mx-auto max-w-4xl px-4 sm:px-6 text-center">
           <div className="py-14 sm:py-20 lg:py-28">
-            <h1 className="text-3xl sm:text-5xl lg:text-6xl font-bold text-white leading-tight">
+            <h1 className="text-2xl sm:text-4xl lg:text-5xl font-bold text-white leading-tight">
               あなたの好きな昆布を
-              <br />
+              <br className="sm:hidden" />
               見つけよう。
             </h1>
             <p className="mt-4 text-[#b7e4c7] text-sm sm:text-base max-w-md mx-auto">
@@ -53,14 +53,14 @@ export default async function Home() {
 
             {/* 検索バー */}
             <div className="mt-8 max-w-2xl mx-auto">
-              <form action="/search" method="get" className="flex gap-2">
+              <form action="/search" method="get" className="flex flex-col sm:flex-row gap-2">
                 <input
                   type="text"
                   name="q"
-                  placeholder="昆布を検索... (例: 利尻昆布、塩昆布、小倉屋山本)"
-                  className="flex-1 rounded-xl border-0 bg-white/95 px-5 py-3.5 text-sm text-gray-900 shadow-lg placeholder:text-gray-400 focus:ring-2 focus:ring-[#52b788] outline-none"
+                  placeholder="昆布を検索 (例: 利尻昆布、塩昆布)"
+                  className="flex-1 rounded-xl border-0 bg-white/95 px-4 py-3 sm:py-3.5 text-sm text-gray-900 shadow-lg placeholder:text-gray-400 focus:ring-2 focus:ring-[#52b788] outline-none"
                 />
-                <button type="submit" className="rounded-xl bg-[#52b788] px-6 py-3.5 text-sm font-bold text-white shadow-lg hover:bg-[#40916c] transition">
+                <button type="submit" className="rounded-xl bg-[#52b788] px-6 py-3 sm:py-3.5 text-sm font-bold text-white shadow-lg hover:bg-[#40916c] transition">
                   検索
                 </button>
               </form>

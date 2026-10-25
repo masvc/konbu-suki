@@ -88,7 +88,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <>
             <Script src={`https://www.googletagmanager.com/gtag/js?id=${GA_ID}`} strategy="afterInteractive" />
             <Script id="ga4-init" strategy="afterInteractive">
-              {`window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','${GA_ID}');`}
+              {`window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','${GA_ID}');
+document.addEventListener('click',function(e){var t=e.target.closest('[data-ga-event]');if(t){gtag('event',t.dataset.gaEvent,{product_name:t.dataset.gaProduct||'',product_id:t.dataset.gaProductId||'',page_path:location.pathname})}});`}
             </Script>
           </>
         )}
