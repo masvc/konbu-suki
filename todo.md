@@ -30,6 +30,7 @@
 - [ ] /shindan 昆布診断
 - [ ] 共通化の残り：トップ・商品・カテゴリにも Breadcrumb/FaqAccordion/JsonLd 適用、色を @theme へ
 - [ ] sitemap に guide・origin・tag・ranking 追加
+- [ ] 口コミ投稿機能（PV増加後に検討。当面は運営者レビュー + X投稿埋め込みで代用）
 
 ## 完了済み
 - [x] Next.js + Prisma + Neon + Tailwind プロジェクト作成

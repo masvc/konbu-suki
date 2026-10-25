@@ -51,9 +51,9 @@ export function ProductCard({ id, name, brand, category, price, imageUrl, origin
 
         <div className="flex items-center justify-between mt-2">
           {price ? (
-            <span className="text-sm font-bold text-[#2d6a4f]">&yen;{price.toLocaleString()}</span>
+            <span className="text-xs font-bold text-[#2d6a4f]">&yen;{price.toLocaleString()}<span className="text-[8px] font-normal text-gray-400 ml-0.5">*</span></span>
           ) : (
-            <span className="text-[10px] text-gray-300">価格未定</span>
+            <span className="text-[10px] text-gray-300">--</span>
           )}
           {rating ? (
             <span className="flex items-center gap-0.5 text-[10px]">
