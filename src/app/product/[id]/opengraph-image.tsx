@@ -1,13 +1,14 @@
 import { ImageResponse } from "next/og";
-import { prisma } from "@/lib/prisma";
 import { CATEGORIES, type CategorySlug, SITE_NAME } from "@/lib/constants";
 
-export const runtime = "edge";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
 export default async function Image({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
+
+  // Edge Runtime不可のため、fetch経由でデータ取得
+  const { prisma } = await import("@/lib/prisma");
   const product = await prisma.product.findUnique({
     where: { id: Number(id) },
     select: { name: true, brand: true, category: true, price: true, origin: true, imageUrl: true },
@@ -36,37 +37,24 @@ export default async function Image({ params }: { params: Promise<{ id: string }
           fontFamily: "sans-serif",
         }}
       >
-        {/* 左: 商品画像 */}
-        <div style={{ display: "flex", alignItems: "center", justifyContent: "center", width: "400px", height: "100%", marginRight: "48px" }}>
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "center", width: "380px", marginRight: "48px" }}>
           {product.imageUrl ? (
-            <img src={product.imageUrl} width={320} height={320} style={{ objectFit: "contain", borderRadius: "16px", background: "white", padding: "16px" }} />
+            <img src={product.imageUrl} width={300} height={300} style={{ objectFit: "contain", borderRadius: "16px", background: "white", padding: "16px" }} />
           ) : (
-            <div style={{ width: 320, height: 320, borderRadius: "16px", background: "rgba(255,255,255,0.1)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 80, color: "rgba(255,255,255,0.3)" }}>
-              K
-            </div>
+            <div style={{ width: 300, height: 300, borderRadius: "16px", background: "rgba(255,255,255,0.1)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 64, color: "rgba(255,255,255,0.2)" }}>K</div>
           )}
         </div>
-
-        {/* 右: テキスト */}
         <div style={{ display: "flex", flexDirection: "column", justifyContent: "center", flex: 1 }}>
-          {cat && (
-            <span style={{ fontSize: 16, color: "#b7e4c7", marginBottom: 8 }}>{cat.label}</span>
-          )}
-          <span style={{ fontSize: 36, fontWeight: "bold", color: "white", lineHeight: 1.3, marginBottom: 12 }}>
-            {product.name.length > 40 ? product.name.substring(0, 40) + "..." : product.name}
+          {cat && <span style={{ fontSize: 16, color: "#b7e4c7", marginBottom: 8 }}>{cat.label}</span>}
+          <span style={{ fontSize: 32, fontWeight: "bold", color: "white", lineHeight: 1.3, marginBottom: 12 }}>
+            {product.name.length > 45 ? product.name.substring(0, 45) + "..." : product.name}
           </span>
           <span style={{ fontSize: 18, color: "#d8f3dc", marginBottom: 16 }}>{product.brand}</span>
           <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
-            {product.price && (
-              <span style={{ fontSize: 32, fontWeight: "bold", color: "#52b788" }}>&yen;{product.price.toLocaleString()}</span>
-            )}
-            {product.origin && (
-              <span style={{ fontSize: 16, color: "#b7e4c7" }}>{product.origin}</span>
-            )}
+            {product.price && <span style={{ fontSize: 28, fontWeight: "bold", color: "#52b788" }}>&yen;{product.price.toLocaleString()}</span>}
+            {product.origin && <span style={{ fontSize: 16, color: "#b7e4c7" }}>{product.origin}</span>}
           </div>
-          <div style={{ position: "absolute", bottom: 48, right: 48, fontSize: 18, color: "rgba(255,255,255,0.5)" }}>
-            {SITE_NAME}
-          </div>
+          <span style={{ position: "absolute", bottom: 48, right: 48, fontSize: 18, color: "rgba(255,255,255,0.4)" }}>{SITE_NAME}</span>
         </div>
       </div>
     ),

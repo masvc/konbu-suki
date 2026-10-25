@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { prisma } from "@/lib/prisma";
 import { CATEGORIES, CATEGORY_SLUGS, ORIGINS, SITE_NAME } from "@/lib/constants";
 import { ProductCard } from "@/components/ProductCard";
@@ -37,9 +38,10 @@ export default async function Home() {
       <JsonLd data={faqJsonLd} />
 
       {/* Hero */}
-      <section className="relative overflow-hidden bg-gradient-to-br from-[#1b4332] via-[#2d6a4f] to-[#40916c]">
-        <div className="absolute inset-0 opacity-10">
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_50%,rgba(255,255,255,0.15),transparent_70%)]" />
+      <section className="relative overflow-hidden bg-[#1b4332]">
+        <div className="absolute inset-0">
+          <Image src="/hero.webp" alt="" fill className="object-cover opacity-30" priority sizes="100vw" />
+          <div className="absolute inset-0 bg-gradient-to-b from-[#1b4332]/60 via-[#1b4332]/40 to-[#1b4332]/80" />
         </div>
         <div className="relative mx-auto max-w-4xl px-4 sm:px-6 text-center">
           <div className="py-14 sm:py-20 lg:py-28">
