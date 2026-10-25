@@ -110,7 +110,7 @@ export default async function ProductPage({ params }: Props) {
               <div className="mb-4">
                 <p className="text-2xl font-bold text-[#2d6a4f]">&yen;{product.price.toLocaleString()}</p>
                 <p className="text-[10px] text-gray-400 mt-0.5">
-                  {product.updatedAt.toLocaleDateString("ja-JP")}時点の価格。最新価格は販売サイトでご確認ください
+                  {(product.priceFetchedAt || product.updatedAt).toLocaleDateString("ja-JP", { timeZone: "Asia/Tokyo" })}時点の価格。最新価格は販売サイトでご確認ください
                 </p>
               </div>
             )}

@@ -25,10 +25,14 @@ model Product {
   rakutenId   String?  // 楽天商品ID
   rating      Float?   // 評価 (1-5)
   reviewCount Int?     // レビュー数
-  isFeatured  Boolean  @default(false) // おすすめフラグ
-  tags        String?  // タグ（カンマ区切り）: 無添加, 天然, 有機, etc.
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  isFeatured     Boolean  @default(false) // おすすめフラグ
+  tags           String?  // タグ（カンマ区切り）: 無添加, 天然, 有機, etc.
+  priceFetchedAt DateTime? // 価格取得日時
+  listPrice      Int?     // 通常価格（セール時のみ）
+  isOwnerPick    Boolean  @default(false) // 運営者リピート品フラグ
+  ownerComment   String?  // 運営者コメント
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
 
   reviews     Review[]
   boxItems    BoxItem[]
