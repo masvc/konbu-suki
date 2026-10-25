@@ -40,7 +40,7 @@ export default async function Home() {
       {/* Hero */}
       <section className="relative overflow-hidden bg-[#1b4332]">
         <div className="absolute inset-0">
-          <Image src="/hero-trimmed.webp" alt="" fill className="object-cover opacity-40" priority sizes="100vw" />
+          <Image src="/hero-trimmed.webp" alt="" fill className="object-cover opacity-40 scale-110" priority sizes="100vw" />
           <div className="absolute inset-0 bg-gradient-to-b from-[#1b4332]/40 to-[#2d6a4f]/50" />
         </div>
         <svg className="absolute bottom-0 left-0 right-0 text-white/5" viewBox="0 0 1440 120" preserveAspectRatio="none" style={{ height: "80px", width: "100%" }}>
@@ -55,6 +55,7 @@ export default async function Home() {
             </h1>
             <p className="mt-4 text-[#b7e4c7] text-sm sm:text-base max-w-md mx-auto">
               {totalProducts.toLocaleString()}件の昆布商品を横断検索。
+              <br className="hidden sm:inline" />
               産地・種類・用途から、あなたにぴったりの一品を。
             </p>
 
