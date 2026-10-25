@@ -1,6 +1,7 @@
 import type { MetadataRoute } from "next";
 import { prisma } from "@/lib/prisma";
 import { SITE_URL, CATEGORY_SLUGS, ORIGINS } from "@/lib/constants";
+import { GUIDES } from "@/lib/guides";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const products = await prisma.product.findMany({ select: { id: true, updatedAt: true } });
@@ -34,5 +35,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.6,
   }));
 
-  return [...staticPages, ...categoryPages, ...originPages, ...productPages];
+  const guidePages = Object.entries(GUIDES).map(([slug, guide]) => ({
+    url: `${SITE_URL}/guide/${slug}`,
+    lastModified: new Date(guide.dateModified),
+    changeFrequency: "monthly" as const,
+    priority: 0.8,
+  }));
+
+  return [...staticPages, ...categoryPages, ...originPages, ...guidePages, ...productPages];
 }

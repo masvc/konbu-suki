@@ -25,6 +25,13 @@ export const metadata: Metadata = {
     "塩昆布", "とろろ昆布", "昆布茶", "昆布だし", "昆布レシピ",
     "昆布通販", "昆布ギフト", "北海道昆布",
   ],
+  icons: {
+    icon: [
+      { url: "/favicon.ico", sizes: "32x32" },
+      { url: "/icon.png", sizes: "256x256", type: "image/png" },
+    ],
+    apple: [{ url: "/apple-icon.png", sizes: "180x180", type: "image/png" }],
+  },
   metadataBase: new URL(SITE_URL),
   alternates: { canonical: "/" },
   openGraph: {
