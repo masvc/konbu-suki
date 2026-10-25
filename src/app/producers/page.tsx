@@ -2,6 +2,7 @@ import Link from "next/link";
 import type { Metadata } from "next";
 import { prisma } from "@/lib/prisma";
 import { SITE_NAME } from "@/lib/constants";
+import { ProducerInquiryForm } from "@/components/ProducerInquiryForm";
 
 export const revalidate = 21600;
 
@@ -51,6 +52,17 @@ export default async function ProducersPage() {
             <p className="text-gray-400 text-xs mt-2">昆布の生産者・メーカーの方で掲載をご希望の方はお問い合わせください。</p>
           </div>
         )}
+      </section>
+
+      {/* 生産者掲載募集 */}
+      <section className="border-t border-gray-100 bg-[#f8faf8]">
+        <div className="mx-auto max-w-lg px-4 sm:px-6 py-10">
+          <h2 className="text-base font-bold text-gray-900 mb-2 text-center">掲載をご希望の生産者さまへ</h2>
+          <p className="text-xs text-gray-500 mb-6 text-center">
+            昆布の生産者・メーカーの方で、コンブスキーへの掲載をご希望の方はお気軽にお問い合わせください。
+          </p>
+          <ProducerInquiryForm />
+        </div>
       </section>
     </main>
   );

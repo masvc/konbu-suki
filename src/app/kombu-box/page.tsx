@@ -2,6 +2,7 @@ import Link from "next/link";
 import type { Metadata } from "next";
 import { prisma } from "@/lib/prisma";
 import { SITE_NAME } from "@/lib/constants";
+import { SubscribeForm } from "@/components/SubscribeForm";
 
 export const revalidate = 3600;
 
@@ -108,19 +109,7 @@ export default async function KombuBoxPage() {
         <div className="mx-auto max-w-xl px-4 sm:px-6 py-12 text-center">
           <h2 className="text-lg font-bold text-gray-900 mb-2">発売通知を受け取る</h2>
           <p className="text-xs text-gray-500 mb-6">こんぶBOXの最新情報をメールでお届けします</p>
-          <form className="flex gap-2">
-            <input
-              type="email"
-              placeholder="メールアドレス"
-              className="flex-1 rounded-lg border border-gray-200 px-4 py-2.5 text-sm focus:border-green-400 focus:ring-1 focus:ring-green-400 outline-none"
-            />
-            <button
-              type="submit"
-              className="rounded-lg bg-green-600 px-6 py-2.5 text-sm font-medium text-white hover:bg-green-700 transition"
-            >
-              登録する
-            </button>
-          </form>
+          <SubscribeForm />
         </div>
       </section>
     </main>
