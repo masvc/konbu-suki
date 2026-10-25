@@ -39,8 +39,15 @@ export default async function Home() {
 
       {/* Hero */}
       <section className="relative overflow-hidden bg-gradient-to-br from-[#1b4332] via-[#2d6a4f] to-[#40916c]">
+        {/* 波模様 */}
+        <svg className="absolute bottom-0 left-0 right-0 text-white/5" viewBox="0 0 1440 120" preserveAspectRatio="none" style={{ height: "120px", width: "100%" }}>
+          <path d="M0,60 C360,120 720,0 1080,60 C1260,90 1380,30 1440,60 L1440,120 L0,120 Z" fill="currentColor" />
+        </svg>
+        <svg className="absolute top-0 left-0 right-0 text-white/[0.03] rotate-180" viewBox="0 0 1440 80" preserveAspectRatio="none" style={{ height: "80px", width: "100%" }}>
+          <path d="M0,40 C240,80 480,0 720,40 C960,80 1200,0 1440,40 L1440,80 L0,80 Z" fill="currentColor" />
+        </svg>
         <div className="relative mx-auto max-w-4xl px-4 sm:px-6 text-center">
-          <div className="py-14 sm:py-20 lg:py-28">
+          <div className="py-12 sm:py-16 lg:py-20 max-h-[70vh]">
             <h1 className="text-2xl sm:text-4xl lg:text-5xl font-bold text-white leading-tight">
               あなたの好きな昆布を
               <br className="sm:hidden" />

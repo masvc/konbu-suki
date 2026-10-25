@@ -48,11 +48,23 @@ export default async function ProductPage({ params }: Props) {
   const nutrition = getNutritionFacts(product.category);
   const textureTags = getTextureAndFlavorTags(product);
 
-  const related = await prisma.product.findMany({
-    where: { category: product.category, id: { not: product.id } },
-    take: 4,
-    orderBy: { rating: "desc" },
-  });
+  const [related, newerVersion] = await Promise.all([
+    prisma.product.findMany({
+      where: { category: product.category, id: { not: product.id } },
+      take: 4,
+      orderBy: { rating: "desc" },
+    }),
+    // 同ブランド・類似名の新しい商品を探す（リニューアル版導線）
+    prisma.product.findFirst({
+      where: {
+        brand: product.brand,
+        id: { not: product.id },
+        name: { contains: product.name.replace(/\d+[gGグラム].*$/, "").trim().substring(0, 15) },
+        createdAt: { gt: product.createdAt },
+      },
+      orderBy: { createdAt: "desc" },
+    }),
+  ]);
 
   const amazonLink = product.amazonAsin
     ? amazonProductUrl(product.amazonAsin)
@@ -81,6 +93,17 @@ export default async function ProductPage({ params }: Props) {
           ...(cat ? [{ label: cat.label, href: `/category/${product.category}` }] : []),
           { label: product.name },
         ]} />
+
+        {/* リニューアル版への導線 */}
+        {newerVersion && (
+          <Link href={`/product/${newerVersion.id}`} className="block rounded-lg border border-[#b7e4c7] bg-[#f8faf8] p-3 mb-6 hover:bg-[#d8f3dc] transition">
+            <p className="text-xs font-medium text-[#2d6a4f]">
+              リニューアル版があります: {newerVersion.name}
+              {newerVersion.price && <span className="ml-2 font-bold">&yen;{newerVersion.price.toLocaleString()}</span>}
+              <span className="ml-1 text-[#52b788]">&rarr;</span>
+            </p>
+          </Link>
+        )}
 
         {/* メインコンテンツ */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
