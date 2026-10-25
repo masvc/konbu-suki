@@ -3,7 +3,9 @@ import { prisma } from "@/lib/prisma";
 
 export async function POST(req: NextRequest) {
   try {
-    const { email } = await req.json();
+    const { email, website } = await req.json();
+    // ハニーポット: botが埋めるhidden fieldに値があれば無視
+    if (website) return NextResponse.json({ message: "登録しました" });
     if (!email || typeof email !== "string" || !email.includes("@")) {
       return NextResponse.json({ error: "メールアドレスを入力してください" }, { status: 400 });
     }

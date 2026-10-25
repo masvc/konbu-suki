@@ -38,6 +38,7 @@ export function SubscribeForm() {
 
   return (
     <form onSubmit={handleSubmit} className="flex gap-2">
+      <input type="text" name="website" className="hidden" tabIndex={-1} autoComplete="off" aria-hidden="true" />
       <input
         type="email"
         value={email}

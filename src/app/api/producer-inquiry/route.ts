@@ -2,7 +2,9 @@ import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest) {
   try {
-    const { companyName, contactName, email, productInfo } = await req.json();
+    const { companyName, contactName, email, productInfo, website } = await req.json();
+    // ハニーポット
+    if (website) return NextResponse.json({ message: "お問い合わせを受け付けました。" });
 
     if (!companyName || !contactName || !email) {
       return NextResponse.json({ error: "必須項目を入力してください" }, { status: 400 });

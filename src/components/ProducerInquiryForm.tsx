@@ -36,6 +36,7 @@ export function ProducerInquiryForm() {
 
   return (
     <form onSubmit={handleSubmit} className="space-y-3">
+      <input type="text" name="website" className="hidden" tabIndex={-1} autoComplete="off" aria-hidden="true" />
       <input type="text" placeholder="会社名・屋号" required value={form.companyName}
         onChange={(e) => setForm({ ...form, companyName: e.target.value })}
         className="w-full rounded-lg border border-gray-200 px-4 py-2.5 text-sm focus:border-[#52b788] focus:ring-1 focus:ring-[#52b788] outline-none" />
