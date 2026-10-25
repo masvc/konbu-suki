@@ -1,0 +1,152 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// 昆布商品マスター
+model Product {
+  id          Int      @id @default(autoincrement())
+  name        String   // 商品名
+  brand       String   // ブランド・メーカー名
+  category    String   // dashi, snack, tsukudani, shiokombu, tororo, kombucha, seasoning, health, gift
+  subcategory String?  // 産地 or サブタイプ (rishiri, rausu, hidaka, makombu, etc.)
+  description String?  // 商品説明
+  imageUrl    String?  // 商品画像URL
+  price       Int?     // 参考価格（円）
+  weight      String?  // 内容量 (例: "100g")
+  origin      String?  // 産地 (北海道, 富山 etc.)
+  amazonUrl   String?  // Amazonアフィリエイトリンク
+  amazonAsin  String?  // Amazon ASIN
+  rakutenUrl  String?  // 楽天アフィリエイトリンク
+  rakutenId   String?  // 楽天商品ID
+  rating      Float?   // 評価 (1-5)
+  reviewCount Int?     // レビュー数
+  isFeatured  Boolean  @default(false) // おすすめフラグ
+  tags        String?  // タグ（カンマ区切り）: 無添加, 天然, 有機, etc.
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  reviews     Review[]
+  boxItems    BoxItem[]
+
+  @@index([category])
+  @@index([brand])
+  @@index([category, subcategory])
+  @@index([origin])
+  @@index([isFeatured])
+  @@index([createdAt])
+  @@map("products")
+}
+
+// ユーザーレビュー
+model Review {
+  id        Int      @id @default(autoincrement())
+  productId Int
+  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  nickname  String
+  rating    Int      // 1-5
+  title     String?
+  body      String?
+  createdAt DateTime @default(now())
+
+  @@index([productId, createdAt])
+  @@map("reviews")
+}
+
+// 昆布ガイド記事
+model Article {
+  id        Int      @id @default(autoincrement())
+  title     String
+  slug      String   @unique
+  content   String
+  category  String   // guide, recipe, producer, knowledge
+  published Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([category])
+  @@index([slug])
+  @@map("articles")
+}
+
+// 昆布生産者・メーカー
+model Producer {
+  id          Int      @id @default(autoincrement())
+  name        String   // 生産者名・会社名
+  area        String   // 地域 (hokkaido, toyama, osaka, etc.)
+  description String?  // 紹介文
+  url         String?  // 公式サイト
+  imageUrl    String?  // 画像URL
+  speciality  String?  // 得意分野 (利尻昆布, 塩昆布, etc.)
+  story       String?  // ストーリー・こだわり
+  isPartner   Boolean  @default(false) // パートナーフラグ
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([area])
+  @@index([isPartner])
+  @@map("producers")
+}
+
+// フォーチュンボックス的な「こんぶボックス」
+model KombuBox {
+  id          Int       @id @default(autoincrement())
+  name        String    // ボックス名
+  description String?   // 説明
+  price       Int       // 価格
+  imageUrl    String?   // 画像URL
+  status      String    @default("upcoming") // upcoming, on_sale, sold_out, archived
+  releaseDate DateTime? // 発売日
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  items       BoxItem[]
+  orders      Order[]
+
+  @@map("kombu_boxes")
+}
+
+// ボックスに含まれる商品
+model BoxItem {
+  id        Int     @id @default(autoincrement())
+  boxId     Int
+  box       KombuBox @relation(fields: [boxId], references: [id], onDelete: Cascade)
+  productId Int
+  product   Product  @relation(fields: [productId], references: [id])
+  quantity  Int      @default(1)
+
+  @@unique([boxId, productId])
+  @@map("box_items")
+}
+
+// 注文（将来のD2C用）
+model Order {
+  id         Int      @id @default(autoincrement())
+  boxId      Int?
+  box        KombuBox? @relation(fields: [boxId], references: [id])
+  email      String
+  name       String
+  address    String?
+  status     String   @default("pending") // pending, paid, shipped, delivered
+  totalPrice Int
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@index([status])
+  @@index([createdAt])
+  @@map("orders")
+}
+
+// メルマガ登録（D2C検証用）
+model Subscriber {
+  id        Int      @id @default(autoincrement())
+  email     String   @unique
+  name      String?
+  createdAt DateTime @default(now())
+
+  @@map("subscribers")
+}
