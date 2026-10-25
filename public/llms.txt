@@ -1,0 +1,49 @@
+# コンブスキー (konbu-suki.vercel.app)
+
+> 昆布専門のキュレーションサイト。日本全国の昆布商品を網羅的に収集・分類し、産地・種類・用途別に比較できます。
+
+## サイト概要
+
+コンブスキーは、Amazon・楽天で販売されている昆布商品を315件以上収録した昆布専門のデータベースサイトです。だし昆布から塩昆布、とろろ昆布、昆布茶まで、9カテゴリ・7産地の昆布を網羅しています。
+
+## 主要ページ
+
+- トップページ: /
+- 昆布検索: /search
+- 昆布ガイド: /guide
+- こんぶBOX（D2Cサブスク）: /kombu-box
+- 生産者一覧: /producers
+- サイトについて: /about
+
+## カテゴリ
+
+- だし昆布 (/category/dashi): 出汁用の昆布。利尻・羅臼・日高・真昆布など
+- 食べる昆布 (/category/snack): おやつ・おつまみ昆布
+- 佃煮・煮物 (/category/tsukudani): 昆布の佃煮、松前漬け、昆布巻き
+- 塩昆布 (/category/shiokombu): ふじっ子、くらこんなどのブランド塩昆布
+- とろろ昆布 (/category/tororo): 富山名産のとろろ昆布・おぼろ昆布
+- 昆布茶 (/category/kombucha): 昆布茶・梅昆布茶
+- 昆布調味料 (/category/seasoning): 昆布だしの素、昆布つゆ
+- 健康食品 (/category/health): フコイダン、アルギン酸サプリ
+- ギフト昆布 (/category/gift): 贈答用の高級昆布セット
+
+## 産地
+
+- 利尻昆布 (/origin/rishiri): 北海道利尻・礼文。透明で上品なだし
+- 羅臼昆布 (/origin/rausu): 北海道羅臼。昆布の王様、濃厚な旨み
+- 日高昆布 (/origin/hidaka): 北海道日高。柔らかく万能型
+- 真昆布 (/origin/makombu): 北海道函館。上品な甘み
+- がごめ昆布 (/origin/gagome): 北海道函館。フコイダン豊富
+- 長昆布 (/origin/nagakombu): 北海道釧路。昆布巻き・煮物向き
+- 細目昆布 (/origin/hosome): 北海道函館。とろろ昆布の原料
+
+## ガイド記事
+
+- 昆布の種類と選び方: /guide/kombu-types
+- 昆布だしの取り方: /guide/how-to-make-dashi
+- 昆布の栄養成分: /guide/kombu-nutrition
+- 塩昆布の使い方: /guide/shiokombu-guide
+- 昆布の保存方法: /guide/kombu-storage
+- 昆布レシピ集: /guide/kombu-recipes
+- 昆布の歴史と文化: /guide/kombu-history
+- 昆布の生産と流通: /guide/kombu-production
