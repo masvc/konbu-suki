@@ -7,11 +7,10 @@ export const contentType = "image/png";
 export default async function Image({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
 
-  // Edge Runtime不可のため、fetch経由でデータ取得
   const { prisma } = await import("@/lib/prisma");
   const product = await prisma.product.findUnique({
     where: { id: Number(id) },
-    select: { name: true, brand: true, category: true, price: true, origin: true, imageUrl: true },
+    select: { name: true, brand: true, category: true, price: true, origin: true },
   });
 
   if (!product) {
@@ -33,29 +32,22 @@ export default async function Image({ params }: { params: Promise<{ id: string }
           width: "100%",
           height: "100%",
           display: "flex",
-          padding: "48px",
+          flexDirection: "column",
+          justifyContent: "center",
+          padding: "64px 80px",
           fontFamily: "sans-serif",
         }}
       >
-        <div style={{ display: "flex", alignItems: "center", justifyContent: "center", width: "380px", marginRight: "48px" }}>
-          {product.imageUrl ? (
-            <img src={product.imageUrl} width={300} height={300} style={{ objectFit: "contain", borderRadius: "16px", background: "white", padding: "16px" }} />
-          ) : (
-            <div style={{ width: 300, height: 300, borderRadius: "16px", background: "rgba(255,255,255,0.1)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 64, color: "rgba(255,255,255,0.2)" }}>K</div>
-          )}
+        {cat && <span style={{ fontSize: 18, color: "#b7e4c7", marginBottom: 12 }}>{cat.label}</span>}
+        <span style={{ fontSize: 40, fontWeight: "bold", color: "white", lineHeight: 1.3, marginBottom: 16 }}>
+          {product.name.length > 50 ? product.name.substring(0, 50) + "..." : product.name}
+        </span>
+        <span style={{ fontSize: 20, color: "#d8f3dc", marginBottom: 24 }}>{product.brand}</span>
+        <div style={{ display: "flex", alignItems: "center", gap: "20px" }}>
+          {product.price && <span style={{ fontSize: 32, fontWeight: "bold", color: "#52b788" }}>&yen;{product.price.toLocaleString()}</span>}
+          {product.origin && <span style={{ fontSize: 18, color: "#b7e4c7" }}>{product.origin}</span>}
         </div>
-        <div style={{ display: "flex", flexDirection: "column", justifyContent: "center", flex: 1 }}>
-          {cat && <span style={{ fontSize: 16, color: "#b7e4c7", marginBottom: 8 }}>{cat.label}</span>}
-          <span style={{ fontSize: 32, fontWeight: "bold", color: "white", lineHeight: 1.3, marginBottom: 12 }}>
-            {product.name.length > 45 ? product.name.substring(0, 45) + "..." : product.name}
-          </span>
-          <span style={{ fontSize: 18, color: "#d8f3dc", marginBottom: 16 }}>{product.brand}</span>
-          <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
-            {product.price && <span style={{ fontSize: 28, fontWeight: "bold", color: "#52b788" }}>&yen;{product.price.toLocaleString()}</span>}
-            {product.origin && <span style={{ fontSize: 16, color: "#b7e4c7" }}>{product.origin}</span>}
-          </div>
-          <span style={{ position: "absolute", bottom: 48, right: 48, fontSize: 18, color: "rgba(255,255,255,0.4)" }}>{SITE_NAME}</span>
-        </div>
+        <span style={{ position: "absolute", bottom: 48, right: 64, fontSize: 20, color: "rgba(255,255,255,0.4)" }}>{SITE_NAME}</span>
       </div>
     ),
     { ...size }
