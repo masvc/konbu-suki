@@ -5,6 +5,9 @@ import Link from "next/link";
 import { SITE_NAME, SITE_URL } from "@/lib/constants";
 import { GUIDES, type GuideSlug } from "@/lib/guides";
 import { ShopCTA } from "@/components/ShopCTA";
+import { Breadcrumb } from "@/components/Breadcrumb";
+import { FaqAccordion } from "@/components/FaqAccordion";
+import { JsonLd } from "@/components/JsonLd";
 
 export const revalidate = 86400;
 
@@ -57,9 +60,8 @@ export default async function GuidePage({ params }: Props) {
 
   return (
     <main className="flex-1">
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }} />
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(articleJsonLd) }} />
-      {faqJsonLd && <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }} />}
+      <JsonLd data={articleJsonLd} />
+      {faqJsonLd && <JsonLd data={faqJsonLd} />}
 
       {/* アイキャッチ */}
       {guide.image && (
@@ -77,14 +79,7 @@ export default async function GuidePage({ params }: Props) {
       )}
 
       <article className="mx-auto max-w-3xl px-4 sm:px-6 py-8">
-        {/* パンくず */}
-        <nav className="text-xs text-gray-400 mb-4" aria-label="パンくずリスト">
-          <Link href="/" className="hover:text-[#52b788]">{SITE_NAME}</Link>
-          <span className="mx-1.5">/</span>
-          <Link href="/guide" className="hover:text-[#52b788]">昆布ガイド</Link>
-          <span className="mx-1.5">/</span>
-          <span className="text-gray-600">{guide.title}</span>
-        </nav>
+        <Breadcrumb items={[{ label: "昆布ガイド", href: "/guide" }, { label: guide.title }]} />
 
         <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900 mb-2 leading-tight">{guide.title}</h1>
         <p className="text-sm text-gray-500 mb-6">{guide.description}</p>
@@ -123,28 +118,10 @@ export default async function GuidePage({ params }: Props) {
           </div>
         )}
 
-        {/* FAQ */}
         {guide.faq && guide.faq.length > 0 && (
           <section className="mt-10">
             <h2 className="text-base sm:text-lg font-bold text-gray-900 mb-4">よくある質問</h2>
-            <dl className="space-y-2">
-              {guide.faq.map((item, i) => (
-                <div key={i} className="rounded-xl border border-gray-100 bg-white overflow-hidden">
-                  <details className="group">
-                    <summary className="w-full flex items-start justify-between gap-4 px-4 py-3.5 text-left hover:bg-gray-50 transition cursor-pointer list-none">
-                      <span className="flex items-start gap-2.5">
-                        <span className="text-[#52b788] font-bold text-sm mt-0.5">Q.</span>
-                        <span className="font-semibold text-gray-900 text-sm">{item.q}</span>
-                      </span>
-                      <svg className="w-4 h-4 text-gray-400 shrink-0 mt-1 transition-transform group-open:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                      </svg>
-                    </summary>
-                    <dd className="px-4 pb-4 pl-10 text-sm text-gray-600 leading-relaxed">{item.a}</dd>
-                  </details>
-                </div>
-              ))}
-            </dl>
+            <FaqAccordion items={guide.faq} />
           </section>
         )}
 
