@@ -18,7 +18,7 @@ async function main() {
   const category = process.argv[3] || "dashi";
 
   const req = new GetItemsRequestContent();
-  req.partnerTag = "march507-22";
+  req.partnerTag = process.env.AMAZON_PARTNER_TAG || "konbu-suki-22";
   req.itemIds = [asin];
   req.resources = [
     "images.primary.large", "images.primary.medium",
@@ -53,7 +53,7 @@ async function main() {
         name: title, brand, category, imageUrl,
         price: price ? Math.round(price) : null,
         amazonAsin: asin,
-        amazonUrl: `https://www.amazon.co.jp/dp/${asin}?tag=march507-22`,
+        amazonUrl: `https://www.amazon.co.jp/dp/${asin}?tag=${process.env.AMAZON_PARTNER_TAG || "konbu-suki-22"}`,
         isFeatured: true,
       },
     });

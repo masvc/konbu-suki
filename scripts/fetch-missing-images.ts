@@ -20,7 +20,7 @@ apiClient.credentialId = process.env.AMAZON_CREATORS_CLIENT_ID!;
 apiClient.credentialSecret = process.env.AMAZON_CREATORS_CLIENT_SECRET!;
 apiClient.version = "3.3";
 const api = new TypedDefaultApi(apiClient);
-const TAG = "march507-22";
+const TAG = process.env.AMAZON_PARTNER_TAG || "konbu-suki-22";
 const MKT = "www.amazon.co.jp";
 
 type Item = {

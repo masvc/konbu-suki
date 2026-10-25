@@ -19,7 +19,7 @@ const prisma = new PrismaClient({ adapter });
 const CLIENT_ID = process.env.AMAZON_CREATORS_CLIENT_ID;
 const CLIENT_SECRET = process.env.AMAZON_CREATORS_CLIENT_SECRET;
 const VERSION = process.env.AMAZON_CREATORS_VERSION || "3.3";
-const PARTNER_TAG = process.env.AMAZON_PARTNER_TAG || "march507-22";
+const PARTNER_TAG = process.env.AMAZON_PARTNER_TAG || "konbu-suki-22";
 const MARKETPLACE = "www.amazon.co.jp";
 
 if (!CLIENT_ID || !CLIENT_SECRET) {
