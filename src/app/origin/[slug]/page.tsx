@@ -71,6 +71,20 @@ export default async function OriginPage({ params }: Props) {
                 </div>
               </div>
             </div>
+
+            {/* 出典 */}
+            {column.sources && column.sources.length > 0 && (
+              <div className="mt-6 pt-4 border-t border-gray-100">
+                <h3 className="text-xs font-bold text-gray-500 mb-2">出典</h3>
+                <ul className="space-y-1">
+                  {column.sources.map((s) => (
+                    <li key={s.url} className="text-xs text-gray-400">
+                      <a href={s.url} target="_blank" rel="noopener noreferrer" className="underline hover:text-gray-600">{s.name}</a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
           </div>
         </section>
       )}
