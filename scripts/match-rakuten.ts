@@ -40,22 +40,41 @@ const minScore = numberAfter("--min", 0.72);
 
 const OUT_DIR = path.resolve(__dirname, "tmp");
 
-/** 検索語を作る。販促の括弧書きは邪魔なので落とす。 */
-function buildKeyword(brand: string, name: string): string {
+/**
+ * 検索語の候補を、具体的な順に並べて作る。
+ *
+ * 楽天の検索は指定した語を全部含むものだけを返す。商品名をそのまま渡すと
+ * 「道南伝統食品 天然 利尻昆布 1等検 200g」のようになり、ブランド名や
+ * 等級まで一致する出品しか拾えず0件になる。実際それで全件が保留になった。
+ * 具体的な語から順に試し、候補が出た時点で打ち切る。
+ *
+ * 緩めても誤一致は増えない。判定は商品名全体に対する一致率で行うため、
+ * 広く拾った候補は素点が低く出て閾値で落ちる。
+ */
+function buildQueries(brand: string, name: string): string[] {
   const cleaned = name
     .replace(/[【】[\]（）()]/g, " ")
     .replace(/\s+/g, " ")
     .trim();
-  const words = `${brand} ${cleaned}`.trim().split(" ").filter(Boolean);
-  // 長すぎると楽天側で絞られすぎるので頭から8語まで
-  return words.slice(0, 8).join(" ");
+  const words = cleaned.split(" ").filter(Boolean);
+  const candidates = [
+    `${brand} ${cleaned}`.trim(),
+    cleaned,
+    words.slice(0, 3).join(" "),
+    words.slice(0, 2).join(" "),
+  ];
+  // 重複を除き、短すぎるものは落とす
+  return [...new Set(candidates)].filter((q) => q.length >= 2).slice(0, 4);
 }
 
 type Row = {
   id: number;
   name: string;
   brand: string;
+  /** 候補が出た検索語。どれでも出なければ最後に試したもの */
   keyword: string;
+  /** 何段階目で候補が出たか（1が最も具体的） */
+  queryStep: number;
   matched: boolean;
   score: number | null;
   reasons: string[];
@@ -92,7 +111,6 @@ async function main() {
   const rows: Row[] = [];
 
   for (const [index, product] of products.entries()) {
-    const keyword = buildKeyword(product.brand, product.name);
     const target: Target = {
       name: product.name,
       brand: product.brand,
@@ -100,11 +118,24 @@ async function main() {
       weight: product.weight,
     };
 
+    const queries = buildQueries(product.brand, product.name);
     let candidates: Awaited<ReturnType<typeof searchItems>> = [];
-    try {
-      candidates = await searchItems(keyword, { hits: 10 });
-    } catch (e) {
-      console.log(`  [${product.id}] 検索失敗: ${e instanceof Error ? e.message : String(e)}`);
+    let keyword = queries[queries.length - 1] ?? product.name;
+    let queryStep = 0;
+
+    for (const [step, query] of queries.entries()) {
+      if (step > 0) await sleep(API_INTERVAL_MS);
+      try {
+        candidates = await searchItems(query, { hits: 10 });
+      } catch (e) {
+        console.log(`  [${product.id}] 検索失敗: ${e instanceof Error ? e.message : String(e)}`);
+        candidates = [];
+      }
+      if (candidates.length > 0) {
+        keyword = query;
+        queryStep = step + 1;
+        break;
+      }
     }
 
     const best = candidates.length > 0 ? bestMatch(target, candidates) : null;
@@ -115,6 +146,7 @@ async function main() {
       name: product.name,
       brand: product.brand,
       keyword,
+      queryStep,
       matched,
       score: best ? Number(best.score.score.toFixed(3)) : null,
       reasons: best ? best.score.reasons : [],

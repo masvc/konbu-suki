@@ -64,6 +64,31 @@ export type Score = {
   reasons: string[];
 };
 
+/**
+ * セット・詰め合わせを表す語。
+ *
+ * 商品名が丸ごと含まれるので一致率は満点になるが、単品とセットは別物。
+ * 「羅臼昆布300g」を探して「羅臼昆布300g + 本枯節粉60g のだしセット」に
+ * 当てると、買いに行った人が違う物を見ることになる。
+ *
+ * こちらがセットを売っている場合は相手もセットでよいので、
+ * 「相手だけがセット」のときに引く。
+ */
+const BUNDLE_MARKERS = [
+  "セット",
+  "詰め合わせ",
+  "詰合せ",
+  "詰合わせ",
+  "福袋",
+  "食べ比べ",
+  "アソート",
+  "ギフトボックス",
+];
+
+function looksLikeBundle(normalized: string): boolean {
+  return BUNDLE_MARKERS.some((m) => normalized.includes(normalize(m)));
+}
+
 export function scoreCandidate(target: Target, candidate: Candidate): Score {
   const reasons: string[] = [];
   const base = containment(target.name, candidate.itemName);
@@ -84,9 +109,14 @@ export function scoreCandidate(target: Target, candidate: Candidate): Score {
     reasons.push(`内容量(${target.weight})あり +0.08`);
   }
 
-  // 価格の乖離は加点とは別に、最後に引く。加点で上限に張り付くと
+  // 価格の乖離とセット判定は加点とは別に、最後に引く。加点で上限に張り付くと
   // 33倍の価格差でも満点になり、単品と大容量ケースを同一視してしまう。
   let penalty = 0;
+
+  if (looksLikeBundle(candidateNorm) && !looksLikeBundle(normalize(target.name))) {
+    penalty += 0.35;
+    reasons.push("相手はセット商品 -0.35");
+  }
   if (target.price && candidate.itemPrice) {
     const ratio = candidate.itemPrice / target.price;
     if (ratio >= 0.5 && ratio <= 2) {
