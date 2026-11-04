@@ -6,10 +6,17 @@
 > `.env` は `npm run env:pull` で揃える（手順は README）。
 
 ## ブロック中（外部待ち）
-- [x] **楽天のアプリID発行**（2026-11-05 発行・設定済み）
-  - `RAKUTEN_APP_ID=9b65921a-c63b-4d9f-bdb0-7085c363a70f`
-  - 発行直後のため API が `wrong_parameter` を返す。反映待ち（数時間〜1日）
-  - 反映後に `npx tsx scripts/match-rakuten.ts` で下見 → `--write` で書き込み
+- [x] **楽天の商品検索APIを通した**（2026-11-05 完了）
+  - 値は `.env` と SSM にあり（`RAKUTEN_APP_ID` と `RAKUTEN_ACCESS_KEY`）
+  - 詰まった原因は「発行直後の反映待ち」ではなく、次の2つだった
+    1. **2026年5月にAPIが刷新されていた**。旧 `app.rakuten.co.jp/services/api/...`
+       は廃止済みで、`openapi.rakuten.co.jp/ichibams/api/IchibaItem/Search/20260701`
+       かつ `applicationId` と `accessKey` の両方が必須。旧仕様のままだと
+       `wrong_parameter` が返る
+    2. アプリの Application type が「Web Application」でドメイン指定だったため、
+       ローカルからの呼び出しが `CLIENT_IP_NOT_ALLOWED` で弾かれていた。
+       「API/Backend Service」+ Allowed IP `0.0.0.0` で通った
+  - 下見で一致スコア1.00の商品を検出できることまで確認済み
 - [x] **GA4 / Search Console の権限付与**（2026-11-05 完了）
   - GA4 プロパティ `562364481`: サービスアカウントを管理者で追加
   - Search Console `sc-domain:konbu-suki.com`: サービスアカウントをフルで追加
@@ -43,9 +50,11 @@
 - 参考: Amazon の検索URL19件は403/503で返るが、ボット対策であって
   リンク切れではない。点検側で「確かめられなかった」に分類済み
 
-## 楽天の商品照合（RAKUTEN_APP_ID 待ち）
-- [ ] 下見を実行 → `scripts/tmp/` の JSON で内容確認 → 承認後に `--write`
-      （`npx tsx scripts/match-rakuten.ts`）
+## 楽天の商品照合（API は通った。あとは実行するだけ）
+- [ ] **315件の下見を通しで実行** → `scripts/tmp/` の JSON で内容確認 →
+      承認後に `--write`（`npx tsx scripts/match-rakuten.ts`）
+      - 1件あたり1.1秒の間隔を空けるので、全件で6分ほどかかる
+      - 書き込みは `--write` を付けたときだけ（CLAUDE.md のDB書き込みルール）
 - [ ] 楽天にしか無い昆布商品の新規取り込み（上とは別作業。未着手）
 
 ## 運用でまだやっていないこと

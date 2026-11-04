@@ -69,8 +69,11 @@ type Row = {
 async function main() {
   if (!hasCredentials()) {
     console.error(
-      "RAKUTEN_APP_ID が未設定なので楽天を検索できない。\n" +
-        "https://webservice.rakuten.co.jp/ でアプリIDを発行し、.env に RAKUTEN_APP_ID= を追記する。"
+      "RAKUTEN_APP_ID と RAKUTEN_ACCESS_KEY の両方が必要。\n" +
+        "https://webservice.rakuten.co.jp/ で発行して .env に入れる。\n" +
+        "アプリは Application type を「API/Backend Service」にして、" +
+        "Allowed IP addresses に 0.0.0.0 を入れること。" +
+        "「Web Application」でドメイン指定にすると CLIENT_IP_NOT_ALLOWED で弾かれる。"
     );
     process.exit(1);
   }

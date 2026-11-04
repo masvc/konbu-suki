@@ -154,6 +154,21 @@ DB に書き込むため、実行前にユーザーの確認を取る（CLAUDE.m
 `match-rakuten.ts` は既定では書き込まない。判定の根拠を `scripts/tmp/` に
 JSON で残すので、内容を確認してから `--write` を付ける。
 
+### 楽天の商品検索API
+
+2026年5月に刷新されている。古い情報が多く出回っているので注意。
+
+- エンドポイント: `https://openapi.rakuten.co.jp/ichibams/api/IchibaItem/Search/20260701`
+  （旧 `app.rakuten.co.jp/services/api/...` は廃止済み）
+- `applicationId`（UUID）と `accessKey`（`pk_` で始まる）の**両方**をクエリに付ける
+- アプリ登録時の Application type は **API/Backend Service**。
+  Allowed IP addresses に `0.0.0.0` を入れる。
+  「Web Application」でドメイン指定にすると、ローカルから叩いたときに
+  `CLIENT_IP_NOT_ALLOWED` で弾かれる
+
+`wrong_parameter` が返るときは古いエンドポイントか accessKey 欠落、
+`CLIENT_IP_NOT_ALLOWED` が返るときは Application type と IP 許可の設定を見る。
+
 ## アフィリエイトリンク
 
 リンクの組み立ては [src/lib/affiliates.ts](src/lib/affiliates.ts) に集約する。
@@ -170,6 +185,12 @@ ASP を変えてもDBを書き換えずに済むようにしてある。
 
 `NEXT_PUBLIC_` を付けているのはクライアント側でも値が必要なため。
 Amplify の環境変数にも設定しないと本番に反映されない。
+
+Amplify に環境変数を足すときは注意。`aws amplify update-app
+--environment-variables` は**渡した内容でまるごと置き換える**ので、
+既存の分も一緒に渡さないと消える（一度消して復元した）。先に
+`aws amplify get-app --app-id <id> --query 'app.environmentVariables'` で
+現状を取り、それに足した全量を渡す。コンソールから足すほうが安全。
 
 `NEXT_PUBLIC_RAKUTEN_AFFILIATE_ID` は楽天**直営**アフィリエイト用。
 ASP 経由ではここに値を入れない。入れると直営形式の壊れたリンクになる。
