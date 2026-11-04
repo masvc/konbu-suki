@@ -12,7 +12,8 @@
     "db:studio": "npx prisma studio",
     "typecheck:scripts": "tsc -p tsconfig.scripts.json",
     "check": "tsx scripts/health-report.ts",
-    "check:offline": "tsx scripts/health-report.ts --offline --no-slack"
+    "check:offline": "tsx scripts/health-report.ts --offline --no-slack",
+    "launchd": "tsx scripts/install-launchd.ts"
   },
   "prisma": {
     "seed": "npx tsx prisma/seed.ts"
