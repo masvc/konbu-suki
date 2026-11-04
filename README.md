@@ -20,6 +20,32 @@ npm run dev
 `.env` は git に入っていない。[.env.example](.env.example) のキーを埋める。
 `DATABASE_URL` が無いと商品を扱うページとスクリプトは動かない。
 
+複数のPCで使うなら、`.env` と `google-credentials.json` は
+AWS SSM Parameter Store 経由で共有できる（下記）。手でコピーして回すと
+片方だけ新しいキーが入っている状態になりやすい。
+
+## .env の共有（SSM Parameter Store）
+
+```bash
+npm run env:status   # ローカルと保管先の差分を見る（値は表示しない）
+npm run env:pull     # 保管先 → ローカル（既存は退避してから書く）
+npm run env:push     # ローカル → 保管先（確認後 --yes を付けて実行）
+```
+
+対象は `.env` と `google-credentials.json`。保管先は
+`/konbu-suki/env` と `/konbu-suki/google-credentials`（いずれも SecureString）。
+
+Secrets Manager ではなく Parameter Store を使っている。標準の SecureString は
+無料で 4KB まで入り、どちらのファイルも収まる。自動ローテーションが必要に
+なったら Secrets Manager に移す。
+
+`status` は値を出さず、SHA-256 の先頭8桁だけを比べて一致/相違を示す。
+`push` は保管先を他の端末も参照するため、差分を表示して一度止まる。
+
+必要な IAM 権限は `ssm:GetParameter` と `ssm:PutParameter`（対象は
+`parameter/konbu-suki/*`）。SecureString の復号に `kms:Decrypt` も使う
+（AWS 管理キー `alias/aws/ssm`）。リージョンは未設定なら `ap-northeast-1`。
+
 `npm ci` を使う理由: `npm install` を繰り返すとプラットフォーム固有の
 ネイティブパッケージ（esbuild、Next.js の SWC、lightningcss など）の
 バイナリが欠けることがある（npm の optional dependencies の既知の問題）。

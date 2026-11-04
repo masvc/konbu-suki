@@ -13,7 +13,10 @@
     "typecheck:scripts": "tsc -p tsconfig.scripts.json",
     "check": "tsx scripts/health-report.ts",
     "check:offline": "tsx scripts/health-report.ts --offline --no-slack",
-    "launchd": "tsx scripts/install-launchd.ts"
+    "launchd": "tsx scripts/install-launchd.ts",
+    "env:status": "tsx scripts/env-sync.ts status",
+    "env:pull": "tsx scripts/env-sync.ts pull",
+    "env:push": "tsx scripts/env-sync.ts push"
   },
   "prisma": {
     "seed": "npx tsx prisma/seed.ts"

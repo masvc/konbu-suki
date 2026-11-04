@@ -51,10 +51,13 @@
 ## 運用でまだやっていないこと
 - [ ] **定期点検を launchd に登録していない** — `npm run launchd` で plist を
       生成し、`--install` で登録する
-- [ ] `.env` が2台のPCで別物になっている。片方に書いても他方では動かない。
-      新しいキーを足したら両方に入れる
-      （このPCでは RAKUTEN_APP_ID / SLACK_OPS_WEBHOOK_URL /
-      NEXT_PUBLIC_MOSHIMO_* / NEXT_PUBLIC_GA_ID がいずれも未設定）
+- [ ] **`.env` を SSM Parameter Store に登録する**（仕組みは実装済み・未運用）
+      - 認証情報が入っている端末で `npm run env:push`（差分を見て `--yes`）
+      - 以後は各PCで `npm run env:pull`。`npm run env:status` で差分確認
+      - 対象は `.env` と `google-credentials.json`
+      - 現状2台で別物。このPCには AWS CLI の認証情報も無く、
+        RAKUTEN_APP_ID / SLACK_OPS_WEBHOOK_URL / NEXT_PUBLIC_MOSHIMO_* /
+        NEXT_PUBLIC_GA_ID がいずれも未設定
 - [ ] Slack 通知の実運用。webhook は動作確認済みだが、`.env` に
       `SLACK_OPS_WEBHOOK_URL` を入れるまで通知は飛ばない
 
