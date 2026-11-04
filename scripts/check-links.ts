@@ -3,7 +3,10 @@
  * Usage: npx tsx scripts/check-links.ts
  */
 
-const SITE_URL = "https://konbu-suki.com";
+import "dotenv/config";
+import { PUBLIC_SITE_URL } from "./lib/site";
+
+const SITE_URL = PUBLIC_SITE_URL;
 
 async function fetchSitemapUrls(): Promise<string[]> {
   const res = await fetch(`${SITE_URL}/sitemap.xml`);

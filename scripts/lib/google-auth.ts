@@ -10,14 +10,20 @@
  *   const sc = getSearchConsoleClient();
  */
 import { google } from "googleapis";
+import { PUBLIC_SITE_HOST } from "./site";
 
 /** Google認証情報ファイルパス */
 export const CREDENTIALS_PATH =
   process.env.GOOGLE_APPLICATION_CREDENTIALS || "./google-credentials.json";
 
-/** Search Console サイトURL */
-export const SITE_URL =
-  process.env.SEARCH_CONSOLE_SITE || "sc-domain:peaky.co.jp";
+/**
+ * Search Console の「プロパティ」指定。自サイトの URL とは別物なので
+ * SITE_URL という名前にはしない（混同して別サイトを見ていた経緯がある）。
+ * 自サイトの URL は lib/site.ts の PUBLIC_SITE_URL。
+ * 既定値は自サイトのドメインプロパティ。Search Console への登録が前提。
+ */
+export const SEARCH_CONSOLE_SITE =
+  process.env.SEARCH_CONSOLE_SITE || `sc-domain:${PUBLIC_SITE_HOST}`;
 
 /** GA4 Data API 用の認証済みクライアントを取得する */
 export function getGA4Client() {

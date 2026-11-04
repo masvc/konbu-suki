@@ -2,20 +2,21 @@
  * Google Search Console レポート取得スクリプト
  *
  * 使い方:
- *   npx tsx scripts/search-console.ts              # 過去28日（golfサブドメインのみ）
+ *   npx tsx scripts/search-console.ts              # 過去28日（自サイトのみ）
  *   npx tsx scripts/search-console.ts 7            # 過去7日
  *   npx tsx scripts/search-console.ts queries      # クエリ別
  *   npx tsx scripts/search-console.ts pages        # ページ別
  *   npx tsx scripts/search-console.ts all          # 全レポート
- *   npx tsx scripts/search-console.ts --all-sites  # peaky.co.jp全体（フィルタなし）
+ *   npx tsx scripts/search-console.ts --all-sites  # プロパティ全体（フィルタなし）
  *
  * 必要な環境変数 (.env):
  *   GOOGLE_APPLICATION_CREDENTIALS=./google-credentials.json
- *   SEARCH_CONSOLE_SITE=sc-domain:peaky.co.jp
+ *   SEARCH_CONSOLE_SITE=sc-domain:example.com  （未設定なら自サイトのドメイン）
  */
 
 import 'dotenv/config'
-import { getSearchConsoleClient, SITE_URL } from './lib/google-auth'
+import { getSearchConsoleClient, SEARCH_CONSOLE_SITE } from './lib/google-auth'
+import { PUBLIC_SITE_URL, PUBLIC_SITE_HOST, toSitePath } from './lib/site'
 
 function getDateRange(daysArg?: string): { startDate: string; endDate: string } {
   const days = daysArg && /^\d+$/.test(daysArg) ? parseInt(daysArg) : 28
@@ -38,7 +39,7 @@ async function queryReport(
   dimensionFilterGroups?: Array<{ filters: Array<{ dimension: string; operator: string; expression: string }> }>
 ) {
   const res = await searchconsole.searchanalytics.query({
-    siteUrl: SITE_URL,
+    siteUrl: SEARCH_CONSOLE_SITE,
     requestBody: {
       startDate,
       endDate,
@@ -60,22 +61,26 @@ async function run() {
   const allSites = args.includes('--all-sites')
   const { startDate, endDate } = getDateRange(daysArg)
 
-  // デフォルトは golf.peaky.co.jp のみ、--all-sites でフィルタなし
+  // デフォルトは自サイトのみ、--all-sites でフィルタなし。
+  // 正規表現は GSC 固有の指定なので、組み立てはここに置く（site.ts は
+  // 「自サイトの URL とは何か」だけを持つ）。
+  const siteUrlRegex = `^${PUBLIC_SITE_URL.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}/`
+
   const urlFilter = allSites
     ? undefined
-    : { dimension: 'page' as const, operator: 'includingRegex' as const, expression: '^https://golf\\.peaky\\.co\\.jp/' }
+    : { dimension: 'page' as const, operator: 'includingRegex' as const, expression: siteUrlRegex }
 
-  const filterLabel = allSites ? 'peaky.co.jp 全体' : 'golf.peaky.co.jp のみ'
+  const filterLabel = allSites ? 'プロパティ全体' : `${PUBLIC_SITE_HOST} のみ`
   console.log(`\n🔍 Search Console レポート (${startDate} ~ ${endDate})`)
-  console.log(`   サイト: ${SITE_URL}  [${filterLabel}]`)
+  console.log(`   サイト: ${SEARCH_CONSOLE_SITE}  [${filterLabel}]`)
   console.log('='.repeat(70))
 
-  // フィルタグループ（golf サブドメイン絞り込み用）
+  // フィルタグループ（自サイト絞り込み用）
   const filterGroups = urlFilter ? [{ filters: [urlFilter] }] : undefined
 
   // サマリー（ディメンションなし）
   const summaryRes = await searchconsole.searchanalytics.query({
-    siteUrl: SITE_URL,
+    siteUrl: SEARCH_CONSOLE_SITE,
     requestBody: {
       startDate,
       endDate,
@@ -114,7 +119,7 @@ async function run() {
     console.log(`${'URL'.padEnd(55)} ${'Click'.padStart(6)} ${'Imp'.padStart(7)} ${'CTR'.padStart(6)} ${'順位'.padStart(5)}`)
     console.log('-'.repeat(85))
     for (const row of rows) {
-      const url = (row.keys?.[0] || '').replace('https://golf.peaky.co.jp', '').replace('https://peaky.co.jp', '')
+      const url = toSitePath(row.keys?.[0] || '')
       console.log(
         `${url.slice(0, 54).padEnd(55)} ${String(row.clicks).padStart(6)} ${String(row.impressions).padStart(7)} ${((row.ctr || 0) * 100).toFixed(1).padStart(5)}% ${(row.position || 0).toFixed(1).padStart(5)}`
       )

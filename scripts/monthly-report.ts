@@ -10,7 +10,8 @@
  */
 import "dotenv/config";
 import { readFileSync, writeFileSync, mkdirSync, existsSync, readdirSync } from "fs";
-import { getSearchConsoleClient, getGA4Client, SITE_URL } from "./lib/google-auth";
+import { getSearchConsoleClient, getGA4Client, SEARCH_CONSOLE_SITE } from "./lib/google-auth";
+import { toSitePath } from "./lib/site";
 
 const GA4_PROPERTY = process.env.GA4_PROPERTY_ID;
 const REPORT_DIR = "./data/monthly-reports";
@@ -50,15 +51,15 @@ async function fetchGSC(days = 28) {
   const fg = [{ filters: [GOLF_FILTER] }];
 
   const [summary, queries, pages] = await Promise.all([
-    sc.searchanalytics.query({ siteUrl: SITE_URL, requestBody: { startDate, endDate, type: "web", dimensionFilterGroups: fg } }),
-    sc.searchanalytics.query({ siteUrl: SITE_URL, requestBody: { startDate, endDate, dimensions: ["query"], rowLimit: 50, type: "web", dimensionFilterGroups: fg } }),
-    sc.searchanalytics.query({ siteUrl: SITE_URL, requestBody: { startDate, endDate, dimensions: ["page"], rowLimit: 30, type: "web", dimensionFilterGroups: fg } }),
+    sc.searchanalytics.query({ siteUrl: SEARCH_CONSOLE_SITE, requestBody: { startDate, endDate, type: "web", dimensionFilterGroups: fg } }),
+    sc.searchanalytics.query({ siteUrl: SEARCH_CONSOLE_SITE, requestBody: { startDate, endDate, dimensions: ["query"], rowLimit: 50, type: "web", dimensionFilterGroups: fg } }),
+    sc.searchanalytics.query({ siteUrl: SEARCH_CONSOLE_SITE, requestBody: { startDate, endDate, dimensions: ["page"], rowLimit: 30, type: "web", dimensionFilterGroups: fg } }),
   ]);
 
   const s = summary.data.rows?.[0] || { clicks: 0, impressions: 0, ctr: 0, position: 0 };
   const mapRows = (rows: typeof queries.data.rows) =>
     (rows || []).map((r) => ({
-      key: r.keys?.[0]?.replace("https://golf.peaky.co.jp", "") || "",
+      key: toSitePath(r.keys?.[0] || ""),
       clicks: r.clicks || 0,
       impressions: r.impressions || 0,
       ctr: r.ctr || 0,

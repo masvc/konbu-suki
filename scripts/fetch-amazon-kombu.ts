@@ -9,10 +9,10 @@
 import "dotenv/config";
 import { ApiClient, TypedDefaultApi, SearchItemsRequestContent, SearchItemsResource } from "amazon-creators-api";
 import { PrismaClient } from "../src/generated/prisma/client";
-import { PrismaNeon } from "@prisma/adapter-neon";
+import { PrismaPg } from "@prisma/adapter-pg";
 
 // DB
-const adapter = new PrismaNeon({ connectionString: process.env.DATABASE_URL! });
+const adapter = new PrismaPg({ connectionString: process.env.DATABASE_URL! });
 const prisma = new PrismaClient({ adapter });
 
 // Amazon API

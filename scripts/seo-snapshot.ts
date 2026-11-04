@@ -10,7 +10,8 @@
 
 import "dotenv/config";
 import { readFileSync, writeFileSync, existsSync } from "fs";
-import { getSearchConsoleClient, SITE_URL } from "./lib/google-auth";
+import { getSearchConsoleClient, SEARCH_CONSOLE_SITE } from "./lib/google-auth";
+import { toSitePath } from "./lib/site";
 
 const SNAPSHOT_DIR = "./data/seo-snapshots";
 const GOLF_FILTER = {
@@ -53,14 +54,14 @@ async function fetchData(days: number): Promise<Snapshot> {
 
   // Summary
   const summaryRes = await sc.searchanalytics.query({
-    siteUrl: SITE_URL,
+    siteUrl: SEARCH_CONSOLE_SITE,
     requestBody: { startDate, endDate, type: "web", dimensionFilterGroups: filterGroups },
   });
   const s = summaryRes.data.rows?.[0] || { clicks: 0, impressions: 0, ctr: 0, position: 0 };
 
   // Queries
   const queryRes = await sc.searchanalytics.query({
-    siteUrl: SITE_URL,
+    siteUrl: SEARCH_CONSOLE_SITE,
     requestBody: {
       startDate,
       endDate,
@@ -73,7 +74,7 @@ async function fetchData(days: number): Promise<Snapshot> {
 
   // Pages
   const pageRes = await sc.searchanalytics.query({
-    siteUrl: SITE_URL,
+    siteUrl: SEARCH_CONSOLE_SITE,
     requestBody: {
       startDate,
       endDate,
@@ -197,7 +198,7 @@ function compare(current: Snapshot) {
 
   for (const d of pageDiffs) {
     if (!d) continue;
-    const url = d.key.replace("https://golf.peaky.co.jp", "");
+    const url = toSitePath(d.key);
     const arrow = d.diff > 0 ? "↑" : "↓";
     console.log(
       `  ${url.padEnd(45)} ${(d.prevCtr * 100).toFixed(1)}% → ${(d.newCtr * 100).toFixed(1)}% ${arrow}`

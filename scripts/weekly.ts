@@ -9,18 +9,18 @@
  */
 import "dotenv/config";
 import { PrismaClient } from "../src/generated/prisma/client";
-import { PrismaNeon } from "@prisma/adapter-neon";
+import { PrismaPg } from "@prisma/adapter-pg";
 import { FEATURES } from "../src/lib/features";
 import { GUIDES } from "../src/lib/guides";
 import { FEATURE_GUIDE_MAP, DEFAULT_GUIDE_SLUGS } from "../src/lib/brand-guides";
 import { ONSEN_AREAS } from "../src/lib/onsen-areas";
 import { CTA_EVENTS, AI_SOURCES } from "./lib/analytics-constants";
-import { getGoogleClients, requireGA4PropertyId, SITE_URL } from "./lib/google-auth";
+import { getGoogleClients, requireGA4PropertyId, SEARCH_CONSOLE_SITE } from "./lib/google-auth";
 
 const GA4_PROPERTY = requireGA4PropertyId();
 const GOLF_FILTER = { dimension: "page" as const, operator: "includingRegex" as const, expression: "^https://golf\\.peaky\\.co\\.jp/" };
 
-const adapter = new PrismaNeon({ connectionString: process.env.DATABASE_URL! });
+const adapter = new PrismaPg({ connectionString: process.env.DATABASE_URL! });
 const prisma = new PrismaClient({ adapter });
 
 async function main() {
@@ -101,12 +101,12 @@ async function main() {
     }),
     // GSC サマリー (7日)
     sc.searchanalytics.query({
-      siteUrl: SITE_URL,
+      siteUrl: SEARCH_CONSOLE_SITE,
       requestBody: { startDate: gscStart, endDate: gscEnd, type: "web", dimensionFilterGroups: fg },
     }),
     // GSC Top5クエリ (7日)
     sc.searchanalytics.query({
-      siteUrl: SITE_URL,
+      siteUrl: SEARCH_CONSOLE_SITE,
       requestBody: {
         startDate: gscStart, endDate: gscEnd, dimensions: ["query"],
         rowLimit: 5, type: "web", dimensionFilterGroups: fg,

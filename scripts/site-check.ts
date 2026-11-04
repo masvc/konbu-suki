@@ -1,7 +1,7 @@
 /**
  * サイト品質チェックスクリプト
  *
- * SiteRover的に golf.peaky.co.jp の品質を自動チェック。
+ * 自サイトの品質を自動チェック。対象 URL は lib/site.ts 経由で .env に従う。
  * データ整合性・SEO・リンク切れ・画像404・コンテンツ品質を一括検査。
  *
  * Usage:
@@ -16,13 +16,14 @@
 import "dotenv/config";
 import { existsSync, readdirSync } from "fs";
 import { PrismaClient } from "../src/generated/prisma/client";
-import { PrismaNeon } from "@prisma/adapter-neon";
+import { PrismaPg } from "@prisma/adapter-pg";
 import { FEATURES } from "../src/lib/features";
 import { GUIDES } from "../src/lib/guides";
+import { PUBLIC_SITE_URL, PUBLIC_SITE_HOST } from "./lib/site";
 
-const adapter = new PrismaNeon({ connectionString: process.env.DATABASE_URL! });
+const adapter = new PrismaPg({ connectionString: process.env.DATABASE_URL! });
 const prisma = new PrismaClient({ adapter });
-const BASE_URL = "https://golf.peaky.co.jp";
+const BASE_URL = PUBLIC_SITE_URL;
 const args = process.argv.slice(2);
 const offline = args.includes("--offline");
 const filterMode = args.find((a) =>
@@ -45,7 +46,7 @@ async function checkUrl(url: string, timeout = 8000): Promise<number | "timeout"
       method: "HEAD",
       signal: controller.signal,
       redirect: "follow",
-      headers: { "User-Agent": "SiteCheck/1.0 (golf.peaky.co.jp quality checker)" },
+      headers: { "User-Agent": `SiteCheck/1.0 (${PUBLIC_SITE_HOST} quality checker)` },
     });
     clearTimeout(timer);
     return res.status;
@@ -415,7 +416,7 @@ function printReport() {
 
 // ── main ──
 async function main() {
-  console.log("Site Quality Check — golf.peaky.co.jp");
+  console.log(`Site Quality Check — ${PUBLIC_SITE_HOST}`);
   console.log(`mode: ${offline ? "offline" : "live"} ${filterMode || "all"}`);
 
   try {
