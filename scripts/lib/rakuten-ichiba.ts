@@ -33,6 +33,8 @@ export type RakutenItem = {
   imageUrl: string | null;
   reviewCount: number;
   reviewAverage: number;
+  /** 販促文。そのまま説明文にはしない（判断材料として持つだけ） */
+  itemCaption: string;
 };
 
 export function hasCredentials(): boolean {
@@ -94,20 +96,22 @@ function normalizeItem(entry: unknown): RakutenItem | null {
     imageUrl: pickImage(raw),
     reviewCount: pickNumber(raw, "reviewCount"),
     reviewAverage: pickNumber(raw, "reviewAverage"),
+    itemCaption: pickString(raw, "itemCaption"),
   };
 }
 
 export async function searchItems(
   keyword: string,
-  opts: { hits?: number; retries?: number } = {}
+  opts: { hits?: number; retries?: number; page?: number } = {}
 ): Promise<RakutenItem[]> {
-  const { hits = 10, retries = 2 } = opts;
+  const { hits = 10, retries = 2, page = 1 } = opts;
   const { appId, accessKey } = requireCredentials();
   const params = new URLSearchParams({
     applicationId: appId,
     accessKey,
     keyword,
     hits: String(hits),
+    page: String(page),
     format: "json",
     formatVersion: "2",
   });

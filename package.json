@@ -16,7 +16,9 @@
     "launchd": "tsx scripts/install-launchd.ts",
     "env:status": "tsx scripts/env-sync.ts status",
     "env:pull": "tsx scripts/env-sync.ts pull",
-    "env:push": "tsx scripts/env-sync.ts push"
+    "env:push": "tsx scripts/env-sync.ts push",
+    "rakuten:match": "tsx scripts/match-rakuten.ts",
+    "rakuten:fetch": "tsx scripts/fetch-rakuten-kombu.ts"
   },
   "prisma": {
     "seed": "npx tsx prisma/seed.ts"
