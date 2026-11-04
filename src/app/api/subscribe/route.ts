@@ -6,7 +6,7 @@ export async function POST(req: NextRequest) {
     const { email, website } = await req.json();
     // ハニーポット: botが埋めるhidden fieldに値があれば無視
     if (website) return NextResponse.json({ message: "登録しました" });
-    if (!email || typeof email !== "string" || !email.includes("@")) {
+    if (!email || typeof email !== "string" || email.length > 254 || !email.includes("@")) {
       return NextResponse.json({ error: "メールアドレスを入力してください" }, { status: 400 });
     }
 
@@ -23,7 +23,7 @@ export async function POST(req: NextRequest) {
       fetch(slackUrl, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ text: `[コンブスキー] 新規メルマガ登録: ${email}` }),
+        body: JSON.stringify({ text: `[コンブスキー] 新規メルマガ登録: ${email.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;")}` }),
       }).catch(() => {});
     }
 

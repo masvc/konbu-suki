@@ -19,11 +19,11 @@ export async function POST(request: NextRequest) {
   if (!name?.trim() || name.length > 100) {
     return NextResponse.json({ error: "お名前を入力してください" }, { status: 400 });
   }
-  if (!email?.trim() || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+  if (!email?.trim() || email.length > 254 || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
     return NextResponse.json({ error: "有効なメールアドレスを入力してください" }, { status: 400 });
   }
-  if (!message?.trim() || message.length > 5000) {
-    return NextResponse.json({ error: "お問い合わせ内容を入力してください" }, { status: 400 });
+  if (!message?.trim() || message.length > 2000) {
+    return NextResponse.json({ error: "お問い合わせ内容を入力してください（2000文字以内）" }, { status: 400 });
   }
 
   const typeLabels: Record<string, string> = {

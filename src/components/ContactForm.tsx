@@ -95,7 +95,7 @@ export function ContactForm() {
         <input
           type="email"
           required
-          maxLength={200}
+          maxLength={254}
           value={form.email}
           onChange={(e) => setForm({ ...form, email: e.target.value })}
           className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm text-gray-900 focus:ring-2 focus:ring-[#2d6a4f] focus:border-[#2d6a4f]"
@@ -108,7 +108,7 @@ export function ContactForm() {
         </label>
         <textarea
           required
-          maxLength={5000}
+          maxLength={2000}
           rows={5}
           value={form.message}
           onChange={(e) => setForm({ ...form, message: e.target.value })}
