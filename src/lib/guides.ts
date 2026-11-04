@@ -31,6 +31,8 @@ export const GUIDES: Record<string, Guide> = {
   "kombu-comparison": {
     title: "利尻・羅臼・日高・真昆布の違い【4種の比較表】",
     description: "利尻昆布・羅臼昆布・日高昆布・真昆布の違いを、だしの特徴・形状・向く料理で比較します。どれを選べばよいか迷ったときの早見表つき。",
+    image: "/guide/kombu-comparison.webp",
+    imageAlt: "乾燥した昆布4種を淡い布の上に並べ、幅・厚み・色の違いが分かるように真上から撮影した比較写真",
     datePublished: "2026-11-05",
     dateModified: "2026-11-05",
     searchKeyword: "昆布 違い",

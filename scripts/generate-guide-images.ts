@@ -4,6 +4,32 @@
 import "dotenv/config";
 import { GoogleGenAI } from "@google/genai";
 import { writeFileSync, existsSync, mkdirSync } from "fs";
+import sharp from "sharp";
+
+/** 記事のアイキャッチの寸法。横1200px以上あると Discover で大きく出やすい。 */
+const WIDTH = 1200;
+const HEIGHT = 675;
+/** CLAUDE.md の「全画像200KB以下」に合わせる */
+const MAX_BYTES = 200 * 1024;
+
+/**
+ * 生成結果を WebP に変換する。
+ *
+ * 画像モデルが返すのは PNG で、そのまま .webp という名前で保存すると
+ * 中身は PNG のまま 2MB を超える。拡張子だけ webp になっていても
+ * 変換したことにはならない。
+ *
+ * 200KB に収まるまで品質を落とす。一定以下にしても収まらない場合は、
+ * その時点のものを使う（画質より表示速度を優先する）。
+ */
+async function toWebp(png: Buffer): Promise<Buffer> {
+  const base = sharp(png).resize(WIDTH, HEIGHT, { fit: "cover", position: "centre" });
+  for (const quality of [82, 72, 62, 52, 42]) {
+    const out = await base.clone().webp({ quality }).toBuffer();
+    if (out.length <= MAX_BYTES) return out;
+  }
+  return base.clone().webp({ quality: 35 }).toBuffer();
+}
 
 const API_KEY = process.env.GEMINI_API_KEY;
 if (!API_KEY) { console.error("GEMINI_API_KEY missing"); process.exit(1); }
@@ -39,9 +65,12 @@ async function generate(slug: string, prompt: string) {
     // parts は Part[] なので推論に任せる
     const img = parts?.find((p) => p.inlineData?.mimeType?.startsWith("image/"));
     if (!img?.inlineData?.data) { console.log(`  FAIL ${slug}`); return; }
-    const buf = Buffer.from(img.inlineData.data, "base64");
+    const png = Buffer.from(img.inlineData.data, "base64");
+    const buf = await toWebp(png);
     writeFileSync(path, buf);
-    console.log(`  OK ${slug} (${(buf.length/1024).toFixed(0)}KB)`);
+    console.log(
+      `  OK ${slug} (${(png.length / 1024).toFixed(0)}KB PNG → ${(buf.length / 1024).toFixed(0)}KB WebP ${WIDTH}x${HEIGHT})`
+    );
   } catch (e) {
     const message = e instanceof Error ? e.message : String(e);
     console.log(`  FAIL ${slug}: ${message.substring(0, 80)}`);
