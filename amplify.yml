@@ -6,7 +6,7 @@ frontend:
         - npm ci
     build:
       commands:
-        - env | grep -E '^(DATABASE_URL|NEXT_PUBLIC_|AMAZON_|GEMINI_)' > .env.production
+        - env | grep -E '^(DATABASE_URL|NEXT_PUBLIC_|AMAZON_|GEMINI_|SLACK_)' > .env.production
         - npm run build
   artifacts:
     baseDirectory: .next
