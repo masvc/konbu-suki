@@ -11,6 +11,9 @@
 - 絵文字禁止。アイコンは lucide-react を使う
 - 参考サイト名をコード・コメント・docs・コミットメッセージに書かない
 - 1タスク1コミット。`npm run build` 成功を確認してから push
+- サイトURLをハードコードしない。`src` は `lib/constants.ts` の `SITE_URL`、
+  `scripts` は `lib/site.ts` の `PUBLIC_SITE_URL` を使う。Search Console の
+  プロパティ指定は別概念なので `lib/google-auth.ts` の `SEARCH_CONSOLE_SITE`
 
 ## コンテンツルール
 - 健康系は効果効能を断定しない。「含まれている」「研究が進められている」程度の事実記載に留める
@@ -28,7 +31,8 @@
 - Amazon PA-API/Creators APIの規約に従い、価格は定期更新が必要
 
 ## 技術スタック
-- Next.js + Tailwind CSS v4 + Prisma + Neon (PostgreSQL)
-- デプロイ: Vercel（GitHub連携自動デプロイ）
+- Next.js + Tailwind CSS v4 + Prisma + PostgreSQL (AWS RDS)
+- デプロイ: AWS Amplify（GitHub連携自動デプロイ、amplify.yml）
+- Prisma アダプタは `@prisma/adapter-pg`。Neon 用アダプタは使わない（移行済み）
 - カラーパレット: lib/colors.ts 参照
 - アイコン: lucide-react + lib/category-icons.tsx
