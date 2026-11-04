@@ -6,24 +6,17 @@
 > `.env` は `npm run env:pull` で揃える（手順は README）。
 
 ## ブロック中（外部待ち）
-- [ ] **楽天のアプリID発行** → `RAKUTEN_APP_ID` を .env に設定
-  - https://webservice.rakuten.co.jp/ で無料・即時発行（審査なし）
-  - これが無いと `scripts/match-rakuten.ts` が動かず、315件の楽天リンクが埋まらない
-  - スクリプト専用。Amplify 側には不要
-- [ ] **GA4 / Search Console の権限付与**
-  - `google-credentials.json` のサービスアカウント（`client_email`）に付与する
-  - GA4 プロパティ `562364481` の閲覧権限
-  - Search Console `sc-domain:konbu-suki.com` のユーザー追加
-  - 現状どちらも「権限なし」で弾かれる。コードは正しく動いている
-  - 付与後に動くもの: weekly / ga4-report / search-console / seo-snapshot /
-    seo-opportunities / monthly-report / ai-quality / ai-traffic
-- [ ] **もしものIDを設定**（ローカルと Amplify の両方。片方だけでは本番に出ない）
-  - `NEXT_PUBLIC_MOSHIMO_A_ID` / `_P_ID` / `_PC_ID` / `_PL_ID` の**4つすべて**
-  - **`A_ID` を落としやすい。** 1つでも欠けると ASP 経由にならず、
-    素の楽天URL（無報酬）が出るだけでエラーにならないので気付けない
-  - `_PL_ID` は「どこでもリンク」のもの。バナーの pl_id とは別
-  - `NEXT_PUBLIC_RAKUTEN_AFFILIATE_ID` には入れないこと（楽天直営用。
-    ASP の値を入れると直営形式の壊れたリンクになる）
+- [x] **楽天のアプリID発行**（2026-11-05 発行・設定済み）
+  - `RAKUTEN_APP_ID=9b65921a-c63b-4d9f-bdb0-7085c363a70f`
+  - 発行直後のため API が `wrong_parameter` を返す。反映待ち（数時間〜1日）
+  - 反映後に `npx tsx scripts/match-rakuten.ts` で下見 → `--write` で書き込み
+- [x] **GA4 / Search Console の権限付与**（2026-11-05 完了）
+  - GA4 プロパティ `562364481`: サービスアカウントを管理者で追加
+  - Search Console `sc-domain:konbu-suki.com`: サービスアカウントをフルで追加
+  - `npm run weekly` 動作確認済み
+- [x] **もしものIDを設定**（2026-11-05 完了）
+  - ローカル `.env` + SSM + Amplify すべてに設定済み
+  - A_ID=5882685 / P_ID=54 / PC_ID=54 / PL_ID=616
 
 ## 点検で出た指摘（未対応）
 
@@ -36,19 +29,17 @@
 - [ ] レビュー 0 件・Article 0 件（仕組みはあるが中身が無い）
 
 ### SEO
-- [ ] **meta 要修正 35 件** — カテゴリ9ページの title が 12〜14字と短く、
-      description も 50字未満。`npx tsx scripts/meta-check.ts` で一覧が出る
+- [x] **meta 要修正 35 件** — 2026-11-05 修正済み（35件→0件）
+      カテゴリ・産地・ガイドの title/description を改善
 - [ ] 本文が薄いガイド3本 — kombu-recipes(162字) / kombu-storage(208字) /
       kombu-history(261字)
 - [ ] E-E-A-T ページが無い — `/about/editorial-policy` と `/about/data`
       （`/about` はある）
 
 ### リンク切れ
-- [ ] 外部リンク2件が404
-  - `https://www.matumaeya.jp/`
-  - `https://www.pref.hokkaido.lg.jp/sr/ske/osazu/oz01fis/oz010fi.html`
-    → **`src/lib/origin-columns.ts` に出典として記載しているURL**。
-    CLAUDE.md の「出典を必ず明記する」に関わるので差し替えたい
+- [x] 外部リンク: 北海道庁URL移転に対応（2026-11-05）
+  - `/sr/ske/` → `/sr/gid/sr_ske_index.html` に差し替え済み
+  - `matumaeya.jp` はボット対策による誤検知（Web検索ではインデックス正常）。seed.ts のみ。DB側は変更なし
 - 参考: Amazon の検索URL19件は403/503で返るが、ボット対策であって
   リンク切れではない。点検側で「確かめられなかった」に分類済み
 
@@ -62,13 +53,11 @@
       - launchd 経由で完走を確認（LastExitStatus=0、約75秒）
       - ログは `~/Library/Logs/konbu-suki/`
       - 別のPCでは `npm run launchd` → `--install` で同じものを作れる
-- [ ] **`.env` を SSM Parameter Store に登録する**（仕組みは実装済み・未運用）
-      - 認証情報が入っている端末で `npm run env:push`（差分を見て `--yes`）
+- [x] **`.env` を SSM Parameter Store に登録する**（2026-11-05 push済み）
+      - `npm run env:push --yes` で `.env` と `google-credentials.json` を登録
       - 以後は各PCで `npm run env:pull`。`npm run env:status` で差分確認
-      - 対象は `.env` と `google-credentials.json`
-      - 現状2台で別物。このPCには AWS CLI の認証情報も無く、
-        RAKUTEN_APP_ID / SLACK_OPS_WEBHOOK_URL / NEXT_PUBLIC_MOSHIMO_* /
-        NEXT_PUBLIC_GA_ID がいずれも未設定
+      - 注意: RAKUTEN_APP_ID / SLACK_OPS_WEBHOOK_URL / NEXT_PUBLIC_MOSHIMO_* は
+        まだ未設定のまま登録されている。設定後に再度 push が必要
 - [ ] Slack 通知の実運用。webhook は動作確認済みだが、`.env` に
       `SLACK_OPS_WEBHOOK_URL` を入れるまで通知は飛ばない
 
@@ -76,7 +65,7 @@
 - [ ] `as any` が3箇所残っている（add-product / fetch-missing-images /
       generate-images）。Amazon SDK の戻り値の型が不明なため暫定
 - [ ] 各スクリプトが個別に PrismaClient を生成している。共通化の候補
-- [ ] `src/app/product/[id]/page.tsx` に未使用の `SITE_URL` import
+- [x] `src/app/product/[id]/page.tsx` に未使用の `SITE_URL` import（2026-11-05 削除済み）
 
 ## 自分でやる
 - [ ] ガイド8本（特に栄養記事）を一読

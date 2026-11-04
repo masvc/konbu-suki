@@ -8,10 +8,8 @@
  *   ※ 昆布の種類・産地・用途の概要
  * - 水産庁「水産物についての知識 昆布」 https://www.jfa.maff.go.jp/
  *   ※ 昆布漁業・生産地に関する情報
- * - 北海道庁「北海道の水産業 こんぶ」 https://www.pref.hokkaido.lg.jp/sr/ske/
- *   ※ 北海道各地域の昆布生産概況
- * - 北海道水産林務部「北海道お魚図鑑 こんぶ」 https://www.pref.hokkaido.lg.jp/sr/ske/osazu/oz01fis/oz010fi.html
- *   ※ 北海道の昆布の種類・分布
+ * - 北海道水産林務部「北海道お魚図鑑」 https://www.pref.hokkaido.lg.jp/sr/gid/sr_ske_index.html
+ *   ※ 北海道の昆布の種類・分布（旧URL /sr/ske/ 配下から移転）
  *
  * それ以外の記述は一般的に広く知られた情報に基づく。
  * 特定の出典で確認できない断定表現は避けている。
@@ -36,7 +34,7 @@ export const ORIGIN_COLUMNS: Record<string, OriginColumn> = {
     bestFor: ["お吸い物", "茶碗蒸し", "湯豆腐", "懐石料理"],
     sources: [
       { name: "農林水産省「特集 こんぶ」", url: "https://www.maff.go.jp/j/pr/aff/2203/spe2_01.html" },
-      { name: "北海道庁「北海道の水産業 こんぶ」", url: "https://www.pref.hokkaido.lg.jp/sr/ske/" },
+      { name: "北海道水産林務部「北海道お魚図鑑」", url: "https://www.pref.hokkaido.lg.jp/sr/gid/sr_ske_index.html" },
       { name: "北海道ぎょれん「北海道のこんぶ」", url: "https://www.gyoren.or.jp/konbu/" },
     ],
   },
@@ -47,7 +45,7 @@ export const ORIGIN_COLUMNS: Record<string, OriginColumn> = {
     sources: [
       { name: "農林水産省「特集 こんぶ」", url: "https://www.maff.go.jp/j/pr/aff/2203/spe2_01.html" },
       { name: "水産庁「水産物についての知識」", url: "https://www.jfa.maff.go.jp/" },
-      { name: "北海道庁「北海道の水産業 こんぶ」", url: "https://www.pref.hokkaido.lg.jp/sr/ske/" },
+      { name: "北海道水産林務部「北海道お魚図鑑」", url: "https://www.pref.hokkaido.lg.jp/sr/gid/sr_ske_index.html" },
       { name: "北海道ぎょれん「北海道のこんぶ」", url: "https://www.gyoren.or.jp/konbu/" },
     ],
   },
@@ -57,8 +55,7 @@ export const ORIGIN_COLUMNS: Record<string, OriginColumn> = {
     bestFor: ["煮物", "昆布巻き", "おでん", "家庭のだし全般"],
     sources: [
       { name: "農林水産省「特集 こんぶ」", url: "https://www.maff.go.jp/j/pr/aff/2203/spe2_01.html" },
-      { name: "北海道庁「北海道の水産業 こんぶ」", url: "https://www.pref.hokkaido.lg.jp/sr/ske/" },
-      { name: "北海道水産林務部「北海道お魚図鑑」", url: "https://www.pref.hokkaido.lg.jp/sr/ske/osazu/oz01fis/oz010fi.html" },
+      { name: "北海道水産林務部「北海道お魚図鑑」", url: "https://www.pref.hokkaido.lg.jp/sr/gid/sr_ske_index.html" },
       { name: "北海道ぎょれん「北海道のこんぶ」", url: "https://www.gyoren.or.jp/konbu/" },
     ],
   },
@@ -68,8 +65,7 @@ export const ORIGIN_COLUMNS: Record<string, OriginColumn> = {
     bestFor: ["鍋料理", "昆布締め", "佃煮", "うどんだし"],
     sources: [
       { name: "農林水産省「特集 こんぶ」", url: "https://www.maff.go.jp/j/pr/aff/2203/spe2_01.html" },
-      { name: "北海道庁「北海道の水産業 こんぶ」", url: "https://www.pref.hokkaido.lg.jp/sr/ske/" },
-      { name: "北海道水産林務部「北海道お魚図鑑」", url: "https://www.pref.hokkaido.lg.jp/sr/ske/osazu/oz01fis/oz010fi.html" },
+      { name: "北海道水産林務部「北海道お魚図鑑」", url: "https://www.pref.hokkaido.lg.jp/sr/gid/sr_ske_index.html" },
       { name: "北海道ぎょれん「北海道のこんぶ」", url: "https://www.gyoren.or.jp/konbu/" },
     ],
   },
@@ -79,8 +75,7 @@ export const ORIGIN_COLUMNS: Record<string, OriginColumn> = {
     bestFor: ["納豆昆布", "松前漬け", "サラダのトッピング", "とろろ昆布"],
     sources: [
       { name: "農林水産省「特集 こんぶ」", url: "https://www.maff.go.jp/j/pr/aff/2203/spe2_01.html" },
-      { name: "北海道水産林務部「北海道お魚図鑑」", url: "https://www.pref.hokkaido.lg.jp/sr/ske/osazu/oz01fis/oz010fi.html" },
-      { name: "北海道庁「北海道の水産業 こんぶ」", url: "https://www.pref.hokkaido.lg.jp/sr/ske/" },
+      { name: "北海道水産林務部「北海道お魚図鑑」", url: "https://www.pref.hokkaido.lg.jp/sr/gid/sr_ske_index.html" },
       { name: "北海道ぎょれん「北海道のこんぶ」", url: "https://www.gyoren.or.jp/konbu/" },
     ],
   },
@@ -91,7 +86,7 @@ export const ORIGIN_COLUMNS: Record<string, OriginColumn> = {
     sources: [
       { name: "農林水産省「特集 こんぶ」", url: "https://www.maff.go.jp/j/pr/aff/2203/spe2_01.html" },
       { name: "農林水産省「漁業・養殖業生産統計」", url: "https://www.maff.go.jp/j/tokei/kouhyou/kaimen_gyosei/" },
-      { name: "北海道庁「北海道の水産業 こんぶ」", url: "https://www.pref.hokkaido.lg.jp/sr/ske/" },
+      { name: "北海道水産林務部「北海道お魚図鑑」", url: "https://www.pref.hokkaido.lg.jp/sr/gid/sr_ske_index.html" },
       { name: "北海道ぎょれん「北海道のこんぶ」", url: "https://www.gyoren.or.jp/konbu/" },
     ],
   },
@@ -101,8 +96,7 @@ export const ORIGIN_COLUMNS: Record<string, OriginColumn> = {
     bestFor: ["とろろ昆布", "おぼろ昆布", "酢昆布"],
     sources: [
       { name: "農林水産省「特集 こんぶ」", url: "https://www.maff.go.jp/j/pr/aff/2203/spe2_01.html" },
-      { name: "北海道水産林務部「北海道お魚図鑑」", url: "https://www.pref.hokkaido.lg.jp/sr/ske/osazu/oz01fis/oz010fi.html" },
-      { name: "北海道庁「北海道の水産業 こんぶ」", url: "https://www.pref.hokkaido.lg.jp/sr/ske/" },
+      { name: "北海道水産林務部「北海道お魚図鑑」", url: "https://www.pref.hokkaido.lg.jp/sr/gid/sr_ske_index.html" },
       { name: "北海道ぎょれん「北海道のこんぶ」", url: "https://www.gyoren.or.jp/konbu/" },
     ],
   },

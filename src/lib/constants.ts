@@ -24,15 +24,15 @@ export const MOSHIMO_PL_ID = process.env.NEXT_PUBLIC_MOSHIMO_PL_ID || "";
 
 // カテゴリ定義
 export const CATEGORIES = {
-  dashi: { label: "だし昆布", description: "出汁用の昆布。利尻・羅臼・日高・真昆布など産地別の特徴を解説。" },
-  snack: { label: "食べる昆布", description: "おやつ・おつまみ昆布。酢昆布、おしゃぶり昆布など手軽に楽しめる昆布。" },
-  tsukudani: { label: "佃煮・煮物", description: "昆布の佃煮、松前漬け、昆布巻きなどの加工品。" },
-  shiokombu: { label: "塩昆布", description: "ごはんのお供の定番。ふじっ子、くらこん等のブランド塩昆布。" },
-  tororo: { label: "とろろ昆布", description: "富山名産のとろろ昆布・おぼろ昆布。お吸い物やおにぎりに。" },
-  kombucha: { label: "昆布茶", description: "昆布茶・梅昆布茶。料理の隠し味にも使える万能調味料。" },
-  seasoning: { label: "昆布調味料", description: "昆布だしの素、昆布つゆ、昆布ポン酢など。" },
-  health: { label: "健康食品", description: "昆布由来のフコイダン、アルギン酸サプリなど。" },
-  gift: { label: "ギフト昆布", description: "贈答用の高級昆布セット。お中元・お歳暮に。" },
+  dashi: { label: "だし昆布", description: "出汁用の昆布を産地別に比較。利尻・羅臼・日高・真昆布それぞれの味わいの違いや、用途に合った選び方を解説します。" },
+  snack: { label: "食べる昆布", description: "おやつやおつまみにぴったりの昆布を厳選。酢昆布・おしゃぶり昆布・茎わかめなど、手軽に楽しめる昆布商品を紹介します。" },
+  tsukudani: { label: "佃煮・煮物", description: "昆布の佃煮・松前漬け・昆布巻きなど、ごはんのお供や常備菜になる昆布の加工品を幅広く紹介。老舗メーカーの逸品も。" },
+  shiokombu: { label: "塩昆布", description: "ごはんのお供の定番、塩昆布を比較。ふじっ子・くらこん・小倉屋山本など人気ブランドの特徴や使い方を紹介します。" },
+  tororo: { label: "とろろ昆布", description: "富山名産のとろろ昆布・おぼろ昆布を紹介。お吸い物やおにぎりに巻いて手軽に旨みをプラスできる昆布の薄削り商品。" },
+  kombucha: { label: "昆布茶", description: "昆布茶・梅昆布茶を比較。飲むだけでなく料理の隠し味やパスタの味付けにも使える万能調味料としての活用法も紹介。" },
+  seasoning: { label: "昆布調味料", description: "昆布だしの素・昆布つゆ・昆布ポン酢など、毎日の料理に昆布の旨みを手軽に加えられる調味料を比較・紹介します。" },
+  health: { label: "健康食品", description: "昆布由来のフコイダンやアルギン酸を含むサプリメント・健康食品を紹介。昆布に含まれる栄養成分についても解説します。" },
+  gift: { label: "ギフト昆布", description: "お中元・お歳暮・内祝いにおすすめの高級昆布ギフトセットを紹介。利尻や羅臼など産地にこだわった贈答用昆布の選び方。" },
 } as const;
 
 export type CategorySlug = keyof typeof CATEGORIES;

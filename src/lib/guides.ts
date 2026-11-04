@@ -82,7 +82,7 @@ export const GUIDES: Record<string, Guide> = {
   },
   "kombu-storage": {
     title: "昆布の保存方法【常温・冷蔵・冷凍の使い分け】",
-    description: "昆布の正しい保存方法を解説。常温・冷蔵・冷凍の使い分けで美味しさを長持ちさせるコツ。",
+    description: "昆布の正しい保存方法を解説。乾燥昆布の常温保存のポイント、だし昆布の冷蔵・冷凍の使い分け、蔵囲い熟成の知識まで。",
     image: "/guide/kombu-storage.webp",
     datePublished: "2026-10-25",
     dateModified: "2026-10-26",
@@ -93,8 +93,8 @@ export const GUIDES: Record<string, Guide> = {
     ],
   },
   "kombu-recipes": {
-    title: "昆布を使ったレシピ集",
-    description: "だし昆布の二番出汁活用から、昆布巻き、昆布の佃煮まで、昆布を余すことなく使い切るレシピ集。",
+    title: "昆布を使ったレシピ集 - だしがら活用から佃煮まで",
+    description: "だし昆布の二番出汁活用から、昆布巻き、昆布の佃煮まで、昆布を余すことなく使い切るレシピ集。昆布水の万能だし活用法も紹介。",
     image: "/guide/kombu-recipes.webp",
     datePublished: "2026-10-25",
     dateModified: "2026-10-26",
@@ -105,8 +105,8 @@ export const GUIDES: Record<string, Guide> = {
     ],
   },
   "kombu-history": {
-    title: "昆布の歴史と文化",
-    description: "北前船から大阪の昆布文化まで。日本人と昆布の深い関わりの歴史を解説。",
+    title: "昆布の歴史と文化 - 北前船から大阪の昆布ロードまで",
+    description: "縄文時代から続く日本人と昆布の関わり。北前船による昆布ロード、大阪の昆布文化、老舗昆布店の歴史をたどります。",
     image: "/guide/kombu-history.webp",
     datePublished: "2026-10-25",
     dateModified: "2026-10-26",
@@ -117,8 +117,8 @@ export const GUIDES: Record<string, Guide> = {
     ],
   },
   "kombu-production": {
-    title: "昆布の生産と流通",
-    description: "北海道の昆布漁から加工、流通まで。昆布産業の全体像を解説。",
+    title: "昆布の生産と流通 - 北海道の昆布漁から食卓まで",
+    description: "日本の昆布の約95%は北海道産。昆布漁の流れ、天日干しから選別、主要産地ごとの生産状況まで昆布産業の全体像を解説します。",
     image: "/guide/kombu-production.webp",
     datePublished: "2026-10-25",
     dateModified: "2026-10-26",

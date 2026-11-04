@@ -27,13 +27,16 @@ export function originMeta(slug: OriginSlug): PageMeta | null {
   const origin = ORIGINS[slug];
   if (!origin) return null;
   return {
-    title: `${origin.label} | ${SITE_NAME}`,
-    description: `${origin.area}産の${origin.label}。${origin.description} なぜ名産なのか、特徴と合う料理を解説。`,
+    title: `${origin.label}の特徴と選び方 | ${origin.area} | ${SITE_NAME}`,
+    description: `${origin.area}産の${origin.label}。${origin.description} なぜ名産なのか、味わいの特徴・おすすめの使い方・合う料理を詳しく解説します。`,
   };
 }
 
 export function categoryMeta(slug: CategorySlug): PageMeta | null {
   const cat = CATEGORIES[slug];
   if (!cat) return null;
-  return { title: `${cat.label} | ${SITE_NAME}`, description: cat.description };
+  return {
+    title: `${cat.label}のおすすめ商品を比較 | ${SITE_NAME}`,
+    description: cat.description,
+  };
 }

@@ -1,11 +1,13 @@
 /**
  * 楽天市場 商品検索 API (Ichiba Item Search)
  *
- * 以前ここにあったのは楽天GORA（ゴルフ場予約）のクライアントで、別プロジェクト
- * 由来。import 元が一つも無く、商品には使えなかったので置き換える。
+ * 2026年5月の楽天API刷新に対応:
+ *   - エンドポイント: openapi.rakuten.co.jp/ichibams/api/item/search
+ *   - applicationId (UUID) + accessKey (pk_...) の両方が必須
  *
  * 必要な環境変数:
- *   RAKUTEN_APP_ID        楽天ウェブサービスのアプリID（無料で発行できる）
+ *   RAKUTEN_APP_ID        楽天ウェブサービスの Application ID（UUID形式）
+ *   RAKUTEN_ACCESS_KEY    楽天ウェブサービスの Access Key（pk_ で始まる）
  *   RAKUTEN_AFFILIATE_ID  任意。楽天直営アフィリエイトのID。
  *                         もしも経由ならここは空でよい（リンクの組み立ては
  *                         src/lib/affiliates.ts が担当する）。
@@ -14,7 +16,7 @@
  */
 import "dotenv/config";
 
-const API_URL = "https://app.rakuten.co.jp/services/api/IchibaItem/Search/20220601";
+const API_URL = "https://openapi.rakuten.co.jp/ichibams/api/IchibaItem/Search/20260701";
 
 /** 連続呼び出しの最低間隔 */
 export const API_INTERVAL_MS = 1100;
@@ -34,19 +36,20 @@ export type RakutenItem = {
 };
 
 export function hasCredentials(): boolean {
-  return Boolean(process.env.RAKUTEN_APP_ID);
+  return Boolean(process.env.RAKUTEN_APP_ID && process.env.RAKUTEN_ACCESS_KEY);
 }
 
-export function requireCredentials(): string {
+function requireCredentials(): { appId: string; accessKey: string } {
   const appId = process.env.RAKUTEN_APP_ID;
-  if (!appId) {
+  const accessKey = process.env.RAKUTEN_ACCESS_KEY;
+  if (!appId || !accessKey) {
     console.error(
-      "RAKUTEN_APP_ID が .env に未設定。" +
-        "楽天ウェブサービス (https://webservice.rakuten.co.jp/) でアプリIDを発行して設定する。"
+      "RAKUTEN_APP_ID / RAKUTEN_ACCESS_KEY が .env に未設定。" +
+        "楽天ウェブサービス (https://webservice.rakuten.co.jp/) で発行して設定する。"
     );
     process.exit(1);
   }
-  return appId;
+  return { appId, accessKey };
 }
 
 type RawItem = Record<string, unknown>;
@@ -99,8 +102,10 @@ export async function searchItems(
   opts: { hits?: number; retries?: number } = {}
 ): Promise<RakutenItem[]> {
   const { hits = 10, retries = 2 } = opts;
+  const { appId, accessKey } = requireCredentials();
   const params = new URLSearchParams({
-    applicationId: requireCredentials(),
+    applicationId: appId,
+    accessKey,
     keyword,
     hits: String(hits),
     format: "json",

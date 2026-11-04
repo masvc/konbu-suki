@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { prisma } from "@/lib/prisma";
-import { CATEGORIES, type CategorySlug, SITE_NAME, SITE_URL } from "@/lib/constants";
+import { CATEGORIES, type CategorySlug, SITE_NAME } from "@/lib/constants";
 import { amazonProductUrl, amazonSearchUrl, rakutenProductUrl, rakutenSearchUrl } from "@/lib/affiliates";
 import { ProductCard } from "@/components/ProductCard";
 import { Breadcrumb } from "@/components/Breadcrumb";
