@@ -63,7 +63,7 @@ export default async function GuidePage({ params }: Props) {
         <div className="relative w-full h-48 sm:h-64 lg:h-80 bg-[#1b4332]">
           <Image
             src={guide.image}
-            alt={guide.title}
+            alt={guide.imageAlt || guide.title}
             fill
             className="object-cover opacity-80"
             priority
@@ -101,6 +101,41 @@ export default async function GuidePage({ params }: Props) {
             <section key={i} id={`section-${i}`}>
               <h2 className="text-base sm:text-lg font-bold text-gray-900 mb-3 border-l-4 border-[#52b788] pl-3">{section.heading}</h2>
               <div className="text-sm text-gray-700 leading-relaxed whitespace-pre-line">{section.body}</div>
+              {section.table && (
+                <div className="mt-4 overflow-x-auto">
+                  <table className="w-full border-collapse text-sm">
+                    {section.table.caption && (
+                      <caption className="mb-2 text-left text-xs text-gray-500">
+                        {section.table.caption}
+                      </caption>
+                    )}
+                    <thead>
+                      <tr className="bg-[#f8faf8]">
+                        {section.table.headers.map((h, hi) => (
+                          <th
+                            key={hi}
+                            scope="col"
+                            className="border border-[#b7e4c7] px-3 py-2 text-left font-bold text-gray-900 whitespace-nowrap"
+                          >
+                            {h}
+                          </th>
+                        ))}
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {section.table.rows.map((row, ri) => (
+                        <tr key={ri}>
+                          {row.map((cell, ci) => (
+                            <td key={ci} className="border border-[#d8f3dc] px-3 py-2 align-top text-gray-700">
+                              {cell}
+                            </td>
+                          ))}
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              )}
             </section>
           ))}
         </div>

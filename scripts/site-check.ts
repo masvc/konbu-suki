@@ -129,10 +129,23 @@ async function checkSeo() {
   }
 
   // ── ガイド画像 ──
-  for (const page of GUIDE_PAGES) {
-    const imgPath = `public/guide/${page.slug}.webp`;
-    if (!existsSync(imgPath)) {
-      add("error", "seo", `ガイド画像なし: ${imgPath}`);
+  // 画像を宣言しているのにファイルが無いのは壊れたリンクなので error。
+  // 宣言していない記事は、画像が無いだけで壊れてはいない（ページも
+  // 構造化データも image を出さない）ので warn にとどめる。
+  for (const [slug, guide] of Object.entries(GUIDES)) {
+    const declared = guide.image;
+    if (declared) {
+      const imgPath = `public${declared}`;
+      if (!existsSync(imgPath)) {
+        add("error", "seo", `ガイド画像が見つからない: ${imgPath}（guide.image で指定）`);
+      }
+      continue;
+    }
+    const conventional = `public/guide/${slug}.webp`;
+    if (existsSync(conventional)) {
+      add("warn", "seo", `guide/${slug}: 画像ファイルはあるが guide.image で指定されていない`);
+    } else {
+      add("warn", "seo", `guide/${slug}: アイキャッチ画像なし`);
     }
   }
 
