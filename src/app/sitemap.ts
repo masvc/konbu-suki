@@ -3,8 +3,15 @@ import { prisma } from "@/lib/prisma";
 import { SITE_URL, CATEGORY_SLUGS, ORIGINS } from "@/lib/constants";
 import { GUIDES } from "@/lib/guides";
 
+export const dynamic = "force-dynamic";
+
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const products = await prisma.product.findMany({ select: { id: true, updatedAt: true } });
+  let products: { id: number; updatedAt: Date }[] = [];
+  try {
+    products = await prisma.product.findMany({ select: { id: true, updatedAt: true } });
+  } catch {
+    // DB unavailable at build time — product pages will be added at runtime
+  }
 
   const staticPages = [
     { url: SITE_URL, lastModified: new Date(), changeFrequency: "daily" as const, priority: 1.0 },
