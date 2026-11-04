@@ -35,13 +35,15 @@ async function generate(slug: string, prompt: string) {
       config: { responseModalities: ["image", "text"] },
     });
     const parts = res.candidates?.[0]?.content?.parts;
-    const img = parts?.find((p: any) => p.inlineData?.mimeType?.startsWith("image/")) as any;
+    // parts は Part[] なので推論に任せる
+    const img = parts?.find((p) => p.inlineData?.mimeType?.startsWith("image/"));
     if (!img?.inlineData?.data) { console.log(`  FAIL ${slug}`); return; }
     const buf = Buffer.from(img.inlineData.data, "base64");
     writeFileSync(path, buf);
     console.log(`  OK ${slug} (${(buf.length/1024).toFixed(0)}KB)`);
-  } catch (e: any) {
-    console.log(`  FAIL ${slug}: ${e.message?.substring(0,80)}`);
+  } catch (e) {
+    const message = e instanceof Error ? e.message : String(e);
+    console.log(`  FAIL ${slug}: ${message.substring(0, 80)}`);
   }
 }
 

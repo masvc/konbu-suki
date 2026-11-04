@@ -20,14 +20,12 @@
 import "dotenv/config";
 import { mkdirSync, writeFileSync } from "node:fs";
 import path from "node:path";
-import { PrismaClient } from "../src/generated/prisma/client";
-import { PrismaPg } from "@prisma/adapter-pg";
+import { createPrisma } from "./lib/db";
 import { CATEGORIES, ORIGINS, type CategorySlug, type OriginSlug } from "../src/lib/constants";
 import { searchItems, sleep, API_INTERVAL_MS, hasCredentials, type RakutenItem } from "./lib/rakuten-ichiba";
 import { containment, normalize } from "./lib/match";
 
-const adapter = new PrismaPg({ connectionString: process.env.DATABASE_URL! });
-const prisma = new PrismaClient({ adapter });
+const prisma = createPrisma();
 
 const args = process.argv.slice(2);
 const write = args.includes("--write");

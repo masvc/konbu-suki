@@ -11,8 +11,7 @@
  * DB とコンテンツの情報まで見えなくなるため。
  */
 import "dotenv/config";
-import { PrismaClient } from "../src/generated/prisma/client";
-import { PrismaPg } from "@prisma/adapter-pg";
+import { createPrisma } from "./lib/db";
 import { GUIDES } from "../src/lib/guides";
 import { CTA_EVENTS, AI_SOURCES } from "./lib/analytics-constants";
 import {
@@ -33,8 +32,7 @@ const SITE_FILTER = {
   expression: `^${PUBLIC_SITE_URL.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}/`,
 };
 
-const adapter = new PrismaPg({ connectionString: process.env.DATABASE_URL! });
-const prisma = new PrismaClient({ adapter });
+const prisma = createPrisma();
 
 /** 取得に失敗しても全体を止めない。理由を1行だけ出して null を返す。 */
 async function safe<T>(label: string, run: () => Promise<T>): Promise<T | null> {

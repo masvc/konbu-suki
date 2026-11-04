@@ -9,7 +9,7 @@
  */
 
 import "dotenv/config";
-import { readFileSync, writeFileSync, existsSync } from "fs";
+import { readFileSync, writeFileSync, existsSync, mkdirSync, readdirSync } from "fs";
 import { getSearchConsoleClient, SEARCH_CONSOLE_SITE } from "./lib/google-auth";
 import { toSitePath } from "./lib/site";
 
@@ -109,7 +109,6 @@ async function fetchData(days: number): Promise<Snapshot> {
 }
 
 function saveSnapshot(snapshot: Snapshot) {
-  const { mkdirSync } = require("fs");
   mkdirSync(SNAPSHOT_DIR, { recursive: true });
   const filename = `${SNAPSHOT_DIR}/${snapshot.date}.json`;
   writeFileSync(filename, JSON.stringify(snapshot, null, 2));
@@ -122,7 +121,6 @@ function saveSnapshot(snapshot: Snapshot) {
 
 function compare(current: Snapshot) {
   // 前回のスナップショットを探す
-  const { readdirSync } = require("fs");
   if (!existsSync(SNAPSHOT_DIR)) {
     console.log("前回のスナップショットがありません。まず保存してください。");
     return;

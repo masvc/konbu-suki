@@ -8,13 +8,16 @@
  *   npx tsx scripts/fetch-missing-images.ts --dry-run
  */
 import "dotenv/config";
-import { AMAZON_PARTNER_TAG } from "./lib/amazon";
+import {
+  AMAZON_PARTNER_TAG,
+  type AmazonItem,
+  type GetItemsResponse,
+  type SearchItemsResponse,
+} from "./lib/amazon";
 import { ApiClient, TypedDefaultApi, GetItemsRequestContent, GetItemsResource, SearchItemsRequestContent, SearchItemsResource } from "amazon-creators-api";
-import { PrismaClient } from "../src/generated/prisma/client";
-import { PrismaPg } from "@prisma/adapter-pg";
+import { createPrisma } from "./lib/db";
 
-const adapter = new PrismaPg({ connectionString: process.env.DATABASE_URL! });
-const prisma = new PrismaClient({ adapter });
+const prisma = createPrisma();
 
 const apiClient = new ApiClient();
 apiClient.credentialId = process.env.AMAZON_CREATORS_CLIENT_ID!;
@@ -24,12 +27,8 @@ const api = new TypedDefaultApi(apiClient);
 const TAG = AMAZON_PARTNER_TAG;
 const MKT = "www.amazon.co.jp";
 
-type Item = {
-  asin?: string;
-  images?: { primary?: { large?: { url: string }; medium?: { url: string } } };
-  itemInfo?: { title?: { displayValue: string }; byLineInfo?: { brand?: { displayValue: string } } };
-  offersV2?: { listings?: Array<{ price?: { money?: { amount: number } } }> };
-};
+// 商品の形は lib/amazon.ts に集約してある
+type Item = AmazonItem;
 
 async function getItemsByAsins(asins: string[]): Promise<Item[]> {
   try {
@@ -41,7 +40,7 @@ async function getItemsByAsins(asins: string[]): Promise<Item[]> {
       "offersV2.listings.price",
     ].map(r => GetItemsResource.constructFromObject(r));
     const res = await api.getItems(MKT, req);
-    return ((res as any)?.itemsResult?.items as Item[]) || [];
+    return (res as GetItemsResponse)?.itemsResult?.items || [];
   } catch (err: unknown) {
     const s = JSON.stringify(err).substring(0, 200);
     if (s.includes("TooManyRequests") || s.includes("429")) {
@@ -67,7 +66,7 @@ async function searchItem(keyword: string): Promise<Item | null> {
       "offersV2.listings.price",
     ].map(r => SearchItemsResource.constructFromObject(r));
     const res = await api.searchItems(MKT, req);
-    const items = (res as any)?.searchResult?.items as Item[];
+    const items = (res as SearchItemsResponse)?.searchResult?.items;
     return items?.[0] || null;
   } catch {
     return null;

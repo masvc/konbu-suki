@@ -9,12 +9,10 @@
 import "dotenv/config";
 import { AMAZON_PARTNER_TAG } from "./lib/amazon";
 import { ApiClient, TypedDefaultApi, SearchItemsRequestContent, SearchItemsResource } from "amazon-creators-api";
-import { PrismaClient } from "../src/generated/prisma/client";
-import { PrismaPg } from "@prisma/adapter-pg";
+import { createPrisma } from "./lib/db";
 
 // DB
-const adapter = new PrismaPg({ connectionString: process.env.DATABASE_URL! });
-const prisma = new PrismaClient({ adapter });
+const prisma = createPrisma();
 
 // Amazon API
 const CLIENT_ID = process.env.AMAZON_CREATORS_CLIENT_ID;

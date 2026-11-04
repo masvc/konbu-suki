@@ -15,16 +15,14 @@
 
 import "dotenv/config";
 import { existsSync, readdirSync } from "fs";
-import { PrismaClient } from "../src/generated/prisma/client";
-import { PrismaPg } from "@prisma/adapter-pg";
+import { createPrisma } from "./lib/db";
 import { GUIDES } from "../src/lib/guides";
 import { CATEGORY_SLUGS } from "../src/lib/constants";
 import { PUBLIC_SITE_URL, PUBLIC_SITE_HOST } from "./lib/site";
 import { CONTENT_PAGES, GUIDE_PAGES } from "./lib/content";
 import { batchCheckUrls } from "./lib/http";
 
-const adapter = new PrismaPg({ connectionString: process.env.DATABASE_URL! });
-const prisma = new PrismaClient({ adapter });
+const prisma = createPrisma();
 const BASE_URL = PUBLIC_SITE_URL;
 const args = process.argv.slice(2);
 const offline = args.includes("--offline");

@@ -1,11 +1,13 @@
 import "dotenv/config";
-import { AMAZON_PARTNER_TAG, amazonProductUrl } from "./lib/amazon";
+import {
+  AMAZON_PARTNER_TAG,
+  amazonProductUrl,
+  type GetItemsResponse,
+} from "./lib/amazon";
 import { ApiClient, TypedDefaultApi, GetItemsRequestContent, GetItemsResource } from "amazon-creators-api";
-import { PrismaClient } from "../src/generated/prisma/client";
-import { PrismaPg } from "@prisma/adapter-pg";
+import { createPrisma } from "./lib/db";
 
-const adapter = new PrismaPg({ connectionString: process.env.DATABASE_URL! });
-const prisma = new PrismaClient({ adapter });
+const prisma = createPrisma();
 
 const apiClient = new ApiClient();
 apiClient.credentialId = process.env.AMAZON_CREATORS_CLIENT_ID!;
@@ -30,7 +32,7 @@ async function main() {
   ].map((r) => GetItemsResource.constructFromObject(r));
 
   const res = await api.getItems("www.amazon.co.jp", req);
-  const item = (res as any)?.itemsResult?.items?.[0];
+  const item = (res as GetItemsResponse)?.itemsResult?.items?.[0];
   if (!item) { console.log("Product not found on Amazon"); return; }
 
   const title = item.itemInfo?.title?.displayValue || "";
