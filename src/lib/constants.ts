@@ -9,8 +9,16 @@ export const GA_ID = process.env.NEXT_PUBLIC_GA_ID || "";
 // Amazon アソシエイトタグ
 export const AMAZON_ASSOCIATE_TAG = process.env.NEXT_PUBLIC_AMAZON_TAG || "konbusuki-22";
 
-// 楽天アフィリエイトID
+// 楽天アフィリエイトID（楽天直営。もしも経由なら空のままでよい）
 export const RAKUTEN_AFFILIATE_ID = process.env.NEXT_PUBLIC_RAKUTEN_AFFILIATE_ID || "";
+
+// もしもアフィリエイト。楽天の成果をもしも経由で計測する場合に設定する。
+// 4つすべて揃っているときだけ もしも のリンクを使う。
+// 値はもしもの管理画面が出すリンクコードに含まれている。
+export const MOSHIMO_A_ID = process.env.NEXT_PUBLIC_MOSHIMO_A_ID || "";
+export const MOSHIMO_P_ID = process.env.NEXT_PUBLIC_MOSHIMO_P_ID || "";
+export const MOSHIMO_PC_ID = process.env.NEXT_PUBLIC_MOSHIMO_PC_ID || "";
+export const MOSHIMO_PL_ID = process.env.NEXT_PUBLIC_MOSHIMO_PL_ID || "";
 
 // カテゴリ定義
 export const CATEGORIES = {

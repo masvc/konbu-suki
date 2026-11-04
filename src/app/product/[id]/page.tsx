@@ -64,8 +64,10 @@ export default async function ProductPage({ params }: Props) {
   const amazonLink = product.amazonAsin
     ? amazonProductUrl(product.amazonAsin)
     : amazonSearchUrl(product.name);
-  const rakutenLink = product.rakutenId
-    ? rakutenProductUrl(product.rakutenId)
+  // 商品URLが分かっているならそれを使う。itemCode しか無い場合も組み直せる。
+  const rakutenTarget = product.rakutenUrl || product.rakutenId;
+  const rakutenLink = rakutenTarget
+    ? rakutenProductUrl(rakutenTarget)
     : rakutenSearchUrl(product.name);
 
   // Product構造化データ
@@ -173,7 +175,10 @@ export default async function ProductPage({ params }: Props) {
                 className="flex items-center justify-center gap-2 rounded-lg bg-[#ff9900] px-6 py-3 text-sm font-medium text-white hover:bg-[#e68a00] transition w-full shadow-sm">
                 Amazonで購入する
               </a>
-              <a href={rakutenLink} target="_blank" rel="noopener noreferrer nofollow"
+              {/* もしも経由。公式コードが referrerpolicy を指定しているので合わせる。
+                  noreferrer でリファラを落とすと ASP 側の計測に影響しうる。 */}
+              <a href={rakutenLink} target="_blank" rel="noopener nofollow sponsored"
+                referrerPolicy="no-referrer-when-downgrade"
                 data-ga-event="rakuten_click" data-ga-product={product.name} data-ga-product-id={String(product.id)}
                 className="flex items-center justify-center gap-2 rounded-lg bg-[#bf0000] px-6 py-3 text-sm font-medium text-white hover:bg-[#a00000] transition w-full shadow-sm">
                 楽天で購入する
