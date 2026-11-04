@@ -1,129 +1,137 @@
 /**
  * サイトマップ起点の全ページリンクチェック
+ *
  * Usage: npx tsx scripts/check-links.ts
+ *
+ * 疎通確認と並列処理は lib/http.ts を使う。以前は全URLを逐次に投げたうえ、
+ * 疎通確認とリンク抽出で同じページを2回取得していたため実用にならない速さ
+ * だった。1回の取得で両方をこなし、全フェーズを並列で回す。
+ *
+ * HEAD を返さない経路もあるので、HEAD で怪しかったものだけ GET で確かめる。
  */
-
 import "dotenv/config";
 import { PUBLIC_SITE_URL } from "./lib/site";
+import { batchCheckUrls, mapConcurrent, type UrlStatus } from "./lib/http";
 
-const SITE_URL = PUBLIC_SITE_URL;
+const CONCURRENCY = 10;
+
+const isBroken = (status: UrlStatus | undefined) =>
+  typeof status !== "number" || status >= 400;
 
 async function fetchSitemapUrls(): Promise<string[]> {
-  const res = await fetch(`${SITE_URL}/sitemap.xml`);
+  const res = await fetch(`${PUBLIC_SITE_URL}/sitemap.xml`);
   const xml = await res.text();
-  const urls = [...xml.matchAll(/<loc>([^<]+)<\/loc>/g)].map((m) => m[1]);
-  return urls;
+  return [...xml.matchAll(/<loc>([^<]+)<\/loc>/g)].map((m) => m[1]);
 }
 
-async function extractLinks(url: string): Promise<{ internal: string[]; external: string[] }> {
+type PageResult = {
+  url: string;
+  status: UrlStatus;
+  internal: string[];
+  external: string[];
+};
+
+/** ページを1回取得して、疎通とリンク抽出をまとめて済ませる。 */
+async function fetchPage(url: string): Promise<PageResult> {
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), 15000);
   try {
-    const res = await fetch(url, { redirect: "follow" });
-    if (!res.ok) return { internal: [], external: [] };
+    const res = await fetch(url, { redirect: "follow", signal: controller.signal });
+    if (!res.ok) return { url, status: res.status, internal: [], external: [] };
+
     const html = await res.text();
-    const hrefs = [...html.matchAll(/href="([^"]+)"/g)].map((m) => m[1]);
+    const internal = new Set<string>();
+    const external = new Set<string>();
 
-    const internal: string[] = [];
-    const external: string[] = [];
+    for (const m of html.matchAll(/href="([^"]+)"/g)) {
+      const href = m[1];
+      if (
+        href.startsWith("/_next/") ||
+        href.startsWith("#") ||
+        href.startsWith("mailto:") ||
+        href.startsWith("tel:")
+      ) continue;
+      if (/\.(css|js|woff2?|ico|png|jpe?g|webp|svg|xml)$/.test(href)) continue;
 
-    for (const href of hrefs) {
-      if (href.startsWith("/_next/") || href.startsWith("#") || href.startsWith("mailto:") || href.startsWith("tel:")) continue;
-      if (href.endsWith(".css") || href.endsWith(".js") || href.endsWith(".woff2") || href.endsWith(".ico") || href.endsWith(".png")) continue;
-
-      if (href.startsWith("/")) {
-        internal.push(href);
-      } else if (href.startsWith("http")) {
-        external.push(href);
-      }
+      if (href.startsWith("/")) internal.add(href);
+      else if (href.startsWith("http")) external.add(href);
     }
 
-    return { internal: [...new Set(internal)], external: [...new Set(external)] };
-  } catch {
-    return { internal: [], external: [] };
+    return { url, status: res.status, internal: [...internal], external: [...external] };
+  } catch (e) {
+    return {
+      url,
+      status: e instanceof Error && e.name === "AbortError" ? "timeout" : "error",
+      internal: [],
+      external: [],
+    };
+  } finally {
+    clearTimeout(timer);
   }
 }
 
-async function checkUrl(url: string, method: "GET" | "HEAD" = "GET"): Promise<{ url: string; status: number | string }> {
-  try {
-    const controller = new AbortController();
-    const timeout = setTimeout(() => controller.abort(), 10000);
-    const res = await fetch(url, { method, redirect: "follow", signal: controller.signal });
-    clearTimeout(timeout);
-    return { url, status: res.status };
-  } catch (e) {
-    return { url, status: e instanceof Error ? e.message : "error" };
+/** HEAD で怪しかったものだけ GET で確かめ直す。 */
+async function checkWithGetFallback(urls: string[], label: string) {
+  const statuses = await batchCheckUrls(urls, { concurrency: CONCURRENCY, label });
+  const suspects = urls.filter((u) => isBroken(statuses.get(u)));
+  if (suspects.length > 0) {
+    const retried = await batchCheckUrls(suspects, {
+      concurrency: CONCURRENCY,
+      method: "GET",
+      label: `${label}(GETで再確認)`,
+    });
+    for (const [u, s] of retried) statuses.set(u, s);
   }
+  return statuses;
 }
 
 async function main() {
-  console.log("Fetching sitemap...");
+  console.log(`\nリンクチェック — ${PUBLIC_SITE_URL}`);
+  console.log("=".repeat(60));
+
   const sitemapUrls = await fetchSitemapUrls();
-  console.log(`Found ${sitemapUrls.length} URLs in sitemap\n`);
+  console.log(`sitemap: ${sitemapUrls.length} URL\n`);
 
-  // Check all sitemap URLs
-  console.log("=== Checking sitemap URLs ===");
-  const sitemapResults: { url: string; status: number | string }[] = [];
-  for (const url of sitemapUrls) {
-    const result = await checkUrl(url);
-    sitemapResults.push(result);
-    if (result.status !== 200) {
-      console.log(`  [${result.status}] ${url}`);
-    }
+  // ── sitemap の全ページを1回ずつ取得（疎通 + リンク抽出）──
+  const pages = await mapConcurrent(sitemapUrls, fetchPage, {
+    concurrency: CONCURRENCY,
+    label: "ページ",
+  });
+
+  const brokenPages = pages.filter((p) => isBroken(p.status));
+  for (const p of brokenPages) console.log(`  [${p.status}] ${p.url}`);
+  console.log(`sitemap: ${pages.length}件中 ${brokenPages.length}件が異常\n`);
+
+  const internalPaths = [...new Set(pages.flatMap((p) => p.internal))];
+  const externalUrls = [...new Set(pages.flatMap((p) => p.external))];
+  console.log(`内部リンク ${internalPaths.length}種 / 外部リンク ${externalUrls.length}種\n`);
+
+  // ── 内部リンク ──
+  const internalStatuses = await checkWithGetFallback(
+    internalPaths.map((p) => `${PUBLIC_SITE_URL}${p}`),
+    "内部リンク"
+  );
+  const internalBroken = [...internalStatuses].filter(([, s]) => isBroken(s));
+  for (const [url, status] of internalBroken) {
+    console.log(`  [${status}] ${url.replace(PUBLIC_SITE_URL, "")}`);
   }
-  const sitemapBroken = sitemapResults.filter((r) => r.status !== 200);
-  console.log(`Sitemap: ${sitemapResults.length} checked, ${sitemapBroken.length} broken\n`);
+  console.log(`内部: ${internalPaths.length}件中 ${internalBroken.length}件が異常\n`);
 
-  // Crawl all pages for internal + external links
-  console.log("=== Crawling pages for links ===");
-  const allInternalLinks = new Set<string>();
-  const allExternalLinks = new Set<string>();
+  // ── 外部リンク ──
+  const externalStatuses = await checkWithGetFallback(externalUrls, "外部リンク");
+  const externalBroken = [...externalStatuses].filter(([, s]) => isBroken(s));
+  for (const [url, status] of externalBroken) console.log(`  [${status}] ${url}`);
+  console.log(`外部: ${externalUrls.length}件中 ${externalBroken.length}件が異常\n`);
 
-  for (const url of sitemapUrls) {
-    const { internal, external } = await extractLinks(url);
-    internal.forEach((l) => allInternalLinks.add(l));
-    external.forEach((l) => allExternalLinks.add(l));
+  console.log("=".repeat(60));
+  console.log(`sitemap ${brokenPages.length} / 内部 ${internalBroken.length} / 外部 ${externalBroken.length} が異常`);
+  if (brokenPages.length + internalBroken.length + externalBroken.length === 0) {
+    console.log("すべて正常");
   }
-
-  console.log(`Found ${allInternalLinks.size} unique internal links, ${allExternalLinks.size} unique external links\n`);
-
-  // Check internal links
-  console.log("=== Checking internal links ===");
-  const internalBroken: { url: string; status: number | string }[] = [];
-  for (const path of allInternalLinks) {
-    const result = await checkUrl(`${SITE_URL}${path}`);
-    if (result.status !== 200) {
-      internalBroken.push(result);
-      console.log(`  [${result.status}] ${path}`);
-    }
-  }
-  console.log(`Internal: ${allInternalLinks.size} checked, ${internalBroken.length} broken\n`);
-
-  // Check external links (HEAD first, fallback to GET)
-  console.log("=== Checking external links ===");
-  const externalBroken: { url: string; status: number | string }[] = [];
-  for (const url of allExternalLinks) {
-    let result = await checkUrl(url, "HEAD");
-    if (typeof result.status === "number" && result.status >= 400) {
-      result = await checkUrl(url, "GET");
-    }
-    if (typeof result.status === "number" && result.status >= 400) {
-      externalBroken.push(result);
-      console.log(`  [${result.status}] ${url}`);
-    } else if (typeof result.status === "string") {
-      externalBroken.push(result);
-      console.log(`  [${result.status}] ${url}`);
-    }
-  }
-  console.log(`External: ${allExternalLinks.size} checked, ${externalBroken.length} broken\n`);
-
-  // Summary
-  console.log("=== Summary ===");
-  console.log(`Sitemap pages: ${sitemapResults.length} (${sitemapBroken.length} broken)`);
-  console.log(`Internal links: ${allInternalLinks.size} (${internalBroken.length} broken)`);
-  console.log(`External links: ${allExternalLinks.size} (${externalBroken.length} broken)`);
-
-  if (sitemapBroken.length + internalBroken.length + externalBroken.length === 0) {
-    console.log("\nAll links OK!");
-  }
+  console.log("");
 }
 
-main().catch(console.error);
+main().catch((e) => {
+  console.error(e);
+  process.exit(1);
+});

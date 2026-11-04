@@ -21,6 +21,7 @@ import { GUIDES } from "../src/lib/guides";
 import { CATEGORY_SLUGS } from "../src/lib/constants";
 import { PUBLIC_SITE_URL, PUBLIC_SITE_HOST } from "./lib/site";
 import { CONTENT_PAGES, GUIDE_PAGES } from "./lib/content";
+import { batchCheckUrls } from "./lib/http";
 
 const adapter = new PrismaPg({ connectionString: process.env.DATABASE_URL! });
 const prisma = new PrismaClient({ adapter });
@@ -39,47 +40,6 @@ const add = (level: Issue["level"], category: string, message: string) =>
   issues.push({ level, category, message });
 
 // ─── ユーティリティ ───
-async function checkUrl(url: string, timeout = 8000): Promise<number | "timeout" | "error"> {
-  const controller = new AbortController();
-  const timer = setTimeout(() => controller.abort(), timeout);
-  try {
-    const res = await fetch(url, {
-      method: "HEAD",
-      signal: controller.signal,
-      redirect: "follow",
-      headers: { "User-Agent": `SiteCheck/1.0 (${PUBLIC_SITE_HOST} quality checker)` },
-    });
-    clearTimeout(timer);
-    return res.status;
-  } catch {
-    clearTimeout(timer);
-    return "timeout";
-  }
-}
-
-async function batchCheckUrls(
-  urls: string[],
-  concurrency = 5,
-  label = "URL"
-): Promise<Map<string, number | "timeout" | "error">> {
-  const results = new Map<string, number | "timeout" | "error">();
-  const queue = [...urls];
-  let done = 0;
-
-  async function worker() {
-    while (queue.length > 0) {
-      const url = queue.shift()!;
-      results.set(url, await checkUrl(url));
-      done++;
-      if (done % 20 === 0) process.stdout.write(`  ${label}: ${done}/${urls.length}\r`);
-    }
-  }
-
-  await Promise.all(Array.from({ length: concurrency }, () => worker()));
-  console.log(`  ${label}: ${urls.length}件チェック完了`);
-  return results;
-}
-
 // ══════════════════════════════════════════
 // 1. データ品質チェック
 // ══════════════════════════════════════════
@@ -249,7 +209,7 @@ async function checkLinks() {
   ];
 
   const urls = pages.map((p) => `${BASE_URL}${p}`);
-  const results = await batchCheckUrls(urls, 8, "ページ");
+  const results = await batchCheckUrls(urls, { concurrency: 8, label: "ページ" });
 
   let ok = 0;
   let fail = 0;
@@ -297,7 +257,10 @@ async function checkImages() {
 
   add("info", "images", `商品画像サンプリング: ${sampleSize}/${withImage.length}件をチェック`);
 
-  const imageResults = await batchCheckUrls(sample.map((p) => p.imageUrl!), 5, "画像");
+  const imageResults = await batchCheckUrls(sample.map((p) => p.imageUrl!), {
+    concurrency: 5,
+    label: "画像",
+  });
 
   let img404 = 0;
   for (const p of sample) {
