@@ -11,12 +11,41 @@
  */
 import "dotenv/config";
 import { PUBLIC_SITE_URL } from "./lib/site";
-import { batchCheckUrls, mapConcurrent, type UrlStatus } from "./lib/http";
+import { batchCheckUrls, checkUrl, mapConcurrent, type UrlStatus } from "./lib/http";
 
 const CONCURRENCY = 10;
 
-const isBroken = (status: UrlStatus | undefined) =>
-  typeof status !== "number" || status >= 400;
+/**
+ * HTML の href は実体参照で書かれている。解除せずに投げると
+ * "...&amp;tag=..." のような壊れた URL を叩くことになる。
+ */
+function decodeEntities(href: string): string {
+  return href
+    .replace(/&amp;/g, "&")
+    .replace(/&lt;/g, "<")
+    .replace(/&gt;/g, ">")
+    .replace(/&quot;/g, '"')
+    .replace(/&#0?39;|&#x0?27;/gi, "'");
+}
+
+/**
+ * 結果の分類。
+ *
+ * 404/410 は確かに無い。403/429/503 はボット対策で弾かれているだけのことが
+ * 多く（Amazon の検索URLが全部これになる）、リンク切れとして報告すると
+ * 毎朝ノイズになる。タイムアウトも同様に確証がない。
+ * 「切れている」と「確かめられなかった」を分けて扱う。
+ */
+type Verdict = "ok" | "broken" | "unverifiable";
+
+function verdictOf(status: UrlStatus | undefined): Verdict {
+  if (typeof status !== "number") return "unverifiable";
+  if (status < 400) return "ok";
+  if (status === 403 || status === 429 || status === 503) return "unverifiable";
+  return "broken";
+}
+
+const isBroken = (status: UrlStatus | undefined) => verdictOf(status) !== "ok";
 
 async function fetchSitemapUrls(): Promise<string[]> {
   const res = await fetch(`${PUBLIC_SITE_URL}/sitemap.xml`);
@@ -44,7 +73,7 @@ async function fetchPage(url: string): Promise<PageResult> {
     const external = new Set<string>();
 
     for (const m of html.matchAll(/href="([^"]+)"/g)) {
-      const href = m[1];
+      const href = decodeEntities(m[1]);
       if (
         href.startsWith("/_next/") ||
         href.startsWith("#") ||
@@ -70,9 +99,19 @@ async function fetchPage(url: string): Promise<PageResult> {
   }
 }
 
-/** HEAD で怪しかったものだけ GET で確かめ直す。 */
-async function checkWithGetFallback(urls: string[], label: string) {
+const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
+
+/**
+ * HEAD で怪しかったものだけ GET で確かめ直す。
+ *
+ * さらに、それでも駄目だったものは間隔を置いて1件ずつ最終確認する。
+ * 数百件を並列で叩くと相手側のレート制限に当たり、同じサイトでも実行ごとに
+ * 異常件数が 4件 → 13件 と動いた。毎朝の通知をノイズにしないため、
+ * 2回落ちたものだけを異常として報告する。
+ */
+async function checkWithGetFallback(urls: string[], label: string, confirm = false) {
   const statuses = await batchCheckUrls(urls, { concurrency: CONCURRENCY, label });
+
   const suspects = urls.filter((u) => isBroken(statuses.get(u)));
   if (suspects.length > 0) {
     const retried = await batchCheckUrls(suspects, {
@@ -81,6 +120,18 @@ async function checkWithGetFallback(urls: string[], label: string) {
       label: `${label}(GETで再確認)`,
     });
     for (const [u, s] of retried) statuses.set(u, s);
+  }
+
+  if (!confirm) return statuses;
+
+  const stillBroken = urls.filter((u) => isBroken(statuses.get(u)));
+  if (stillBroken.length === 0) return statuses;
+
+  console.log(`  ${label}(最終確認): ${stillBroken.length}件を間隔を置いて再確認`);
+  for (const url of stillBroken) {
+    await sleep(1500);
+    const status = await checkUrl(url, { method: "GET", timeoutMs: 15000 });
+    statuses.set(url, status);
   }
   return statuses;
 }
@@ -118,17 +169,41 @@ async function main() {
   console.log(`内部: ${internalPaths.length}件中 ${internalBroken.length}件が異常\n`);
 
   // ── 外部リンク ──
-  const externalStatuses = await checkWithGetFallback(externalUrls, "外部リンク");
-  const externalBroken = [...externalStatuses].filter(([, s]) => isBroken(s));
+  const externalStatuses = await checkWithGetFallback(externalUrls, "外部リンク", true);
+  const externalBroken = [...externalStatuses].filter(([, s]) => verdictOf(s) === "broken");
+  const externalUnverifiable = [...externalStatuses].filter(
+    ([, s]) => verdictOf(s) === "unverifiable"
+  );
   for (const [url, status] of externalBroken) console.log(`  [${status}] ${url}`);
-  console.log(`外部: ${externalUrls.length}件中 ${externalBroken.length}件が異常\n`);
-
-  console.log("=".repeat(60));
-  console.log(`sitemap ${brokenPages.length} / 内部 ${internalBroken.length} / 外部 ${externalBroken.length} が異常`);
-  if (brokenPages.length + internalBroken.length + externalBroken.length === 0) {
-    console.log("すべて正常");
+  console.log(`外部: ${externalUrls.length}件中 ${externalBroken.length}件が切れている`);
+  if (externalUnverifiable.length > 0) {
+    // ボット対策で弾かれたもの。切れているとは言えないので別に数える。
+    const hosts = new Map<string, number>();
+    for (const [url] of externalUnverifiable) {
+      const host = (() => { try { return new URL(url).host; } catch { return url; } })();
+      hosts.set(host, (hosts.get(host) || 0) + 1);
+    }
+    const top = [...hosts].sort((a, b) => b[1] - a[1]).slice(0, 5);
+    console.log(
+      `      確かめられなかった: ${externalUnverifiable.length}件` +
+        `（${top.map(([h, n]) => `${h} ${n}`).join(", ")}）`
+    );
   }
   console.log("");
+
+  console.log("=".repeat(60));
+  const totalBroken = brokenPages.length + internalBroken.length + externalBroken.length;
+  console.log(
+    `sitemap ${brokenPages.length} / 内部 ${internalBroken.length} / 外部 ${externalBroken.length} が切れている`
+  );
+  if (totalBroken === 0) console.log("切れているリンクは無い");
+  console.log("");
+  // health-report.ts が拾う要約行
+  console.log(
+    `SUMMARY: 切れ sitemap ${brokenPages.length} / 内部 ${internalBroken.length} / 外部 ${externalBroken.length}` +
+      `（検査 ${pages.length}/${internalPaths.length}/${externalUrls.length}、` +
+      `外部で確かめられなかったもの ${externalUnverifiable.length}）`
+  );
 }
 
 main().catch((e) => {

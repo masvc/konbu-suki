@@ -91,3 +91,7 @@ console.log(
 console.log(`  要修正: ${errors.length} / 改善推奨: ${warns.length}`);
 if (errors.length === 0) console.log("  All clear!");
 console.log("");
+// health-report.ts が拾う要約行
+console.log(
+  `SUMMARY: ${CONTENT_PAGES.length}ページ / 要修正 ${errors.length} / 改善推奨 ${warns.length}`
+);

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!--
+  定期点検（health-report.ts）を毎朝7時に回す。
+
+  導入:
+    cp scripts/launchd/com.konbusuki.checks.plist ~/Library/LaunchAgents/
+    launchctl load ~/Library/LaunchAgents/com.konbusuki.checks.plist
+  手動実行:
+    launchctl start com.konbusuki.checks
+  停止:
+    launchctl unload ~/Library/LaunchAgents/com.konbusuki.checks.plist
+
+  注意（別プロジェクトで踏んだもの）:
+  - node を直接起動する。launchd から起動された /bin/sh は ~/Desktop 配下の
+    スクリプトを読めず exit 126 になるため、シェルを挟んではいけない。
+  - StandardOutPath / StandardErrorPath を ~/Desktop 配下に置かないこと。
+    Desktop は macOS の保護対象(TCC)で、launchd がログを開けず exit 78 で
+    起動に失敗する。
+  - KeepAlive は付けない。常駐ではなく定時実行のため。
+-->
+<plist version="1.0">
+<dict>
+  <key>Label</key><string>com.konbusuki.checks</string>
+  <key>ProgramArguments</key>
+  <array>
+    <string>/opt/homebrew/bin/node</string>
+    <string>/Users/masvc/Desktop/konbu-suki/node_modules/tsx/dist/cli.mjs</string>
+    <string>scripts/health-report.ts</string>
+  </array>
+  <key>WorkingDirectory</key><string>/Users/masvc/Desktop/konbu-suki</string>
+  <key>StartCalendarInterval</key>
+  <dict>
+    <key>Hour</key><integer>7</integer>
+    <key>Minute</key><integer>0</integer>
+  </dict>
+  <key>RunAtLoad</key><false/>
+  <key>StandardOutPath</key><string>/Users/masvc/Library/Logs/konbu-suki/launchd.out.log</string>
+  <key>StandardErrorPath</key><string>/Users/masvc/Library/Logs/konbu-suki/launchd.err.log</string>
+</dict>
+</plist>

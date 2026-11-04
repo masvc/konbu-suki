@@ -10,7 +10,9 @@
     "db:seed": "npx tsx prisma/seed.ts",
     "db:migrate": "npx prisma migrate dev",
     "db:studio": "npx prisma studio",
-    "typecheck:scripts": "tsc -p tsconfig.scripts.json"
+    "typecheck:scripts": "tsc -p tsconfig.scripts.json",
+    "check": "tsx scripts/health-report.ts",
+    "check:offline": "tsx scripts/health-report.ts --offline --no-slack"
   },
   "prisma": {
     "seed": "npx tsx prisma/seed.ts"

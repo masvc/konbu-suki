@@ -317,6 +317,8 @@ function printReport() {
     console.log("  All clear!");
   }
   console.log("");
+  // health-report.ts が拾う要約行
+  console.log(`SUMMARY: ERROR ${errors.length} / WARN ${warns.length} / INFO ${infos.length}`);
 }
 
 // ── main ──
