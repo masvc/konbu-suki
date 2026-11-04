@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { prisma } from "@/lib/prisma";
-import { CATEGORIES, type CategorySlug, SITE_NAME } from "@/lib/constants";
+import { SITE_NAME } from "@/lib/constants";
 import { ProductCard } from "@/components/ProductCard";
 import { SearchForm } from "@/components/SearchForm";
 

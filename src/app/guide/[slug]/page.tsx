@@ -30,14 +30,8 @@ export default async function GuidePage({ params }: Props) {
   const guide = GUIDES[slug as GuideSlug];
   if (!guide) notFound();
 
-  const breadcrumbJsonLd = {
-    "@context": "https://schema.org", "@type": "BreadcrumbList",
-    itemListElement: [
-      { "@type": "ListItem", position: 1, name: SITE_NAME, item: SITE_URL },
-      { "@type": "ListItem", position: 2, name: "昆布ガイド", item: `${SITE_URL}/guide` },
-      { "@type": "ListItem", position: 3, name: guide.title },
-    ],
-  };
+  // パンくずの構造化データは Breadcrumb コンポーネントが出している。
+  // ここで作ると二重になるので持たない。
 
   const articleJsonLd = {
     "@context": "https://schema.org", "@type": "Article",

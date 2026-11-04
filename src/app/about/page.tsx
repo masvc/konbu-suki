@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import { SITE_NAME, SITE_DESCRIPTION } from "@/lib/constants";
 import { Breadcrumb } from "@/components/Breadcrumb";
 

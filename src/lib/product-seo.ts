@@ -111,7 +111,6 @@ export function getTasteProfile(p: ProductInfo) {
 export function getUsageSuggestions(p: ProductInfo): string[] {
   const cat = p.category;
   const name = p.name.toLowerCase();
-  const tags = (p.tags || "").toLowerCase();
 
   const suggestions: string[] = [];
 
@@ -179,8 +178,8 @@ export function getUsageSuggestions(p: ProductInfo): string[] {
 
 /** 合う料理・ペアリング */
 export function getPairings(p: ProductInfo): string[] {
+  // 商品名は見ていない。分類だけで決めている。
   const cat = p.category;
-  const name = p.name.toLowerCase();
 
   switch (cat) {
     case "dashi":

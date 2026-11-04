@@ -1,10 +1,9 @@
 import Link from "next/link";
 import Image from "next/image";
 import { prisma } from "@/lib/prisma";
-import { CATEGORIES, CATEGORY_SLUGS, ORIGINS, SITE_NAME } from "@/lib/constants";
+import { CATEGORIES, CATEGORY_SLUGS, ORIGINS } from "@/lib/constants";
 import { ProductCard } from "@/components/ProductCard";
 import { ShopCTA } from "@/components/ShopCTA";
-import { SearchForm } from "@/components/SearchForm";
 import { CategoryIcon } from "@/lib/category-icons";
 import { MapPin, Droplets } from "lucide-react";
 import { FaqAccordion } from "@/components/FaqAccordion";
