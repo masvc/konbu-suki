@@ -17,7 +17,7 @@
  * ASPを変えるたびにDBを書き換えることになる。
  */
 import "dotenv/config";
-import { mkdirSync, writeFileSync } from "node:fs";
+import { mkdirSync, writeFileSync, readFileSync } from "node:fs";
 import path from "node:path";
 import { createPrisma } from "./lib/db";
 import { searchItems, sleep, API_INTERVAL_MS, hasCredentials } from "./lib/rakuten-ichiba";
@@ -35,6 +35,11 @@ const numberAfter = (flag: string, fallback: number) => {
 };
 const limit = numberAfter("--limit", 0);
 const minScore = numberAfter("--min", 0.72);
+/** 保存済みの判定結果を読んで、それだけを書き込むモード */
+const applyFrom = (() => {
+  const i = args.indexOf("--apply");
+  return i === -1 ? null : args[i + 1] || null;
+})();
 
 const OUT_DIR = path.resolve(__dirname, "tmp");
 
@@ -83,7 +88,45 @@ type Row = {
   candidateCount: number;
 };
 
+/**
+ * 下見で作った判定結果を読み、そこに載っているものだけを書き込む。
+ *
+ * 下見は315件で40分かかる。閾値を上げ直すたびに叩き直すのは楽天にも
+ * こちらにも無駄なので、確認を通した結果を渡して適用できるようにする。
+ */
+async function applyFromFile(file: string) {
+  const rows = JSON.parse(readFileSync(file, "utf8")) as Row[];
+  const usable = rows.filter((r) => r.rakutenUrl && r.rakutenItemCode);
+  console.log(`${file} から ${rows.length}件を読んだ（うち書き込める ${usable.length}件）`);
+
+  if (!write) {
+    console.log("\n下見のみ。書き込むには --write を付ける。");
+    for (const r of usable.slice(0, 5)) {
+      console.log(`  #${r.id} ${r.name.slice(0, 40)} → ${r.rakutenItemName?.slice(0, 40)}`);
+    }
+    console.log(`SUMMARY: 対象 ${rows.length} / 書き込める ${usable.length} / 書き込み 0`);
+    return;
+  }
+
+  let updated = 0;
+  for (const row of usable) {
+    await prisma.product.update({
+      where: { id: row.id },
+      data: { rakutenUrl: row.rakutenUrl, rakutenId: row.rakutenItemCode },
+    });
+    updated++;
+  }
+  console.log(`${updated}件を更新した`);
+  console.log(`SUMMARY: 対象 ${rows.length} / 書き込み ${updated}`);
+}
+
 async function main() {
+  if (applyFrom) {
+    await applyFromFile(applyFrom);
+    await prisma.$disconnect();
+    return;
+  }
+
   if (!hasCredentials()) {
     console.error(
       "RAKUTEN_APP_ID と RAKUTEN_ACCESS_KEY の両方が必要。\n" +
