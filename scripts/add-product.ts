@@ -1,4 +1,5 @@
 import "dotenv/config";
+import { AMAZON_PARTNER_TAG, amazonProductUrl } from "./lib/amazon";
 import { ApiClient, TypedDefaultApi, GetItemsRequestContent, GetItemsResource } from "amazon-creators-api";
 import { PrismaClient } from "../src/generated/prisma/client";
 import { PrismaPg } from "@prisma/adapter-pg";
@@ -19,7 +20,7 @@ async function main() {
 
   // partnerTag と itemIds はコンストラクタの必須引数
   const req = new GetItemsRequestContent(
-    process.env.AMAZON_PARTNER_TAG || "konbu-suki-22",
+    AMAZON_PARTNER_TAG,
     [asin]
   );
   req.resources = [
@@ -55,7 +56,7 @@ async function main() {
         name: title, brand, category, imageUrl,
         price: price ? Math.round(price) : null,
         amazonAsin: asin,
-        amazonUrl: `https://www.amazon.co.jp/dp/${asin}?tag=${process.env.AMAZON_PARTNER_TAG || "konbu-suki-22"}`,
+        amazonUrl: amazonProductUrl(asin),
         isFeatured: true,
       },
     });

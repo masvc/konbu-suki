@@ -7,6 +7,7 @@
  *   npx tsx scripts/fetch-amazon-kombu.ts --dry-run           # DB保存せず確認
  */
 import "dotenv/config";
+import { AMAZON_PARTNER_TAG } from "./lib/amazon";
 import { ApiClient, TypedDefaultApi, SearchItemsRequestContent, SearchItemsResource } from "amazon-creators-api";
 import { PrismaClient } from "../src/generated/prisma/client";
 import { PrismaPg } from "@prisma/adapter-pg";
@@ -19,7 +20,7 @@ const prisma = new PrismaClient({ adapter });
 const CLIENT_ID = process.env.AMAZON_CREATORS_CLIENT_ID;
 const CLIENT_SECRET = process.env.AMAZON_CREATORS_CLIENT_SECRET;
 const VERSION = process.env.AMAZON_CREATORS_VERSION || "3.3";
-const PARTNER_TAG = process.env.AMAZON_PARTNER_TAG || "konbu-suki-22";
+const PARTNER_TAG = AMAZON_PARTNER_TAG;
 const MARKETPLACE = "www.amazon.co.jp";
 
 if (!CLIENT_ID || !CLIENT_SECRET) {

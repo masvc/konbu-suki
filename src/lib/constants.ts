@@ -7,7 +7,9 @@ export const SITE_DESCRIPTION =
 export const GA_ID = process.env.NEXT_PUBLIC_GA_ID || "";
 
 // Amazon アソシエイトタグ
-export const AMAZON_ASSOCIATE_TAG = process.env.NEXT_PUBLIC_AMAZON_TAG || "konbusuki-22";
+// 既定値はスクリプト側と揃える。ハイフンが落ちていると存在しないタグになり、
+// クリックが成果にならない。
+export const AMAZON_ASSOCIATE_TAG = process.env.NEXT_PUBLIC_AMAZON_TAG || "konbu-suki-22";
 
 // 楽天アフィリエイトID（楽天直営。もしも経由なら空のままでよい）
 export const RAKUTEN_AFFILIATE_ID = process.env.NEXT_PUBLIC_RAKUTEN_AFFILIATE_ID || "";

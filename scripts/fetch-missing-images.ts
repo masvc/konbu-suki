@@ -8,6 +8,7 @@
  *   npx tsx scripts/fetch-missing-images.ts --dry-run
  */
 import "dotenv/config";
+import { AMAZON_PARTNER_TAG } from "./lib/amazon";
 import { ApiClient, TypedDefaultApi, GetItemsRequestContent, GetItemsResource, SearchItemsRequestContent, SearchItemsResource } from "amazon-creators-api";
 import { PrismaClient } from "../src/generated/prisma/client";
 import { PrismaPg } from "@prisma/adapter-pg";
@@ -20,7 +21,7 @@ apiClient.credentialId = process.env.AMAZON_CREATORS_CLIENT_ID!;
 apiClient.credentialSecret = process.env.AMAZON_CREATORS_CLIENT_SECRET!;
 apiClient.version = "3.3";
 const api = new TypedDefaultApi(apiClient);
-const TAG = process.env.AMAZON_PARTNER_TAG || "konbu-suki-22";
+const TAG = AMAZON_PARTNER_TAG;
 const MKT = "www.amazon.co.jp";
 
 type Item = {
