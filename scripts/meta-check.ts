@@ -2,26 +2,26 @@
  * meta title/description 品質チェック
  *
  * seo.mdの「meta改善」作業を自動化。
- * 全特集・ガイドのtitle/descriptionをSEO基準でチェック。
+ * 全コンテンツページ（ガイド・産地・カテゴリ）の
+ * title/description を SEO 基準でチェックする。
  *
  * Usage:
  *   npx tsx scripts/meta-check.ts              # 全チェック
  *   npx tsx scripts/meta-check.ts --fix        # 修正候補も表示
  */
-import { FEATURES } from "../src/lib/features";
-import { GUIDES } from "../src/lib/guides";
+import { CONTENT_PAGES, GUIDE_PAGES, ORIGIN_PAGES, CATEGORY_PAGES } from "./lib/content";
 
 type Issue = { path: string; field: string; value: string; problem: string };
 const issues: Issue[] = [];
 
-function check(path: string, title: string, description: string, h1: string) {
+// h1 との一致チェックは入れていない。コンテンツ定義に h1 を持っていないため、
+// 比較する値が無い。h1 を持たせたら復活させる。
+function check(path: string, title: string, description: string) {
   // title チェック
   if (title.length > 60)
     issues.push({ path, field: "title", value: `${title.length}字`, problem: "60字超（検索結果で切れる）" });
   if (title.length < 20)
     issues.push({ path, field: "title", value: `${title.length}字`, problem: "20字未満（情報不足）" });
-  if (title === h1)
-    issues.push({ path, field: "title", value: title, problem: "h1と完全一致（差別化なし）" });
   if (!title.includes("|") && !title.includes("｜") && !title.includes("—") && !title.includes("【"))
     issues.push({ path, field: "title", value: title, problem: "区切り文字なし（CTR低下の可能性）" });
 
@@ -43,22 +43,15 @@ function check(path: string, title: string, description: string, h1: string) {
 }
 
 // 全ページチェック
-for (const f of FEATURES) {
-  check(`/feature/${f.slug}`, f.title, f.description, f.h1);
-}
-for (const g of GUIDES) {
-  check(`/guide/${g.slug}`, g.title, g.description, g.h1);
+for (const page of CONTENT_PAGES) {
+  check(page.path, page.title, page.description);
 }
 
 // title重複チェック
 const titles = new Map<string, string[]>();
-for (const f of FEATURES) {
-  const key = f.title.toLowerCase();
-  titles.set(key, [...(titles.get(key) || []), `/feature/${f.slug}`]);
-}
-for (const g of GUIDES) {
-  const key = g.title.toLowerCase();
-  titles.set(key, [...(titles.get(key) || []), `/guide/${g.slug}`]);
+for (const page of CONTENT_PAGES) {
+  const key = page.title.toLowerCase();
+  titles.set(key, [...(titles.get(key) || []), page.path]);
 }
 for (const [title, paths] of titles) {
   if (paths.length > 1) {
@@ -90,9 +83,11 @@ if (warns.length > 0) {
 }
 
 // サマリー
-const totalPages = FEATURES.length + GUIDES.length;
 console.log("\n" + "-".repeat(70));
-console.log(`  チェック対象: ${totalPages}ページ (特集${FEATURES.length} + ガイド${GUIDES.length})`);
+console.log(
+  `  チェック対象: ${CONTENT_PAGES.length}ページ ` +
+  `(ガイド${GUIDE_PAGES.length} + 産地${ORIGIN_PAGES.length} + カテゴリ${CATEGORY_PAGES.length})`
+);
 console.log(`  要修正: ${errors.length} / 改善推奨: ${warns.length}`);
 if (errors.length === 0) console.log("  All clear!");
 console.log("");

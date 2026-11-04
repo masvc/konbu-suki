@@ -1,7 +1,8 @@
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { prisma } from "@/lib/prisma";
-import { CATEGORIES, type CategorySlug, SITE_NAME } from "@/lib/constants";
+import { CATEGORIES, type CategorySlug } from "@/lib/constants";
+import { categoryMeta } from "@/lib/page-meta";
 import { ProductCard } from "@/components/ProductCard";
 import { ShopCTA } from "@/components/ShopCTA";
 import { CategoryIcon } from "@/lib/category-icons";
@@ -12,12 +13,7 @@ type Props = { params: Promise<{ slug: string }> };
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
-  const cat = CATEGORIES[slug as CategorySlug];
-  if (!cat) return {};
-  return {
-    title: `${cat.label} | ${SITE_NAME}`,
-    description: cat.description,
-  };
+  return categoryMeta(slug as CategorySlug) ?? {};
 }
 
 export default async function CategoryPage({ params }: Props) {

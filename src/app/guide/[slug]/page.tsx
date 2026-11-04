@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { SITE_NAME, SITE_URL } from "@/lib/constants";
 import { GUIDES, type GuideSlug } from "@/lib/guides";
+import { guideMeta } from "@/lib/page-meta";
 import { ShopCTA } from "@/components/ShopCTA";
 import { Breadcrumb } from "@/components/Breadcrumb";
 import { FaqAccordion } from "@/components/FaqAccordion";
@@ -16,10 +17,10 @@ type Props = { params: Promise<{ slug: string }> };
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   const guide = GUIDES[slug as GuideSlug];
-  if (!guide) return {};
+  const meta = guideMeta(slug as GuideSlug);
+  if (!guide || !meta) return {};
   return {
-    title: `${guide.title} | ${SITE_NAME}`,
-    description: guide.description,
+    ...meta,
     openGraph: { title: guide.title, description: guide.description },
   };
 }

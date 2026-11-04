@@ -1,7 +1,8 @@
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { prisma } from "@/lib/prisma";
-import { ORIGINS, type OriginSlug, SITE_NAME } from "@/lib/constants";
+import { ORIGINS, type OriginSlug } from "@/lib/constants";
+import { originMeta } from "@/lib/page-meta";
 import { ORIGIN_COLUMNS } from "@/lib/origin-columns";
 import { ProductCard } from "@/components/ProductCard";
 import { ShopCTA } from "@/components/ShopCTA";
@@ -13,12 +14,7 @@ type Props = { params: Promise<{ slug: string }> };
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
-  const origin = ORIGINS[slug as OriginSlug];
-  if (!origin) return {};
-  return {
-    title: `${origin.label} | ${SITE_NAME}`,
-    description: `${origin.area}産の${origin.label}。${origin.description} なぜ名産なのか、特徴と合う料理を解説。`,
-  };
+  return originMeta(slug as OriginSlug) ?? {};
 }
 
 export default async function OriginPage({ params }: Props) {
