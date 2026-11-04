@@ -17,9 +17,11 @@ async function main() {
   if (!asin) { console.log("Usage: npx tsx scripts/add-product.ts <ASIN> [category]"); return; }
   const category = process.argv[3] || "dashi";
 
-  const req = new GetItemsRequestContent();
-  req.partnerTag = process.env.AMAZON_PARTNER_TAG || "konbu-suki-22";
-  req.itemIds = [asin];
+  // partnerTag と itemIds はコンストラクタの必須引数
+  const req = new GetItemsRequestContent(
+    process.env.AMAZON_PARTNER_TAG || "konbu-suki-22",
+    [asin]
+  );
   req.resources = [
     "images.primary.large", "images.primary.medium",
     "itemInfo.title", "itemInfo.byLineInfo",

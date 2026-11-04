@@ -108,9 +108,8 @@ async function generateImage(slug: string, config: { path: string; prompt: strin
     });
 
     const parts = response.candidates?.[0]?.content?.parts;
-    const imagePart = parts?.find(
-      (p: Record<string, unknown>) => (p as { inlineData?: { mimeType?: string } }).inlineData?.mimeType?.startsWith("image/")
-    ) as { inlineData?: { data?: string } } | undefined;
+    // parts は Part[] なので推論に任せる。手書きの型とキャストは噛み合わない。
+    const imagePart = parts?.find((p) => p.inlineData?.mimeType?.startsWith("image/"));
 
     if (!imagePart?.inlineData?.data) {
       console.log(`  FAIL ${slug} (no image data)`);

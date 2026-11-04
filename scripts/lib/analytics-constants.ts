@@ -5,17 +5,16 @@
  * weekly.ts / funnel.ts / cta-tracking.ts / analyze.ts から参照。
  */
 
-/** CTAとして計測する全GA4イベント名 */
+/**
+ * CTAとして計測する全GA4イベント名。
+ *
+ * このサイトが実際に送っているのは layout.tsx の data-ga-event 経由の
+ * 2種類だけ。別プロジェクト由来の発火しないイベント名が7件混ざっていたので
+ * 落とした。イベントを増やしたらここにも足す。
+ */
 export const CTA_EVENTS = [
   "amazon_click",
   "rakuten_click",
-  "yahoo_click",
-  "uriel_click",
-  "partner_click",
-  "feature_affiliate_click",
-  "guide_affiliate_click",
-  "school_click",
-  "sticky_ad_click",
 ];
 
 /** CLI引数から日付範囲をパースする共通ヘルパー */

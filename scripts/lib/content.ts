@@ -34,7 +34,17 @@ export type ContentPage = {
   description: string;
   /** FAQ の件数。持たないページは 0 */
   faqCount: number;
+  /**
+   * コンテンツギャップ判定などに使う素の文字列。
+   * meta title はサイト名の接尾が付いて語として邪魔になるので、
+   * ここには接尾を含まない素の語を入れる。
+   */
+  keywords: string[];
 };
+
+function keywordsOf(values: (string | undefined)[]): string[] {
+  return values.filter((v): v is string => Boolean(v));
+}
 
 export const GUIDE_PAGES: ContentPage[] = Object.entries(GUIDES).map(([slug, guide]) => {
   const meta = guideMeta(slug as GuideSlug);
@@ -45,10 +55,11 @@ export const GUIDE_PAGES: ContentPage[] = Object.entries(GUIDES).map(([slug, gui
     title: meta?.title ?? "",
     description: meta?.description ?? "",
     faqCount: guide.faq?.length ?? 0,
+    keywords: keywordsOf([slug, guide.title, guide.searchKeyword]),
   };
 });
 
-export const ORIGIN_PAGES: ContentPage[] = Object.keys(ORIGINS).map((slug) => {
+export const ORIGIN_PAGES: ContentPage[] = Object.entries(ORIGINS).map(([slug, origin]) => {
   const meta = originMeta(slug as OriginSlug);
   return {
     kind: "origin",
@@ -57,10 +68,11 @@ export const ORIGIN_PAGES: ContentPage[] = Object.keys(ORIGINS).map((slug) => {
     title: meta?.title ?? "",
     description: meta?.description ?? "",
     faqCount: 0,
+    keywords: keywordsOf([slug, origin.label, origin.area]),
   };
 });
 
-export const CATEGORY_PAGES: ContentPage[] = Object.keys(CATEGORIES).map((slug) => {
+export const CATEGORY_PAGES: ContentPage[] = Object.entries(CATEGORIES).map(([slug, cat]) => {
   const meta = categoryMeta(slug as CategorySlug);
   return {
     kind: "category",
@@ -69,6 +81,7 @@ export const CATEGORY_PAGES: ContentPage[] = Object.keys(CATEGORIES).map((slug) 
     title: meta?.title ?? "",
     description: meta?.description ?? "",
     faqCount: 0,
+    keywords: keywordsOf([slug, cat.label]),
   };
 });
 

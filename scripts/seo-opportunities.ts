@@ -11,10 +11,9 @@
  */
 import "dotenv/config";
 import { readFileSync, existsSync } from "fs";
-import { FEATURES } from "../src/lib/features";
-import { GUIDES } from "../src/lib/guides";
 import { getSearchConsoleClient, SEARCH_CONSOLE_SITE } from "./lib/google-auth";
 import { toSitePath } from "./lib/site";
+import { CONTENT_PAGES } from "./lib/content";
 const GOLF_FILTER = {
   dimension: "page" as const,
   operator: "includingRegex" as const,
@@ -147,10 +146,7 @@ async function main() {
       toSitePath(r.keys?.[0] || "")
     )
   );
-  const expectedPages = [
-    ...FEATURES.filter((f) => f.type !== "curated").map((f) => `/feature/${f.slug}`),
-    ...GUIDES.map((g) => `/guide/${g.slug}`),
-  ];
+  const expectedPages = CONTENT_PAGES.map((p) => p.path);
   const notIndexed = expectedPages.filter((p) => !gscPaths.has(p));
 
   if (notIndexed.length > 0) {
@@ -169,11 +165,15 @@ async function main() {
     const snapshotPath = "./data/seo-snapshots/latest.json";
     if (existsSync(snapshotPath)) {
       const prev = JSON.parse(readFileSync(snapshotPath, "utf-8"));
-      const prevPages = new Map(
-        (prev.pages || []).map((p: { key: string; clicks: number; impressions: number; ctr: number; position: number }) => [
-          toSitePath(p.key),
-          p,
-        ])
+      type PrevPage = {
+        key: string;
+        clicks: number;
+        impressions: number;
+        ctr: number;
+        position: number;
+      };
+      const prevPages = new Map<string, PrevPage>(
+        ((prev.pages || []) as PrevPage[]).map((p) => [toSitePath(p.key), p])
       );
 
       console.log(`\n[5] 前回比較 (${prev.date})`);
@@ -224,10 +224,9 @@ async function main() {
 
   // ── 6. コンテンツギャップ: imp多いクエリに専用ページがあるか ──
   // クエリの各単語（2文字以上）がコンテンツのtitle/searchKeywordに含まれるかチェック
-  const contentTexts = [
-    ...GUIDES.flatMap((g) => [g.slug, g.searchKeyword, g.title, g.h1].filter(Boolean)),
-    ...FEATURES.flatMap((f) => [f.slug, f.title, f.h1].filter(Boolean)),
-  ].map((k) => k.toLowerCase().replace(/[\s\-_　｜|【】]/g, ""));
+  const contentTexts = CONTENT_PAGES.flatMap((p) => p.keywords).map((k) =>
+    k.toLowerCase().replace(/[\s\-_　｜|【】]/g, "")
+  );
   const joinedContent = contentTexts.join("|");
 
   const gapQueries = queries

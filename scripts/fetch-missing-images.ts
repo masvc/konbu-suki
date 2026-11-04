@@ -32,9 +32,8 @@ type Item = {
 
 async function getItemsByAsins(asins: string[]): Promise<Item[]> {
   try {
-    const req = new GetItemsRequestContent();
-    req.partnerTag = TAG;
-    req.itemIds = asins;
+    // partnerTag と itemIds はコンストラクタの必須引数
+    const req = new GetItemsRequestContent(TAG, asins);
     req.resources = [
       "images.primary.large", "images.primary.medium",
       "itemInfo.title", "itemInfo.byLineInfo",
