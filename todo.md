@@ -1,5 +1,10 @@
 # konbu-suki TODO
 
+> 複数のPCで触っている。**作業前に `git pull`**。古いまま進めると、
+> すでに直した箇所を未対応と判断して二重に直したり、古い前提のメモを
+> 作ってしまう（一度発生済み）。
+> `.env` は `npm run env:pull` で揃える（手順は README）。
+
 ## ブロック中（外部待ち）
 - [ ] **楽天のアプリID発行** → `RAKUTEN_APP_ID` を .env に設定
   - https://webservice.rakuten.co.jp/ で無料・即時発行（審査なし）
@@ -12,9 +17,13 @@
   - 現状どちらも「権限なし」で弾かれる。コードは正しく動いている
   - 付与後に動くもの: weekly / ga4-report / search-console / seo-snapshot /
     seo-opportunities / monthly-report / ai-quality / ai-traffic
-- [ ] **もしものIDを Amplify に設定**（ローカルだけでは本番に反映されない）
-  - `NEXT_PUBLIC_MOSHIMO_A_ID` / `_P_ID` / `_PC_ID` / `_PL_ID` の4つ
-  - 4つ揃っていないと ASP 経由にならず、素の楽天URL（無報酬）が出る
+- [ ] **もしものIDを設定**（ローカルと Amplify の両方。片方だけでは本番に出ない）
+  - `NEXT_PUBLIC_MOSHIMO_A_ID` / `_P_ID` / `_PC_ID` / `_PL_ID` の**4つすべて**
+  - **`A_ID` を落としやすい。** 1つでも欠けると ASP 経由にならず、
+    素の楽天URL（無報酬）が出るだけでエラーにならないので気付けない
+  - `_PL_ID` は「どこでもリンク」のもの。バナーの pl_id とは別
+  - `NEXT_PUBLIC_RAKUTEN_AFFILIATE_ID` には入れないこと（楽天直営用。
+    ASP の値を入れると直営形式の壊れたリンクになる）
 
 ## 点検で出た指摘（未対応）
 

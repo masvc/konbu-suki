@@ -12,10 +12,16 @@
 ## 別のPCで立ち上げる
 
 ```bash
+git pull                # 複数のPCで触るので、作業前に必ず引く
 npm ci                  # 依存を入れる（npm install ではなく ci を使う）
 npx prisma generate     # src/generated/prisma を作る（gitignore 対象）
+npm run env:pull        # .env と google-credentials.json を取得（下記）
 npm run dev
 ```
+
+`git pull` を先にやる理由: 古いまま作業すると、すでに直した箇所を
+「未対応」と判断して二重に直したり、古い前提のメモを作ってしまう。
+実際に一度それが起きている。
 
 `.env` は git に入っていない。[.env.example](.env.example) のキーを埋める。
 `DATABASE_URL` が無いと商品を扱うページとスクリプトは動かない。
@@ -45,6 +51,24 @@ Secrets Manager ではなく Parameter Store を使っている。標準の Secu
 必要な IAM 権限は `ssm:GetParameter` と `ssm:PutParameter`（対象は
 `parameter/konbu-suki/*`）。SecureString の復号に `kms:Decrypt` も使う
 （AWS 管理キー `alias/aws/ssm`）。リージョンは未設定なら `ap-northeast-1`。
+
+### 初回だけ：保管先を作る
+
+**値が一番揃っているPCから** push する。空の `.env` を push すると、
+他のPCがそれを取得して壊れる。
+
+```bash
+git pull                    # env-sync.ts を取得
+npm run env:status          # 「push で登録できる」と出るはず
+npm run env:push            # 差分を表示してここで止まる
+npm run env:push -- --yes   # 内容を確かめてから送る
+```
+
+以後は他のPCで `npm run env:pull`。キーを足したときは、足したPCで
+`env:push` してから他のPCで `env:pull` する。
+
+AWS CLI の認証情報が無いPCでは使えない（`aws configure` が必要）。
+認証情報そのものは保管先に入れていない。鶏と卵になるため。
 
 `npm ci` を使う理由: `npm install` を繰り返すとプラットフォーム固有の
 ネイティブパッケージ（esbuild、Next.js の SWC、lightningcss など）の
@@ -124,6 +148,16 @@ JSON で残すので、内容を確認してから `--write` を付ける。
 DB には素の商品URLを保存し、成果リンクへの変換はここだけで行う。
 ASP を変えてもDBを書き換えずに済むようにしてある。
 
-楽天は ASP 経由。`NEXT_PUBLIC_MOSHIMO_*` が4つ揃っているときだけ ASP の
-クリック計測URLで包む。`NEXT_PUBLIC_` を付けているのはクライアント側でも
-値が必要なため。Amplify の環境変数にも設定しないと本番に反映されない。
+楽天は ASP 経由。次の**4つすべて**が揃っているときだけ ASP のクリック計測URLで
+包む。1つでも欠けると素の楽天URL（無報酬）が出るだけで、エラーにはならない。
+
+- `NEXT_PUBLIC_MOSHIMO_A_ID` — 落としやすい。ASP の管理画面が出すリンクの `a_id`
+- `NEXT_PUBLIC_MOSHIMO_P_ID` — `p_id`
+- `NEXT_PUBLIC_MOSHIMO_PC_ID` — `pc_id`
+- `NEXT_PUBLIC_MOSHIMO_PL_ID` — `pl_id`（「どこでもリンク」のもの。バナーのとは別）
+
+`NEXT_PUBLIC_` を付けているのはクライアント側でも値が必要なため。
+Amplify の環境変数にも設定しないと本番に反映されない。
+
+`NEXT_PUBLIC_RAKUTEN_AFFILIATE_ID` は楽天**直営**アフィリエイト用。
+ASP 経由ではここに値を入れない。入れると直営形式の壊れたリンクになる。
