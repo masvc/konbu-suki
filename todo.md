@@ -16,6 +16,54 @@
   - `NEXT_PUBLIC_MOSHIMO_A_ID` / `_P_ID` / `_PC_ID` / `_PL_ID` の4つ
   - 4つ揃っていないと ASP 経由にならず、素の楽天URL（無報酬）が出る
 
+## 点検で出た指摘（未対応）
+
+`npm run check` で実測した結果。数値は 2026-11-05 時点。
+
+### 商品データ
+- [ ] **説明文が 274/315 件（87%）で空** — コンテンツ増強で一番効きそうな的
+- [ ] 重複商品 1 件（「ヤマサ 昆布つゆ 1800ml」/ Yamasa が2件）
+- [ ] 画像なし 1 件 / 購入リンクなし 1 件 / 参考価格なし 6 件
+- [ ] レビュー 0 件・Article 0 件（仕組みはあるが中身が無い）
+
+### SEO
+- [ ] **meta 要修正 35 件** — カテゴリ9ページの title が 12〜14字と短く、
+      description も 50字未満。`npx tsx scripts/meta-check.ts` で一覧が出る
+- [ ] 本文が薄いガイド3本 — kombu-recipes(162字) / kombu-storage(208字) /
+      kombu-history(261字)
+- [ ] E-E-A-T ページが無い — `/about/editorial-policy` と `/about/data`
+      （`/about` はある）
+
+### リンク切れ
+- [ ] 外部リンク2件が404
+  - `https://www.matumaeya.jp/`
+  - `https://www.pref.hokkaido.lg.jp/sr/ske/osazu/oz01fis/oz010fi.html`
+    → **`src/lib/origin-columns.ts` に出典として記載しているURL**。
+    CLAUDE.md の「出典を必ず明記する」に関わるので差し替えたい
+- 参考: Amazon の検索URL19件は403/503で返るが、ボット対策であって
+  リンク切れではない。点検側で「確かめられなかった」に分類済み
+
+## 楽天の商品照合（RAKUTEN_APP_ID 待ち）
+- [ ] 下見を実行 → `scripts/tmp/` の JSON で内容確認 → 承認後に `--write`
+      （`npx tsx scripts/match-rakuten.ts`）
+- [ ] 楽天にしか無い昆布商品の新規取り込み（上とは別作業。未着手）
+
+## 運用でまだやっていないこと
+- [ ] **定期点検を launchd に登録していない** — `npm run launchd` で plist を
+      生成し、`--install` で登録する
+- [ ] `.env` が2台のPCで別物になっている。片方に書いても他方では動かない。
+      新しいキーを足したら両方に入れる
+      （このPCでは RAKUTEN_APP_ID / SLACK_OPS_WEBHOOK_URL /
+      NEXT_PUBLIC_MOSHIMO_* / NEXT_PUBLIC_GA_ID がいずれも未設定）
+- [ ] Slack 通知の実運用。webhook は動作確認済みだが、`.env` に
+      `SLACK_OPS_WEBHOOK_URL` を入れるまで通知は飛ばない
+
+## コード整理（急がない）
+- [ ] `as any` が3箇所残っている（add-product / fetch-missing-images /
+      generate-images）。Amazon SDK の戻り値の型が不明なため暫定
+- [ ] 各スクリプトが個別に PrismaClient を生成している。共通化の候補
+- [ ] `src/app/product/[id]/page.tsx` に未使用の `SITE_URL` import
+
 ## 自分でやる
 - [ ] ガイド8本（特に栄養記事）を一読
 - [ ] 運営者リピート品のコメントを書く（小倉屋山本 梅入り塩ふき昆布 #149 など）
