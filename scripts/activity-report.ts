@@ -62,6 +62,25 @@ function countReviewPending(): number {
   return Math.max(0, lines.length - 1); // ヘッダーを除く
 }
 
+/**
+ * content-log.md から当日分に書かれた記事タイトルを拾う。
+ *
+ * 数字の差分だけに頼ると、基準値を取った時点より前の作業が「変更なし」に
+ * なってしまう。実際、基準値を今夜の作業の後に書いたせいで、記事1本の公開と
+ * 楽天リンク137件が「成果なし」と報告された。記録に書かれた事実も見る。
+ */
+function readTodayArticles(): string[] {
+  if (!existsSync(CONTENT_LOG)) return [];
+  const text = readFileSync(CONTENT_LOG, "utf8");
+  const today = new Date().toLocaleDateString("sv-SE");
+  const start = text.indexOf(`## ${today}`);
+  if (start === -1) return [];
+  const rest = text.slice(start + 1);
+  const end = rest.indexOf("\n## ");
+  const section = end === -1 ? rest : rest.slice(0, end);
+  return [...section.matchAll(/^###\s+(.+)$/gm)].map((m) => m[1].trim());
+}
+
 /** content-log.md の「次にやる予定」行を読む。無ければ null。 */
 function readNextPlan(): string | null {
   if (!existsSync(CONTENT_LOG)) return null;
@@ -104,6 +123,7 @@ async function main() {
   const prevRate =
     prev && prev.products > 0 ? ((prev.rakutenDirect / prev.products) * 100).toFixed(0) : null;
 
+  const todayArticles = readTodayArticles();
   const reviewPending = countReviewPending();
   const onHold = readOnHold();
   const nextPlan = readNextPlan();
@@ -113,18 +133,30 @@ async function main() {
   lines.push("");
 
   lines.push("*■ 成果*");
-  if (newGuides.length > 0) {
+  const achievements: string[] = [];
+
+  if (prev) {
+    // 2回目以降は前回からの差分を出す
     for (const slug of newGuides.slice(0, 5)) {
-      lines.push(`・新規公開「${escapeSlack(GUIDES[slug].title)}」 ${SITE_URL}/guide/${slug}`);
+      achievements.push(`・新規公開「${escapeSlack(GUIDES[slug].title)}」 ${SITE_URL}/guide/${slug}`);
     }
-    if (newGuides.length > 5) lines.push(`・ほか ${newGuides.length - 5}本`);
+    if (newGuides.length > 5) achievements.push(`・ほか ${newGuides.length - 5}本`);
+    if (rakutenDirect !== prev.rakutenDirect) {
+      achievements.push(`・楽天の商品ページ直リンク ${rakutenDirect - prev.rakutenDirect}件を追加`);
+    }
+  } else {
+    // 初回は比べる相手がいない。差分ではなく今の実績を出す。
+    achievements.push(`・公開記事 ${now.guides}本`);
+    achievements.push(`・楽天の商品ページ直リンク ${rakutenDirect}件`);
   }
-  if (prev && rakutenDirect !== prev.rakutenDirect) {
-    lines.push(`・楽天の商品ページ直リンク ${rakutenDirect - prev.rakutenDirect}件を追加`);
+
+  // 数字が動かなくても、記録に書かれた当日の作業は成果として出す
+  for (const title of todayArticles) {
+    if (newGuides.some((slug) => GUIDES[slug].title === title)) continue;
+    achievements.push(`・本日の記事「${escapeSlack(title)}」`);
   }
-  if (newGuides.length === 0 && (!prev || rakutenDirect === prev.rakutenDirect)) {
-    lines.push("・公開物の変更はなし");
-  }
+
+  lines.push(achievements.length > 0 ? achievements.join("\n") : "・公開物の変更はなし");
 
   lines.push("");
   lines.push("*■ 数字（前回比）*");

@@ -38,6 +38,8 @@ const ai = new GoogleGenAI({ apiKey: API_KEY });
 const STYLE = "Minimal, clean food photography style. Deep green and warm amber tones. No text, no letters, no watermarks. Japanese kombu kelp theme. Wide 16:9 aspect ratio. Professional, warm, natural.";
 
 const PROMPTS: Record<string, string> = {
+  "kombu-water": `${STYLE} A clear glass bottle of pale golden kombu water with a strip of dried kelp inside, resting on a refrigerator shelf. Cool clean light, minimal, calm.`,
+  "how-to-choose-kombu": `${STYLE} Several kinds of dried kombu laid out beside small Japanese bowls and a wooden spoon on a linen cloth, overhead flat lay suggesting choosing by dish.`,
   "kombu-comparison": `${STYLE} Four pieces of dried kombu kelp laid out in a row on a pale linen cloth, clearly different in width, thickness and color from thin pale to broad dark. Overhead flat lay, even soft light, comparison composition.`,
   "kombu-types": `${STYLE} Four different types of dried kombu kelp arranged side by side on a wooden surface, each slightly different in color and thickness. Labels-free comparison layout. From dark thick (rausu) to thin light (rishiri).`,
   "how-to-make-dashi": `${STYLE} A glass pitcher of golden clear kombu dashi stock next to a piece of dried kombu on a clean white surface. Steam rising gently. Simple, instructional cooking atmosphere.`,
