@@ -58,8 +58,10 @@
 - [ ] 楽天にしか無い昆布商品の新規取り込み（上とは別作業。未着手）
 
 ## 運用でまだやっていないこと
-- [ ] **定期点検を launchd に登録していない** — `npm run launchd` で plist を
-      生成し、`--install` で登録する
+- [x] 定期点検を launchd に登録（`com.konbusuki.checks`、毎日 7:00）
+      - launchd 経由で完走を確認（LastExitStatus=0、約75秒）
+      - ログは `~/Library/Logs/konbu-suki/`
+      - 別のPCでは `npm run launchd` → `--install` で同じものを作れる
 - [ ] **`.env` を SSM Parameter Store に登録する**（仕組みは実装済み・未運用）
       - 認証情報が入っている端末で `npm run env:push`（差分を見て `--yes`）
       - 以後は各PCで `npm run env:pull`。`npm run env:status` で差分確認

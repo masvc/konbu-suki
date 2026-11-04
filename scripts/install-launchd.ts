@@ -11,6 +11,14 @@
  * 置き場所が機種ごとに違うため、別のPCで pull したときに動かない。
  * 実行環境から組み立てる。
  *
+ * 手で動かして確かめるとき:
+ *   launchctl start com.konbusuki.checks
+ *   launchctl list com.konbusuki.checks   # PID があれば実行中
+ *
+ *   start は**すでに実行中なら黙って無視される**。走っている最中にもう一度
+ *   投げても2回目は動かず、ログも1回分しか増えない。.env を書き換えて
+ *   試すときは、PID が消えてから start する。
+ *
  * 注意（別プロジェクトで踏んだもの）:
  * - node を直接起動する。launchd から起動された /bin/sh は Desktop 配下の
  *   スクリプトを読めず exit 126 になるため、シェルを挟んではいけない。

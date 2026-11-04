@@ -120,6 +120,18 @@ plist は実行環境から生成する。node のパスやプロジェクトの
 違うため、固定ファイルをリポジトリに置くと別のPCで動かない。
 ログは `~/Library/Logs/konbu-suki/`。
 
+手で動かして確かめるとき:
+
+```bash
+launchctl start com.konbusuki.checks
+launchctl list com.konbusuki.checks   # PID があれば実行中
+```
+
+`start` は**すでに実行中なら黙って無視される**。1回の実行に1分以上かかるので、
+走っている最中にもう一度投げても2回目は動かず、ログも1回分しか増えない。
+`.env` を書き換えて試すときは、PID が消えてから `start` する
+（`.env` は実行開始時に読まれるため、途中で書き換えてもその回には効かない）。
+
 ## 分析スクリプト
 
 `weekly.ts` `ga4-report.ts` `search-console.ts` `seo-snapshot.ts`
