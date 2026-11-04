@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import Script from "next/script";
 import { Noto_Sans_JP } from "next/font/google";
-import { Analytics } from "@vercel/analytics/next";
 import { SITE_NAME, SITE_URL, SITE_TAGLINE, SITE_DESCRIPTION, GA_ID } from "@/lib/constants";
 import { SiteHeader } from "@/components/SiteHeader";
 import { SiteFooter } from "@/components/SiteFooter";
@@ -90,7 +89,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <SiteHeader />
         {children}
         <SiteFooter />
-        <Analytics />
+
         {GA_ID && (
           <>
             <Script src={`https://www.googletagmanager.com/gtag/js?id=${GA_ID}`} strategy="afterInteractive" />
