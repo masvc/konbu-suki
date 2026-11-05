@@ -25,6 +25,8 @@ export function SiteFooter() {
               <li><Link href="/producers" className="text-xs text-gray-500 hover:text-green-700 transition">生産者一覧</Link></li>
               <li><Link href="/kombu-box" className="text-xs text-gray-500 hover:text-green-700 transition">こんぶBOX</Link></li>
               <li><Link href="/about" className="text-xs text-gray-500 hover:text-green-700 transition">このサイトについて</Link></li>
+              <li><Link href="/about/editorial-policy" className="text-xs text-gray-500 hover:text-green-700 transition">編集方針</Link></li>
+              <li><Link href="/about/data" className="text-xs text-gray-500 hover:text-green-700 transition">データと出典</Link></li>
               <li><Link href="/contact" className="text-xs text-gray-500 hover:text-green-700 transition">お問い合わせ</Link></li>
             </ul>
           </div>
