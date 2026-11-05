@@ -15,10 +15,10 @@
 | `shiokombu-guide` | 塩昆布 | 加工品の柱 |
 | `kombu-storage` | 昆布 保存 | 2026-11-05 強化。状態別の早見表＋FAQ5問 |
 | `kombu-recipes` | 昆布 レシピ | 2026-11-05 強化。調理時間別の早見表＋FAQ5問 |
-| `kombu-history` | 昆布 歴史 | **本文261字。薄い** |
+| `kombu-history` | 昆布 歴史 | 2026-11-05 強化。地域別の使い方の表＋FAQ5問 |
 | `kombu-production` | 昆布 生産 | 産地の柱 |
 
-薄い3本は、新規作成より先に強化する（CLAUDE.md: 検索意図が被るなら既存を強化）。
+薄い3本の強化は 2026-11-05 に完了（保存・レシピ・歴史）。以後は新規に移る。
 
 ## 柱と記事候補
 
@@ -78,7 +78,7 @@
 ### 柱8. 歴史・文化（既存: kombu-history を強化）
 | 優先 | 記事 | 狙うキーワード | 独自要素 |
 | --- | --- | --- | --- |
-| 中 | 昆布ロードと地域の食文化（強化） | 昆布ロード | 地域別の利用法マップ |
+| 完了 | 昆布ロードと地域の食文化（強化） | 昆布ロード | 地域別の利用法マップ |
 
 ## 記事の型（CLAUDE.md のコンテンツ方針に従う）
 
@@ -103,5 +103,11 @@
 | 日本昆布協会「だしを取った後の昆布活用法」 | https://kombu.or.jp/power/katuyou | だしがらは「3cm角くらい…ラップで包み冷凍」。活用法7種（塩ふき昆布・つくだ煮・ふりかけ・大豆の煮物・みそ漬け・あめかけ・チップス） |
 | 日本昆布協会「こんぶレシピ 佃煮」 | https://kombu.or.jp/recipe/2096 | だしがらの佃煮の材料と手順。**分量はこのページにしかないので、記事側では写さず参照に留める** |
 | 日本昆布協会「だし・うま味について」 | https://kombu.or.jp/power/dashiumami | 昆布のうま味はグルタミン酸。鰹節はイノシン酸、しいたけはグアニル酸。**鰹だしとの違いや相乗効果の記載はない**（「合わせだし」の語のみ） |
+| 日本昆布協会「昆布の歴史」 | https://kombu.or.jp/power/history | 鎌倉中期以降に庶民へ。江戸時代は西廻り航路で大阪へ。昆布ロードは江戸・九州・琉球・清へ。語源はアイヌ語のコンプ。**奈良時代・広布の記載はない** |
+| 農水省「にっぽん伝統食図鑑」昆布〆 | https://www.maff.go.jp/j/keikaku/syokubunka/traditional-foods/menu/kobu_zime.html | 富山県全域。北前船の昆布と富山湾の魚。冷蔵庫のない時代の保存手段 |
+| 農水省「にっぽん伝統食図鑑」とろろ昆布 | https://www.maff.go.jp/j/keikaku/syokubunka/traditional-foods/menu/tororo_konbu.html | 富山県。**家計調査2024年: 富山市1,618円 / 全国平均702円**。酢に漬けた昆布を重ねて側面を削る。昆布の種類は明記なし |
+| 農水省「にっぽん伝統食図鑑」おぼろ昆布 | https://www.maff.go.jp/j/keikaku/syokubunka/traditional-foods/menu/oborokonbu.html | 福井県敦賀市。流通の大半が敦賀産。酢に漬けて寝かせ、刃先を曲げた包丁で手削り。厚さ0.01mm程 |
+| 農水省「にっぽん伝統食図鑑」昆布巻き | https://www.maff.go.jp/j/keikaku/syokubunka/traditional-foods/menu/kombumaki.html | 北海道（日高・沿岸部）。日高昆布を使うことが多い。正月の縁起担ぎ |
+| 農水省「うちの郷土料理」クーブイリチー | https://www.maff.go.jp/j/keikaku/syokubunka/k_ryouri/search_menu/menu/47_2_okinawa.html | 沖縄県。昆布の炒め煮。「よろこぶ」とかけて祝い事に。**昆布ロード・薩摩との関係の記載はない** |
 
 次に書くときは、新しい出典を使う前に必ず開いて内容を確かめ、この表に追加する。
