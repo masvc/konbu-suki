@@ -11,15 +11,9 @@
 import "dotenv/config";
 import { readFileSync, writeFileSync, existsSync, mkdirSync, readdirSync } from "fs";
 import { getSearchConsoleClient, SEARCH_CONSOLE_SITE } from "./lib/google-auth";
-import { toSitePath } from "./lib/site";
+import { toSitePath, siteFilterGroups } from "./lib/site";
 
 const SNAPSHOT_DIR = "./data/seo-snapshots";
-const GOLF_FILTER = {
-  dimension: "page" as const,
-  operator: "includingRegex" as const,
-  expression: "^https://golf\\.peaky\\.co\\.jp/",
-};
-
 function getDateRange(days = 28) {
   const end = new Date();
   end.setDate(end.getDate() - 3);
@@ -50,7 +44,7 @@ type Snapshot = {
 async function fetchData(days: number): Promise<Snapshot> {
   const sc = getSearchConsoleClient();
   const { startDate, endDate } = getDateRange(days);
-  const filterGroups = [{ filters: [GOLF_FILTER] }];
+  const filterGroups = siteFilterGroups();
 
   // Summary
   const summaryRes = await sc.searchanalytics.query({

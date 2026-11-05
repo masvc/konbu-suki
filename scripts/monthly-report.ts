@@ -11,16 +11,10 @@
 import "dotenv/config";
 import { readFileSync, writeFileSync, mkdirSync, existsSync, readdirSync } from "fs";
 import { getSearchConsoleClient, getGA4Client, SEARCH_CONSOLE_SITE } from "./lib/google-auth";
-import { toSitePath } from "./lib/site";
+import { toSitePath, siteFilterGroups } from "./lib/site";
 
 const GA4_PROPERTY = process.env.GA4_PROPERTY_ID;
 const REPORT_DIR = "./data/monthly-reports";
-const GOLF_FILTER = {
-  dimension: "page" as const,
-  operator: "includingRegex" as const,
-  expression: "^https://golf\\.peaky\\.co\\.jp/",
-};
-
 type MonthlyReport = {
   date: string;
   period: { startDate: string; endDate: string };
@@ -48,7 +42,7 @@ async function fetchGSC(days = 28) {
   const start = new Date(end); start.setDate(start.getDate() - days);
   const startDate = start.toISOString().split("T")[0];
   const endDate = end.toISOString().split("T")[0];
-  const fg = [{ filters: [GOLF_FILTER] }];
+  const fg = siteFilterGroups();
 
   const [summary, queries, pages] = await Promise.all([
     sc.searchanalytics.query({ siteUrl: SEARCH_CONSOLE_SITE, requestBody: { startDate, endDate, type: "web", dimensionFilterGroups: fg } }),

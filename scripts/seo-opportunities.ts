@@ -12,14 +12,8 @@
 import "dotenv/config";
 import { readFileSync, existsSync } from "fs";
 import { getSearchConsoleClient, SEARCH_CONSOLE_SITE } from "./lib/google-auth";
-import { toSitePath } from "./lib/site";
+import { toSitePath, siteFilterGroups } from "./lib/site";
 import { CONTENT_PAGES } from "./lib/content";
-const GOLF_FILTER = {
-  dimension: "page" as const,
-  operator: "includingRegex" as const,
-  expression: "^https://golf\\.peaky\\.co\\.jp/",
-};
-
 function getDateRange(days = 28) {
   const end = new Date();
   end.setDate(end.getDate() - 3);
@@ -38,7 +32,7 @@ async function main() {
   const { startDate, endDate } = getDateRange(days);
 
   const sc = getSearchConsoleClient();
-  const fg = [{ filters: [GOLF_FILTER] }];
+  const fg = siteFilterGroups();
 
   console.log(`\nSEO機会損失レポート (${startDate} ~ ${endDate})`);
   console.log("=".repeat(70));

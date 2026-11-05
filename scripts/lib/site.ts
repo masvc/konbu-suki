@@ -19,6 +19,26 @@ export const PUBLIC_SITE_URL = SITE_URL.replace(/\/+$/, "");
 /** 自サイトのホスト名。User-Agent やログの見出しに使う。 */
 export const PUBLIC_SITE_HOST = PUBLIC_SITE_URL.replace(/^https?:\/\//, "");
 
+/**
+ * Search Console の検索アナリティクスを自サイトのページだけに絞る条件。
+ *
+ * プロパティに複数サイトが入っている場合、絞らないと他サイトの数字が混ざる。
+ * 各スクリプトに正規表現を直接書くと、ドメインを変えたときに取り残しが出る
+ * （実際、3本が別プロジェクトのドメインで絞ったまま残っていた）。
+ */
+export function sitePageFilter() {
+  return {
+    dimension: "page" as const,
+    operator: "includingRegex" as const,
+    expression: `^${PUBLIC_SITE_URL.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}/`,
+  };
+}
+
+/** searchanalytics.query の dimensionFilterGroups にそのまま渡せる形。 */
+export function siteFilterGroups() {
+  return [{ filters: [sitePageFilter()] }];
+}
+
 /** 絶対 URL をサイト内パスに直す。自サイト以外の URL はそのまま返す。 */
 export function toSitePath(url: string): string {
   const value = url || "";
