@@ -23,6 +23,14 @@ type Guide = {
   datePublished: string;
   dateModified: string;
   searchKeyword?: string;
+  /**
+   * 記事末尾に出す関連記事の slug。話題の近いものを3本選ぶ。
+   *
+   * 未指定だと GUIDES の先頭から順に埋められる。記事が増えると、どの記事を
+   * 開いても同じ4本が並ぶだけになり、内部リンクとして働かない。新しい記事を
+   * 足すときは必ず書く（site-check.ts が未指定を warn で出す）。
+   */
+  related?: string[];
   sections: GuideSection[];
   faq?: FAQ[];
 };
@@ -36,6 +44,7 @@ export const GUIDES: Record<string, Guide> = {
     datePublished: "2026-11-05",
     dateModified: "2026-11-05",
     searchKeyword: "羅臼昆布",
+    related: ["kobujime", "kobujime-vegetables", "kombu-comparison"],
     sections: [
       {
         heading: "結論: 塩を振って5分、酢で湿らせた昆布に挟んで半日",
@@ -96,6 +105,7 @@ export const GUIDES: Record<string, Guide> = {
     datePublished: "2026-11-05",
     dateModified: "2026-11-05",
     searchKeyword: "昆布締め 昆布",
+    related: ["kobujime", "kobujime-hirame", "kombu-storage"],
     sections: [
       {
         heading: "結論: 水でもどした昆布に、塩を振った野菜を挟む",
@@ -157,6 +167,7 @@ export const GUIDES: Record<string, Guide> = {
     datePublished: "2026-11-05",
     dateModified: "2026-11-05",
     searchKeyword: "昆布締め 昆布",
+    related: ["kobujime-hirame", "kobujime-vegetables", "kombu-comparison"],
     sections: [
       {
         heading: "結論: 湿らせた昆布で挟み、冷蔵庫に置くだけ",
@@ -226,6 +237,7 @@ export const GUIDES: Record<string, Guide> = {
     datePublished: "2026-11-05",
     dateModified: "2026-11-05",
     searchKeyword: "がごめ昆布",
+    related: ["tororo-oboro", "kombu-types", "kombu-nutrition"],
     sections: [
       {
         heading: "結論: 函館周辺で採れる、粘りの強い昆布",
@@ -289,6 +301,7 @@ export const GUIDES: Record<string, Guide> = {
     datePublished: "2026-11-05",
     dateModified: "2026-11-05",
     searchKeyword: "とろろ昆布",
+    related: ["gagome-kombu", "kombu-types", "shiokombu-guide"],
     sections: [
       {
         heading: "結論: 削る場所が違う。側面か、表面か",
@@ -344,6 +357,7 @@ export const GUIDES: Record<string, Guide> = {
     datePublished: "2026-11-05",
     dateModified: "2026-11-05",
     searchKeyword: "昆布水 作り方",
+    related: ["how-to-make-dashi", "kombu-recipes", "kombu-storage"],
     sections: [
       {
         heading: "結論: 水1リットルに昆布10gを入れて冷蔵庫に一晩",
@@ -390,6 +404,7 @@ export const GUIDES: Record<string, Guide> = {
     datePublished: "2026-11-05",
     dateModified: "2026-11-05",
     searchKeyword: "昆布 選び方",
+    related: ["kombu-comparison", "kombu-types", "how-to-make-dashi"],
     sections: [
       {
         heading: "結論: 作る料理から選ぶのが一番早い",
@@ -435,6 +450,7 @@ export const GUIDES: Record<string, Guide> = {
     datePublished: "2026-11-05",
     dateModified: "2026-11-05",
     searchKeyword: "昆布 違い",
+    related: ["how-to-choose-kombu", "kombu-types", "how-to-make-dashi"],
     sections: [
       {
         heading: "結論: 用途で選べば迷わない",
@@ -489,6 +505,7 @@ export const GUIDES: Record<string, Guide> = {
     datePublished: "2026-10-25",
     dateModified: "2026-10-26",
     searchKeyword: "昆布 種類",
+    related: ["kombu-comparison", "how-to-choose-kombu", "kombu-production"],
     sections: [
       { heading: "昆布の主な種類と産地", body: "日本で流通する昆布の約90%は北海道産です（農林水産省「漁業・養殖業生産統計」）。産地によって味わいや用途が大きく異なります。\n\n利尻昆布: 北海道の利尻島・礼文島周辺で採れる昆布。透明で上品なだしが特徴で、京都の料亭で重宝されています。お吸い物や湯豆腐に向いています。\n\n羅臼昆布: 知床半島の羅臼町沿岸で採れる「昆布の王様」。濃厚で旨みが強く、煮物やおでんに向いています。\n\n日高昆布: 北海道の日高地方で採れる万能昆布。柔らかく、だしを取った後そのまま食べられるのが特徴です。\n\n真昆布: 函館近海で採れる昆布。上品な甘みのだしが特徴で、大阪の昆布文化を支えています。\n\n※出典: 農林水産省「特集 こんぶ」、北海道庁「北海道の水産業」、北海道水産林務部「北海道お魚図鑑」、北海道ぎょれん「北海道のこんぶ」" },
       { heading: "料理別の昆布の選び方", body: "お吸い物・茶碗蒸し → 利尻昆布（透明な上品なだし）\n煮物・おでん → 羅臼昆布（濃厚な旨み）\n万能・初心者向け → 日高昆布（柔らかく扱いやすい）\n昆布締め・だし → 真昆布（上品な甘み）\nとろろ昆布 → がごめ昆布・細目昆布（粘りが強い）\n\n各産地の昆布の特徴は、農林水産省や北海道庁の水産資料で詳しく紹介されています。" },
@@ -506,6 +523,7 @@ export const GUIDES: Record<string, Guide> = {
     datePublished: "2026-10-25",
     dateModified: "2026-10-26",
     searchKeyword: "昆布だし 取り方",
+    related: ["kombu-water", "kombu-recipes", "how-to-choose-kombu"],
     sections: [
       { heading: "水出し（昆布水）の作り方", body: "水1リットルに昆布10gを入れ、冷蔵庫で3時間以上（できれば一晩）置くだけです。\n\n手順:\n1. 昆布の表面をかたく絞った布巾で軽く拭く（水洗いは旨みが流れるのでNG）\n2. 水1リットルに昆布10gを入れる\n3. 冷蔵庫で3〜8時間置く\n4. 昆布を取り出して完成\n\n冷蔵で3日ほど保存できます。味噌汁・煮物・炊き込みご飯など万能に使えます。" },
       { heading: "煮出しの方法", body: "水1リットルに昆布10gを30分ほど浸けてから、弱火でゆっくり加熱します。\n\n手順:\n1. 水に昆布を30分以上浸ける\n2. 弱火にかけ、沸騰直前（60〜80度）で昆布を取り出す\n3. 沸騰させると昆布の粘りやえぐみが出るので注意\n\nポイントは「沸騰させない」こと。60度前後でグルタミン酸（旨み成分）が最もよく抽出されます。" },
@@ -523,6 +541,7 @@ export const GUIDES: Record<string, Guide> = {
     datePublished: "2026-10-25",
     dateModified: "2026-10-26",
     searchKeyword: "昆布 栄養",
+    related: ["kombu-types", "kombu-recipes", "gagome-kombu"],
     sections: [
       { heading: "昆布の主な栄養成分", body: "文部科学省「日本食品標準成分表」によると、まこんぶ（素干し）100gあたりの主な栄養成分は以下の通りです。\n\nエネルギー: 145kcal\n水溶性食物繊維: 約34g\nカルシウム: 710mg\nカリウム: 6,100mg\nマグネシウム: 510mg\n鉄: 3.9mg\nヨウ素: 200,000μg以上\n\n※出典: 文部科学省 日本食品標準成分表2020年版（八訂）" },
       { heading: "注目される成分", body: "アルギン酸（水溶性食物繊維）: 昆布の粘り気のもとになる成分です。食物繊維として腸内環境の改善に寄与する可能性が研究されています。\n\nフコイダン: 昆布などの褐藻類に含まれる多糖類です。免疫機能への影響について研究が進められています。\n\nグルタミン酸: 昆布の旨み成分。1908年に池田菊苗博士が発見し、「うま味」として世界的に認知されました。" },
@@ -541,6 +560,7 @@ export const GUIDES: Record<string, Guide> = {
     datePublished: "2026-10-25",
     dateModified: "2026-10-26",
     searchKeyword: "塩昆布 おすすめ",
+    related: ["kombu-recipes", "tororo-oboro", "how-to-choose-kombu"],
     sections: [
       { heading: "塩昆布の選び方", body: "塩昆布には大きく分けて「汐吹き昆布」と「角切り昆布」の2タイプがあります。\n\n汐吹き昆布: 薄く削った昆布に塩味をつけたもの。小倉屋山本のえびすめが代表格。\n角切り昆布: 角切りにした昆布を醤油・みりんで煮詰めたもの。くらこんやフジッコが代表。\n\n用途に合わせて選びましょう。" },
       { heading: "塩昆布の活用レシピ", body: "ごはんのお供: そのまま白ごはんに載せる定番の食べ方\nおにぎり: ごはんに混ぜ込んで握るだけ\n和風パスタ: 茹でたパスタにバターと塩昆布を和える\nサラダ: キャベツやきゅうりに塩昆布を和えるだけの即席サラダ\nお茶漬け: 塩昆布とお茶をかけるだけの簡単お茶漬け\n卵焼き: 卵液に塩昆布を混ぜて焼く\nチャーハン: 仕上げに塩昆布を加えて旨み追加" },
@@ -557,6 +577,7 @@ export const GUIDES: Record<string, Guide> = {
     datePublished: "2026-10-25",
     dateModified: "2026-11-05",
     searchKeyword: "昆布 保存方法",
+    related: ["kombu-recipes", "how-to-make-dashi", "kombu-water"],
     sections: [
       {
         heading: "結論: 湿気を避ければ常温でよい。冷蔵庫や冷凍庫でも構わない",
@@ -605,6 +626,7 @@ export const GUIDES: Record<string, Guide> = {
     datePublished: "2026-10-25",
     dateModified: "2026-11-05",
     searchKeyword: "昆布 レシピ",
+    related: ["kombu-storage", "how-to-make-dashi", "shiokombu-guide"],
     sections: [
       {
         heading: "結論: 何を作るかより、どれだけ時間があるかで選ぶ",
@@ -656,6 +678,7 @@ export const GUIDES: Record<string, Guide> = {
     datePublished: "2026-10-25",
     dateModified: "2026-11-05",
     searchKeyword: "昆布 歴史",
+    related: ["kombu-production", "tororo-oboro", "kobujime"],
     sections: [
       {
         heading: "結論: 昆布は北海道から運ばれ、着いた土地ごとに別の形になった",
@@ -708,6 +731,7 @@ export const GUIDES: Record<string, Guide> = {
     datePublished: "2026-10-25",
     dateModified: "2026-10-26",
     searchKeyword: "昆布 産地 北海道",
+    related: ["kombu-types", "kombu-history", "kombu-comparison"],
     sections: [
       { heading: "昆布の生産地", body: "日本の昆布生産量の約95%は北海道産です（農林水産省「漁業・養殖業生産統計」）。主な産地は以下の通りです。\n\n道南地区（函館周辺）: 真昆布、がごめ昆布\n道東地区（釧路・根室）: 長昆布、厚葉昆布\n日高地区: 日高昆布（三石昆布）\n利尻・礼文: 利尻昆布\n羅臼: 羅臼昆布\n\n※出典: 農林水産省「漁業・養殖業生産統計」、北海道庁「北海道の水産業 こんぶ」、水産庁「水産物についての知識」、北海道ぎょれん「北海道のこんぶ」" },
       { heading: "昆布漁の流れ", body: "昆布漁は7月〜9月が最盛期です（水産庁・北海道庁資料）。\n\n1. 採取: 竿を使って海底の昆布を引き上げる\n2. 天日干し: 浜辺に広げて天日で乾燥させる\n3. 選別: 長さ・幅・品質で等級を付ける\n4. 出荷: 卸売市場や加工業者へ\n\n※出典: 水産庁「水産物についての知識」、北海道庁「北海道の水産業」" },

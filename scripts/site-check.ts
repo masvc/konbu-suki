@@ -128,6 +128,25 @@ async function checkSeo() {
     }
   }
 
+  // ── 関連記事（内部リンク） ──
+  // 未指定だと描画側が GUIDES の先頭から4本を埋める。記事が増えると、どの
+  // 記事を開いても同じ4本が並ぶだけになり、内部リンクとして働かない。
+  // 存在しない slug を指しているとリンクが1本消えるが、画面上は分からない。
+  const guideSlugs = new Set(Object.keys(GUIDES));
+  for (const [slug, guide] of Object.entries(GUIDES)) {
+    if (!guide.related || guide.related.length === 0) {
+      add("warn", "seo", `guide/${slug}: related 未指定（関連記事が先頭4本の固定になる）`);
+      continue;
+    }
+    for (const target of guide.related) {
+      if (target === slug) {
+        add("warn", "seo", `guide/${slug}: related が自分自身を指している`);
+      } else if (!guideSlugs.has(target)) {
+        add("warn", "seo", `guide/${slug}: related に存在しない slug "${target}"`);
+      }
+    }
+  }
+
   // ── ガイド画像 ──
   // 画像を宣言しているのにファイルが無いのは壊れたリンクなので error。
   // 宣言していない記事は、画像が無いだけで壊れてはいない（ページも

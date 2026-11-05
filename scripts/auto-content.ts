@@ -60,6 +60,8 @@ const PROMPT = `docs/topic-map.md と docs/content-log.md と CLAUDE.md を読�
    出典は使わない。
 3. 記事は docs/topic-map.md の「記事の型」に従う。比較表・早見表は本文に
    Markdown で書かず、GuideSection の table として持たせる。
+   関連記事の slug を related に3本書く（書き忘れると記事末尾が先頭4本の
+   固定になる）。既存記事側の related にも、今回の記事を足せる場所がないか見る。
 4. 新規記事なら scripts/generate-guide-images.ts の PROMPTS にアイキャッチの
    プロンプトを追加し、\`npx tsx scripts/generate-guide-images.ts <slug>\` で生成して
    image と imageAlt を設定する。生成に失敗したら画像なしで進め、理由を記録に残す。

@@ -30,6 +30,17 @@ export default async function GuidePage({ params }: Props) {
   const guide = GUIDES[slug as GuideSlug];
   if (!guide) notFound();
 
+  // 関連記事は guide.related から引く。未指定のときだけ先頭から埋める。
+  // 全記事で先頭から埋めると、どの記事を開いても同じ4本が並ぶだけになり、
+  // 記事が増えるほど内部リンクとして働かなくなる。
+  const relatedEntries: [string, (typeof GUIDES)[string]][] = guide.related?.length
+    ? guide.related
+        .filter((s) => s !== slug && GUIDES[s as GuideSlug])
+        .map((s) => [s, GUIDES[s as GuideSlug]])
+    : Object.entries(GUIDES)
+        .filter(([s]) => s !== slug)
+        .slice(0, 4);
+
   // パンくずの構造化データは Breadcrumb コンポーネントが出している。
   // ここで作ると二重になるので持たない。
 
@@ -155,14 +166,11 @@ export default async function GuidePage({ params }: Props) {
           </section>
         )}
 
-        {/* 他のガイドへの導線 */}
+        {/* 関連記事への導線 */}
         <section className="mt-10 pt-8 border-t border-gray-100">
-          <h2 className="text-base font-bold text-gray-900 mb-4">他の昆布ガイド</h2>
+          <h2 className="text-base font-bold text-gray-900 mb-4">関連する昆布ガイド</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-            {Object.entries(GUIDES)
-              .filter(([s]) => s !== slug)
-              .slice(0, 4)
-              .map(([s, g]) => (
+            {relatedEntries.map(([s, g]) => (
                 <Link key={s} href={`/guide/${s}`} className="group rounded-lg border border-gray-100 bg-white p-3 hover:border-[#52b788] transition">
                   <p className="text-xs font-bold text-gray-900 group-hover:text-[#2d6a4f] transition">{g.title}</p>
                   <p className="text-[10px] text-gray-400 mt-0.5 line-clamp-1">{g.description}</p>
