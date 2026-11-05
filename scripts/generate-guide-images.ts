@@ -38,6 +38,7 @@ const ai = new GoogleGenAI({ apiKey: API_KEY });
 const STYLE = "Minimal, clean food photography style. Deep green and warm amber tones. No text, no letters, no watermarks. Japanese kombu kelp theme. Wide 16:9 aspect ratio. Professional, warm, natural.";
 
 const PROMPTS: Record<string, string> = {
+  "kobujime-hirame": `${STYLE} Thin translucent slices of white fish sashimi arranged on a sheet of dark moistened kombu kelp, with a finished plate of sliced kombu-cured fish and a lemon round beside it. Overhead, cool clean light, refined Japanese presentation.`,
   "kobujime-vegetables": `${STYLE} A rehydrated sheet of kombu kelp on a pale plate, topped with thin slices of yamaimo and daikon radish and a few mizuna leaves, a second kombu sheet resting beside it ready to cover. Overhead flat lay, fresh and crisp, soft daylight.`,
   "kobujime": `${STYLE} A sheet of moistened dark kombu kelp on a pale ceramic plate with thin slices of white fish laid across it, a second sheet of kombu being placed on top. Overhead, soft natural light, Japanese kitchen, clean and precise.`,
   "gagome-kombu": `${STYLE} A single piece of dried kombu kelp photographed at a slight angle in raking side light, its surface covered in a distinctive raised lattice texture like woven basketwork. Dark olive green, pale linen background, macro texture detail.`,
