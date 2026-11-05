@@ -49,9 +49,13 @@ const stringAfter = (flag: string): string | null => {
   return i === -1 ? null : args[i + 1] || null;
 };
 const numberAfter = (flag: string, fallback: number): number => {
+  // Number(null) は 0 になる。素直に書くと、--minutes を渡さないときに
+  // 既定値ではなく 0 が通り、打ち切り時間が「無制限」になってしまう。
+  // 枠が無制限に走ると次の枠と重なるので、未指定は必ず既定値に落とす。
   const v = stringAfter(flag);
+  if (v === null) return fallback;
   const n = Number(v);
-  return Number.isFinite(n) ? n : fallback;
+  return Number.isFinite(n) && n > 0 ? n : fallback;
 };
 
 function git(...a: string[]): string {
@@ -245,8 +249,9 @@ async function main() {
     }
 
     // 枠の結果を残す。最後の枠がこれを読んで報告をまとめる。
+    const statusFile = path.join(dir, `status-${slot.name}.json`);
     writeFileSync(
-      path.join(dir, `status-${slot.name}.json`),
+      statusFile,
       JSON.stringify(
         {
           slot: slot.name,
@@ -262,6 +267,20 @@ async function main() {
         2
       )
     );
+
+    // 自分でコミットまでやる。claude がコミットし終わった後に書くファイルなので、
+    // 放っておくと未コミットのまま残り、次の枠が開始前に stash へ退避してしまう。
+    // そうなると最後の枠（wrapup）が status-*.json を読めず、どの枠で何が
+    // あったのか分からない報告になる。
+    try {
+      git("add", "--", statusFile);
+      git("commit", "-q", "-m", `夜間実行の記録: ${slot.title}`);
+      git("push", "-q", "origin", "HEAD");
+    } catch (e) {
+      console.log(
+        `枠の記録をコミットできなかった: ${e instanceof Error ? e.message : String(e)}`
+      );
+    }
 
     // 報告は最後の枠（wrapup）が自分でまとめて流す。途中の枠から毎回流すと、
     // 一晩に5通届いて何が進んだのか読み取れない。うまくいかなかった枠だけ、

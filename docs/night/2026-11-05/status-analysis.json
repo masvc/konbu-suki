@@ -1,0 +1,12 @@
+{
+  "slot": "analysis",
+  "title": "分析",
+  "startedAt": "2026-11-05T14:08:02.656Z",
+  "minutes": 6,
+  "limitMinutes": 0,
+  "commits": [
+    "夜間分析: 検索とGA4はゼロ、AI引用0/16から伸びしろ10本を出した"
+  ],
+  "exit": 0,
+  "trouble": []
+}
