@@ -44,6 +44,27 @@ const applyFrom = (() => {
 const OUT_DIR = path.resolve(__dirname, "tmp");
 
 /**
+ * 夜間の無人実行では、全件まとめての書き込みを禁じる。
+ *
+ * ユーザーが許可したのは「レビュー待ちのうち再照合で score>=0.85 になったものを
+ * 適用する」ところまで。--write だけを付けると既定の 0.72 以上がすべて書き込まれ、
+ * 許可の範囲を超える。triage-rakuten.ts が振り分けた --apply のファイル経由だけに
+ * 絞る。CLAUDE.md「DB書き込みルール」の例外の条件をコードで担保する。
+ *
+ * 手で実行するとき（NIGHT_RUN が無いとき）は、これまでどおり制限しない。
+ */
+if (process.env.NIGHT_RUN === "1" && write && !applyFrom) {
+  console.error(
+    "夜間の実行では --write 単体を受け付けない。\n" +
+      "  1) npx tsx scripts/match-rakuten.ts            （下見。JSON が scripts/tmp に出る）\n" +
+      "  2) npx tsx scripts/triage-rakuten.ts <その JSON>（score>=0.85 だけに絞る）\n" +
+      "  3) npx tsx scripts/match-rakuten.ts --apply scripts/tmp/rakuten-apply.json --write\n" +
+      "の順で行う。"
+  );
+  process.exit(1);
+}
+
+/**
  * 検索語の候補を、具体的な順に並べて作る。
  *
  * 楽天の検索は指定した語を全部含むものだけを返す。商品名をそのまま渡すと

@@ -100,6 +100,8 @@ npm run typecheck:scripts   # scripts/ の型チェック（tsconfig.json の対
 | `check-links.ts` | sitemap 起点の全ページとリンク切れ（内部・外部） |
 | `meta-check.ts` | 全ページの meta title / description |
 | `optimize-guide-images.ts` | ガイド画像の200KB超えを探して品質だけ落とす（`npm run images:optimize`、書き換えは `-- --write`） |
+| `ai-citation-check.ts` | AI検索で引用されているかを見る（`npm run ai:citation`）。狙いキーワードごとに自サイトの引用有無・引用元ドメイン・AIが投げた検索クエリを残す |
+| `post-slack.ts` | ファイルの中身を Slack に流す。夜間の最後の枠が報告に使う |
 | `health-report.ts` | 上記をまとめて実行し、ログを残して Slack へ要約を投げる |
 
 `site-check.ts` は `--offline` で本番サイトを叩かずローカルとDBだけを見る。
@@ -121,10 +123,16 @@ npx tsx scripts/install-launchd.ts --uninstall  # 登録を外す
 
 | ラベル | いつ | 中身 |
 | --- | --- | --- |
-| `com.konbusuki.checks` | 毎日 7:00 | 定期点検（サイト品質・リンク・meta） |
-| `com.konbusuki.content` | 毎日 1:00 / 3:00 / 5:00 | 夜間の記事作成（1起動で1本） |
+| `com.konbusuki.checks` | 毎日 9:00 | 定期点検（サイト品質・リンク・meta） |
+| `com.konbusuki.night.analysis` | 毎日 23:00 | 夜間 分析 |
+| `com.konbusuki.night.improve` | 毎日 1:00 | 夜間 既存記事の改善 |
+| `com.konbusuki.night.create` | 毎日 3:00 | 夜間 新規記事 |
+| `com.konbusuki.night.maintain` | 毎日 5:00 | 夜間 点検と内部リンク |
+| `com.konbusuki.night.wrapup` | 毎日 7:00 | 夜間 仕上げと報告 |
 
-時刻は `--hour 9`（点検）、`--night 1,4`（記事作成）で変えられる。
+点検の時刻は `--hour 10` で変えられる。夜間の5枠の時刻は
+`scripts/lib/night-slots.ts` が持つ。点検を9:00にしているのは、夜間の最後の枠
+（7:00）と重なると本番サイトを同時に叩き、Slack にも2通届くため。
 
 作業報告は**定時実行しない**。以前は `com.konbusuki.activity` が2時間ごとに
 流していたが、時間で区切ると同じ成果が何度も報告される。作業が一通り終わった
@@ -147,27 +155,50 @@ launchctl list com.konbusuki.checks   # PID があれば実行中
 `.env` を書き換えて試すときは、PID が消えてから `start` する
 （`.env` は実行開始時に読まれるため、途中で書き換えてもその回には効かない）。
 
-## 夜間の記事作成（自動）
+## 夜間実行（自動・10時間5枠）
 
-`scripts/auto-content.ts` が `claude -p` を1回呼んで、記事を1本書かせる。
-`docs/topic-map.md` と `docs/content-log.md` の「次にやる予定」を見て対象を決め、
-ビルドが通ることを確認してから1コミットで push する。
+23:00 から翌朝 7:00 までを5枠に分け、枠ごとに役割を変えて `claude -p` を走らせる。
 
-記事が書けた回は、最後に `activity-report.ts` を呼んで Slack に報告する。
-書けなかった回・打ち切られた回だけ、理由を `auto-content.ts` 側から流す
-（`activity-report.ts` は「公開物の変更はなし」としか言えず、打ち切りが伝わらない）。
-1回の作業で報告が2通にならないよう、どちらか一方だけが流れる。
+| 時刻 | 枠 | やること |
+| --- | --- | --- |
+| 23:00 | `analysis` | GSC / GA4 / AI引用チェックを集め、伸びしろのある記事トップ10を出す |
+| 1:00 | `improve` | その結果にそって既存記事を直す。変更前後を記録する |
+| 3:00 | `create` | 新規記事を3本 |
+| 5:00 | `maintain` | 内部リンクの見直し、全体点検、楽天マッチの再照合と適用 |
+| 7:00 | `wrapup` | トピックマップの更新と Slack 報告 |
 
 ```bash
-npm run auto:content -- --dry        # 渡すプロンプトと引数を確認するだけ
-npm run auto:content                 # 1回分を手で走らせる
-npm run auto:content -- --minutes 60 # 打ち切り時間（既定45分）
+npm run night -- --list                  # 枠の一覧
+npm run night -- --slot analysis --dry   # 渡すプロンプトを確認するだけ
+npm run night -- --slot create           # 1枠を手で走らせる
+npm run night -- --slot create --minutes 60
 ```
 
+枠の定義（時刻・役割・プロンプト）は `scripts/lib/night-slots.ts` にまとめてある。
+launchd への登録もそこを読むので、時刻を2箇所に書かない。
+
+**毎回同じことをさせず、順番に意味を持たせている。** 分析 → 既存改善 → 新規 →
+点検 → 仕上げの順なら、前の枠の結果を次の枠がそのまま使える。朝には
+「数字を見て直した状態」になる。
+
 **対話モードではなく `-p` を使う。** 対話モードは返事を返したところで一区切りに
-なる作りで、夜通し走らせる用途に向かない（実際に途中で止まった）。1起動で1本に
-区切り、launchd から何回か呼ぶ。会話が毎回まっさらになるので、文脈が膨らんで
-判断が重くなることもない。
+なる作りで、夜通し走らせる用途に向かない（実際に途中で止まった）。1枠1起動に
+区切る。会話が毎回まっさらになるので、文脈が膨らんで判断が重くなることもない。
+
+### 枠をまたぐ受け渡し
+
+`docs/night/YYYY-MM-DD/` に置く。日付は12時間戻して決めるので、23:00 の枠と
+翌朝 7:00 の枠が同じフォルダに入る。詳細は [docs/night/README.md](docs/night/README.md)。
+
+### 二重起動と後片付け
+
+- 枠が重ならないよう `~/Library/Logs/konbu-suki/night.lock` で排他する。
+  前の枠が打ち切り時間まで粘ると次の枠と重なり、claude が2つ同時にコミットして
+  片方の変更を巻き込むため
+- 未コミットの変更が残っていたら `git stash` に退避してから始める。捨てないが、
+  claude の変更と混ぜない。退避したことは `held.md` に書く
+- `git pull --ff-only` が通らないときは、その枠を見送って Slack に流す。
+  履歴が分かれた状態で無人のまま進めるとこじれるため
 
 ### 初回だけ：権限ファイルを作る
 
@@ -176,26 +207,37 @@ cp auto-settings.example.json auto-settings.json
 ```
 
 `-p` では権限を都度聞けないため、許可していない操作は黙って拒否される。
-許可・禁止はこのファイルに書く。`auto-settings.json` は gitignore 対象
-（機種ごとに変えられるようにするため）。雛形では次を禁止している。
+許可・禁止はこのファイルに書く。`auto-settings.json` は gitignore 対象。
+雛形では次を禁止している。
 
-- DB書き込み系のスクリプトと `prisma`（CLAUDE.md の「DB書き込みは事前確認」を自動実行でも守る）
-- `.env` と `google-credentials.json` の読み取り
-- `git push --force` / `git reset --hard` / `rm`
+- 商品を取り込む系のスクリプトと `prisma`、`.env` と `google-credentials.json` の読み取り
+- `git push --force` / `git reset --hard` / `rm` / `git stash drop`
+- 自分自身の登録を変えること（`install-launchd.ts` / `launchctl` / `night-run.ts`）
+
+楽天マッチの適用だけは例外で許可している（CLAUDE.md「楽天マッチの自動適用」）。
+`--write` 単体は `NIGHT_RUN=1` のときスクリプト側が拒否するので、
+`triage-rakuten.ts` が絞った分しか入らない。
+
+### 報告
+
+報告は最後の枠（7:00）が `docs/night/<日付>/report.md` を書いて
+`scripts/post-slack.ts` で流す。1晩1通。途中の枠は、打ち切られたときと
+異常終了したときだけ理由を流す。
 
 ### 止めたいとき
 
 ```bash
-touch .stop   # 次の起動から何もしない
+touch .stop   # 次の枠から何もしない
 rm .stop      # 再開
 ```
 
 ### 動かないときに見るところ
 
-- ログ: `~/Library/Logs/konbu-suki/com.konbusuki.content.{out,err}.log`
-- 未コミットの変更が残っていると、AIの変更と混ざるため走らずに見送る
+- ログ: `~/Library/Logs/konbu-suki/com.konbusuki.night.<枠>.{out,err}.log`
 - launchd の PATH には Homebrew が入っていない。`claude` と `node` の場所は
   スクリプト側で解決して渡している（手では通るのに定時実行だけ落ちる形を避ける）
+- Mac がスリープしていると定時に起動しない。AC電源で `pmset -g custom` の
+  `sleep 0` を確認する
 - Slack に出ない場合は `.env` の `SLACK_OPS_WEBHOOK_URL` が未設定
 
 ## 分析スクリプト

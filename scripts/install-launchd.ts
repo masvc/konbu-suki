@@ -5,20 +5,27 @@
  *   npx tsx scripts/install-launchd.ts             # plist を生成して手順を表示
  *   npx tsx scripts/install-launchd.ts --install   # 生成して登録まで行う
  *   npx tsx scripts/install-launchd.ts --uninstall # 登録を外す
- *   npx tsx scripts/install-launchd.ts --hour 9    # 定期点検の時刻（既定7時）
- *   npx tsx scripts/install-launchd.ts --night 1,4 # 夜間の記事作成の時刻（既定 1,3,5）
+ *   npx tsx scripts/install-launchd.ts --hour 10   # 定期点検の時刻（既定9時）
  *
  * 登録するもの:
- *   com.konbusuki.checks    定期点検（毎日7時）
- *   com.konbusuki.content   夜間の記事作成（1時・3時・5時に1本ずつ）
+ *   com.konbusuki.checks           定期点検（毎日9時）
+ *   com.konbusuki.night.analysis   23:00 分析
+ *   com.konbusuki.night.improve     1:00 既存記事の改善
+ *   com.konbusuki.night.create      3:00 新規記事
+ *   com.konbusuki.night.maintain    5:00 点検と内部リンク
+ *   com.konbusuki.night.wrapup      7:00 仕上げと報告
+ *
+ * 夜間の5枠は scripts/night-run.ts の SLOTS が持っている。時刻も役割も
+ * あちらに書いてあるので、ここでは一覧から組み立てるだけにする。2箇所に
+ * 時刻を書くと必ずずれる。
  *
  * 廃止したもの:
- *   com.konbusuki.activity  作業報告を2時間ごとに流していた。時間で区切ると、
- *                           同じ成果が何度も報告される。作業が一通り終わった
- *                           時点で1回流す形に変えたので、定時実行はしない。
- *                           報告は scripts/auto-content.ts が最後に呼ぶ。
- *                           RETIRED_LABELS に入れてあるので、--install でも
- *                           --uninstall でも登録が外れる。
+ *   com.konbusuki.activity  作業報告を2時間ごとに流していた。時間で区切ると
+ *                           同じ成果が何度も報告される。作業が終わった時点で
+ *                           1回流す形に変えた。
+ *   com.konbusuki.content   記事を書くだけの枠。役割ごとの5枠に置き換えた。
+ *   どちらも RETIRED_LABELS に入れてあるので、--install でも --uninstall でも
+ *   登録が外れる。
  *
  * plist を固定ファイルとしてリポジトリに置くと、node のパスやプロジェクトの
  * 置き場所が機種ごとに違うため、別のPCで pull したときに動かない。
@@ -43,6 +50,7 @@ import { execFileSync } from "node:child_process";
 import { mkdirSync, writeFileSync, existsSync, copyFileSync, unlinkSync } from "node:fs";
 import { homedir } from "node:os";
 import path from "node:path";
+import { SLOTS as NIGHT_SLOTS } from "./lib/night-slots";
 
 const PROJECT_ROOT = path.resolve(__dirname, "..");
 const TSX_CLI = path.join(PROJECT_ROOT, "node_modules", "tsx", "dist", "cli.mjs");
@@ -54,22 +62,16 @@ const args = process.argv.slice(2);
 const install = args.includes("--install");
 const uninstall = args.includes("--uninstall");
 const hourArg = args.indexOf("--hour");
+// 9時にしているのは、夜間の最後の枠（7:00 仕上げと報告）と重ならないようにするため。
+// 同じ時刻だと、点検と仕上げが同時に本番サイトを叩き、Slack にも2通届く。
 const dailyHour =
-  hourArg !== -1 && Number.isFinite(Number(args[hourArg + 1])) ? Number(args[hourArg + 1]) : 7;
-
-/** 夜間の記事作成を走らせる時刻。--night 1,3,5 のように渡せる。 */
-const nightArg = args.indexOf("--night");
-const NIGHT_HOURS =
-  nightArg !== -1 && args[nightArg + 1]
-    ? args[nightArg + 1]
-        .split(",")
-        .map((h) => Number(h.trim()))
-        .filter((h) => Number.isInteger(h) && h >= 0 && h <= 23)
-    : [1, 3, 5];
+  hourArg !== -1 && Number.isFinite(Number(args[hourArg + 1])) ? Number(args[hourArg + 1]) : 9;
 
 type Job = {
   label: string;
   script: string;
+  /** script に渡す引数 */
+  args?: string[];
   /** 毎日この時刻に動かす */
   hour?: number;
   /** 毎日これらの時刻に動かす（hour / intervalSeconds と排他） */
@@ -85,24 +87,23 @@ type Job = {
  * JOBS から消すだけでは、すでに登録済みのPCに残り続ける。別のPCで pull した
  * ときにも外れるよう、ここに置いて毎回取り消す。
  */
-const RETIRED_LABELS = ["com.konbusuki.activity"];
+const RETIRED_LABELS = ["com.konbusuki.activity", "com.konbusuki.content"];
 
 const JOBS: Job[] = [
   {
     label: "com.konbusuki.checks",
     script: "scripts/health-report.ts",
     hour: dailyHour,
-    description: "定期点検（サイト品質・リンク・meta）",
+    description: "定期点検（夜間の枠とは独立。夜間が失敗した日でも点検は走る）",
   },
-  {
-    // 1回の起動で記事1本。対話モードは返事で区切られて夜通し走らないため、
-    // 起動を分ける（scripts/auto-content.ts の冒頭に経緯あり）。
-    // 1本あたり最大45分を見て、間隔は2時間空けておく。
-    label: "com.konbusuki.content",
-    script: "scripts/auto-content.ts",
-    hours: NIGHT_HOURS,
-    description: "夜間の記事作成（1起動で1本）",
-  },
+  // 夜間の5枠。時刻と役割は night-run.ts の SLOTS が持つ。
+  ...NIGHT_SLOTS.map((slot) => ({
+    label: `com.konbusuki.night.${slot.name}`,
+    script: "scripts/night-run.ts",
+    args: ["--slot", slot.name],
+    hour: slot.hour,
+    description: `夜間 ${slot.title}`,
+  })),
 ];
 
 function escapeXml(text: string): string {
@@ -179,6 +180,7 @@ ${job.hours.map(calendarEntry).join("\n")}
     <string>${escapeXml(NODE_PATH)}</string>
     <string>${escapeXml(TSX_CLI)}</string>
     <string>${escapeXml(job.script)}</string>
+${(job.args ?? []).map((a) => `    <string>${escapeXml(a)}</string>`).join("\n")}
   </array>
   <key>WorkingDirectory</key><string>${escapeXml(PROJECT_ROOT)}</string>
 ${schedule}

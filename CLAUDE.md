@@ -33,6 +33,17 @@
 - DB書き込み（INSERT/UPDATE/DELETE）は事前にユーザーの確認を取る
 - Amazon PA-API/Creators APIの規約に従い、価格は定期更新が必要
 
+### 例外: 楽天マッチの自動適用（2026-11-05 ユーザーが許可）
+夜間実行の点検枠に限り、次の範囲だけ確認なしで書き込める。
+- 対象は `rakutenUrl` / `rakutenId` のみ
+- `scripts/triage-rakuten.ts` が振り分けた分だけ（score>=0.85 かつ「相手だけ複数個入り」
+  「価格が離れている」に当たらないもの）
+- 適用は `match-rakuten.ts --apply <json> --write` の経路のみ。`--write` 単体は
+  `NIGHT_RUN=1` のときスクリプト側が拒否する（しきい値 0.72 まで広がってしまうため）
+- 適用件数を `docs/night/<日付>/maintain.md` に残す
+
+この範囲を広げるときは、ここを書き換えてから行う。
+
 ## 技術スタック
 - Next.js + Tailwind CSS v4 + Prisma + PostgreSQL (AWS RDS)
 - デプロイ: AWS Amplify（GitHub連携自動デプロイ、amplify.yml）

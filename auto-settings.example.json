@@ -1,5 +1,5 @@
 {
-  "$comment": "夜間の自動記事作成（scripts/auto-content.ts）が claude -p に渡す権限設定の雛形。このファイルを auto-settings.json にコピーして使う。auto-settings.json は gitignore 対象（機種ごとに変えられるようにするため）。-p では都度の確認ができないので、許可していない操作は黙って拒否される。deny は allow より強い。なお $? や ${PIPESTATUS[0]} のような置換を混ぜたコマンドは、allow に並べても拒否される。1コマンドずつ素の形で実行させる（プロンプト側にも書いてある）。",
+  "$comment": "夜間実行（scripts/night-run.ts）が claude -p に渡す権限設定の雛形。このファイルを auto-settings.json にコピーして使う。auto-settings.json は gitignore 対象（機種ごとに変えられるようにするため）。-p では都度の確認ができないので、許可していない操作は黙って拒否される。deny は allow より強い。なお $? や ${PIPESTATUS[0]} のような置換を混ぜたコマンドは、allow に並べても拒否される。1コマンドずつ素の形で実行させる（プロンプト側にも書いてある）。",
   "permissions": {
     "defaultMode": "acceptEdits",
     "allow": [
@@ -11,6 +11,7 @@
       "WebFetch",
       "WebSearch",
       "TodoWrite",
+
       "Bash(git status:*)",
       "Bash(git diff:*)",
       "Bash(git log:*)",
@@ -19,14 +20,34 @@
       "Bash(git commit:*)",
       "Bash(git push:*)",
       "Bash(git pull --ff-only)",
+      "Bash(git stash list)",
+
       "Bash(npm run build)",
       "Bash(npm run lint)",
       "Bash(npm run typecheck:scripts)",
+      "Bash(npm run images:optimize:*)",
+
       "Bash(npx tsx scripts/generate-guide-images.ts:*)",
       "Bash(npx tsx scripts/meta-check.ts:*)",
       "Bash(npx tsx scripts/site-check.ts:*)",
-      "Bash(npm run images:optimize:*)",
-      "Bash(echo:*)",
+      "Bash(npx tsx scripts/check-links.ts:*)",
+      "Bash(npx tsx scripts/verify-affiliate-links.ts:*)",
+      "Bash(npx tsx scripts/optimize-guide-images.ts:*)",
+
+      "Bash(npx tsx scripts/search-console.ts:*)",
+      "Bash(npx tsx scripts/seo-opportunities.ts:*)",
+      "Bash(npx tsx scripts/seo-snapshot.ts:*)",
+      "Bash(npx tsx scripts/ga4-report.ts:*)",
+      "Bash(npx tsx scripts/ai-quality.ts:*)",
+      "Bash(npx tsx scripts/ai-traffic.ts:*)",
+      "Bash(npx tsx scripts/ai-citation-check.ts:*)",
+      "Bash(npx tsx scripts/weekly.ts:*)",
+
+      "Bash(npx tsx scripts/match-rakuten.ts:*)",
+      "Bash(npx tsx scripts/triage-rakuten.ts:*)",
+
+      "Bash(npx tsx scripts/post-slack.ts:*)",
+
       "Bash(ls:*)",
       "Bash(cat:*)",
       "Bash(sed -n:*)",
@@ -34,7 +55,9 @@
       "Bash(wc:*)",
       "Bash(find:*)",
       "Bash(head:*)",
-      "Bash(tail:*)"
+      "Bash(tail:*)",
+      "Bash(mkdir -p:*)",
+      "Bash(echo:*)"
     ],
     "deny": [
       "Read(./.env)",
@@ -42,21 +65,28 @@
       "Edit(./.env)",
       "Edit(./.env.*)",
       "Read(./google-credentials.json)",
+
       "Bash(git push --force:*)",
       "Bash(git push -f:*)",
       "Bash(git reset --hard:*)",
       "Bash(git rebase:*)",
+      "Bash(git stash drop:*)",
+      "Bash(git stash clear)",
       "Bash(rm:*)",
+
       "Bash(npm run db:seed)",
       "Bash(npm run db:migrate)",
       "Bash(npm run env:push:*)",
       "Bash(npx prisma:*)",
       "Bash(npx tsx prisma/seed.ts:*)",
-      "Bash(npx tsx scripts/match-rakuten.ts:*)",
       "Bash(npx tsx scripts/fetch-rakuten-kombu.ts:*)",
       "Bash(npx tsx scripts/fetch-amazon-kombu.ts:*)",
+      "Bash(npx tsx scripts/fetch-missing-images.ts:*)",
       "Bash(npx tsx scripts/add-product.ts:*)",
-      "Bash(npx tsx scripts/env-sync.ts:*)"
+      "Bash(npx tsx scripts/env-sync.ts:*)",
+      "Bash(npx tsx scripts/install-launchd.ts:*)",
+      "Bash(npx tsx scripts/night-run.ts:*)",
+      "Bash(launchctl:*)"
     ]
   }
 }
