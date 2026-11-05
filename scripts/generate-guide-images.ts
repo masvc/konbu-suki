@@ -38,6 +38,7 @@ const ai = new GoogleGenAI({ apiKey: API_KEY });
 const STYLE = "Minimal, clean food photography style. Deep green and warm amber tones. No text, no letters, no watermarks. Japanese kombu kelp theme. Wide 16:9 aspect ratio. Professional, warm, natural.";
 
 const PROMPTS: Record<string, string> = {
+  "gagome-kombu": `${STYLE} A single piece of dried kombu kelp photographed at a slight angle in raking side light, its surface covered in a distinctive raised lattice texture like woven basketwork. Dark olive green, pale linen background, macro texture detail.`,
   "tororo-oboro": `${STYLE} Two kinds of shaved kombu side by side on a pale linen cloth: a fluffy tangled mound of fine kombu shavings on the left, and a single broad translucent sheet of shaved kombu on the right, thin enough to see through. Overhead flat lay, soft even light, texture comparison.`,
   "kombu-water": `${STYLE} A clear glass bottle of pale golden kombu water with a strip of dried kelp inside, resting on a refrigerator shelf. Cool clean light, minimal, calm.`,
   "how-to-choose-kombu": `${STYLE} Several kinds of dried kombu laid out beside small Japanese bowls and a wooden spoon on a linen cloth, overhead flat lay suggesting choosing by dish.`,
