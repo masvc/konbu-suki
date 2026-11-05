@@ -38,8 +38,13 @@
 ### SEO
 - [x] **meta 要修正 35 件** — 2026-11-05 修正済み（35件→0件）
       カテゴリ・産地・ガイドの title/description を改善
-- [ ] 本文が薄いガイド3本 — kombu-recipes(162字) / kombu-storage(208字) /
-      kombu-history(261字)
+- [x] 本文が薄いガイド3本 — 2026-11-05 強化済み
+      - kombu-storage 208字→約1,900字（状態別の早見表）
+      - kombu-recipes 162字→約1,600字（調理時間別の早見表）
+      - kombu-history 261字→約2,700字（地域別の使い方の表）
+      - 強化のついでに、裏の取れない記述を落とした。特に kombu-history の
+        「大阪は日本最大の昆布消費地」は誤りだった（家計調査2024年では富山市が
+        全国平均の2倍以上）。詳細は docs/content-log.md
 - [ ] E-E-A-T ページが無い — `/about/editorial-policy` と `/about/data`
       （`/about` はある）
 
