@@ -147,6 +147,16 @@ async function checkSeo() {
     }
   }
 
+  // どの記事の related にも入っていない記事は、記事末尾からたどり着けない孤立記事。
+  const linkedTo = new Set(
+    Object.entries(GUIDES).flatMap(([slug, g]) => (g.related ?? []).filter((t) => t !== slug)),
+  );
+  for (const slug of guideSlugs) {
+    if (!linkedTo.has(slug)) {
+      add("warn", "seo", `guide/${slug}: 孤立記事（どの記事の related にも入っていない）`);
+    }
+  }
+
   // ── ガイド画像 ──
   // 画像を宣言しているのにファイルが無いのは壊れたリンクなので error。
   // 宣言していない記事は、画像が無いだけで壊れてはいない（ページも
