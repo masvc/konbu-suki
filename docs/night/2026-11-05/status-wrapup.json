@@ -1,0 +1,12 @@
+{
+  "slot": "wrapup",
+  "title": "仕上げと報告",
+  "startedAt": "2026-11-05T22:00:01.635Z",
+  "minutes": 2,
+  "limitMinutes": 100,
+  "commits": [
+    "夜間実行の記録: 報告とトピックマップの見直し（引用0/16、記事候補4件追加）"
+  ],
+  "exit": 0,
+  "trouble": []
+}
