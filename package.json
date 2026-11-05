@@ -15,6 +15,7 @@
     "check:offline": "tsx scripts/health-report.ts --offline --no-slack",
     "launchd": "tsx scripts/install-launchd.ts",
     "auto:content": "tsx scripts/auto-content.ts",
+    "images:optimize": "tsx scripts/optimize-guide-images.ts",
     "env:status": "tsx scripts/env-sync.ts status",
     "env:pull": "tsx scripts/env-sync.ts pull",
     "env:push": "tsx scripts/env-sync.ts push",

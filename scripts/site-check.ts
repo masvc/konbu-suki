@@ -14,7 +14,7 @@
  */
 
 import "dotenv/config";
-import { existsSync, readdirSync } from "fs";
+import { existsSync, readdirSync, statSync } from "fs";
 import { createPrisma } from "./lib/db";
 import { GUIDES } from "../src/lib/guides";
 import { CATEGORY_SLUGS } from "../src/lib/constants";
@@ -165,6 +165,25 @@ async function checkSeo() {
       add("warn", "seo", `guide/${slug}: 画像ファイルはあるが guide.image で指定されていない`);
     } else {
       add("warn", "seo", `guide/${slug}: アイキャッチ画像なし`);
+    }
+  }
+
+  // ── 画像のファイルサイズ ──
+  // CLAUDE.md の「全画像200KB以下」。生成スクリプトは収めてから保存するが、
+  // その処理を入れる前に作った画像が超えたまま残る。覚えておく話にせず点検で出す。
+  // 直すのは npm run images:optimize -- --write。
+  const IMAGE_MAX_BYTES = 200 * 1024;
+  for (const [slug, guide] of Object.entries(GUIDES)) {
+    if (!guide.image) continue;
+    const imgPath = `public${guide.image}`;
+    if (!existsSync(imgPath)) continue;
+    const size = statSync(imgPath).size;
+    if (size > IMAGE_MAX_BYTES) {
+      add(
+        "warn",
+        "seo",
+        `guide/${slug}: 画像が${(size / 1024).toFixed(0)}KB（上限200KB）→ npm run images:optimize -- --write`
+      );
     }
   }
 

@@ -99,6 +99,7 @@ npm run typecheck:scripts   # scripts/ の型チェック（tsconfig.json の対
 | `site-check.ts` | 商品データの欠損・重複、ガイド本文、主要ページの疎通、画像404 |
 | `check-links.ts` | sitemap 起点の全ページとリンク切れ（内部・外部） |
 | `meta-check.ts` | 全ページの meta title / description |
+| `optimize-guide-images.ts` | ガイド画像の200KB超えを探して品質だけ落とす（`npm run images:optimize`、書き換えは `-- --write`） |
 | `health-report.ts` | 上記をまとめて実行し、ログを残して Slack へ要約を投げる |
 
 `site-check.ts` は `--offline` で本番サイトを叩かずローカルとDBだけを見る。
