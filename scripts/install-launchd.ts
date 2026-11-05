@@ -6,10 +6,12 @@
  *   npx tsx scripts/install-launchd.ts --install   # 生成して登録まで行う
  *   npx tsx scripts/install-launchd.ts --uninstall # 登録を外す
  *   npx tsx scripts/install-launchd.ts --hour 9    # 定期点検の時刻（既定7時）
+ *   npx tsx scripts/install-launchd.ts --night 1,4 # 夜間の記事作成の時刻（既定 1,3,5）
  *
  * 登録するもの:
  *   com.konbusuki.checks    定期点検（毎日7時）
  *   com.konbusuki.activity  作業報告（2時間ごと。AIが何をしたかを Slack へ）
+ *   com.konbusuki.content   夜間の記事作成（1時・3時・5時に1本ずつ）
  *
  * plist を固定ファイルとしてリポジトリに置くと、node のパスやプロジェクトの
  * 置き場所が機種ごとに違うため、別のPCで pull したときに動かない。
@@ -48,11 +50,23 @@ const hourArg = args.indexOf("--hour");
 const dailyHour =
   hourArg !== -1 && Number.isFinite(Number(args[hourArg + 1])) ? Number(args[hourArg + 1]) : 7;
 
+/** 夜間の記事作成を走らせる時刻。--night 1,3,5 のように渡せる。 */
+const nightArg = args.indexOf("--night");
+const NIGHT_HOURS =
+  nightArg !== -1 && args[nightArg + 1]
+    ? args[nightArg + 1]
+        .split(",")
+        .map((h) => Number(h.trim()))
+        .filter((h) => Number.isInteger(h) && h >= 0 && h <= 23)
+    : [1, 3, 5];
+
 type Job = {
   label: string;
   script: string;
   /** 毎日この時刻に動かす */
   hour?: number;
+  /** 毎日これらの時刻に動かす（hour / intervalSeconds と排他） */
+  hours?: number[];
   /** この秒数ごとに動かす（hour と排他） */
   intervalSeconds?: number;
   description: string;
@@ -70,6 +84,15 @@ const JOBS: Job[] = [
     script: "scripts/activity-report.ts",
     intervalSeconds: 2 * 60 * 60,
     description: "作業報告（直近2時間に何をしたか）",
+  },
+  {
+    // 1回の起動で記事1本。対話モードは返事で区切られて夜通し走らないため、
+    // 起動を分ける（scripts/auto-content.ts の冒頭に経緯あり）。
+    // 1本あたり最大45分を見て、間隔は2時間空けておく。
+    label: "com.konbusuki.content",
+    script: "scripts/auto-content.ts",
+    hours: NIGHT_HOURS,
+    description: "夜間の記事作成（1起動で1本）",
   },
 ];
 
@@ -110,9 +133,19 @@ function resolveNodePath(): string {
 const NODE_PATH = resolveNodePath();
 
 function buildPlist(job: Job): string {
+  // 複数時刻は StartCalendarInterval を配列で渡す。dict を並べても
+  // 後ろの1つしか効かないため、array で包む必要がある。
+  const calendarEntry = (hour: number) =>
+    `    <dict><key>Hour</key><integer>${hour}</integer><key>Minute</key><integer>0</integer></dict>`;
+
   const schedule = job.intervalSeconds
     ? `  <key>StartInterval</key><integer>${job.intervalSeconds}</integer>`
-    : `  <key>StartCalendarInterval</key>
+    : job.hours
+      ? `  <key>StartCalendarInterval</key>
+  <array>
+${job.hours.map(calendarEntry).join("\n")}
+  </array>`
+      : `  <key>StartCalendarInterval</key>
   <dict>
     <key>Hour</key><integer>${job.hour ?? 7}</integer>
     <key>Minute</key><integer>0</integer>
@@ -188,7 +221,9 @@ function main() {
     writeFileSync(outFile, buildPlist(job));
     const when = job.intervalSeconds
       ? `${job.intervalSeconds / 3600}時間ごと`
-      : `毎日 ${job.hour}:00`;
+      : job.hours
+        ? `毎日 ${job.hours.map((h) => `${h}:00`).join(" / ")}`
+        : `毎日 ${job.hour}:00`;
     console.log(`${job.label}  ${when}  — ${job.description}`);
 
     if (!install) continue;

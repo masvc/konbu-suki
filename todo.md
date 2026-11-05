@@ -74,6 +74,16 @@
       - 以後は各PCで `npm run env:pull`。`npm run env:status` で差分確認
       - 注意: RAKUTEN_APP_ID / SLACK_OPS_WEBHOOK_URL / NEXT_PUBLIC_MOSHIMO_* は
         まだ未設定のまま登録されている。設定後に再度 push が必要
+- [x] **夜間の記事作成を自動化**（2026-11-05）
+      - `scripts/auto-content.ts` が `claude -p` を1回呼んで記事1本を書かせる。
+        launchd の `com.konbusuki.content` が 1:00 / 3:00 / 5:00 に起動する
+      - 対話モードは返事を返したところで一区切りになる作りで、夜通し走らない
+        （実際に途中で止まった）。1起動1本に区切った
+      - 権限は `auto-settings.json`（gitignore 対象、雛形は
+        `auto-settings.example.json`）。`-p` では都度聞けないので、許可して
+        いない操作は黙って拒否される。DB書き込み・`.env` 読み取り・force push は deny
+      - **登録はまだしていない。** `npx tsx scripts/install-launchd.ts --install`
+        を実行すると夜間ジョブが入る
 - [ ] Slack 通知の実運用。webhook は動作確認済みだが、`.env` に
       `SLACK_OPS_WEBHOOK_URL` を入れるまで通知は飛ばない
 

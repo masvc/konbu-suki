@@ -46,3 +46,6 @@ scripts/tmp/
 
 # 自動作業の停止フラグ（ローカル限定）
 .stop
+
+# 夜間の自動記事作成に渡す権限設定（機種ごとに変える。雛形は auto-settings.example.json）
+auto-settings.json

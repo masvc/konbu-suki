@@ -116,6 +116,16 @@ npx tsx scripts/install-launchd.ts --install    # 登録まで行う
 npx tsx scripts/install-launchd.ts --uninstall  # 登録を外す
 ```
 
+登録されるもの:
+
+| ラベル | いつ | 中身 |
+| --- | --- | --- |
+| `com.konbusuki.checks` | 毎日 7:00 | 定期点検（サイト品質・リンク・meta） |
+| `com.konbusuki.activity` | 2時間ごと | 作業報告を Slack へ |
+| `com.konbusuki.content` | 毎日 1:00 / 3:00 / 5:00 | 夜間の記事作成（1起動で1本） |
+
+時刻は `--hour 9`（点検）、`--night 1,4`（記事作成）で変えられる。
+
 plist は実行環境から生成する。node のパスやプロジェクトの位置が機種ごとに
 違うため、固定ファイルをリポジトリに置くと別のPCで動かない。
 ログは `~/Library/Logs/konbu-suki/`。
@@ -131,6 +141,52 @@ launchctl list com.konbusuki.checks   # PID があれば実行中
 走っている最中にもう一度投げても2回目は動かず、ログも1回分しか増えない。
 `.env` を書き換えて試すときは、PID が消えてから `start` する
 （`.env` は実行開始時に読まれるため、途中で書き換えてもその回には効かない）。
+
+## 夜間の記事作成（自動）
+
+`scripts/auto-content.ts` が `claude -p` を1回呼んで、記事を1本書かせる。
+`docs/topic-map.md` と `docs/content-log.md` の「次にやる予定」を見て対象を決め、
+ビルドが通ることを確認してから1コミットで push する。
+
+```bash
+npm run auto:content -- --dry        # 渡すプロンプトと引数を確認するだけ
+npm run auto:content                 # 1回分を手で走らせる
+npm run auto:content -- --minutes 60 # 打ち切り時間（既定45分）
+```
+
+**対話モードではなく `-p` を使う。** 対話モードは返事を返したところで一区切りに
+なる作りで、夜通し走らせる用途に向かない（実際に途中で止まった）。1起動で1本に
+区切り、launchd から何回か呼ぶ。会話が毎回まっさらになるので、文脈が膨らんで
+判断が重くなることもない。
+
+### 初回だけ：権限ファイルを作る
+
+```bash
+cp auto-settings.example.json auto-settings.json
+```
+
+`-p` では権限を都度聞けないため、許可していない操作は黙って拒否される。
+許可・禁止はこのファイルに書く。`auto-settings.json` は gitignore 対象
+（機種ごとに変えられるようにするため）。雛形では次を禁止している。
+
+- DB書き込み系のスクリプトと `prisma`（CLAUDE.md の「DB書き込みは事前確認」を自動実行でも守る）
+- `.env` と `google-credentials.json` の読み取り
+- `git push --force` / `git reset --hard` / `rm`
+
+### 止めたいとき
+
+```bash
+touch .stop   # 次の起動から何もしない
+rm .stop      # 再開
+```
+
+### 動かないときに見るところ
+
+- ログ: `~/Library/Logs/konbu-suki/com.konbusuki.content.{out,err}.log`
+- 未コミットの変更が残っていると、AIの変更と混ざるため走らずに見送る
+- launchd の PATH には Homebrew が入っていない。`claude` と `node` の場所は
+  スクリプト側で解決して渡している（手では通るのに定時実行だけ落ちる形を避ける）
+- Slack に出ない場合は `.env` の `SLACK_OPS_WEBHOOK_URL` が未設定
 
 ## 分析スクリプト
 
