@@ -9,8 +9,14 @@
  * 「何をしたか」ではなく「何が変わったか」と「朝やること」を出す。
  * コミット一覧は載せない。件名を並べても、何が進んだのか読み取れないため。
  *
+ * **定時実行はしない。** 以前は2時間ごとに流していたが、時間で区切ると同じ
+ * 成果が何度も報告される。作業が一通り終わった時点で1回呼ぶ
+ * （scripts/auto-content.ts が最後に呼ぶ）。
+ *
  * 前回比を出すために、実行のたびに数字を
- * ~/Library/Logs/konbu-suki/metrics.json に残して次回と比べる。
+ * ~/Library/Logs/konbu-suki/metrics.json に残して次回と比べる。報告した記事の
+ * 見出しも残す。当日分を記録から拾う作りのため、残さないと同じ記事が毎回
+ * 「本日の記事」に並ぶ（実際に1日分が毎回重複していた）。
  */
 import "dotenv/config";
 import { existsSync, readFileSync, writeFileSync, mkdirSync } from "node:fs";
@@ -38,6 +44,8 @@ type Metrics = {
   guideSlugs: string[];
   products: number;
   rakutenDirect: number;
+  /** すでに報告した記事の見出し。同じものを二度報告しないために残す。 */
+  reportedArticles?: string[];
 };
 
 function loadPrevious(): Metrics | null {
@@ -119,11 +127,15 @@ async function main() {
   const prev = loadPrevious();
 
   const newGuides = prev ? guideSlugs.filter((s) => !prev.guideSlugs.includes(s)) : [];
+
   const rate = products > 0 ? ((rakutenDirect / products) * 100).toFixed(0) : "0";
   const prevRate =
     prev && prev.products > 0 ? ((prev.rakutenDirect / prev.products) * 100).toFixed(0) : null;
 
-  const todayArticles = readTodayArticles();
+  // すでに報告した見出しは除く。当日分を記録から拾う作りなので、
+  // 除かないと同じ記事が毎回「本日の記事」に並ぶ。
+  const alreadyReported = new Set(prev?.reportedArticles ?? []);
+  const todayArticles = readTodayArticles().filter((t) => !alreadyReported.has(t));
   const reviewPending = countReviewPending();
   const onHold = readOnHold();
   const nextPlan = readNextPlan();
@@ -184,6 +196,13 @@ async function main() {
   console.log(message);
 
   if (!dry) {
+    // 今回報告したぶんを積み増して残す。新規公開として出した記事も、
+    // 当日分として出した記事も、次回はもう報告しない。
+    now.reportedArticles = [
+      ...alreadyReported,
+      ...newGuides.map((slug) => GUIDES[slug].title),
+      ...todayArticles,
+    ];
     mkdirSync(STATE_DIR, { recursive: true });
     writeFileSync(METRICS_FILE, JSON.stringify(now, null, 2));
   }

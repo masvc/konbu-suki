@@ -28,6 +28,7 @@ import { postToSlack, escapeSlack } from "./lib/slack";
 import { stopRequested, STOP_FILE_PATH } from "./lib/stop";
 
 const PROJECT_ROOT = path.resolve(__dirname, "..");
+const TSX_CLI = path.join(PROJECT_ROOT, "node_modules", "tsx", "dist", "cli.mjs");
 const SETTINGS_FILE = path.join(PROJECT_ROOT, "auto-settings.json");
 const EXAMPLE_FILE = path.join(PROJECT_ROOT, "auto-settings.example.json");
 
@@ -126,6 +127,24 @@ async function report(lines: string[]) {
   if (!noSlack) await postToSlack(escapeSlack(text));
 }
 
+/**
+ * 作業報告を流す。
+ *
+ * 記事が書けた回は activity-report に任せる。数字の前回比・朝やること・次に
+ * やる予定まで入った報告になり、報告済みの記事は除かれる。こちらで短い報告を
+ * 別に出すと、1回の作業で2通届いてしまう。
+ *
+ * 書けなかった回・落ちた回だけ、理由をこちらから流す。activity-report は
+ * 「公開物の変更はなし」としか言えず、打ち切りや異常終了が伝わらないため。
+ */
+function runActivityReport(): boolean {
+  const res = spawnSync(process.execPath, [TSX_CLI, "scripts/activity-report.ts"], {
+    cwd: PROJECT_ROOT,
+    stdio: "inherit",
+  });
+  return res.status === 0;
+}
+
 async function main() {
   const startedAt = new Date();
   console.log(`[${startedAt.toISOString()}] 夜間の記事作成を開始`);
@@ -203,24 +222,30 @@ async function main() {
 
   const subjects = newCommitSubjects(before);
   const minutes = Math.round((Date.now() - startedAt.getTime()) / 60000);
-  const lines = [`夜間の記事作成（${minutes}分）`];
-
-  if (subjects.length > 0) {
-    lines.push(...subjects.map((s) => `・${s}`));
-  } else {
-    lines.push("・コミットは増えなかった");
-  }
 
   // 打ち切りやクラッシュは、コミットが残っていても分かるようにする。
   // 静かに失敗し続けるのが一番困る。
+  const trouble: string[] = [];
   if (res.error && (res.error as NodeJS.ErrnoException).code === "ETIMEDOUT") {
-    lines.push(`・${limitMinutes}分で打ち切った`);
+    trouble.push(`・${limitMinutes}分で打ち切った`);
   } else if (res.error) {
-    lines.push(`・起動できなかった: ${res.error.message}`);
+    trouble.push(`・起動できなかった: ${res.error.message}`);
   } else if (res.status !== 0) {
-    lines.push(`・claude が異常終了（exit ${res.status}）`);
+    trouble.push(`・claude が異常終了（exit ${res.status}）`);
   }
 
+  if (subjects.length > 0 && trouble.length === 0) {
+    // 書けた回は作業報告に任せる（報告が2通にならないように）
+    console.log(`\n記事を${subjects.length}件コミットした（${minutes}分）。作業報告を流す。`);
+    if (!runActivityReport()) {
+      await report([`夜間の記事作成（${minutes}分）`, ...subjects.map((x) => `・${x}`), "・作業報告の送信に失敗した"]);
+    }
+    return;
+  }
+
+  const lines = [`夜間の記事作成（${minutes}分）`];
+  lines.push(...(subjects.length > 0 ? subjects.map((x) => `・${x}`) : ["・コミットは増えなかった"]));
+  lines.push(...trouble);
   await report(lines);
 }
 

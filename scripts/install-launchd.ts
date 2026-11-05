@@ -10,8 +10,15 @@
  *
  * 登録するもの:
  *   com.konbusuki.checks    定期点検（毎日7時）
- *   com.konbusuki.activity  作業報告（2時間ごと。AIが何をしたかを Slack へ）
  *   com.konbusuki.content   夜間の記事作成（1時・3時・5時に1本ずつ）
+ *
+ * 廃止したもの:
+ *   com.konbusuki.activity  作業報告を2時間ごとに流していた。時間で区切ると、
+ *                           同じ成果が何度も報告される。作業が一通り終わった
+ *                           時点で1回流す形に変えたので、定時実行はしない。
+ *                           報告は scripts/auto-content.ts が最後に呼ぶ。
+ *                           RETIRED_LABELS に入れてあるので、--install でも
+ *                           --uninstall でも登録が外れる。
  *
  * plist を固定ファイルとしてリポジトリに置くと、node のパスやプロジェクトの
  * 置き場所が機種ごとに違うため、別のPCで pull したときに動かない。
@@ -72,18 +79,20 @@ type Job = {
   description: string;
 };
 
+/**
+ * もう登録しないラベル。
+ *
+ * JOBS から消すだけでは、すでに登録済みのPCに残り続ける。別のPCで pull した
+ * ときにも外れるよう、ここに置いて毎回取り消す。
+ */
+const RETIRED_LABELS = ["com.konbusuki.activity"];
+
 const JOBS: Job[] = [
   {
     label: "com.konbusuki.checks",
     script: "scripts/health-report.ts",
     hour: dailyHour,
     description: "定期点検（サイト品質・リンク・meta）",
-  },
-  {
-    label: "com.konbusuki.activity",
-    script: "scripts/activity-report.ts",
-    intervalSeconds: 2 * 60 * 60,
-    description: "作業報告（直近2時間に何をしたか）",
   },
   {
     // 1回の起動で記事1本。対話モードは返事で区切られて夜通し走らないため、
@@ -189,7 +198,20 @@ function unloadIfLoaded(installedFile: string) {
   }
 }
 
+/** 廃止したジョブの登録を外す。残っていなければ何もしない。 */
+function removeRetired() {
+  for (const label of RETIRED_LABELS) {
+    const installedFile = path.join(AGENTS_DIR, `${label}.plist`);
+    if (!existsSync(installedFile)) continue;
+    unloadIfLoaded(installedFile);
+    unlinkSync(installedFile);
+    console.log(`${label}: 廃止したジョブの登録を外した`);
+  }
+}
+
 function main() {
+  removeRetired();
+
   if (uninstall) {
     for (const job of JOBS) {
       const installedFile = path.join(AGENTS_DIR, `${job.label}.plist`);

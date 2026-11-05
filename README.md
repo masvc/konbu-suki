@@ -121,10 +121,14 @@ npx tsx scripts/install-launchd.ts --uninstall  # 登録を外す
 | ラベル | いつ | 中身 |
 | --- | --- | --- |
 | `com.konbusuki.checks` | 毎日 7:00 | 定期点検（サイト品質・リンク・meta） |
-| `com.konbusuki.activity` | 2時間ごと | 作業報告を Slack へ |
 | `com.konbusuki.content` | 毎日 1:00 / 3:00 / 5:00 | 夜間の記事作成（1起動で1本） |
 
 時刻は `--hour 9`（点検）、`--night 1,4`（記事作成）で変えられる。
+
+作業報告は**定時実行しない**。以前は `com.konbusuki.activity` が2時間ごとに
+流していたが、時間で区切ると同じ成果が何度も報告される。作業が一通り終わった
+時点で1回流す形にした（`auto-content.ts` が最後に `activity-report.ts` を呼ぶ）。
+廃止したラベルは `--install` / `--uninstall` のどちらでも登録が外れる。
 
 plist は実行環境から生成する。node のパスやプロジェクトの位置が機種ごとに
 違うため、固定ファイルをリポジトリに置くと別のPCで動かない。
@@ -147,6 +151,11 @@ launchctl list com.konbusuki.checks   # PID があれば実行中
 `scripts/auto-content.ts` が `claude -p` を1回呼んで、記事を1本書かせる。
 `docs/topic-map.md` と `docs/content-log.md` の「次にやる予定」を見て対象を決め、
 ビルドが通ることを確認してから1コミットで push する。
+
+記事が書けた回は、最後に `activity-report.ts` を呼んで Slack に報告する。
+書けなかった回・打ち切られた回だけ、理由を `auto-content.ts` 側から流す
+（`activity-report.ts` は「公開物の変更はなし」としか言えず、打ち切りが伝わらない）。
+1回の作業で報告が2通にならないよう、どちらか一方だけが流れる。
 
 ```bash
 npm run auto:content -- --dry        # 渡すプロンプトと引数を確認するだけ

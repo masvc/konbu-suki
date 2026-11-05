@@ -11,9 +11,9 @@
 - 絵文字禁止。アイコンは lucide-react を使う
 - 参考サイト名をコード・コメント・docs・コミットメッセージに書かない
 - 1タスク1コミット。`npm run build` 成功を確認してから push
-- **コミットの件名は日本語で書く。** 2時間ごとの作業報告（`scripts/activity-report.ts`）が
-  件名をそのまま Slack に出すため、英語だと報告が読みにくくなる。
-  本文は何語でもよいが、件名は一読で何をしたか分かる日本語にする
+- **コミットの件名は日本語で書く。** 夜間の記事作成（`scripts/auto-content.ts`）が
+  うまくいかなかったときに件名をそのまま Slack に出すため、英語だと報告が
+  読みにくくなる。本文は何語でもよいが、件名は一読で何をしたか分かる日本語にする
 - サイトURLをハードコードしない。`src` は `lib/constants.ts` の `SITE_URL`、
   `scripts` は `lib/site.ts` の `PUBLIC_SITE_URL` を使う。Search Console の
   プロパティ指定は別概念なので `lib/google-auth.ts` の `SEARCH_CONSOLE_SITE`
