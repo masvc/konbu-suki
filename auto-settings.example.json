@@ -1,5 +1,5 @@
 {
-  "$comment": "夜間の自動記事作成（scripts/auto-content.ts）が claude -p に渡す権限設定の雛形。このファイルを auto-settings.json にコピーして使う。auto-settings.json は gitignore 対象（機種ごとに変えられるようにするため）。-p では都度の確認ができないので、許可していない操作は黙って拒否される。deny は allow より強い。",
+  "$comment": "夜間の自動記事作成（scripts/auto-content.ts）が claude -p に渡す権限設定の雛形。このファイルを auto-settings.json にコピーして使う。auto-settings.json は gitignore 対象（機種ごとに変えられるようにするため）。-p では都度の確認ができないので、許可していない操作は黙って拒否される。deny は allow より強い。なお $? や ${PIPESTATUS[0]} のような置換を混ぜたコマンドは、allow に並べても拒否される。1コマンドずつ素の形で実行させる（プロンプト側にも書いてある）。",
   "permissions": {
     "defaultMode": "acceptEdits",
     "allow": [
@@ -23,6 +23,10 @@
       "Bash(npm run lint)",
       "Bash(npm run typecheck:scripts)",
       "Bash(npx tsx scripts/generate-guide-images.ts:*)",
+      "Bash(npx tsx scripts/meta-check.ts:*)",
+      "Bash(npx tsx scripts/site-check.ts:*)",
+      "Bash(npm run images:optimize:*)",
+      "Bash(echo:*)",
       "Bash(ls:*)",
       "Bash(cat:*)",
       "Bash(sed -n:*)",
