@@ -162,9 +162,13 @@ async function main() {
     achievements.push(`・楽天の商品ページ直リンク ${rakutenDirect}件`);
   }
 
-  // 数字が動かなくても、記録に書かれた当日の作業は成果として出す
+  // 数字が動かなくても、記録に書かれた当日の作業は成果として出す。
+  //
+  // 完全一致では弾けない。記録の見出しには「（強化）」「（柱9の柱ページ）」の
+  // ような補足が付くため、記事タイトルと文字列が一致しない。実際、新規公開と
+  // 本日の記事の両方に同じ記事が並んだ。前方一致で見る。
   for (const title of todayArticles) {
-    if (newGuides.some((slug) => GUIDES[slug].title === title)) continue;
+    if (newGuides.some((slug) => title.startsWith(GUIDES[slug].title))) continue;
     achievements.push(`・本日の記事「${escapeSlack(title)}」`);
   }
 
