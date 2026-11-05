@@ -10,7 +10,7 @@
 | slug | 狙い | 状態 |
 | --- | --- | --- |
 | `kombu-types` | 昆布 種類 | 柱として機能。産地別の特徴＋等級あり |
-| `how-to-make-dashi` | だしの取り方 | 柱として機能 |
+| `how-to-make-dashi` | だしの取り方 | 2026-11-06 強化。協会の手順で出典つきに、煮出し/水出しの早見表＋資料ごとの時間の比較＋FAQ8問 |
 | `kombu-nutrition` | 昆布 栄養 | 2026-11-06 強化。八訂増補2023年の値に訂正、成分早見表＋5種比較＋FAQ6問 |
 | `shiokombu-guide` | 塩昆布 | 加工品の柱 |
 | `kombu-storage` | 昆布 保存 | 2026-11-05 強化。状態別の早見表＋FAQ5問 |
@@ -126,6 +126,9 @@
 | 文部科学省 日本食品標準成分表 | https://www.mext.go.jp/a_menu/syokuhinseibun/ | 最新は八訂増補2023年 |
 | 厚生労働省 日本人の食事摂取基準 | https://www.mhlw.go.jp/stf/seisakunitsuite/bunya/kenkou_iryou/kenkou/eiyou/syokuji_kijyun.html | 最新は2025年版（令和7年度から5年間） |
 | 水産庁 水産白書 | https://www.jfa.maff.go.jp/j/kikaku/wpaper/index.html | 令和7年度版まで公開 |
+| 日本昆布協会「昆布だしの取り方」 | https://kombu.or.jp/power/dashi/ | 昆布10g〜20g程度・水1L、30分漬けて中火、沸騰直前に取り出す。煮出しだしの**日持ち・冷凍の記載なし** |
+| 日本昆布協会「『昆布水』で簡単昆布だし」 | https://kombu.or.jp/power/dashi2/ | 昆布20g程度・水1.5L、3時間以上（できれば1晩）。「冷蔵庫で1週間くらいはもちます」 |
+| 農林水産省 中国四国農政局 食育交流会報告 | https://www.maff.go.jp/chushi/syokuiku/katudou/tori2808.html | 講演内容として水出し法8〜9時間、煮出し法60度。白い粉はマンニトール |
 | 日本昆布協会「昆布の選び方、保存方法」 | https://kombu.or.jp/power/tips | 「湿気をさけ、乾燥したところに保存」「15cmくらいの長さに切って、缶やビンなどに入れておく」。白い粉はマンニット。**保存期間の数値は記載なし** |
 | 日本昆布協会「よくある質問」 | https://kombu.or.jp/qanda | 「冷蔵庫か冷凍庫に入れておくのも良い」。水洗いしない理由。**賞味期限・蔵囲いの記載はない** |
 | 日本昆布協会「だしを取った後の昆布活用法」 | https://kombu.or.jp/power/katuyou | だしがらは「3cm角くらい…ラップで包み冷凍」。活用法7種（塩ふき昆布・つくだ煮・ふりかけ・大豆の煮物・みそ漬け・あめかけ・チップス） |

@@ -40,6 +40,12 @@ export const SOURCES: Source[] = [
     usedFor: "沖縄の昆布料理",
   },
   {
+    publisher: "農林水産省 中国四国農政局",
+    title: "「中国四国地域食育交流会in広島」を開催しました",
+    url: "https://www.maff.go.jp/chushi/syokuiku/katudou/tori2808.html",
+    usedFor: "昆布だしの水出し・煮出しの時間と温度",
+  },
+  {
     publisher: "水産庁",
     title: "水産白書",
     url: "https://www.jfa.maff.go.jp/j/kikaku/wpaper/index.html",
