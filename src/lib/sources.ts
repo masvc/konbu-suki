@@ -46,6 +46,18 @@ export const SOURCES: Source[] = [
     usedFor: "昆布だしの水出し・煮出しの時間と温度",
   },
   {
+    publisher: "厚生労働省",
+    title: "アニサキスによる食中毒を予防しましょう",
+    url: "https://www.mhlw.go.jp/stf/seisakunitsuite/bunya/0000042953.html",
+    usedFor: "昆布締めの酢や塩では寄生虫が死なないこと、寄生が見られる魚",
+  },
+  {
+    publisher: "厚生労働省",
+    title: "カンピロバクター食中毒予防について（Q&A）",
+    url: "https://www.mhlw.go.jp/stf/seisakunitsuite/bunya/kenkou_iryou/shokuhin/syokuchu/campylobacterqa.html",
+    usedFor: "鶏肉の昆布締めを加熱して食べる理由",
+  },
+  {
     publisher: "水産庁",
     title: "水産白書",
     url: "https://www.jfa.maff.go.jp/j/kikaku/wpaper/index.html",
@@ -68,5 +80,23 @@ export const SOURCES: Source[] = [
     title: "北海道のこんぶ",
     url: "https://www.gyoren.or.jp/konbu/",
     usedFor: "北海道産7種の特徴と用途",
+  },
+  {
+    publisher: "サライ.jp（小学館）",
+    title: "自宅で「平目の昆布締め」を作るコツ【プロ直伝の技とコツ】",
+    url: "https://serai.jp/gourmet/348469",
+    usedFor: "昆布締めの昆布の湿らせ方と塩加減（寿司職人の話）",
+  },
+  {
+    publisher: "TSURI HACK",
+    title: "昆布締め作り方｜実はあの魚介類も意外にイケるんです【釣り人の料理講座】",
+    url: "https://tsurihack.com/8515",
+    usedFor: "昆布締めの置きすぎと、厚みごとの時間の目安",
+  },
+  {
+    publisher: "macaroni",
+    title: "放っておくだけ。チーズは「昆布締め」 すると至高のもっちり食感に進化",
+    url: "https://macaro-ni.jp/72022",
+    usedFor: "昆布締めの昆布を戻しすぎないこと",
   },
 ];
