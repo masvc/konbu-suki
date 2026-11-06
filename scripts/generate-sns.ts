@@ -23,15 +23,14 @@ import path from "node:path";
 import { GoogleGenAI } from "@google/genai";
 import { GUIDES } from "../src/lib/guides";
 import { SITE_URL } from "../src/lib/constants";
+import { guideBody } from "./lib/guide-text";
+import { checkWording, checkInvented } from "./lib/content-rules";
 
 const MODEL = "gemini-2.5-flash";
 const INTERVAL_MS = 1500;
 /** X の上限は140字。URL は23字として数えられるので、本文はその分を引く。 */
 const URL_COST = 23;
 const MAX_BODY = 140 - URL_COST - 1;
-
-const OFF_TONE = ["おすすめです", "ご紹介", "お手伝い", "ぜひ", "必見", "徹底解説", "もったいない"];
-const BANNED = ["効く", "治る", "予防", "痩せる", "効果的"];
 
 const args = process.argv.slice(2);
 const force = args.includes("--force");
@@ -48,35 +47,11 @@ if (!API_KEY) {
 const ai = new GoogleGenAI({ apiKey: API_KEY });
 const OUT_DIR = path.resolve(__dirname, "..", "docs", "sns");
 
-function articleText(slug: string): string {
-  const g = GUIDES[slug as keyof typeof GUIDES];
-  const parts: string[] = [g.title, g.description];
-  for (const s of g.sections) {
-    parts.push(s.heading, s.body);
-    if (s.table) {
-      parts.push(s.table.caption ?? "", s.table.headers.join(" "));
-      for (const r of s.table.rows) parts.push(r.join(" "));
-    }
-  }
-  for (const f of g.faq ?? []) parts.push(f.q, f.a);
-  return parts.join("\n");
-}
-
 function check(slug: string, text: string): string[] {
   const reasons: string[] = [];
   if (text.length > MAX_BODY) reasons.push(`${text.length}字（本文は${MAX_BODY}字まで）`);
-  // 「食中毒予防」は昆布の効能ではなく安全上の注意。ここだけ「予防」の検査から外す。
-  // 外さないと、生食を避ける注意を書いた案が毎回ひっかかる。
-  const forCheck = text.replace(/食中毒予防/g, "食中毒への注意");
-  for (const w of [...BANNED, ...OFF_TONE]) if (forCheck.includes(w)) reasons.push(`「${w}」`);
-  if (/[*_`#]/.test(text)) reasons.push("記法が入っている");
-  const body = articleText(slug);
-  for (const m of text.matchAll(/[ァ-ヴー]{3,}/g)) {
-    if (!body.includes(m[0])) reasons.push(`記事に無い語「${m[0]}」`);
-  }
-  for (const m of text.matchAll(/\d[\d,.]*/g)) {
-    if (m[0].length >= 2 && !body.includes(m[0])) reasons.push(`記事に無い数字「${m[0]}」`);
-  }
+  reasons.push(...checkWording(text));
+  reasons.push(...checkInvented(text, guideBody(slug)));
   return reasons;
 }
 

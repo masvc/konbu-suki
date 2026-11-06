@@ -19,6 +19,8 @@
  * 同じ事実を別の記事でも書くことになった時点でルールを足す。
  */
 import { GUIDES } from "../src/lib/guides";
+import { guideText } from "./lib/guide-text";
+import { checkContextWords } from "./lib/content-rules";
 
 type Rule = {
   id: string;
@@ -69,22 +71,6 @@ const RULES: Rule[] = [
     pattern: /まこんぶ[^。]{0,30}?100\s*gあたり\s*(\d{2,4})\s*kcal|100gあたり\s*(\d{2,4})\s*kcal[^。]{0,20}?まこんぶ/,
   },
 ];
-
-/** 記事1本ぶんの文字列（本文・表・FAQ をすべて混ぜたもの）。 */
-function guideText(slug: string): string {
-  const g = GUIDES[slug as keyof typeof GUIDES];
-  const parts: string[] = [g.title, g.description];
-  for (const s of g.sections) {
-    parts.push(s.heading, s.body);
-    if (s.table) {
-      if (s.table.caption) parts.push(s.table.caption);
-      parts.push(s.table.headers.join(" | "));
-      for (const row of s.table.rows) parts.push(row.join(" | "));
-    }
-  }
-  for (const f of g.faq ?? []) parts.push(f.q, f.a);
-  return parts.join("\n");
-}
 
 type Finding = { level: "error" | "warn"; message: string };
 const findings: Finding[] = [];
@@ -161,10 +147,28 @@ function auditEditions() {
   }
 }
 
+/**
+ * 文脈に依存する言い回し。
+ *
+ * AI検索は記事の一部だけを抜き出して引用する。「上記のとおり」「下の表」は、
+ * 抜き出された側だけ読むと何を指しているのか分からない。前を指すもの
+ * （上記・前述・上の表）は特に意味が通らなくなるので error、後ろを指すものは warn。
+ */
+function auditContextWords() {
+  const BACKWARD = ["上記", "前述", "上の表"];
+  for (const slug of Object.keys(GUIDES)) {
+    for (const found of checkContextWords(guideText(slug))) {
+      const backward = BACKWARD.some((w) => found.startsWith(w));
+      add(backward ? "error" : "warn", `guide/${slug}: 文脈に頼った言い回し ${found}`);
+    }
+  }
+}
+
 function main() {
   auditNumbers();
   auditSources();
   auditEditions();
+  auditContextWords();
 
   const errors = findings.filter((f) => f.level === "error");
   const warns = findings.filter((f) => f.level === "warn");

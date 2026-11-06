@@ -270,6 +270,8 @@ rm .stop      # 再開
 
 ## 技術SEO
 
+方針は [docs/seo-aio.md](docs/seo-aio.md)。実測した数字と、やらないことも書いてある。
+
 ```bash
 npm run images:og          # 記事の OGP 画像（1200x630）をアイキャッチから作る
 npm run indexnow           # 直近のコミットで変わった記事を検索エンジンに通知

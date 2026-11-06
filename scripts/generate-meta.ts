@@ -35,34 +35,13 @@ import path from "node:path";
 import { GoogleGenAI } from "@google/genai";
 import { GUIDES } from "../src/lib/guides";
 import { nightDir } from "./lib/night";
+import { guideText } from "./lib/guide-text";
+import { checkWording, checkInvented } from "./lib/content-rules";
 
 const MODEL = "gemini-2.5-flash";
 const INTERVAL_MS = 1500;
 const MIN_LEN = 100;
 const MAX_LEN = 140;
-
-/** 使ったら落とす語。CLAUDE.md のコンテンツルールより。 */
-const BANNED = ["効く", "治る", "予防", "痩せる", "効果的", "改善します", "解消"];
-
-/**
- * 文体に合わない言い回し。
- *
- * このサイトは事実を淡々と書く文体で、感嘆符も宣伝文句も使っていない。
- * 生成させると「もったいない！」「ご紹介します」「お手伝いします」のような
- * 語り口が混ざり、記事本文と説明文で声が変わる。実際に1回目の生成で出た。
- */
-const OFF_TONE = [
-  "おすすめです",
-  "ご紹介",
-  "お手伝い",
-  "もったいない",
-  "疑問を解決",
-  "ぜひ",
-  "必見",
-  "徹底解説",
-  "〜しましょう",
-  "しましょう。",
-];
 
 const args = process.argv.slice(2);
 /** 保存した案のファイル。渡すと生成せずにそれを反映する。 */
@@ -99,21 +78,6 @@ type Proposal = {
   tokens: number;
 };
 
-/** 記事の中身（数字の照合と、結論を拾うのに使う） */
-function articleText(slug: string): string {
-  const g = GUIDES[slug as keyof typeof GUIDES];
-  const parts: string[] = [];
-  for (const s of g.sections) {
-    parts.push(s.heading, s.body);
-    if (s.table) {
-      parts.push(s.table.caption ?? "", s.table.headers.join(" "));
-      for (const r of s.table.rows) parts.push(r.join(" "));
-    }
-  }
-  for (const f of g.faq ?? []) parts.push(f.q, f.a);
-  return parts.join("\n");
-}
-
 function validate(slug: string, text: string): string[] {
   const g = GUIDES[slug as keyof typeof GUIDES];
   const reasons: string[] = [];
@@ -123,28 +87,8 @@ function validate(slug: string, text: string): string[] {
   for (const token of (g.targetQuery ?? "").split(/\s+/).filter(Boolean)) {
     if (!text.includes(token)) reasons.push(`狙う語「${token}」が入っていない`);
   }
-  // 「食中毒予防」は昆布の効能ではなく安全上の注意。ここだけ「予防」の検査から外す。
-  const forCheck = text.replace(/食中毒予防/g, "食中毒への注意");
-  for (const w of BANNED) {
-    if (forCheck.includes(w)) reasons.push(`使えない表現「${w}」`);
-  }
-  for (const w of OFF_TONE) {
-    if (text.includes(w)) reasons.push(`文体に合わない言い回し「${w}」`);
-  }
-  // 記法や感嘆符が混ざることがある。実際に ** が入った案が出た。
-  if (/[*_`#]/.test(text)) reasons.push("Markdown の記法が入っている");
-  if (/[!！?？]/.test(text)) reasons.push("感嘆符・疑問符が入っている");
-  // 記事に無い言葉・数字を足していないか。作文で足されるのが一番こわい。
-  const body = articleText(slug) + g.title + g.description;
-  // カタカナの専門語を作って入れるのを防ぐ。
-  for (const m of text.matchAll(/[ァ-ヴー]{3,}/g)) {
-    if (!body.includes(m[0])) reasons.push(`記事に無い語「${m[0]}」`);
-  }
-  for (const m of text.matchAll(/\d[\d,.]*/g)) {
-    const n = m[0];
-    if (n.length < 2) continue; // 1桁は箇条書き番号などで誤検知する
-    if (!body.includes(n)) reasons.push(`記事に無い数字「${n}」`);
-  }
+  reasons.push(...checkWording(text));
+  reasons.push(...checkInvented(text, guideText(slug)));
   return reasons;
 }
 

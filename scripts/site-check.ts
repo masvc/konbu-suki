@@ -294,11 +294,11 @@ async function checkLinks() {
       const sizeKB = Math.round(html.length / 1024);
       if (sizeKB > 1500) {
         add("error", "links", `HTML ${sizeKB}KB — Googlebot 2MB上限に接近: ${path}`);
-      } else if (sizeKB > 800) {
+      } else if (sizeKB > 500) {
         add(
           "warn",
           "links",
-          `HTML ${sizeKB}KB — 大きめ（2MB上限の${Math.round((sizeKB / 2048) * 100)}%）: ${path}`
+          `HTML ${sizeKB}KB — 大きめ。商品一覧は件数に比例して伸びる（docs/seo-aio.md）: ${path}`
         );
       }
     } catch { /* 疎通は下のチェックで拾う */ }
