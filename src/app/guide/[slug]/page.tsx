@@ -77,6 +77,33 @@ export default async function GuidePage({ params }: Props) {
     dateModified: guide.dateModified,
   };
 
+  // Recipe の構造化データ。材料と手順がページに見えている記事にだけ付く。
+  // 構造化データと本文が食い違うと検索側に不正扱いされるので、guides.ts の
+  // recipe が無い記事には出さない。
+  const recipeJsonLd = guide.recipe
+    ? {
+        "@context": "https://schema.org",
+        "@type": "Recipe",
+        name: guide.recipe.name,
+        description: guide.description,
+        ...(guide.image ? { image: [`${SITE_URL}${guide.image}`] } : {}),
+        author: { "@type": "Organization", name: SITE_NAME },
+        datePublished: guide.datePublished,
+        recipeCategory: "だし",
+        recipeCuisine: "日本料理",
+        ...(guide.recipe.recipeYield ? { recipeYield: guide.recipe.recipeYield } : {}),
+        ...(guide.recipe.prepTime ? { prepTime: guide.recipe.prepTime } : {}),
+        ...(guide.recipe.cookTime ? { cookTime: guide.recipe.cookTime } : {}),
+        ...(guide.recipe.totalTime ? { totalTime: guide.recipe.totalTime } : {}),
+        recipeIngredient: guide.recipe.ingredients,
+        recipeInstructions: guide.recipe.steps.map((s) => ({
+          "@type": "HowToStep",
+          name: s.name,
+          text: s.text,
+        })),
+      }
+    : null;
+
   // FAQ構造化データ
   const faqJsonLd = guide.faq && guide.faq.length > 0 ? {
     "@context": "https://schema.org", "@type": "FAQPage",
@@ -90,6 +117,7 @@ export default async function GuidePage({ params }: Props) {
     <main className="flex-1">
       <JsonLd data={articleJsonLd} />
       {faqJsonLd && <JsonLd data={faqJsonLd} />}
+      {recipeJsonLd && <JsonLd data={recipeJsonLd} />}
 
       {/* アイキャッチ */}
       {guide.image && (

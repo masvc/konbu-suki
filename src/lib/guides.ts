@@ -46,6 +46,27 @@ type Guide = {
    * 足すときは必ず書く（site-check.ts が未指定を warn で出す）。
    */
   related?: string[];
+  /**
+   * 作り方の記事に付ける Recipe の構造化データ。
+   *
+   * **ページに材料と手順が見えている記事にだけ付ける。** 構造化データと本文が
+   * 食い違うと、検索側に不正扱いされる。分量を本文に書いていない記事
+   * （出典のレシピの分量を写さない方針で書いたもの）には付けない。
+   *
+   * 時間は出典に書かれているものだけを入れる。書かれていないものは省く。
+   * 見栄えのために推測の時間を入れない。
+   */
+  recipe?: {
+    name: string;
+    /** 出来上がり量。出典に記載がなければ省く */
+    recipeYield?: string;
+    /** ISO 8601 の期間。例: PT30M, PT3H */
+    prepTime?: string;
+    cookTime?: string;
+    totalTime?: string;
+    ingredients: string[];
+    steps: { name: string; text: string }[];
+  };
   sections: GuideSection[];
   faq?: FAQ[];
 };
@@ -666,6 +687,17 @@ export const GUIDES: Record<string, Guide> = {
     searchKeyword: "昆布水 作り方",
     targetQuery: "昆布水 作り方",
     related: ["how-to-make-dashi", "kombu-recipes", "kombu-storage"],
+    recipe: {
+      name: "昆布水（水出しの昆布だし）",
+      recipeYield: "約1.5L",
+      totalTime: "PT3H",
+      ingredients: ["だし昆布 20g程度（1Lなら約13g、500mlなら約7g）", "水 1.5L"],
+      steps: [
+        { name: "昆布を拭く", text: "昆布の表面の汚れが気になるときは、固く絞った布でさっと拭きます。水洗いはしません。" },
+        { name: "水に漬ける", text: "ポットにミネラルウォーターか水道水を注ぎ、昆布を3時間以上、できれば一晩漬けます。昆布はそのままでも、細く切ってもかまいません。" },
+        { name: "冷蔵庫で保存する", text: "冷蔵庫で1週間くらいもちます。夏場などはできるだけ早めに使い切ります。" },
+      ],
+    },
     sections: [
       {
         heading: "結論: 水1.5Lに昆布20g程度。3時間以上、できれば一晩",
@@ -885,6 +917,20 @@ export const GUIDES: Record<string, Guide> = {
     searchKeyword: "昆布だし 取り方",
     targetQuery: "昆布だし 取り方",
     related: ["kombu-water", "kombu-recipes", "how-to-choose-kombu", "kombu-nutrition"],
+    recipe: {
+      name: "昆布だし（煮出し）",
+      recipeYield: "約1L",
+      // 「水に昆布を30分くらい漬ける」までが出典にある時間。加熱時間は
+      // 「沸騰直前まで」としか書かれていないので、cookTime は入れない。
+      prepTime: "PT30M",
+      ingredients: ["だし昆布 10〜20g程度（真昆布・羅臼昆布・利尻昆布・日高昆布）", "水 1L"],
+      steps: [
+        { name: "昆布を拭く", text: "昆布の表面を、固くしぼったふきんなどでさっと拭きます。水洗いはしません。" },
+        { name: "水に漬ける", text: "分量の水に昆布を30分くらい漬けます。" },
+        { name: "火にかける", text: "中火にかけます。" },
+        { name: "昆布を取り出す", text: "沸騰直前で昆布を取り出せば完成です。煮過ぎると昆布のねばり成分が溶け出し、風味を損ないます。" },
+      ],
+    },
     sections: [
       {
         heading: "結論: 水1Lに昆布10〜20g。煮出しは沸騰直前で取り出す",
