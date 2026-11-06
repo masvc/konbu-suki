@@ -19,9 +19,26 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const guide = GUIDES[slug as GuideSlug];
   const meta = guideMeta(slug as GuideSlug);
   if (!guide || !meta) return {};
+  // OGP画像は記事のアイキャッチから作った 1200x630（scripts/generate-og-images.ts）。
+  // 指定しないとサイト共通の画像が出て、どの記事を共有しても同じ絵になる。
+  const ogImage = `${SITE_URL}/og/${slug}.webp`;
   return {
     ...meta,
-    openGraph: { title: guide.title, description: guide.description },
+    openGraph: {
+      type: "article",
+      title: guide.title,
+      description: guide.description,
+      url: `${SITE_URL}/guide/${slug}`,
+      images: [{ url: ogImage, width: 1200, height: 630, alt: guide.imageAlt || guide.title }],
+      publishedTime: guide.datePublished,
+      modifiedTime: guide.dateModified,
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: guide.title,
+      description: guide.description,
+      images: [ogImage],
+    },
   };
 }
 

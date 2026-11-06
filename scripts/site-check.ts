@@ -178,6 +178,15 @@ async function checkSeo() {
     }
   }
 
+  // ── OGP画像 ──
+  // 無いとサイト共通の画像が出る。見た目には分からず、共有されて初めて気付く。
+  for (const [slug, guide] of Object.entries(GUIDES)) {
+    if (!guide.image) continue;
+    if (!existsSync(`public/og/${slug}.webp`)) {
+      add("warn", "seo", `guide/${slug}: OGP画像が無い → npx tsx scripts/generate-og-images.ts ${slug}`);
+    }
+  }
+
   // ── 画像のファイルサイズ ──
   // CLAUDE.md の「全画像200KB以下」。生成スクリプトは収めてから保存するが、
   // その処理を入れる前に作った画像が超えたまま残る。覚えておく話にせず点検で出す。

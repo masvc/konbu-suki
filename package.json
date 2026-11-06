@@ -19,6 +19,7 @@
     "facts": "tsx scripts/fact-audit.ts",
     "inbox": "tsx scripts/slack-inbox.ts",
     "images:optimize": "tsx scripts/optimize-guide-images.ts",
+    "images:og": "tsx scripts/generate-og-images.ts",
     "env:status": "tsx scripts/env-sync.ts status",
     "env:pull": "tsx scripts/env-sync.ts pull",
     "env:push": "tsx scripts/env-sync.ts push",

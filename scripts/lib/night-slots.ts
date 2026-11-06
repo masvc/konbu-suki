@@ -181,6 +181,9 @@ kombu-nutrition / kombu-production）を上から1本選び、記事の型（結
    - scripts/generate-guide-images.ts の PROMPTS にアイキャッチのプロンプトを追加し、
      \`npx tsx scripts/generate-guide-images.ts <slug>\` で生成して image と imageAlt を設定する。
      生成に失敗したら画像なしで進め、理由を記録に残す
+   - アイキャッチを作ったら \`npx tsx scripts/generate-og-images.ts <slug>\` で
+     OGP画像（1200x630）も作る。無いとサイト共通の画像が出て、どの記事を共有しても
+     同じ絵になる
    - \`npx tsx scripts/meta-check.ts\` と \`npx tsx scripts/fact-audit.ts\` と
      \`npm run build\` が通ることを確認する。fact-audit は記事をまたいだ数字の
      食い違いを見る。既存記事と違う数字を書くと落ちるので、落ちたらどちらが

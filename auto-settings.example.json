@@ -28,6 +28,7 @@
       "Bash(npm run images:optimize:*)",
 
       "Bash(npx tsx scripts/generate-guide-images.ts:*)",
+      "Bash(npx tsx scripts/generate-og-images.ts:*)",
       "Bash(npx tsx scripts/meta-check.ts:*)",
       "Bash(npx tsx scripts/fact-audit.ts:*)",
       "Bash(npx tsx scripts/slack-inbox.ts:*)",
