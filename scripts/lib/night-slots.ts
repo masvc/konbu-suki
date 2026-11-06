@@ -186,8 +186,12 @@ kombu-nutrition / kombu-production）を上から1本選び、記事の型（結
      同じ絵になる
    - \`npx tsx scripts/meta-check.ts\` と \`npx tsx scripts/fact-audit.ts\` と
      \`npm run build\` が通ることを確認する。fact-audit は記事をまたいだ数字の
-     食い違いを見る。既存記事と違う数字を書くと落ちるので、落ちたらどちらが
-     出典どおりかを確かめて直す
+     食い違いと、位置に頼る言い回し（下の表・上記など）を見る。既存記事と違う
+     数字を書くと落ちるので、落ちたらどちらが出典どおりかを確かめて直す
+   - **push したあと \`npx tsx scripts/check-article-links.ts\` を実行する。**
+     書いた出典のリンクが生きているかを確かめる。切れていたら直して直し直す。
+     301 が出たら移転先の URL に書き換える。出典のリンクが切れていると、
+     根拠を示したつもりで示せていない状態になる
    - docs/content-log.md に記録を追加し、末尾の「次にやる予定」を書き換える
    - 1コミットにまとめて push する
    - push したら \`npx tsx scripts/indexnow.ts\` で検索エンジンに通知する
@@ -216,7 +220,9 @@ kombu-nutrition / kombu-production）を上から1本選び、記事の型（結
    src/lib/guides.ts を読んで数えること。本文中でも関連記事のタイトルに触れる。
 2. **全体チェック。** 次を走らせ、出た指摘を直す。
    - \`npx tsx scripts/site-check.ts\` （商品データ・ガイド本文・画像・E-E-A-T）
-   - \`npx tsx scripts/check-links.ts\` （リンク切れ）
+   - \`npx tsx scripts/check-links.ts\` （サイト全体のリンク切れ。外部1000件超を
+     実際に叩くので数分かかる。**全件を回すのはこの枠の役目**）
+   - \`npx tsx scripts/check-article-links.ts --all\` （全記事の出典リンク）
    - \`npx tsx scripts/meta-check.ts\` （meta）
    - \`npx tsx scripts/fact-audit.ts\` （記事をまたいだ事実の食い違い・出典ゼロ・古い版の引用）
    - \`npx tsx scripts/verify-affiliate-links.ts\` （アフィリリンクに成果計測が付いているか）
@@ -269,7 +275,11 @@ kombu-nutrition / kombu-production）を上から1本選び、記事の型（結
    - 見直した理由を1行で添える
 4. **報告文を {{DIR}}/report.md に書く。** 日本語。次の構成にする。
    - 見出し: 夜間作業報告（日付）
-   - ■ 成果: 公開した記事、直した記事、適用した楽天リンクの件数
+   - ■ 成果: 公開した記事、直した記事、適用した楽天リンクの件数。
+     **記事以外の修正も入れる。** 前夜の報告から今までのコミットを
+     \`git log\` で見て、不具合の修正・仕組みの追加があれば件数と内容を1行ずつ書く
+     （例: 出典リンクの404を1件修正、位置に頼る言い回しを10箇所書き換え）。
+     記事の本数だけだと、直した分が報告に出ない
    - ■ 今夜わかったこと: 分析から3つ。数字を添える
    - ■ 効果測定: 過去に改善した記事の、改善前後の数字比較。
      過去の improve-log.md（docs/night/ の以前の日付）を読み、そこに記録された

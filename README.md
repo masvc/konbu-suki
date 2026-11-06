@@ -100,7 +100,8 @@ npm run typecheck:scripts   # scripts/ の型チェック（tsconfig.json の対
 | `check-links.ts` | sitemap 起点の全ページとリンク切れ（内部・外部） |
 | `meta-check.ts` | 全ページの meta title / description |
 | `optimize-guide-images.ts` | ガイド画像の200KB超えを探して品質だけ落とす（`npm run images:optimize`、書き換えは `-- --write`） |
-| `fact-audit.ts` | 記事をまたいだ事実の食い違い・出典ゼロの記事・古い版の引用（`npm run facts`） |
+| `fact-audit.ts` | 記事をまたいだ事実の食い違い・出典ゼロの記事・古い版の引用・位置に頼る言い回し（`npm run facts`） |
+| `check-article-links.ts` | 記事に書いた出典のリンクが生きているか（`npm run links`）。既定は直近のコミットで変わった記事だけ。`-- --all` で全記事 |
 | `ai-citation-check.ts` | AI検索で引用されているかを見る（`npm run ai:citation`）。狙いキーワードごとに自サイトの引用有無・引用元ドメイン・AIが投げた検索クエリを残す |
 | `post-slack.ts` | ファイルの中身を Slack に流す。夜間の最後の枠が報告に使う |
 | `health-report.ts` | 上記をまとめて実行し、ログを残して Slack へ要約を投げる |

@@ -38,6 +38,7 @@
       "Bash(npx tsx scripts/slack-inbox.ts:*)",
       "Bash(npx tsx scripts/site-check.ts:*)",
       "Bash(npx tsx scripts/check-links.ts:*)",
+      "Bash(npx tsx scripts/check-article-links.ts:*)",
       "Bash(npx tsx scripts/verify-affiliate-links.ts:*)",
       "Bash(npx tsx scripts/optimize-guide-images.ts:*)",
 
