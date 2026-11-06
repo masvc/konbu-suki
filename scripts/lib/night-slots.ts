@@ -190,6 +190,8 @@ kombu-nutrition / kombu-production）を上から1本選び、記事の型（結
      出典どおりかを確かめて直す
    - docs/content-log.md に記録を追加し、末尾の「次にやる予定」を書き換える
    - 1コミットにまとめて push する
+   - push したら \`npx tsx scripts/indexnow.ts\` で検索エンジンに通知する
+     （サイトマップは取りに来るのを待つ形なので、公開直後は拾われにくい）
 4. 出典が足りなくて書けないものは、無理に書かない。{{DIR}}/held.md に理由を書き、
    topic-map の優先度を下げて、次の候補に移る。
 

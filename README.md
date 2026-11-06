@@ -267,6 +267,24 @@ rm .stop      # 再開
   `sleep 0` を確認する
 - Slack に出ない場合は `.env` の `SLACK_OPS_WEBHOOK_URL` が未設定
 
+## 技術SEO
+
+```bash
+npm run images:og          # 記事の OGP 画像（1200x630）をアイキャッチから作る
+npm run indexnow           # 直近のコミットで変わった記事を検索エンジンに通知
+npm run indexnow -- --all  # 全ページ
+npm run meta:generate      # meta description の案を作る（--write で反映）
+```
+
+`/llms.txt` は記事一覧から組み立てて配信している（`src/app/llms.txt/route.ts`）。
+固定ファイルにすると必ず古くなるため、記事を足せば自動で反映される。
+出典の一覧も載せている。出典を開いて確認したものだけを書くという作り方そのものが、
+引用先としての判断材料になるため。
+
+IndexNow のキーは `src/lib/indexnow.ts` と `public/<キー>.txt` の2か所にある。
+公開して問題ない値で、所有確認はこの2つが一致するかで行われる。
+**どちらか一方だけ変えると通らない。**
+
 ## 分析スクリプト
 
 `weekly.ts` `ga4-report.ts` `search-console.ts` `seo-snapshot.ts`
