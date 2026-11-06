@@ -5,6 +5,43 @@ Search Console の数字と突き合わせれば、伸びた型を次に使い�
 
 次にやる予定: 柱2「昆布だしと鰹だしの違い」（鳥取県「出汁の取り方」の表で使用量%・うま味成分・用途が揃っている。相乗効果は農水省「和食ワールドチャレンジ」で確認済み。「7〜8倍」のような数値は一次資料を開けていないので使わない）。柱9は鯛・サーモン・失敗とコツまで一巡した。ホタテと「締めた昆布の再利用」は出典不足で低に下げた。そのあと柱3「昆布の等級と価格帯」か柱7「昆布茶」を出典が取れる順に
 
+## 2026-11-07
+
+### インデックスされていなかった原因を特定して直した（canonical が全ページでトップを指していた）
+
+Search Console が36/36ページ未検出のままだったので、配信されている HTML を直接見た。
+**全ページの canonical がトップページを指していた。**
+
+```
+/guide/kombu-nutrition  canonical: https://konbu-suki.com
+/category/dashi         canonical: https://konbu-suki.com
+/origin/rishiri         canonical: https://konbu-suki.com
+```
+
+`src/app/layout.tsx` の `alternates: { canonical: "/" }` を全ページが継承していた。
+検索側には「この記事はトップページの複製です」と伝わる。記事をいくら書いても
+インデックスされない。記事の質でも量でもなく、これが原因。
+
+**title も二重になっていた。** layout の `title.template` が `%s | サイト名` で、
+各ページは page-meta.ts ですでにサイト名まで含めた title を作っていたため、
+「… | コンブスキー | コンブスキー」と配信されていた。
+
+直し方。canonical は layout から外し、`page-meta.ts` が title・description と一緒に
+組み立てるようにした。各ページで個別に書く形にすると、書き忘れたページが親の値を
+継承して同じことが起きる。固定ページには個別に指定し、トップにも明示した。
+title は layout の template をやめ、page-meta の文字列をそのまま使う。
+
+**なぜ点検で気付けなかったか。** `meta-check.ts` は `page-meta.ts` が返す文字列を
+検査している。canonical も title の二重付与も layout 側で起きるので、検査対象の
+文字列には現れない。page-meta.ts の冒頭に「別々に組み立てると点検側が実際と違う
+文字列を検査してしまう」と書いてあったが、layout からの継承と template までは
+想定していなかった。
+
+`site-check.ts` に、**配信された HTML を取得して canonical と title を実測する**
+検査を足した。page-meta の文字列ではなく、実際に返る HTML を見る。
+未デプロイの状態で実行して、上記2件をどちらも検知することを確認した。
+
+
 ## 2026-11-06
 
 ### X の投稿文を全記事ぶん作った（60案）
