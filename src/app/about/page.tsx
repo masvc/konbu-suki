@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { SITE_NAME, SITE_DESCRIPTION } from "@/lib/constants";
+import Link from "next/link";
 import { Breadcrumb } from "@/components/Breadcrumb";
 
 export const metadata: Metadata = {
@@ -52,7 +53,9 @@ export default function AboutPage() {
             <div className="rounded-xl border border-gray-100 bg-[#f8faf8] p-5">
               <h3 className="text-sm font-bold text-[#2d6a4f] mb-2">応援する</h3>
               <p className="text-sm text-gray-600 leading-relaxed">
-                日本の昆布生産量は減少傾向にあります（出典: 農林水産省「漁業・養殖業生産統計」）。
+                昆布の生産量は減り続けています。北海道の資料では「近年、減少傾向で推移する中、
+                令和6年には統計を取り始めて以来、初めて1万トンを下回ることが見込まれた」とされています
+                （出典: 北海道 水産林務部「コンブの生産安定対策について」）。
                 良い昆布を作り続ける人たちの挑戦が続くように、
                 その商品を一人でも多くの人に届けることが、私たちにできる応援です。
               </p>
@@ -74,7 +77,7 @@ export default function AboutPage() {
             </li>
             <li className="flex items-start gap-3">
               <span className="text-[#52b788] mt-0.5 shrink-0">&#10003;</span>
-              <span>運営者がリピート購入している商品は、実体験に基づくコメントを添えて紹介します</span>
+              <span>実体験に基づくコメントを添える場合は、運営者が実際に購入した商品であることを明記します（現在そのコメントを付けた商品はありません）</span>
             </li>
             <li className="flex items-start gap-3">
               <span className="text-[#52b788] mt-0.5 shrink-0">&#10003;</span>
@@ -99,6 +102,31 @@ export default function AboutPage() {
               <h3 className="text-sm font-bold text-gray-900 mb-1">Phase 3: 作り手と食べる人をつなぐ</h3>
               <p className="text-xs text-gray-600">生産者との信頼関係を軸に、日本の昆布文化を国内外に届ける総合プラットフォームへ。</p>
             </div>
+          </div>
+        </section>
+
+        {/* 運営体制 */}
+        <section className="mb-12">
+          <h2 className="text-lg font-bold text-gray-900 mb-4">誰が書いているか</h2>
+          <div className="rounded-xl border border-gray-100 bg-[#f8faf8] p-5 space-y-3">
+            <p className="text-sm text-gray-600 leading-relaxed">
+              個人で運営しているサイトです。記事はAIを使って作成し、公的機関と業界団体の資料を
+              もとに書いています。昆布の生産・加工に携わる専門家ではないため、
+              自分の経験を根拠にした断定はしません。
+            </p>
+            <p className="text-sm text-gray-600 leading-relaxed">
+              そのぶん、何を根拠にしたかを記事ごとに示しています。各記事の末尾に参考文献を置き、
+              使っている資料の一覧は
+              <Link href="/about/data" className="text-[#2d6a4f] underline">データと出典</Link>
+              にまとめました。記事どうしで数字が食い違っていないかは機械で検査しています。
+            </p>
+            <p className="text-sm text-gray-600 leading-relaxed">
+              誤りを見つけた場合は
+              <Link href="/contact" className="text-[#2d6a4f] underline">お問い合わせ</Link>
+              からご連絡ください。訂正した内容は
+              <Link href="/about/editorial-policy" className="text-[#2d6a4f] underline">編集方針</Link>
+              のページに記録しています。
+            </p>
           </div>
         </section>
 
