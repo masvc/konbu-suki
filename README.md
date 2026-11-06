@@ -273,13 +273,23 @@ rm .stop      # 再開
 npm run images:og          # 記事の OGP 画像（1200x630）をアイキャッチから作る
 npm run indexnow           # 直近のコミットで変わった記事を検索エンジンに通知
 npm run indexnow -- --all  # 全ページ
-npm run meta:generate      # meta description の案を作る（--write で反映）
+npm run meta:generate      # meta description の案を作る
+                           # 反映は npx tsx scripts/generate-meta.ts --apply <案のJSON>
+npm run sns                # 記事ごとの X 投稿文案を3つずつ docs/sns/ に作る（投稿はしない）
 ```
 
 `/llms.txt` は記事一覧から組み立てて配信している（`src/app/llms.txt/route.ts`）。
 固定ファイルにすると必ず古くなるため、記事を足せば自動で反映される。
 出典の一覧も載せている。出典を開いて確認したものだけを書くという作り方そのものが、
 引用先としての判断材料になるため。
+
+meta description の生成は、作るのと反映するのを分けてある。1回の実行で生成して
+そのまま書き込む形にすると、目を通した案と実際に入る案が別物になる（生成のたびに
+文面が変わるため）。案は JSON に残し、それを読んで反映する。
+
+反映は自動で絞られる。**検査を通っても、元が100字以上あるものは置き換えない。**
+実測では98字の手書き文に対する案が104字で、良くなった分がほとんど無かった。
+効くのは61〜86字しか無い記事を120字前後に伸ばすところ。
 
 IndexNow のキーは `src/lib/indexnow.ts` と `public/<キー>.txt` の2か所にある。
 公開して問題ない値で、所有確認はこの2つが一致するかで行われる。

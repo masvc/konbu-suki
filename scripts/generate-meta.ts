@@ -2,10 +2,14 @@
  * meta description を生成して差し替える。
  *
  * Usage:
- *   npx tsx scripts/generate-meta.ts              # 案を作るだけ（書き換えない）
- *   npx tsx scripts/generate-meta.ts --write      # 検査を通った案だけ反映する
+ *   npx tsx scripts/generate-meta.ts                          # 案を作る（書き換えない）
+ *   npx tsx scripts/generate-meta.ts --apply <proposals.json>  # 作った案を反映する
  *   npx tsx scripts/generate-meta.ts --slug kombu-water
  *   npx tsx scripts/generate-meta.ts --out docs/night/2026-11-06
+ *
+ * **生成と反映を分けている。** 1回の実行で生成してそのまま書き込む形にすると、
+ * 目を通した案と実際に入る案が別物になる（生成のたびに文面が変わるため）。
+ * 案は JSON に残し、それを読んで反映する。
  *
  * 狙い: description を120字前後にそろえる。検索結果の説明文は160字まで出るが、
  * 実測では20本中17本が100字未満で、使える場所を余らせていた。
@@ -61,7 +65,11 @@ const OFF_TONE = [
 ];
 
 const args = process.argv.slice(2);
-const write = args.includes("--write");
+/** 保存した案のファイル。渡すと生成せずにそれを反映する。 */
+const applyFrom = (() => {
+  const i = args.indexOf("--apply");
+  return i === -1 ? null : args[i + 1] || null;
+})();
 const stringAfter = (f: string) => {
   const i = args.indexOf(f);
   return i === -1 ? null : args[i + 1] || null;
@@ -237,6 +245,7 @@ async function main() {
 
   const dir = outDir ? path.resolve(outDir) : nightDir();
   mkdirSync(dir, { recursive: true });
+  writeFileSync(path.join(dir, "meta-proposals.json"), JSON.stringify(proposals, null, 2));
   const lines = ["# meta description の生成結果", ""];
   lines.push(`${new Date().toLocaleString("sv-SE")} 実行。モデル: ${MODEL}`);
   lines.push("");
@@ -253,10 +262,23 @@ async function main() {
 
   const ok = proposals.filter((p) => p.apply).length;
   const tokens = proposals.reduce((s, p) => s + p.tokens, 0);
-  if (write) applyToSource(proposals);
-  else console.log("\n--write を付けると反映する。");
   console.log(`\n${path.join(dir, "meta-proposals.md")}`);
+  console.log(
+    `\n反映するには: npx tsx scripts/generate-meta.ts --apply ${path.join(dir, "meta-proposals.json")}`
+  );
   console.log(`SUMMARY: 反映可 ${ok}/${proposals.length} / トークン ${tokens}`);
 }
 
-main();
+function applyMain(file: string) {
+  const proposals = JSON.parse(readFileSync(file, "utf8")) as Proposal[];
+  const target = proposals.filter((p) => p.apply);
+  console.log(`\n保存された案から反映する: ${target.length}/${proposals.length}本\n`);
+  for (const p of target) {
+    console.log(`  ${p.slug}  ${p.before.length}→${p.after?.length}字`);
+  }
+  applyToSource(proposals);
+  console.log(`SUMMARY: 反映 ${target.length}本`);
+}
+
+if (applyFrom) applyMain(applyFrom);
+else main();

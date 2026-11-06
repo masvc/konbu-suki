@@ -192,6 +192,8 @@ kombu-nutrition / kombu-production）を上から1本選び、記事の型（結
    - 1コミットにまとめて push する
    - push したら \`npx tsx scripts/indexnow.ts\` で検索エンジンに通知する
      （サイトマップは取りに来るのを待つ形なので、公開直後は拾われにくい）
+   - \`npx tsx scripts/generate-sns.ts --slug <slug>\` で X の投稿文案を作る。
+     docs/sns/ に置くだけで、投稿はしない
 4. 出典が足りなくて書けないものは、無理に書かない。{{DIR}}/held.md に理由を書き、
    topic-map の優先度を下げて、次の候補に移る。
 

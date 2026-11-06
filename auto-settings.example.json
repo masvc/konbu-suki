@@ -31,6 +31,7 @@
       "Bash(npx tsx scripts/generate-og-images.ts:*)",
       "Bash(npx tsx scripts/indexnow.ts:*)",
       "Bash(npx tsx scripts/generate-meta.ts:*)",
+      "Bash(npx tsx scripts/generate-sns.ts:*)",
       "Bash(npx tsx scripts/meta-check.ts:*)",
       "Bash(npx tsx scripts/fact-audit.ts:*)",
       "Bash(npx tsx scripts/slack-inbox.ts:*)",
