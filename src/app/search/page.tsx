@@ -8,6 +8,10 @@ export const metadata: Metadata = {
   title: `昆布を探す | ${SITE_NAME}`,
   description: "Amazon・楽天の昆布商品を横断検索。だし昆布、塩昆布、とろろ昆布、昆布茶など全カテゴリから探せます。",
   alternates: { canonical: "/search" },
+  // サイト内検索の結果ページは検索結果に出さない。?q= で URL が無限に増え、
+  // 中身は商品一覧の組み替えなので、独立した価値のあるページにはならない。
+  // follow は残す。ここから商品ページへのリンクは辿ってほしい。
+  robots: { index: false, follow: true },
 };
 
 type Props = {

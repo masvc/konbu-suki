@@ -1,7 +1,9 @@
 import Link from "next/link";
 import Image from "next/image";
 import type { Metadata } from "next";
-import { SITE_NAME } from "@/lib/constants";
+import { SITE_NAME, SITE_URL } from "@/lib/constants";
+import { Breadcrumb } from "@/components/Breadcrumb";
+import { JsonLd } from "@/components/JsonLd";
 import { GUIDES } from "@/lib/guides";
 
 export const metadata: Metadata = {
@@ -27,10 +29,27 @@ export default function GuidePage() {
     ([, a], [, b]) => new Date(b.dateModified).getTime() - new Date(a.dateModified).getTime()
   );
 
+  // 一覧ページであることと、そこに何が並んでいるかを構造化データで示す。
+  // 記事の数と順序が機械で読めるので、まとめページとして扱われやすくなる。
+  const itemListJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    name: "昆布ガイドの記事一覧",
+    numberOfItems: guides.length,
+    itemListElement: guides.map(([slug, g], i) => ({
+      "@type": "ListItem",
+      position: i + 1,
+      url: `${SITE_URL}/guide/${slug}`,
+      name: g.title,
+    })),
+  };
+
   return (
     <main className="flex-1">
+      <JsonLd data={itemListJsonLd} />
       <section className="bg-gradient-to-b from-green-50 to-white border-b border-gray-100">
         <div className="mx-auto max-w-5xl px-4 sm:px-6 py-10">
+          <Breadcrumb items={[{ label: "昆布ガイド" }]} />
           <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">昆布ガイド</h1>
           <p className="mt-2 text-sm text-gray-600">
             昆布のことをもっと知る。種類・選び方・だしの取り方・昆布締め・保存・栄養まで、全{guides.length}記事。

@@ -5,6 +5,7 @@ import { CATEGORIES, type CategorySlug } from "@/lib/constants";
 import { categoryMeta } from "@/lib/page-meta";
 import { ProductCard } from "@/components/ProductCard";
 import { ShopCTA } from "@/components/ShopCTA";
+import { Breadcrumb } from "@/components/Breadcrumb";
 import { CategoryIcon } from "@/lib/category-icons";
 
 export const revalidate = 21600;
@@ -30,6 +31,9 @@ export default async function CategoryPage({ params }: Props) {
     <main className="flex-1">
       <section className="bg-gradient-to-b from-green-50 to-white border-b border-gray-100">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 py-10">
+          {/* 他のページ種別には入っているのに、ここだけ無かった。
+              パンくずの構造化データもこのコンポーネントが出す。 */}
+          <Breadcrumb items={[{ label: cat.label }]} />
           <CategoryIcon slug={slug} className="w-8 h-8 text-[#2d6a4f] mb-2" />
           <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">{cat.label}</h1>
           <p className="mt-2 text-sm text-gray-600">{cat.description}</p>

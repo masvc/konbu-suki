@@ -298,6 +298,21 @@ async function checkLinks() {
     /* 疎通は下のチェックで拾う */
   }
 
+  // サイト内検索の結果ページは noindex であること。
+  // ?q= で URL が無限に増える。中身は商品一覧の組み替えで、独立した価値は無い。
+  try {
+    const res = await fetch(`${BASE_URL}/search?q=%E6%98%86%E5%B8%83`, {
+      headers: { "User-Agent": "SiteCheck/1.0" },
+    });
+    const html = await res.text();
+    const robots = html.match(/name="robots" content="([^"]*)"/)?.[1] ?? "";
+    if (!/noindex/.test(robots)) {
+      add("error", "seo", `検索結果ページが noindex になっていない（robots: ${robots || "指定なし"}）`);
+    }
+  } catch {
+    /* 疎通は下のチェックで拾う */
+  }
+
   // サイトマップの lastmod。取得のたびに値が変わると、検索側はその値を
   // 当てにしなくなる。以前 new Date() を入れていて、2秒差で別の値が返っていた。
   // 画面には出ないので、2回取って比べないと分からない。
