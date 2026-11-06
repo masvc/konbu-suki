@@ -458,7 +458,7 @@ export const GUIDES: Record<string, Guide> = {
     dateModified: "2026-11-07",
     searchKeyword: "昆布締め 昆布",
     targetQuery: "昆布締め 失敗",
-    related: ["kobujime", "kobujime-hirame", "kobujime-tai", "kobujime-salmon"],
+    related: ["kobujime", "kobujime-hirame", "kobujime-tai", "kobujime-salmon", "kobujime-chicken"],
     sections: [
       {
         heading: "結論: 失敗の原因は「戻しすぎ」「置く時間」「塩」の3つ",
@@ -954,7 +954,7 @@ export const GUIDES: Record<string, Guide> = {
     dateModified: "2026-11-06",
     searchKeyword: "昆布水 作り方",
     targetQuery: "昆布水 作り方",
-    related: ["how-to-make-dashi", "kombu-recipes", "kombu-storage"],
+    related: ["how-to-make-dashi", "kombu-katsuo-dashi", "kombu-recipes", "kombu-storage"],
     recipe: {
       name: "昆布水（水出しの昆布だし）",
       recipeYield: "約1.5L",
@@ -992,7 +992,7 @@ export const GUIDES: Record<string, Guide> = {
       },
       {
         heading: "だしとの違いと使い分け",
-        body: "鍋で加熱して取るだしに比べ、昆布水は火を使わないぶん手間がかかりません。一方で、短時間では味が出きらないため、置く時間を確保する必要があります。\n\n加熱しないので、仕込んだ昆布水をそのまま汁物や煮物のベースに使ったり、ご飯を炊く水に使ったりできます。加熱して使っても問題ありません。",
+        body: "鍋で加熱して取るだしに比べ、昆布水は火を使わないぶん手間がかかりません。一方で、短時間では味が出きらないため、置く時間を確保する必要があります。\n\n加熱しないので、仕込んだ昆布水をそのまま汁物や煮物のベースに使ったり、ご飯を炊く水に使ったりできます。加熱して使っても問題ありません。\n\n鍋で取る昆布だしの分量と時間は「昆布だしの取り方」、鰹だしとのうま味成分や用途の違いは「昆布だしと鰹だしの違い」の記事に、それぞれ表でまとめています。",
       },
       {
         heading: "保存の目安",
