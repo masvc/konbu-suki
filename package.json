@@ -16,6 +16,8 @@
     "launchd": "tsx scripts/install-launchd.ts",
     "night": "tsx scripts/night-run.ts",
     "ai:citation": "tsx scripts/ai-citation-check.ts",
+    "facts": "tsx scripts/fact-audit.ts",
+    "inbox": "tsx scripts/slack-inbox.ts",
     "images:optimize": "tsx scripts/optimize-guide-images.ts",
     "env:status": "tsx scripts/env-sync.ts status",
     "env:pull": "tsx scripts/env-sync.ts pull",

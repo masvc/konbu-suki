@@ -33,6 +33,7 @@ import { nightDir, nightDirRelative, nightDate } from "./lib/night";
 import { SLOTS, COMMON_RULES } from "./lib/night-slots";
 
 const PROJECT_ROOT = path.resolve(__dirname, "..");
+const TSX_CLI = path.join(PROJECT_ROOT, "node_modules", "tsx", "dist", "cli.mjs");
 const SETTINGS_FILE = path.join(PROJECT_ROOT, "auto-settings.json");
 const EXAMPLE_FILE = path.join(PROJECT_ROOT, "auto-settings.example.json");
 const LOCK_FILE = path.join(homedir(), "Library/Logs/konbu-suki/night.lock");
@@ -223,6 +224,15 @@ async function main() {
       ]);
       return;
     }
+
+    // 外から届いた指示を先に取り込む。設定が無ければ何もせず戻る。
+    // ここで失敗しても枠は進める（指示が無いだけで、役割は果たせる）。
+    const inbox = spawnSync(process.execPath, [TSX_CLI, "scripts/slack-inbox.ts"], {
+      cwd: PROJECT_ROOT,
+      env: buildEnv(claudePath),
+      stdio: "inherit",
+    });
+    if (inbox.status !== 0) console.log("Slack からの指示の取り込みに失敗した（枠は続ける）");
 
     const before = git("rev-parse", "HEAD");
     const res = spawnSync(
