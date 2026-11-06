@@ -9,6 +9,7 @@ import { ShopCTA } from "@/components/ShopCTA";
 import { Breadcrumb } from "@/components/Breadcrumb";
 import { FaqAccordion } from "@/components/FaqAccordion";
 import { JsonLd } from "@/components/JsonLd";
+import { collectReferences } from "@/lib/guide-references";
 
 export const revalidate = 86400;
 
@@ -58,6 +59,10 @@ export default async function GuidePage({ params }: Props) {
         .filter(([s]) => s !== slug)
         .slice(0, 4);
 
+  // 参考文献は本文の「出典:」行から集める。記事ごとに一覧を別に持たせると、
+  // 本文を直したときに片方だけ古くなる。
+  const references = collectReferences(guide.sections);
+
   // パンくずの構造化データは Breadcrumb コンポーネントが出している。
   // ここで作ると二重になるので持たない。
 
@@ -105,7 +110,18 @@ export default async function GuidePage({ params }: Props) {
         <Breadcrumb items={[{ label: "昆布ガイド", href: "/guide" }, { label: guide.title }]} />
 
         <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900 mb-2 leading-tight">{guide.title}</h1>
-        <p className="text-sm text-gray-500 mb-6">{guide.description}</p>
+        <p className="text-sm text-gray-500 mb-3">{guide.description}</p>
+
+        {/* 更新日。いつ時点の内容かが分からないと、数字を扱う記事は読み手が判断できない。 */}
+        <p className="text-xs text-gray-400 mb-6">
+          <time dateTime={guide.dateModified}>{guide.dateModified}</time> 更新
+          {guide.dateModified !== guide.datePublished && (
+            <>
+              <span className="mx-1.5">/</span>
+              <time dateTime={guide.datePublished}>{guide.datePublished}</time> 公開
+            </>
+          )}
+        </p>
 
         {/* 目次 */}
         {guide.sections.length > 2 && (
@@ -180,6 +196,32 @@ export default async function GuidePage({ params }: Props) {
           <section className="mt-10">
             <h2 className="text-base sm:text-lg font-bold text-gray-900 mb-4">よくある質問</h2>
             <FaqAccordion items={guide.faq} />
+          </section>
+        )}
+
+        {/* 参考文献 */}
+        {references.length > 0 && (
+          <section className="mt-10 pt-8 border-t border-gray-100">
+            <h2 className="text-base font-bold text-gray-900 mb-3">参考文献</h2>
+            <p className="text-xs text-gray-500 mb-3">
+              この記事は次の資料をもとに書いています。いずれも実際に開いて内容を確認したものです。
+              出典の扱いは
+              <Link href="/about/editorial-policy" className="text-[#2d6a4f] underline">編集方針</Link>
+              にまとめています。
+            </p>
+            <ol className="space-y-1.5 list-decimal list-inside">
+              {references.map((r, i) => (
+                <li key={i} className="text-xs text-gray-600">
+                  {r.url ? (
+                    <a href={r.url} target="_blank" rel="noopener noreferrer" className="text-[#2d6a4f] underline break-all">
+                      {r.label}
+                    </a>
+                  ) : (
+                    r.label
+                  )}
+                </li>
+              ))}
+            </ol>
           </section>
         )}
 

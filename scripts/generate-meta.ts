@@ -26,7 +26,7 @@
  * 良い手書き文を機械の文で置き換える理由が無いので、短いものだけ直す。
  */
 import "dotenv/config";
-import { mkdirSync, writeFileSync } from "node:fs";
+import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import path from "node:path";
 import { GoogleGenAI } from "@google/genai";
 import { GUIDES } from "../src/lib/guides";
@@ -124,12 +124,12 @@ function validate(slug: string, text: string): string[] {
   // 記法や感嘆符が混ざることがある。実際に ** が入った案が出た。
   if (/[*_`#]/.test(text)) reasons.push("Markdown の記法が入っている");
   if (/[!！?？]/.test(text)) reasons.push("感嘆符・疑問符が入っている");
-  // 記事に出てこないカタカナ語を足していないか。専門語を作って入れるのを防ぐ。
+  // 記事に無い言葉・数字を足していないか。作文で足されるのが一番こわい。
+  const body = articleText(slug) + g.title + g.description;
+  // カタカナの専門語を作って入れるのを防ぐ。
   for (const m of text.matchAll(/[ァ-ヴー]{3,}/g)) {
     if (!body.includes(m[0])) reasons.push(`記事に無い語「${m[0]}」`);
   }
-  // 記事に無い数字を足していないか。作文で数値を出すのが一番こわい。
-  const body = articleText(slug) + g.title + g.description;
   for (const m of text.matchAll(/\d[\d,.]*/g)) {
     const n = m[0];
     if (n.length < 2) continue; // 1桁は箇条書き番号などで誤検知する
@@ -187,7 +187,7 @@ ${conclusion.slice(0, 700)}
 
 function applyToSource(proposals: Proposal[]) {
   const file = path.resolve(__dirname, "..", "src", "lib", "guides.ts");
-  let src = require("node:fs").readFileSync(file, "utf8") as string;
+  let src = readFileSync(file, "utf8");
   let applied = 0;
   for (const p of proposals) {
     if (!p.apply || !p.after) continue;
