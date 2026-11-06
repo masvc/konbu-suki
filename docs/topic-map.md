@@ -170,7 +170,8 @@ AI引用チェック（gemini-2.5-flash、16キーワード、引用 0/16）で 
 | --- | --- | --- |
 | 北海道ぎょれん「北海道のこんぶ」 | https://www.gyoren.or.jp/konbu/ | 7種（利尻・細目・長・日高・真・羅臼・厚葉）の特徴と用途。**がごめ昆布の記載はない** |
 | 文部科学省 日本食品標準成分表 | https://www.mext.go.jp/a_menu/syokuhinseibun/ | 最新は八訂増補2023年 |
-| 厚生労働省 日本人の食事摂取基準 | https://www.mhlw.go.jp/stf/seisakunitsuite/bunya/kenkou_iryou/kenkou/eiyou/syokuji_kijyun.html | 最新は2025年版（令和7年度から5年間） |
+| 厚生労働省 日本人の食事摂取基準 | https://www.mhlw.go.jp/stf/seisakunitsuite/bunya/kenkou_iryou/kenkou/eiyou/syokuji_kijyun.html | 最新は2025年版（令和7年度から5年間）。**このページに数値は載っていない** |
+| 同 2025年版 微量ミネラル（PDF） | https://www.mhlw.go.jp/content/10904750/001316469.pdf | ヨウ素 pp.316-318。耐容上限量 成人3,000μg/日・妊婦授乳婦2,000μg/日・乳児0〜5か月250/6〜11か月350。**「連日でない限り問題はない」「意図的な摂取忌避はヨウ素不足につながる」という留意事項あり**。WebFetch では読めない。`pdftotext` か PDF をページ画像にして読む |
 | 水産庁 水産白書 | https://www.jfa.maff.go.jp/j/kikaku/wpaper/index.html | 令和7年度版まで公開 |
 | 日本昆布協会「昆布だしの取り方」 | https://kombu.or.jp/power/dashi/ | 昆布10g〜20g程度・水1L、30分漬けて中火、沸騰直前に取り出す。煮出しだしの**日持ち・冷凍の記載なし** |
 | 日本昆布協会「『昆布水』で簡単昆布だし」 | https://kombu.or.jp/power/dashi2/ | 昆布20g程度・水1.5L、3時間以上（できれば1晩）。「冷蔵庫で1週間くらいはもちます」 |

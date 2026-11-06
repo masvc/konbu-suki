@@ -23,9 +23,9 @@ export const SOURCES: Source[] = [
   },
   {
     publisher: "厚生労働省",
-    title: "日本人の食事摂取基準",
-    url: "https://www.mhlw.go.jp/stf/seisakunitsuite/bunya/kenkou_iryou/kenkou/eiyou/syokuji_kijyun.html",
-    usedFor: "ヨウ素の耐容上限量",
+    title: "日本人の食事摂取基準（2025年版）ミネラル（微量ミネラル）",
+    url: "https://www.mhlw.go.jp/content/10904750/001316469.pdf",
+    usedFor: "ヨウ素の耐容上限量（成人3,000μg/日・妊婦授乳婦2,000μg/日）と、習慣的な摂取に適用される旨の留意事項",
   },
   {
     publisher: "農林水産省",
