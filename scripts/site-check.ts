@@ -246,6 +246,45 @@ async function checkLinks() {
   // 疎通と、Googlebot の 2MB 上限に対する HTML サイズの見張りに絞る。
 
   const sizeCheckPages = ["/", "/guide", "/kombu-box", "/producers", "/search"];
+  // 構造化データ。Search Console から「offers / review / aggregateRating の
+  // いずれかが必要」という重大な問題が報告された（2026-11-05）。重大な問題が付くと
+  // リッチリザルトに出なくなるが、画面上は何も変わらないので気付けない。
+  const productSample = await prisma.product.findMany({
+    where: { NOT: { price: null } },
+    select: { id: true },
+    take: 3,
+    orderBy: { id: "desc" },
+  });
+  for (const { id } of productSample) {
+    try {
+      const res = await fetch(`${BASE_URL}/product/${id}`, {
+        headers: { "User-Agent": "SiteCheck/1.0" },
+      });
+      const html = await res.text();
+      const blocks = [...html.matchAll(/<script type="application\/ld\+json"[^>]*>([\s\S]*?)<\/script>/g)];
+      const product = blocks
+        .map((m) => {
+          try {
+            return JSON.parse(m[1]) as Record<string, unknown>;
+          } catch {
+            return null;
+          }
+        })
+        .find((d) => d && d["@type"] === "Product");
+      if (!product) {
+        add("warn", "seo", `product/${id}: Product の構造化データが無い`);
+      } else if (!product.offers && !product.review && !product.aggregateRating) {
+        add(
+          "error",
+          "seo",
+          `product/${id}: Product に offers / review / aggregateRating のどれも無い（リッチリザルトに出なくなる）`
+        );
+      }
+    } catch {
+      /* 疎通は下のチェックで拾う */
+    }
+  }
+
   for (const path of sizeCheckPages) {
     try {
       const res = await fetch(`${BASE_URL}${path}`, {

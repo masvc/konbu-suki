@@ -7,6 +7,7 @@ import { CATEGORIES, type CategorySlug, SITE_NAME } from "@/lib/constants";
 import { amazonProductUrl, amazonSearchUrl, rakutenProductUrl, rakutenSearchUrl } from "@/lib/affiliates";
 import { ProductCard } from "@/components/ProductCard";
 import { Breadcrumb } from "@/components/Breadcrumb";
+import { buildProductJsonLd } from "@/lib/product-jsonld";
 import { JsonLd } from "@/components/JsonLd";
 import { getTasteProfile, getUsageSuggestions, getPairings, getRecommendedFor, getNutritionFacts, getTextureAndFlavorTags } from "@/lib/product-seo";
 
@@ -70,20 +71,13 @@ export default async function ProductPage({ params }: Props) {
     ? rakutenProductUrl(rakutenTarget)
     : rakutenSearchUrl(product.name);
 
-  // Product構造化データ
-  const productJsonLd = {
-    "@context": "https://schema.org",
-    "@type": "Product",
-    name: product.name,
-    brand: { "@type": "Brand", name: product.brand },
-    description: product.description || `${product.brand}の${product.name}`,
-    image: product.imageUrl || undefined,
-  };
-
+  // Product構造化データ。組み立ては src/lib/product-jsonld.ts にある。
+  // 価格が無い商品には出さない（offers を欠いた Product は重大な問題として報告される）。
+  const productJsonLd = buildProductJsonLd(product);
 
   return (
     <main className="flex-1">
-      <JsonLd data={productJsonLd} />
+      {productJsonLd && <JsonLd data={productJsonLd} />}
 
       <div className="mx-auto max-w-5xl px-4 sm:px-6 py-8">
         <Breadcrumb items={[
