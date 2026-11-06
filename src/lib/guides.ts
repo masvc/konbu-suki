@@ -22,7 +22,20 @@ type Guide = {
   imageAlt?: string;
   datePublished: string;
   dateModified: string;
+  /**
+   * 商品検索に使う語。記事末尾の購入リンク（ShopCTA）がこれで検索する。
+   * **検索・AI検索で狙う語（targetQuery）とは別物。** 商品が出てくる語を書く。
+   */
   searchKeyword?: string;
+  /**
+   * 検索・AI検索で狙う語。
+   *
+   * searchKeyword と分けている。昆布締めの個別記事は商品検索の都合で
+   * 「真昆布」「羅臼昆布」を searchKeyword にしているが、その語で記事の出来を
+   * 測ると実態と合わない（AI引用チェックが商品名で測っていた）。
+   * meta の生成と引用チェックはこちらを使う。
+   */
+  targetQuery?: string;
   /**
    * 記事末尾に出す関連記事の slug。話題の近いものを3〜4本選ぶ。
    * 柱記事は配下の個別記事をすべて並べ、個別記事は柱を必ず含める。
@@ -46,6 +59,7 @@ export const GUIDES: Record<string, Guide> = {
     datePublished: "2026-11-06",
     dateModified: "2026-11-06",
     searchKeyword: "昆布締め 昆布",
+    targetQuery: "サーモン 昆布締め",
     related: ["kobujime-tai", "kobujime-tips", "kobujime"],
     sections: [
       {
@@ -109,6 +123,7 @@ export const GUIDES: Record<string, Guide> = {
     datePublished: "2026-11-06",
     dateModified: "2026-11-06",
     searchKeyword: "昆布締め 昆布",
+    targetQuery: "鯛 昆布締め",
     related: ["kobujime", "kobujime-hirame", "kobujime-salmon", "kobujime-tips"],
     sections: [
       {
@@ -179,6 +194,7 @@ export const GUIDES: Record<string, Guide> = {
     datePublished: "2026-11-06",
     dateModified: "2026-11-06",
     searchKeyword: "昆布締め 昆布",
+    targetQuery: "昆布締め 失敗",
     related: ["kobujime", "kobujime-hirame", "kobujime-tai", "kobujime-salmon"],
     sections: [
       {
@@ -260,6 +276,7 @@ export const GUIDES: Record<string, Guide> = {
     datePublished: "2026-11-05",
     dateModified: "2026-11-05",
     searchKeyword: "真昆布",
+    targetQuery: "鶏むね肉 昆布締め",
     related: ["kobujime", "kobujime-hirame", "how-to-make-dashi"],
     sections: [
       {
@@ -329,6 +346,7 @@ export const GUIDES: Record<string, Guide> = {
     datePublished: "2026-11-05",
     dateModified: "2026-11-05",
     searchKeyword: "羅臼昆布",
+    targetQuery: "ヒラメ 昆布締め",
     related: ["kobujime", "kobujime-tai", "kobujime-vegetables"],
     sections: [
       {
@@ -390,6 +408,7 @@ export const GUIDES: Record<string, Guide> = {
     datePublished: "2026-11-05",
     dateModified: "2026-11-05",
     searchKeyword: "昆布締め 昆布",
+    targetQuery: "野菜 昆布締め",
     related: ["kobujime", "kobujime-hirame", "kombu-storage"],
     sections: [
       {
@@ -452,6 +471,7 @@ export const GUIDES: Record<string, Guide> = {
     datePublished: "2026-11-05",
     dateModified: "2026-11-06",
     searchKeyword: "昆布締め 昆布",
+    targetQuery: "昆布締め 作り方",
     related: ["kobujime-tips", "kobujime-hirame", "kobujime-tai", "kobujime-salmon", "kobujime-chicken", "kobujime-vegetables"],
     sections: [
       {
@@ -522,6 +542,7 @@ export const GUIDES: Record<string, Guide> = {
     datePublished: "2026-11-05",
     dateModified: "2026-11-05",
     searchKeyword: "がごめ昆布",
+    targetQuery: "がごめ昆布",
     related: ["tororo-oboro", "kombu-types", "kombu-nutrition"],
     sections: [
       {
@@ -586,6 +607,7 @@ export const GUIDES: Record<string, Guide> = {
     datePublished: "2026-11-05",
     dateModified: "2026-11-05",
     searchKeyword: "とろろ昆布",
+    targetQuery: "とろろ昆布 おぼろ昆布 違い",
     related: ["gagome-kombu", "kombu-types", "shiokombu-guide"],
     sections: [
       {
@@ -642,6 +664,7 @@ export const GUIDES: Record<string, Guide> = {
     datePublished: "2026-11-05",
     dateModified: "2026-11-06",
     searchKeyword: "昆布水 作り方",
+    targetQuery: "昆布水 作り方",
     related: ["how-to-make-dashi", "kombu-recipes", "kombu-storage"],
     sections: [
       {
@@ -692,6 +715,7 @@ export const GUIDES: Record<string, Guide> = {
     datePublished: "2026-11-05",
     dateModified: "2026-11-05",
     searchKeyword: "昆布 選び方",
+    targetQuery: "昆布 選び方",
     related: ["kombu-comparison", "kombu-types", "how-to-make-dashi"],
     sections: [
       {
@@ -738,6 +762,7 @@ export const GUIDES: Record<string, Guide> = {
     datePublished: "2026-11-05",
     dateModified: "2026-11-05",
     searchKeyword: "昆布 違い",
+    targetQuery: "昆布 違い",
     related: ["kombu-types", "how-to-choose-kombu", "how-to-make-dashi", "kombu-history"],
     sections: [
       {
@@ -793,6 +818,7 @@ export const GUIDES: Record<string, Guide> = {
     datePublished: "2026-10-25",
     dateModified: "2026-11-06",
     searchKeyword: "昆布 種類",
+    targetQuery: "昆布 種類",
     related: ["kombu-comparison", "gagome-kombu", "how-to-choose-kombu", "kombu-production"],
     sections: [
       {
@@ -857,6 +883,7 @@ export const GUIDES: Record<string, Guide> = {
     datePublished: "2026-10-25",
     dateModified: "2026-11-06",
     searchKeyword: "昆布だし 取り方",
+    targetQuery: "昆布だし 取り方",
     related: ["kombu-water", "kombu-recipes", "how-to-choose-kombu", "kombu-nutrition"],
     sections: [
       {
@@ -928,6 +955,7 @@ export const GUIDES: Record<string, Guide> = {
     datePublished: "2026-10-25",
     dateModified: "2026-11-06",
     searchKeyword: "昆布 栄養",
+    targetQuery: "昆布 栄養",
     related: ["kombu-types", "kombu-recipes", "gagome-kombu"],
     sections: [
       {
@@ -1025,6 +1053,7 @@ export const GUIDES: Record<string, Guide> = {
     datePublished: "2026-10-25",
     dateModified: "2026-11-06",
     searchKeyword: "塩昆布 おすすめ",
+    targetQuery: "塩昆布 使い方",
     related: ["kombu-recipes", "tororo-oboro", "how-to-choose-kombu"],
     sections: [
       {
@@ -1088,6 +1117,7 @@ export const GUIDES: Record<string, Guide> = {
     datePublished: "2026-10-25",
     dateModified: "2026-11-05",
     searchKeyword: "昆布 保存方法",
+    targetQuery: "昆布 保存方法",
     related: ["kombu-recipes", "how-to-make-dashi", "kombu-water"],
     sections: [
       {
@@ -1137,6 +1167,7 @@ export const GUIDES: Record<string, Guide> = {
     datePublished: "2026-10-25",
     dateModified: "2026-11-05",
     searchKeyword: "昆布 レシピ",
+    targetQuery: "昆布 レシピ",
     related: ["kombu-storage", "how-to-make-dashi", "shiokombu-guide"],
     sections: [
       {
@@ -1189,6 +1220,7 @@ export const GUIDES: Record<string, Guide> = {
     datePublished: "2026-10-25",
     dateModified: "2026-11-05",
     searchKeyword: "昆布 歴史",
+    targetQuery: "昆布ロード",
     related: ["kombu-production", "tororo-oboro", "kobujime"],
     sections: [
       {
@@ -1243,6 +1275,7 @@ export const GUIDES: Record<string, Guide> = {
     datePublished: "2026-10-25",
     dateModified: "2026-11-06",
     searchKeyword: "昆布 産地 北海道",
+    targetQuery: "昆布 産地",
     related: ["kombu-types", "kombu-history", "kombu-comparison"],
     sections: [
       {

@@ -130,7 +130,7 @@ function markdown(results: Result[]): string {
 
   lines.push("## キーワード別");
   lines.push("");
-  lines.push("| 狙いキーワード | 記事 | 自サイト | 引用元ドメイン |");
+  lines.push("| 狙う語 | 記事 | 自サイト | 引用元ドメイン |");
   lines.push("| --- | --- | --- | --- |");
   for (const r of results) {
     const mark = r.error ? `取得失敗: ${r.error.slice(0, 40)}` : r.cited ? "**引用された**" : "引用なし";
@@ -167,10 +167,13 @@ async function main() {
   // API を余分に使う。
   const byKeyword = new Map<string, string[]>();
   for (const [slug, g] of Object.entries(GUIDES)) {
-    if (!g.searchKeyword) continue;
-    const slugs = byKeyword.get(g.searchKeyword) ?? [];
+    // 狙う語で測る。searchKeyword は商品検索用で、記事の出来とは別物
+    // （昆布締めの個別記事が「真昆布」「羅臼昆布」で測られていた）。
+    const query = g.targetQuery ?? g.searchKeyword;
+    if (!query) continue;
+    const slugs = byKeyword.get(query) ?? [];
     slugs.push(slug);
-    byKeyword.set(g.searchKeyword, slugs);
+    byKeyword.set(query, slugs);
   }
   const entries = [...byKeyword.entries()].map(([keyword, slugs]) => ({ keyword, slugs }));
   const targets = limit > 0 ? entries.slice(0, limit) : entries;
