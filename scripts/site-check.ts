@@ -275,6 +275,29 @@ async function checkLinks() {
     }
   }
 
+  // 記事一覧からすべての記事へリンクがあるか。
+  // 以前 /guide のページに記事一覧をベタ書きしていて、新しく足した12本が
+  // どこからも辿れなかった。サイトマップには載るので Search Console では
+  // 「検出」されるが、クロールされず登録もされない。画面を見ていても
+  // 「一覧に無い」ことには気付けない。
+  try {
+    const res = await fetch(`${BASE_URL}/guide`, { headers: { "User-Agent": "SiteCheck/1.0" } });
+    const html = await res.text();
+    const linked = new Set(
+      [...html.matchAll(/href="\/guide\/([a-z0-9-]+)"/g)].map((m) => m[1])
+    );
+    const missing = Object.keys(GUIDES).filter((slug) => !linked.has(slug));
+    if (missing.length > 0) {
+      add(
+        "error",
+        "seo",
+        `記事一覧(/guide)からリンクされていない記事 ${missing.length}件: ${missing.join(", ")}`
+      );
+    }
+  } catch {
+    /* 疎通は下のチェックで拾う */
+  }
+
   // サイトマップの lastmod。取得のたびに値が変わると、検索側はその値を
   // 当てにしなくなる。以前 new Date() を入れていて、2秒差で別の値が返っていた。
   // 画面には出ないので、2回取って比べないと分からない。

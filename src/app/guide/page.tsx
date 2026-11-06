@@ -1,43 +1,70 @@
 import Link from "next/link";
+import Image from "next/image";
 import type { Metadata } from "next";
 import { SITE_NAME } from "@/lib/constants";
+import { GUIDES } from "@/lib/guides";
 
 export const metadata: Metadata = {
   title: `昆布ガイド | ${SITE_NAME}`,
-  description: "昆布の種類、だしの取り方、栄養価、産地別の特徴など、昆布に関する知識をまとめたガイド記事一覧。",
+  description:
+    "昆布の種類と選び方、だしの取り方、昆布締め、保存方法、栄養成分まで。公的機関と業界団体の資料をもとにまとめた昆布の記事一覧です。",
   alternates: { canonical: "/guide" },
 };
 
-const GUIDES = [
-  { slug: "kombu-types", title: "昆布の種類と選び方", desc: "利尻・羅臼・日高・真昆布の違いと、料理別のおすすめ昆布を解説。" },
-  { slug: "how-to-make-dashi", title: "昆布だしの取り方 完全ガイド", desc: "水出し・煮出しの基本からプロの技まで。美味しい昆布だしの取り方。" },
-  { slug: "kombu-nutrition", title: "昆布の栄養と健康効果", desc: "食物繊維・ミネラル・フコイダン・アルギン酸。昆布の驚くべき栄養価。" },
-  { slug: "shiokombu-guide", title: "塩昆布の選び方・使い方", desc: "ごはんのお供だけじゃない。パスタ、サラダ、おにぎりに使える万能調味料。" },
-  { slug: "kombu-storage", title: "昆布の保存方法", desc: "正しい保存で美味しさ長持ち。常温・冷蔵・冷凍の使い分け。" },
-  { slug: "kombu-recipes", title: "昆布を使ったレシピ集", desc: "だし昆布の二番出汁活用から、昆布巻き、昆布の佃煮まで。" },
-  { slug: "kombu-history", title: "昆布の歴史と文化", desc: "北前船から大阪の昆布文化まで。日本人と昆布の深い関わり。" },
-  { slug: "kombu-production", title: "昆布の生産と流通", desc: "北海道の昆布漁から加工、流通まで。昆布産業の全体像。" },
-];
-
+/**
+ * 記事一覧。
+ *
+ * **一覧を手で書かない。** 以前はこのファイルに記事8本をベタ書きしていて、
+ * 新しく足した12本がどこからも辿れなかった。トップからも一覧からも
+ * リンクが無く、Search Console では「検出 - インデックス未登録／未クロール」に
+ * なっていた。記事を足しても一覧に出ないので、画面を見ていても気付けない。
+ *
+ * src/lib/guides.ts の GUIDES をそのまま並べる。記事を足せば必ず出る。
+ */
 export default function GuidePage() {
+  // 更新日の新しい順。古い記事が上に居座ると、新しい記事ほど深い位置になる。
+  const guides = Object.entries(GUIDES).sort(
+    ([, a], [, b]) => new Date(b.dateModified).getTime() - new Date(a.dateModified).getTime()
+  );
+
   return (
     <main className="flex-1">
       <section className="bg-gradient-to-b from-green-50 to-white border-b border-gray-100">
         <div className="mx-auto max-w-5xl px-4 sm:px-6 py-10">
           <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">昆布ガイド</h1>
-          <p className="mt-2 text-sm text-gray-600">昆布のことをもっと知る。種類・選び方・だしの取り方・栄養価まで。</p>
+          <p className="mt-2 text-sm text-gray-600">
+            昆布のことをもっと知る。種類・選び方・だしの取り方・昆布締め・保存・栄養まで、全{guides.length}記事。
+          </p>
         </div>
       </section>
       <section className="mx-auto max-w-5xl px-4 sm:px-6 py-10">
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          {GUIDES.map((g) => (
+          {guides.map(([slug, g]) => (
             <Link
-              key={g.slug}
-              href={`/guide/${g.slug}`}
-              className="group rounded-xl border border-gray-100 bg-white p-5 hover:border-green-300 hover:shadow-md transition-all"
+              key={slug}
+              href={`/guide/${slug}`}
+              className="group flex gap-4 rounded-xl border border-gray-100 bg-white p-4 hover:border-green-300 hover:shadow-md transition-all"
             >
-              <h2 className="text-sm font-bold text-gray-900 group-hover:text-green-700 transition mb-2">{g.title}</h2>
-              <p className="text-xs text-gray-500 leading-relaxed">{g.desc}</p>
+              {g.image && (
+                <div className="relative h-20 w-28 shrink-0 overflow-hidden rounded-lg bg-[#f8faf8]">
+                  <Image
+                    src={g.image}
+                    alt={g.imageAlt || g.title}
+                    fill
+                    className="object-cover"
+                    sizes="112px"
+                  />
+                </div>
+              )}
+              <div className="min-w-0">
+                <h2 className="text-sm font-bold text-gray-900 group-hover:text-green-700 transition mb-1 leading-snug">
+                  {g.title}
+                </h2>
+                <p className="text-xs text-gray-500 leading-relaxed line-clamp-3">{g.description}</p>
+                <p className="mt-1 text-[10px] text-gray-400">
+                  <time dateTime={g.dateModified}>{g.dateModified}</time> 更新
+                </p>
+              </div>
             </Link>
           ))}
         </div>
