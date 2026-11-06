@@ -17,6 +17,7 @@ import "dotenv/config";
 import { existsSync, readdirSync, statSync } from "fs";
 import { createPrisma } from "./lib/db";
 import { GUIDES } from "../src/lib/guides";
+import { collectReferences } from "../src/lib/guide-references";
 import { CATEGORY_SLUGS, SITE_NAME } from "../src/lib/constants";
 import { PUBLIC_SITE_URL, PUBLIC_SITE_HOST } from "./lib/site";
 import { CONTENT_PAGES, GUIDE_PAGES } from "./lib/content";
@@ -125,6 +126,18 @@ async function checkSeo() {
     const body = guide.sections.reduce((sum, s) => sum + s.body.length, 0);
     if (body < 300) {
       add("warn", "seo", `guide/${slug}: 本文が薄い (${body}字)`);
+    }
+  }
+
+  // ── 参考文献のURL ──
+  // 日本語の文では URL の直後に句読点や括弧が続く。取り出し方を誤ると、
+  // 記号を含んだままリンクになり 404 になる。実際に1件起きていて、
+  // 外部リンクの検査（check-links.ts）でしか気付けなかった。
+  for (const [slug, guide] of Object.entries(GUIDES)) {
+    for (const ref of collectReferences(guide.sections)) {
+      if (ref.url && /[（）()、。「」]/.test(ref.url)) {
+        add("error", "seo", `guide/${slug}: 参考文献のURLに記号が混ざっている → ${ref.url}`);
+      }
     }
   }
 
