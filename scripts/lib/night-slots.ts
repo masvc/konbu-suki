@@ -221,6 +221,8 @@ kombu-nutrition / kombu-production）を上から1本選び、記事の型（結
    - \`npx tsx scripts/fact-audit.ts\` （記事をまたいだ事実の食い違い・出典ゼロ・古い版の引用）
    - \`npx tsx scripts/verify-affiliate-links.ts\` （アフィリリンクに成果計測が付いているか）
    - \`npm run images:optimize\` （200KB超の画像。直すときは \`-- --write\`）
+   - \`npx tsx scripts/lighthouse.ts\` （Core Web Vitals）。PAGESPEED_API_KEY が
+     未設定だと上限に当たって測れない。その場合は「測れなかった」と記録して進む
    - 構造化データは src/app/guide/[slug]/page.tsx が Article と FAQPage を出している。
      新しい記事で欠けていないかを確認する
 3. **楽天マッチのレビュー待ちの再照合。** 次の順で行う。これは DB 書き込みを含む。

@@ -30,7 +30,12 @@
 
 ## 中
 
-- [ ] Core Web Vitals の計測と改善（Lighthouse）
+- [!] Core Web Vitals の計測と改善 — 計測の仕組みは入れたが、まだ測れていない
+  - `scripts/lighthouse.ts`（`npm run lighthouse`）を追加。PageSpeed Insights で測る
+  - **`.env` に `PAGESPEED_API_KEY` が要る。** キー無しでも叩けるが共有枠で、
+    2026-11-06 に実行したところ日次上限（Quota exceeded）に当たって1ページも測れなかった
+  - Google Cloud コンソールで PageSpeed Insights API を有効にしてキーを作り、
+    `.env` に足すと動く。キーが入れば夜間の点検枠で毎晩測れる
 - [x] Amazon の購入リンクが商品ページ直リンクになっているかの確認
   - 2026-11-06 確認。**315件中314件がすでに商品ページ直リンク**だった。残り1件は
     購入リンク自体が無い商品（site-check が別途 warn で出している）。対応不要

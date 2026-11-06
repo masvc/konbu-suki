@@ -20,6 +20,7 @@
     "indexnow": "tsx scripts/indexnow.ts",
     "meta:generate": "tsx scripts/generate-meta.ts",
     "sns": "tsx scripts/generate-sns.ts",
+    "lighthouse": "tsx scripts/lighthouse.ts",
     "inbox": "tsx scripts/slack-inbox.ts",
     "images:optimize": "tsx scripts/optimize-guide-images.ts",
     "images:og": "tsx scripts/generate-og-images.ts",
