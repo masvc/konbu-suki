@@ -159,7 +159,10 @@ kombu-nutrition / kombu-production）を上から1本選び、記事の型（結
    - scripts/generate-guide-images.ts の PROMPTS にアイキャッチのプロンプトを追加し、
      \`npx tsx scripts/generate-guide-images.ts <slug>\` で生成して image と imageAlt を設定する。
      生成に失敗したら画像なしで進め、理由を記録に残す
-   - \`npx tsx scripts/meta-check.ts\` と \`npm run build\` が通ることを確認する
+   - \`npx tsx scripts/meta-check.ts\` と \`npx tsx scripts/fact-audit.ts\` と
+     \`npm run build\` が通ることを確認する。fact-audit は記事をまたいだ数字の
+     食い違いを見る。既存記事と違う数字を書くと落ちるので、落ちたらどちらが
+     出典どおりかを確かめて直す
    - docs/content-log.md に記録を追加し、末尾の「次にやる予定」を書き換える
    - 1コミットにまとめて push する
 4. 出典が足りなくて書けないものは、無理に書かない。{{DIR}}/held.md に理由を書き、
@@ -186,6 +189,7 @@ kombu-nutrition / kombu-production）を上から1本選び、記事の型（結
    - \`npx tsx scripts/site-check.ts\` （商品データ・ガイド本文・画像・E-E-A-T）
    - \`npx tsx scripts/check-links.ts\` （リンク切れ）
    - \`npx tsx scripts/meta-check.ts\` （meta）
+   - \`npx tsx scripts/fact-audit.ts\` （記事をまたいだ事実の食い違い・出典ゼロ・古い版の引用）
    - \`npx tsx scripts/verify-affiliate-links.ts\` （アフィリリンクに成果計測が付いているか）
    - \`npm run images:optimize\` （200KB超の画像。直すときは \`-- --write\`）
    - 構造化データは src/app/guide/[slug]/page.tsx が Article と FAQPage を出している。

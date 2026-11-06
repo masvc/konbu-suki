@@ -1,7 +1,7 @@
 /**
  * 定期点検のまとめ役
  *
- * site-check / check-links / meta-check を順に走らせ、全文を
+ * site-check / check-links / meta-check / fact-audit を順に走らせ、全文を
  * ~/Library/Logs/konbu-suki/ に残し、要約を Slack に流す。
  *
  * Usage:
@@ -40,6 +40,9 @@ const CHECKS: Check[] = [
   { name: "サイト品質", script: "scripts/site-check.ts", args: offline ? ["--offline"] : [] },
   ...(offline ? [] : [{ name: "リンク", script: "scripts/check-links.ts", args: [] }]),
   { name: "meta", script: "scripts/meta-check.ts", args: [] },
+  // 記事をまたいだ事実の食い違い。1記事だけ読んでいると気付けない壊れ方で、
+  // 記事が増えるほど起きやすい。人が覚えておく話にせず毎回見る。
+  { name: "事実の整合", script: "scripts/fact-audit.ts", args: [] },
 ];
 
 type Result = { name: string; ok: boolean; seconds: number; summary: string[] };

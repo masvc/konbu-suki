@@ -1,0 +1,192 @@
+/**
+ * 記事をまたいで事実の食い違いを探す。
+ *
+ * Usage:
+ *   npx tsx scripts/fact-audit.ts            # 検査する
+ *   npx tsx scripts/fact-audit.ts --json     # 機械で読む形で出す
+ *
+ * 同じことを書いた記事どうしで数字が違う、という壊れ方が繰り返し起きている。
+ * 実際に見つかったもの:
+ *   - 北海道産の割合が「約90%」と「約95%」（kombu-types / kombu-production）
+ *   - だしの日持ちが「3日」と「1週間」（how-to-make-dashi / kombu-water）
+ *   - 成分表の値が旧版のまま（kombu-nutrition）
+ *   - 摂取基準の版が「2020年版」と「2025年版」で混在
+ *
+ * どれも1記事だけ読んでいると気付けない。記事が増えるほど確率が上がるので、
+ * 人が覚えておく話にせず機械で見る。
+ *
+ * ルールの足し方は RULES のコメントを参照。新しい事実を記事に書いたら、
+ * 同じ事実を別の記事でも書くことになった時点でルールを足す。
+ */
+import { GUIDES } from "../src/lib/guides";
+
+type Rule = {
+  id: string;
+  label: string;
+  /** 本文から値を取り出す。1つ目のキャプチャが比べる値になる。 */
+  pattern: RegExp;
+  /** 取り出した値をそろえる（カンマを外す等） */
+  normalize?: (v: string) => string;
+};
+
+/**
+ * 比べる事実。
+ *
+ * 全文から数値を機械的に拾って比べる形にはしていない。関係のない数字どうしが
+ * 当たって誤検知だらけになり、見なくなるため。「複数の記事に書くことになった事実」
+ * だけをここに並べる。
+ */
+const RULES: Rule[] = [
+  {
+    id: "hokkaido-share",
+    label: "日本の昆布に占める北海道産の割合",
+    pattern: /北海道産[^。]{0,20}?約?\s*(\d{1,3})\s*[%％]|昆布[^。]{0,30}?約\s*(\d{1,3})\s*[%％][^。]{0,10}?北海道/,
+  },
+  {
+    id: "dashi-ratio",
+    label: "だしの分量（水1リットルあたりの昆布）",
+    pattern: /水\s*1\s*リットルに(?:昆布)?\s*(\d{1,3})\s*g/,
+  },
+  {
+    id: "iodine-ul-adult",
+    label: "ヨウ素の耐容上限量（成人）",
+    pattern: /耐容上限量[^。]{0,60}?成人[^。]{0,20}?([\d,]{3,6})\s*(?:μg|µg)|成人（男女）[^|]*\|\s*([\d,]{3,6})/,
+    normalize: (v) => v.replace(/,/g, ""),
+  },
+  {
+    id: "shokuji-kijun-edition",
+    label: "日本人の食事摂取基準の版",
+    pattern: /日本人の食事摂取基準[（(](\d{4})年版[)）]/,
+  },
+  {
+    id: "seibunhyo-edition",
+    label: "日本食品標準成分表の版",
+    pattern: /日本食品標準成分表[^。]{0,20}?((?:八訂|七訂)(?:増補\d{4}年)?)/,
+  },
+  {
+    id: "makombu-kcal",
+    label: "まこんぶ（素干し）100gあたりのエネルギー",
+    pattern: /まこんぶ[^。]{0,30}?100\s*gあたり\s*(\d{2,4})\s*kcal|100gあたり\s*(\d{2,4})\s*kcal[^。]{0,20}?まこんぶ/,
+  },
+];
+
+/** 記事1本ぶんの文字列（本文・表・FAQ をすべて混ぜたもの）。 */
+function guideText(slug: string): string {
+  const g = GUIDES[slug as keyof typeof GUIDES];
+  const parts: string[] = [g.title, g.description];
+  for (const s of g.sections) {
+    parts.push(s.heading, s.body);
+    if (s.table) {
+      if (s.table.caption) parts.push(s.table.caption);
+      parts.push(s.table.headers.join(" | "));
+      for (const row of s.table.rows) parts.push(row.join(" | "));
+    }
+  }
+  for (const f of g.faq ?? []) parts.push(f.q, f.a);
+  return parts.join("\n");
+}
+
+type Finding = { level: "error" | "warn"; message: string };
+const findings: Finding[] = [];
+const add = (level: Finding["level"], message: string) => findings.push({ level, message });
+
+function auditNumbers() {
+  for (const rule of RULES) {
+    // 値 → その値を書いている記事
+    const byValue = new Map<string, string[]>();
+    for (const slug of Object.keys(GUIDES)) {
+      const text = guideText(slug);
+      const re = new RegExp(rule.pattern.source, "g" + rule.pattern.flags.replace("g", ""));
+      let m: RegExpExecArray | null;
+      const seen = new Set<string>();
+      while ((m = re.exec(text)) !== null) {
+        const raw = m.slice(1).find((x) => x !== undefined);
+        if (!raw) continue;
+        const value = rule.normalize ? rule.normalize(raw) : raw;
+        if (seen.has(value)) continue;
+        seen.add(value);
+        byValue.set(value, [...(byValue.get(value) ?? []), slug]);
+      }
+      if (seen.size > 1) {
+        add(
+          "error",
+          `${rule.label}: ${slug} の中だけで値が割れている（${[...seen].join(" / ")}）`
+        );
+      }
+    }
+    if (byValue.size > 1) {
+      const detail = [...byValue.entries()]
+        .map(([v, slugs]) => `${v}（${slugs.join(", ")}）`)
+        .join(" ／ ");
+      add("error", `${rule.label}: 記事によって値が違う — ${detail}`);
+    }
+  }
+}
+
+function auditSources() {
+  for (const slug of Object.keys(GUIDES)) {
+    const text = guideText(slug);
+    const hasSource = /出典[:：]/.test(text) || /https?:\/\//.test(text);
+    if (!hasSource) add("error", `guide/${slug}: 出典の記載が1つも無い`);
+  }
+}
+
+/**
+ * 古い版を引いていないか。
+ *
+ * 最新版が出たらここを書き換える。書き換えた時点で、古い版を引いている記事が
+ * 全部出る。
+ */
+const LATEST = {
+  shokujiKijun: "2025",
+  seibunhyo: "八訂増補2023年",
+};
+
+function auditEditions() {
+  for (const slug of Object.keys(GUIDES)) {
+    const text = guideText(slug);
+    for (const m of text.matchAll(/日本人の食事摂取基準[（(](\d{4})年版[)）]/g)) {
+      if (m[1] !== LATEST.shokujiKijun) {
+        add("error", `guide/${slug}: 食事摂取基準を${m[1]}年版で引いている（最新は${LATEST.shokujiKijun}年版）`);
+      }
+    }
+    for (const m of text.matchAll(/日本食品標準成分表[^。]{0,20}?(八訂|七訂)/g)) {
+      const around = text.slice(m.index ?? 0, (m.index ?? 0) + 60);
+      if (m[1] === "七訂") {
+        add("error", `guide/${slug}: 成分表を七訂で引いている（最新は${LATEST.seibunhyo}）`);
+      } else if (!/増補\s*2023\s*年/.test(around)) {
+        add("warn", `guide/${slug}: 成分表の版が「八訂」止まりで増補年が無い（最新は${LATEST.seibunhyo}）`);
+      }
+    }
+  }
+}
+
+function main() {
+  auditNumbers();
+  auditSources();
+  auditEditions();
+
+  const errors = findings.filter((f) => f.level === "error");
+  const warns = findings.filter((f) => f.level === "warn");
+
+  if (process.argv.includes("--json")) {
+    console.log(JSON.stringify({ errors, warns }, null, 2));
+  } else {
+    console.log(`\n記事をまたいだ事実の監査（${Object.keys(GUIDES).length}記事）`);
+    console.log("=".repeat(70));
+    if (errors.length > 0) {
+      console.log(`\n--- 要修正 (${errors.length}件) ---`);
+      for (const f of errors) console.log(`  [!!] ${f.message}`);
+    }
+    if (warns.length > 0) {
+      console.log(`\n--- 改善推奨 (${warns.length}件) ---`);
+      for (const f of warns) console.log(`  [ ?] ${f.message}`);
+    }
+    if (findings.length === 0) console.log("\n  食い違いなし。\n");
+    console.log("");
+  }
+  console.log(`SUMMARY: 要修正 ${errors.length} / 改善推奨 ${warns.length}`);
+  process.exit(errors.length > 0 ? 1 : 0);
+}
+
+main();
