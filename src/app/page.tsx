@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import Image from "next/image";
 import { prisma } from "@/lib/prisma";
+import { GUIDES } from "@/lib/guides";
 import { CATEGORIES, CATEGORY_SLUGS, ORIGINS } from "@/lib/constants";
 import { ProductCard } from "@/components/ProductCard";
 import { ShopCTA } from "@/components/ShopCTA";
@@ -19,6 +20,18 @@ export const metadata: Metadata = {
 export const revalidate = 21600;
 
 export default async function Home() {
+  // 記事はここにベタ書きしない。以前3本を手で書いていて、タイトルが古いまま
+  // 残っていた。とくに「昆布の栄養成分と期待される効果」は、効能を匂わせる
+  // 表現として記事側では消したのに、トップだけ残っていた。
+  // トップは唯一インデックスされているページなので、そこに古い文言が出ていた。
+  //
+  // 件数を3→6に増やしてある。記事はトップから2階層目（/guide 経由）にしか
+  // 無く、クロールされていなかった。トップから直接辿れる記事を増やす。
+  const latestGuides = Object.entries(GUIDES)
+    .sort(([, a], [, b]) => new Date(b.dateModified).getTime() - new Date(a.dateModified).getTime())
+    .slice(0, 6);
+  const guideCount = Object.keys(GUIDES).length;
+
   const [totalProducts, featuredProducts, categories, recentProducts] = await Promise.all([
     prisma.product.count(),
     prisma.product.findMany({ where: { isFeatured: true }, take: 8, orderBy: { createdAt: "desc" } }),
@@ -246,25 +259,27 @@ export default async function Home() {
           <div className="mb-6">
             <p className="text-[10px] font-bold text-[#52b788] tracking-widest mb-1">GUIDE</p>
             <h2 className="text-lg sm:text-xl font-bold text-gray-900">昆布ガイド</h2>
+            <p className="mt-1 text-xs text-gray-500">更新の新しい順</p>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-            {[
-              { title: "昆布だしの取り方", desc: "水出し・煮出しの基本からプロの技まで", href: "/guide/how-to-make-dashi" },
-              { title: "昆布の種類と選び方", desc: "利尻・羅臼・日高・真昆布の違いと選び方", href: "/guide/kombu-types" },
-              { title: "昆布の栄養成分と期待される効果", desc: "食物繊維・ミネラル・フコイダンについて", href: "/guide/kombu-nutrition" },
-            ].map((item) => (
+            {latestGuides.map(([slug, g]) => (
               <Link
-                key={item.href}
-                href={item.href}
+                key={slug}
+                href={`/guide/${slug}`}
                 className="group flex items-start gap-3 rounded-xl border border-gray-100 bg-white p-4 hover:border-[#52b788] hover:shadow-md transition-all"
               >
                 <span className="w-8 h-8 rounded-lg bg-[#d8f3dc] flex items-center justify-center shrink-0"><Droplets className="w-4 h-4 text-[#2d6a4f]" /></span>
-                <div>
-                  <p className="text-sm font-bold text-gray-900 group-hover:text-[#2d6a4f] transition">{item.title}</p>
-                  <p className="mt-1 text-xs text-gray-500 leading-relaxed">{item.desc}</p>
+                <div className="min-w-0">
+                  <p className="text-sm font-bold text-gray-900 group-hover:text-[#2d6a4f] transition leading-snug">{g.title}</p>
+                  <p className="mt-1 text-xs text-gray-500 leading-relaxed line-clamp-2">{g.description}</p>
                 </div>
               </Link>
             ))}
+          </div>
+          <div className="mt-4 text-right">
+            <Link href="/guide" className="text-xs text-[#2d6a4f] underline">
+              昆布ガイドをすべて見る（{guideCount}記事）
+            </Link>
           </div>
         </div>
       </section>
