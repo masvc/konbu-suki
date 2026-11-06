@@ -275,6 +275,32 @@ async function checkLinks() {
     }
   }
 
+  // サイトマップの lastmod。取得のたびに値が変わると、検索側はその値を
+  // 当てにしなくなる。以前 new Date() を入れていて、2秒差で別の値が返っていた。
+  // 画面には出ないので、2回取って比べないと分からない。
+  try {
+    const fetchLastmods = async () => {
+      const res = await fetch(`${BASE_URL}/sitemap.xml`, {
+        headers: { "User-Agent": "SiteCheck/1.0" },
+      });
+      const xml = await res.text();
+      return [...xml.matchAll(/<lastmod>([^<]+)<\/lastmod>/g)].map((m) => m[1]).slice(0, 20);
+    };
+    const first = await fetchLastmods();
+    await new Promise((r) => setTimeout(r, 2000));
+    const second = await fetchLastmods();
+    const changed = first.filter((v, i) => second[i] && second[i] !== v).length;
+    if (changed > 0) {
+      add(
+        "error",
+        "seo",
+        `sitemap の lastmod が取得のたびに変わる（${changed}件）。現在時刻を入れていないか確認する`
+      );
+    }
+  } catch {
+    /* 疎通は下のチェックで拾う */
+  }
+
   // 構造化データ。Search Console から「offers / review / aggregateRating の
   // いずれかが必要」という重大な問題が報告された（2026-11-05）。重大な問題が付くと
   // リッチリザルトに出なくなるが、画面上は何も変わらないので気付けない。
