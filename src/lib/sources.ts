@@ -46,6 +46,18 @@ export const SOURCES: Source[] = [
     usedFor: "昆布だしの水出し・煮出しの時間と温度",
   },
   {
+    publisher: "鳥取県（協力: 鳥取短期大学）",
+    title: "出汁の取り方",
+    url: "https://www.pref.tottori.lg.jp/224613.htm",
+    usedFor: "だしの種類ごとの使用量・うま味成分・取り方・用途",
+  },
+  {
+    publisher: "農林水産省",
+    title: "和食ワールドチャレンジ「だし・うま味について」",
+    url: "https://www.maff.go.jp/j/yusyutu_kokusai/washoku-world-challenge/learning_03.html",
+    usedFor: "昆布と鰹節を合わせたときのうま味の相乗効果",
+  },
+  {
     publisher: "厚生労働省",
     title: "アニサキスによる食中毒を予防しましょう",
     url: "https://www.mhlw.go.jp/stf/seisakunitsuite/bunya/0000042953.html",
