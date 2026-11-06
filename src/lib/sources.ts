@@ -35,9 +35,9 @@ export const SOURCES: Source[] = [
   },
   {
     publisher: "農林水産省",
-    title: "うちの郷土料理（クーブイリチー）",
+    title: "うちの郷土料理（クーブイリチー・昆布巻き 富山県）",
     url: "https://www.maff.go.jp/j/keikaku/syokubunka/k_ryouri/",
-    usedFor: "沖縄の昆布料理",
+    usedFor: "沖縄の昆布料理、富山の昆布巻きの具と作り方",
   },
   {
     publisher: "農林水産省 中国四国農政局",
