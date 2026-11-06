@@ -6,6 +6,7 @@ import { Breadcrumb } from "@/components/Breadcrumb";
 export const metadata: Metadata = {
   title: `このサイトについて | ${SITE_NAME}`,
   description: SITE_DESCRIPTION,
+  alternates: { canonical: "/about" },
 };
 
 export default function AboutPage() {

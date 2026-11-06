@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import Image from "next/image";
 import { prisma } from "@/lib/prisma";
@@ -8,6 +9,12 @@ import { CategoryIcon } from "@/lib/category-icons";
 import { MapPin, Droplets } from "lucide-react";
 import { FaqAccordion } from "@/components/FaqAccordion";
 import { JsonLd } from "@/components/JsonLd";
+
+// トップにも canonical を置く。layout から外したので、書かないとどのページにも
+// canonical が出なくなる。
+export const metadata: Metadata = {
+  alternates: { canonical: "/" },
+};
 
 export const revalidate = 21600;
 

@@ -6,6 +6,7 @@ import { ContactForm } from "@/components/ContactForm";
 export const metadata: Metadata = {
   title: `お問い合わせ | ${SITE_NAME}`,
   description: "コンブスキーへのお問い合わせ。商品掲載リクエスト、生産者・メーカー掲載、メディア・広告掲載など、お気軽にご連絡ください。",
+  alternates: { canonical: "/contact" },
 };
 
 export default function ContactPage() {

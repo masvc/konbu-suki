@@ -17,7 +17,7 @@ import "dotenv/config";
 import { existsSync, readdirSync, statSync } from "fs";
 import { createPrisma } from "./lib/db";
 import { GUIDES } from "../src/lib/guides";
-import { CATEGORY_SLUGS } from "../src/lib/constants";
+import { CATEGORY_SLUGS, SITE_NAME } from "../src/lib/constants";
 import { PUBLIC_SITE_URL, PUBLIC_SITE_HOST } from "./lib/site";
 import { CONTENT_PAGES, GUIDE_PAGES } from "./lib/content";
 import { batchCheckUrls } from "./lib/http";
@@ -245,7 +245,36 @@ async function checkLinks() {
   // sitemap 起点の全URL走査は check-links.ts が担当する。ここは主要ページの
   // 疎通と、Googlebot の 2MB 上限に対する HTML サイズの見張りに絞る。
 
+  // canonical と title は、配信された HTML を見ないと確かめられない。
+  // meta-check.ts は page-meta.ts の文字列を検査するので、layout 側の設定で
+  // 上書き・二重付与が起きても気付けない。実際に起きた。
+  //   - layout の alternates.canonical を全ページが継承し、どの記事も canonical が
+  //     トップを指していた（検索側には「トップの複製」と伝わる。36/36 未検出）
+  //   - layout の title.template が page-meta の title にサイト名をもう一度足し、
+  //     「… | コンブスキー | コンブスキー」になっていた
   const sizeCheckPages = ["/", "/guide", "/kombu-box", "/producers", "/search"];
+  const metaCheckPages = ["/", "/guide", "/about", ...CONTENT_PAGES.slice(0, 6).map((p) => p.path)];
+  for (const path of metaCheckPages) {
+    try {
+      const res = await fetch(`${BASE_URL}${path}`, { headers: { "User-Agent": "SiteCheck/1.0" } });
+      const html = await res.text();
+      const canonical = html.match(/rel="canonical"\s+href="([^"]+)"/)?.[1];
+      const expected = `${BASE_URL}${path === "/" ? "" : path}`;
+      if (!canonical) {
+        add("error", "seo", `canonical が無い: ${path}`);
+      } else if (canonical.replace(/\/$/, "") !== expected.replace(/\/$/, "")) {
+        add("error", "seo", `canonical が自分を指していない: ${path} → ${canonical}`);
+      }
+      const title = html.match(/<title>([^<]*)<\/title>/)?.[1] ?? "";
+      const occurrences = title.split(SITE_NAME).length - 1;
+      if (occurrences > 1) {
+        add("error", "seo", `title にサイト名が${occurrences}回出ている: ${path} → ${title}`);
+      }
+    } catch {
+      /* 疎通は下のチェックで拾う */
+    }
+  }
+
   // 構造化データ。Search Console から「offers / review / aggregateRating の
   // いずれかが必要」という重大な問題が報告された（2026-11-05）。重大な問題が付くと
   // リッチリザルトに出なくなるが、画面上は何も変わらないので気付けない。

@@ -8,6 +8,7 @@ export const revalidate = 3600;
 export const metadata: Metadata = {
   title: `こんぶBOX | ${SITE_NAME}`,
   description: "全国の厳選昆布を詰め合わせた昆布のフォーチュンボックス。毎月届く昆布の宝箱。中身は届いてからのお楽しみ。",
+  alternates: { canonical: "/kombu-box" },
 };
 
 export default async function KombuBoxPage() {

@@ -7,6 +7,7 @@ export const metadata: Metadata = {
   title: `編集方針 | ${SITE_NAME}`,
   description:
     "記事を書くときに守っているルールをまとめています。出典の扱い、書かない表現、数値の示し方、誤りが見つかったときの訂正の手順、アフィリエイトの開示について。",
+  alternates: { canonical: "/about/editorial-policy" },
 };
 
 /** 公開している訂正。日付の新しいものを上に置く。 */

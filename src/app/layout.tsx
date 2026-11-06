@@ -14,10 +14,12 @@ const notoSansJP = Noto_Sans_JP({
 });
 
 export const metadata: Metadata = {
-  title: {
-    template: `%s | ${SITE_NAME}`,
-    default: `${SITE_NAME} | ${SITE_TAGLINE}`,
-  },
+  // template を置かない。各ページは page-meta.ts でサイト名まで含めた title を
+  // 作っている。template があると二重に付き、実際に
+  // 「…【…】 | コンブスキー | コンブスキー」になっていた。
+  // 点検（meta-check.ts）は page-meta.ts の文字列を見るので、template で足すと
+  // 検査している文字列と実際に配信される文字列がずれる。
+  title: `${SITE_NAME} | ${SITE_TAGLINE}`,
   description: SITE_DESCRIPTION,
   keywords: [
     "昆布", "こんぶ", "kombu", "だし昆布", "利尻昆布", "羅臼昆布", "日高昆布", "真昆布",
@@ -32,7 +34,10 @@ export const metadata: Metadata = {
     apple: [{ url: "/apple-icon.png", sizes: "180x180", type: "image/png" }],
   },
   metadataBase: new URL(SITE_URL),
-  alternates: { canonical: "/" },
+  // canonical はここに置かない。ここに書くと全ページが継承し、
+  // どの記事を開いても canonical がトップページを指す。検索側には
+  // 「この記事はトップの複製」と伝わり、記事が1つもインデックスされない。
+  // 実際に36ページすべてが未検出だった。canonical は各ページで指定する。
   openGraph: {
     type: "website",
     siteName: SITE_NAME,

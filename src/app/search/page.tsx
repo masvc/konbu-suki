@@ -7,6 +7,7 @@ import { SearchForm } from "@/components/SearchForm";
 export const metadata: Metadata = {
   title: `昆布を探す | ${SITE_NAME}`,
   description: "Amazon・楽天の昆布商品を横断検索。だし昆布、塩昆布、とろろ昆布、昆布茶など全カテゴリから探せます。",
+  alternates: { canonical: "/search" },
 };
 
 type Props = {

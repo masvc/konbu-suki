@@ -8,6 +8,7 @@ export const revalidate = 21600;
 export const metadata: Metadata = {
   title: `昆布の生産者 | ${SITE_NAME}`,
   description: "全国の昆布生産者・メーカー一覧。こだわりの昆布を作る生産者のストーリー。",
+  alternates: { canonical: "/producers" },
 };
 
 export default async function ProducersPage() {

@@ -5,6 +5,7 @@ import { SITE_NAME } from "@/lib/constants";
 export const metadata: Metadata = {
   title: `昆布ガイド | ${SITE_NAME}`,
   description: "昆布の種類、だしの取り方、栄養価、産地別の特徴など、昆布に関する知識をまとめたガイド記事一覧。",
+  alternates: { canonical: "/guide" },
 };
 
 const GUIDES = [

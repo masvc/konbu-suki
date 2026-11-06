@@ -8,6 +8,7 @@ export const metadata: Metadata = {
   title: `データと出典 | ${SITE_NAME}`,
   description:
     "記事と商品情報のもとになっているデータの出所をまとめています。参照している公的資料・団体資料の一覧、商品データの取得元と更新のタイミング、画像の扱いについて。",
+  alternates: { canonical: "/about/data" },
 };
 
 export default function DataPage() {
