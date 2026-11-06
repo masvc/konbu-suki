@@ -100,6 +100,7 @@ npm run typecheck:scripts   # scripts/ の型チェック（tsconfig.json の対
 | `check-links.ts` | sitemap 起点の全ページとリンク切れ（内部・外部） |
 | `meta-check.ts` | 全ページの meta title / description |
 | `optimize-guide-images.ts` | ガイド画像の200KB超えを探して品質だけ落とす（`npm run images:optimize`、書き換えは `-- --write`） |
+| `fact-audit.ts` | 記事をまたいだ事実の食い違い・出典ゼロの記事・古い版の引用（`npm run facts`） |
 | `ai-citation-check.ts` | AI検索で引用されているかを見る（`npm run ai:citation`）。狙いキーワードごとに自サイトの引用有無・引用元ドメイン・AIが投げた検索クエリを残す |
 | `post-slack.ts` | ファイルの中身を Slack に流す。夜間の最後の枠が報告に使う |
 | `health-report.ts` | 上記をまとめて実行し、ログを残して Slack へ要約を投げる |
@@ -276,6 +277,7 @@ npm run indexnow -- --all  # 全ページ
 npm run meta:generate      # meta description の案を作る
                            # 反映は npx tsx scripts/generate-meta.ts --apply <案のJSON>
 npm run sns                # 記事ごとの X 投稿文案を3つずつ docs/sns/ に作る（投稿はしない）
+npm run lighthouse         # Core Web Vitals（PAGESPEED_API_KEY が要る）
 ```
 
 `/llms.txt` は記事一覧から組み立てて配信している（`src/app/llms.txt/route.ts`）。

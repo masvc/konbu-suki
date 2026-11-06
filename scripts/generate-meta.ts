@@ -123,8 +123,10 @@ function validate(slug: string, text: string): string[] {
   for (const token of (g.targetQuery ?? "").split(/\s+/).filter(Boolean)) {
     if (!text.includes(token)) reasons.push(`狙う語「${token}」が入っていない`);
   }
+  // 「食中毒予防」は昆布の効能ではなく安全上の注意。ここだけ「予防」の検査から外す。
+  const forCheck = text.replace(/食中毒予防/g, "食中毒への注意");
   for (const w of BANNED) {
-    if (text.includes(w)) reasons.push(`使えない表現「${w}」`);
+    if (forCheck.includes(w)) reasons.push(`使えない表現「${w}」`);
   }
   for (const w of OFF_TONE) {
     if (text.includes(w)) reasons.push(`文体に合わない言い回し「${w}」`);

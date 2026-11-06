@@ -65,7 +65,10 @@ function articleText(slug: string): string {
 function check(slug: string, text: string): string[] {
   const reasons: string[] = [];
   if (text.length > MAX_BODY) reasons.push(`${text.length}字（本文は${MAX_BODY}字まで）`);
-  for (const w of [...BANNED, ...OFF_TONE]) if (text.includes(w)) reasons.push(`「${w}」`);
+  // 「食中毒予防」は昆布の効能ではなく安全上の注意。ここだけ「予防」の検査から外す。
+  // 外さないと、生食を避ける注意を書いた案が毎回ひっかかる。
+  const forCheck = text.replace(/食中毒予防/g, "食中毒への注意");
+  for (const w of [...BANNED, ...OFF_TONE]) if (forCheck.includes(w)) reasons.push(`「${w}」`);
   if (/[*_`#]/.test(text)) reasons.push("記法が入っている");
   const body = articleText(slug);
   for (const m of text.matchAll(/[ァ-ヴー]{3,}/g)) {
