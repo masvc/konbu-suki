@@ -29,7 +29,7 @@ export const SOURCES: Source[] = [
   },
   {
     publisher: "農林水産省",
-    title: "にっぽん伝統食図鑑（昆布〆・とろろ昆布・おぼろ昆布・昆布巻き）",
+    title: "にっぽん伝統食図鑑（昆布〆・とろろ昆布・おぼろ昆布・昆布巻き・松前漬け）",
     url: "https://www.maff.go.jp/j/keikaku/syokubunka/traditional-foods/",
     usedFor: "地域ごとの昆布料理、昆布締めの作り方、加工品の産地",
   },
@@ -92,6 +92,12 @@ export const SOURCES: Source[] = [
     title: "水産林務部「マコンブ（真昆布）」",
     url: "https://www.pref.hokkaido.lg.jp/sr/gid/fis087.html",
     usedFor: "真昆布の分布・形・漁期・浜ごとの銘柄・用途",
+  },
+  {
+    publisher: "北海道",
+    title: "水産林務部「リシリコンブ」「ホソメコンブ」「ガッガラコンブ」「ミツイシコンブ」",
+    url: "https://www.pref.hokkaido.lg.jp/sr/gid/fis091.html",
+    usedFor: "加工品の原料になる昆布の用途（fis091・fis092・fis093・fis088）",
   },
   {
     publisher: "一般社団法人 日本昆布協会",
