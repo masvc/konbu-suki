@@ -88,6 +88,12 @@ export const SOURCES: Source[] = [
     usedFor: "羅臼昆布の分布・形・漁期・検査規格上の名前・用途",
   },
   {
+    publisher: "北海道",
+    title: "水産林務部「マコンブ（真昆布）」",
+    url: "https://www.pref.hokkaido.lg.jp/sr/gid/fis087.html",
+    usedFor: "真昆布の分布・形・漁期・浜ごとの銘柄・用途",
+  },
+  {
     publisher: "一般社団法人 日本昆布協会",
     title: "こんぶネット",
     url: "https://kombu.or.jp/",
