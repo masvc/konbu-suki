@@ -1,0 +1,23 @@
+{
+  "date": "2026-11-07",
+  "period": {
+    "startDate": "2026-10-07",
+    "endDate": "2026-11-04"
+  },
+  "summary": {
+    "clicks": 0,
+    "impressions": 1,
+    "ctr": 0,
+    "position": 6
+  },
+  "queries": [],
+  "pages": [
+    {
+      "key": "https://konbu-suki.com/product/314",
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 6
+    }
+  ]
+}
