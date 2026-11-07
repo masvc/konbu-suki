@@ -1,0 +1,12 @@
+{
+  "slot": "analysis",
+  "title": "分析",
+  "startedAt": "2026-11-07T14:00:04.587Z",
+  "minutes": 11,
+  "limitMinutes": 100,
+  "commits": [
+    "夜間の分析を記録し、次の一手を見直した（引用0/23、GSC表示1、出典なし断定2件を最優先に）"
+  ],
+  "exit": 0,
+  "trouble": []
+}
