@@ -126,4 +126,15 @@
     荒節・昆布だし 17021（2kcal・K63mg・ヨウ素1,500μg）。9成分の比較表
   - 効能は書かず、成分値の事実だけ。ヨウ素の耐容上限量の注意を節の中に置いた
   - FAQ「昆布だしと鰹だしで栄養成分は違いますか」を追加。dateModified 2026-11-07 → 2026-11-08
-- チェック: meta-check 要修正0、`npm run build` 成功
+- チェック: meta-check 要修正0、`npm run build` 成功。push 済み（2687321）
+
+## この枠で手を付けなかったもの
+
+- 8. kombu-recipes / 9. kombu-comparison / 10. shiokombu-guide は未着手。次の改善枠へ持ち越し。
+  - 8 は昆布が主役の料理一覧（kombumaki・kobujime・クーブイリチー）への内部リンク。クーブイリチーは農水省のページを開き直してから
+  - 9 は記事の範囲を「だし用4種」に絞る構成変更で、kombu-types との役割分担を決める必要がある
+  - 10 は協会の塩昆布レシピを新たに開いて確かめる必要がある
+- `npm run links` は実行の許可が下りず、この枠では一度も回せなかった。この枠で新しく足した出典
+  （gyoren katei.html、kombu.or.jp dashi・dashi2・dashiumami・qanda、serai.jp、maff 昆布〆、fooddb 17019・17020・17021）は
+  すべて WebFetch で本文を開いて確認しており、その時点で生きていた。次の枠か人の手で `npm run links` を回すこと
+- 順位・CTR の材料が無いため、効果の比較は GSC にこれらのページが出てから（2026-11-07 以前の値はすべて0）
