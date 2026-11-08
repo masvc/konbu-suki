@@ -182,4 +182,13 @@
   測った資料が無いこと、健康面は書かないことを明記
 - FAQ: 「昆布締めとは何ですか」「昆布で締めると何が変わりますか」を追加
 - 引用の誤り（違いが出ます → 違いが出る。）を2か所修正
-- チェック: meta-check 0件、fact-audit 食い違いなし、build 成功
+- チェック: meta-check 0件、fact-audit 食い違いなし、build 成功。push 後の links 切れ0
+
+## 6b. kobujime-hirame（引用の修正のみ）
+
+- URL: https://konbu-suki.com/guide/kobujime-hirame
+- 直した日: 2026-11-09
+- 理由: 6. で見つかった農水省の引用の誤り（「…違いが出ます」→ 原文「…違いが出る。」）が、この記事の本文と FAQ にも1か所ずつあった
+- title / description: 変えていない
+- 本文・FAQ: 引用2か所を原文に揃え、FAQ に「（農林水産省）」を添えた。dateModified を 2026-11-09 に
+- チェック: build 成功
