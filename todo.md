@@ -9,8 +9,9 @@
 
 ### こんぶBOX公開（あと3ステップ）
 - [ ] **Stripe本人確認**: ダッシュボード → アカウントのステータス → 免許証アップロード
-- [ ] **Payment Link発行**: 本人確認完了後、CLIで作成（商品・価格は作成済み）
-      - 商品ID: `prod_Vai8yeS7B9rrwP` / 価格ID: `price_1UZWitBTBrTCkCeqbX8rqU1C`
+- [ ] **Stripeで一回払い4,980円の価格を新規作成**（既存の月額990円 `price_1UZWitBTBrTCkCeqbX8rqU1C` はアーカイブ）
+- [ ] **Payment Link発行**: 本人確認完了後、CLIで作成
+      - 商品ID: `prod_Vai8yeS7B9rrwP` / 新しい一回払い価格IDを使用
       - 配送先住所（日本のみ）・電話番号収集・特商法同意チェック・10件上限
 - [ ] **環境変数設定 → デプロイ**: `NEXT_PUBLIC_KOMBU_BOX_PAYMENT_LINK` にPayment LinkのURLを設定 → Amplify再デプロイ
 - [ ] **Stripeカスタマーポータル**: 解約を有効化 → /kombu-box の解約方法をポータルURLに差し替え

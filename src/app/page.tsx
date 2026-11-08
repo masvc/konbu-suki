@@ -68,14 +68,14 @@ export default async function Home() {
         <div className="relative mx-auto max-w-4xl px-4 sm:px-6 text-center">
           <div className="py-10 sm:py-14 lg:py-16">
             <h1 className="text-2xl sm:text-4xl lg:text-5xl font-bold text-white leading-tight">
-              あなたの好きな昆布を
+              噛むほど旨い、
               <br className="sm:hidden" />
-              見つけよう。
+              昆布のおやつ。
             </h1>
             <p className="mt-4 text-[#b7e4c7] text-sm sm:text-base max-w-md mx-auto">
-              {totalProducts.toLocaleString()}件の昆布商品を横断検索。
+              おしゃぶり昆布・都こんぶ・酢昆布から、だし昆布・塩昆布まで。
               <br className="hidden sm:inline" />
-              産地・種類・用途から、あなたにぴったりの一品を。
+              {totalProducts.toLocaleString()}件の昆布商品を比較できます。
             </p>
 
             {/* 検索バー */}
@@ -84,7 +84,7 @@ export default async function Home() {
                 <input
                   type="text"
                   name="q"
-                  placeholder="昆布を検索 (例: 利尻昆布、塩昆布)"
+                  placeholder="昆布を検索 (例: おしゃぶり昆布、都こんぶ)"
                   className="flex-1 rounded-xl border-0 bg-white/95 px-4 py-3 sm:py-3.5 text-sm text-gray-900 shadow-lg placeholder:text-gray-400 focus:ring-2 focus:ring-[#52b788] outline-none"
                 />
                 <button type="submit" className="rounded-xl bg-[#52b788] px-6 py-3 sm:py-3.5 text-sm font-bold text-white shadow-lg hover:bg-[#40916c] transition">
@@ -95,7 +95,7 @@ export default async function Home() {
 
             {/* クイックリンク */}
             <div className="mt-6 flex flex-wrap justify-center gap-2">
-              {["利尻昆布", "羅臼昆布", "塩昆布", "とろろ昆布", "昆布茶", "おしゃぶり昆布"].map((kw) => (
+              {["おしゃぶり昆布", "都こんぶ", "酢昆布", "塩昆布", "利尻昆布", "とろろ昆布"].map((kw) => (
                 <Link
                   key={kw}
                   href={`/search?q=${encodeURIComponent(kw)}`}
@@ -169,6 +169,22 @@ export default async function Home() {
           </div>
         </section>
       )}
+
+      {/* こんぶBOX導線 */}
+      <section className="bg-gradient-to-r from-green-700 to-green-600 border-b border-gray-100">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 py-6">
+          <Link href="/kombu-box" className="flex flex-col sm:flex-row items-center justify-between gap-4 text-white">
+            <div>
+              <p className="text-xs font-semibold text-green-300 tracking-widest">KOMBU BOX</p>
+              <p className="text-lg font-bold mt-1">昆布おやつのシークレットBOX</p>
+              <p className="text-sm text-green-100 mt-1">5,000円相当以上を詰め合わせ。先行10名限定 4,980円</p>
+            </div>
+            <span className="shrink-0 rounded-xl bg-white px-6 py-2.5 text-sm font-bold text-green-800 hover:bg-green-50 transition">
+              詳しく見る
+            </span>
+          </Link>
+        </div>
+      </section>
 
       {/* 産地から探す */}
       <section className="bg-[#f8faf8] border-b border-gray-100">

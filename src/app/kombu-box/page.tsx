@@ -4,8 +4,8 @@ import Image from "next/image";
 import { SITE_NAME } from "@/lib/constants";
 
 export const metadata: Metadata = {
-  title: `こんぶBOX｜おしゃぶり昆布中心の昆布おやつ定期便 月額990円 | ${SITE_NAME}`,
-  description: "おしゃぶり昆布を中心に、全国の昆布おやつを毎月3種お届け。月額990円・送料込み・いつでも解約OK。先行10名限定で受付中。",
+  title: `こんぶBOX｜中身はシークレット 昆布おやつの詰め合わせギフト 4,980円 | ${SITE_NAME}`,
+  description: "おしゃぶり昆布を中心に、全国の昆布おやつを厳選詰め合わせ。中身は届いてからのお楽しみ。4,980円・送料込み。先行10名限定。",
   alternates: { canonical: "/kombu-box" },
 };
 
@@ -17,16 +17,16 @@ export default function KombuBoxPage() {
       {/* Hero: 左テキスト・右イラスト */}
       <section className="bg-gradient-to-br from-green-800 to-green-600 text-white">
         <div className="mx-auto max-w-5xl px-4 sm:px-6 py-12 sm:py-16 flex flex-col md:flex-row items-center gap-8 md:gap-12">
-          {/* 左: テキスト */}
           <div className="flex-1 text-center md:text-left">
             <p className="text-xs font-semibold text-green-300 tracking-widest mb-3">KOMBU BOX</p>
             <h1 className="text-3xl sm:text-4xl font-bold mb-4">こんぶBOX</h1>
             <p className="text-lg sm:text-xl text-green-100 font-bold mb-2">
-              月額990円（税込・送料込み）
+              4,980円（税込・送料込み）
             </p>
             <p className="text-sm sm:text-base text-green-100 leading-relaxed">
-              おしゃぶり昆布を中心に、全国の昆布おやつを毎月3種お届け。
-              中身は届いてからのお楽しみ。いつでも解約できます。
+              5,000円相当以上の昆布おやつを、おしゃぶり昆布中心に厳選して詰め合わせ。
+              <br />
+              中身は届いてからのお楽しみ。何が入っているかは、開けてみてください。
             </p>
             <p className="mt-3 text-xs text-green-200">先行10名限定で受付中</p>
             <div className="mt-6">
@@ -35,7 +35,7 @@ export default function KombuBoxPage() {
                   href={PAYMENT_LINK}
                   className="inline-block rounded-xl bg-white px-8 py-3.5 text-base font-bold text-green-800 hover:bg-green-50 transition shadow-lg"
                 >
-                  先行申込はこちら
+                  購入する
                 </a>
               ) : (
                 <p className="text-sm text-green-200">決済リンクを準備中です</p>
@@ -43,35 +43,34 @@ export default function KombuBoxPage() {
             </div>
             <div className="mt-8 grid grid-cols-3 gap-6 max-w-xs mx-auto md:mx-0">
               <div>
-                <span className="block text-2xl font-bold">3</span>
+                <span className="block text-2xl font-bold">?</span>
                 <span className="text-xs text-green-200">種類</span>
               </div>
               <div>
-                <span className="block text-2xl font-bold">990</span>
-                <span className="text-xs text-green-200">円/月</span>
+                <span className="block text-2xl font-bold">4,980</span>
+                <span className="text-xs text-green-200">円（税込）</span>
               </div>
               <div>
                 <span className="block text-2xl font-bold">0</span>
-                <span className="text-xs text-green-200">縛り</span>
+                <span className="text-xs text-green-200">送料</span>
               </div>
             </div>
           </div>
-          {/* 右: イラスト */}
           <div className="flex-shrink-0 w-full max-w-xs sm:max-w-sm md:max-w-md">
             <Image src="/kombu-box-illustration.webp" alt="こんぶBOXのイラスト：おしゃぶり昆布や都こんぶなどが入った箱" width={400} height={400} className="w-full drop-shadow-xl" />
           </div>
         </div>
       </section>
 
-      {/* 中身 */}
+      {/* シークレットの魅力 */}
       <section className="bg-white border-b border-gray-100">
         <div className="mx-auto max-w-4xl px-4 sm:px-6 py-12">
-          <h2 className="text-xl font-bold text-gray-900 text-center mb-8">届く中身</h2>
+          <h2 className="text-xl font-bold text-gray-900 text-center mb-8">開けるまで中身はシークレット</h2>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
             {[
-              { title: "おしゃぶり昆布", desc: "北海道産昆布を使ったおしゃぶり昆布。梅味・プレーン・無添加など、毎月異なるブランドをセレクト。" },
-              { title: "昆布おやつ", desc: "都こんぶ・酢昆布・昆布チップスなど、おしゃぶり昆布以外の昆布おやつも1〜2種お届け。" },
-              { title: "食べ方ガイド", desc: "届いた昆布おやつの味わい方・保存方法・アレンジレシピをまとめたカードを同梱。" },
+              { title: "おしゃぶり昆布が主役", desc: "梅味・プレーン・無添加など、スーパーでは見かけないブランドも含めて厳選。" },
+              { title: "昆布おやついろいろ", desc: "都こんぶ・酢昆布・昆布チップスなど、開けるまでわからない組み合わせ。" },
+              { title: "食べ方ガイド付き", desc: "届いた昆布おやつの味わい方やアレンジレシピをまとめたカードを同梱。" },
             ].map((item) => (
               <div key={item.title} className="rounded-xl border border-gray-100 p-5 text-center">
                 <div className="w-12 h-12 rounded-full bg-[#d8f3dc] flex items-center justify-center mx-auto mb-3" />
@@ -91,8 +90,8 @@ export default function KombuBoxPage() {
             {[
               "おしゃぶり昆布が好きで、いろんな種類を試してみたい",
               "低カロリーなおやつを探している",
+              "お歳暮や手土産にちょっと変わったギフトを贈りたい",
               "子どものおやつに安心できるものを選びたい",
-              "お酒のおつまみに昆布を楽しみたい",
             ].map((text) => (
               <div key={text} className="flex items-start gap-2 rounded-lg border border-gray-100 bg-white px-4 py-3">
                 <span className="text-green-600 shrink-0 mt-0.5">-</span>
@@ -103,22 +102,21 @@ export default function KombuBoxPage() {
         </div>
       </section>
 
-      {/* 定期便の詳細 */}
+      {/* 購入の詳細 */}
       <section className="bg-white border-t border-gray-100">
         <div className="mx-auto max-w-3xl px-4 sm:px-6 py-12">
-          <h2 className="text-xl font-bold text-gray-900 text-center mb-6">定期便の詳細</h2>
+          <h2 className="text-xl font-bold text-gray-900 text-center mb-6">ご購入について</h2>
           <div className="rounded-xl border border-gray-200 overflow-hidden">
             <table className="w-full text-sm">
               <tbody>
                 {[
-                  ["月額料金", "990円（税込・送料込み）"],
-                  ["届く中身", "おしゃぶり昆布を中心に昆布おやつ3種"],
-                  ["配送方法", "ポスト投函（不在でも届きます）"],
-                  ["発送時期", "毎月中旬ごろ"],
+                  ["価格", "4,980円（税込・送料込み）"],
+                  ["届く中身", "おしゃぶり昆布を中心に昆布おやつを詰め合わせ（種類・個数はシークレット）"],
+                  ["配送方法", "宅急便"],
+                  ["発送時期", "ご注文から5営業日以内に発送"],
                   ["お届け先", "日本国内"],
                   ["お支払い", "クレジットカード（Stripe）"],
-                  ["解約", "いつでも解約可能。次回発送日の5日前までにご連絡ください"],
-                  ["解約方法", "お問い合わせフォームまたはメールでご連絡ください"],
+                  ["返品・交換", "商品に破損・汚損があった場合は到着後7日以内にご連絡ください"],
                 ].map(([label, value]) => (
                   <tr key={label} className="border-b border-gray-100 last:border-b-0">
                     <th className="text-left px-4 py-3 text-gray-500 font-medium bg-gray-50 w-1/3 whitespace-nowrap">{label}</th>
@@ -131,17 +129,26 @@ export default function KombuBoxPage() {
         </div>
       </section>
 
+      {/* アレルギー表記 */}
+      <section className="bg-gray-50 border-t border-gray-100">
+        <div className="mx-auto max-w-3xl px-4 sm:px-6 py-6">
+          <p className="text-xs text-gray-500 leading-relaxed">
+            各商品に小麦・大豆・えびなどのアレルギー物質を含む場合があります。詳細は各パッケージの表示をご確認ください。食物アレルギーがご心配な方は、ご購入前に<Link href="/contact" className="text-green-700 underline">お問い合わせ</Link>ください。
+          </p>
+        </div>
+      </section>
+
       {/* CTA */}
       <section className="bg-gradient-to-br from-green-700 to-green-600 text-white">
         <div className="mx-auto max-w-xl px-4 sm:px-6 py-12 text-center">
           <h2 className="text-xl font-bold mb-2">先行10名限定で受付中</h2>
-          <p className="text-sm text-green-100 mb-6">月額990円・送料込み・いつでも解約OK</p>
+          <p className="text-sm text-green-100 mb-6">4,980円・送料込み・中身はシークレット</p>
           {PAYMENT_LINK ? (
             <a
               href={PAYMENT_LINK}
               className="inline-block rounded-xl bg-white px-8 py-3.5 text-base font-bold text-green-800 hover:bg-green-50 transition shadow-lg"
             >
-              申し込む
+              購入する
             </a>
           ) : (
             <p className="text-sm text-green-200">決済リンクを準備中です</p>
