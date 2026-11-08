@@ -58,6 +58,8 @@ type Guide = {
    */
   recipe?: {
     name: string;
+    /** Recipe の recipeCategory。省略時は「だし」 */
+    category?: string;
     /** 出来上がり量。出典に記載がなければ省く */
     recipeYield?: string;
     /** ISO 8601 の期間。例: PT30M, PT3H */
@@ -445,6 +447,7 @@ export const GUIDES: Record<string, Guide> = {
     related: ["kombu-recipes", "kombu-types", "kobujime-hare", "nanakusa-gayu-dashi"],
     recipe: {
       name: "鮭とごぼうの昆布巻き",
+      category: "おせち料理",
       recipeYield: "4人分",
       prepTime: "PT10M",
       cookTime: "PT1H20M",

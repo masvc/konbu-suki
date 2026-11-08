@@ -90,7 +90,7 @@ export default async function GuidePage({ params }: Props) {
         ...(guide.image ? { image: [`${SITE_URL}${guide.image}`] } : {}),
         author: { "@type": "Organization", name: SITE_NAME },
         datePublished: guide.datePublished,
-        recipeCategory: "だし",
+        recipeCategory: guide.recipe.category ?? "だし",
         recipeCuisine: "日本料理",
         ...(guide.recipe.recipeYield ? { recipeYield: guide.recipe.recipeYield } : {}),
         ...(guide.recipe.prepTime ? { prepTime: guide.recipe.prepTime } : {}),
