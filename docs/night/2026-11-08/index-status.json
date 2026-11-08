@@ -1,0 +1,318 @@
+{
+  "rows": [
+    {
+      "path": "/",
+      "state": "送信して登録されました",
+      "lastCrawl": "2026-11-07T18:12:52Z",
+      "googleCanonical": "https://konbu-suki.com/",
+      "inbound": 99,
+      "length": 0
+    },
+    {
+      "path": "/guide",
+      "state": "送信して登録されました",
+      "lastCrawl": "2026-11-07T15:48:20Z",
+      "googleCanonical": "https://konbu-suki.com/guide",
+      "inbound": 99,
+      "length": 0
+    },
+    {
+      "path": "/guide/nanakusa-gayu-dashi",
+      "state": "URL が Google に認識されていません",
+      "lastCrawl": null,
+      "googleCanonical": null,
+      "inbound": 2,
+      "length": 3044
+    },
+    {
+      "path": "/guide/kombu-processed-foods",
+      "state": "検出 - インデックス未登録",
+      "lastCrawl": null,
+      "googleCanonical": null,
+      "inbound": 4,
+      "length": 3094
+    },
+    {
+      "path": "/guide/ma-kombu",
+      "state": "送信して登録されました",
+      "lastCrawl": "2026-11-08T17:30:05Z",
+      "googleCanonical": "https://konbu-suki.com/guide/ma-kombu",
+      "inbound": 4,
+      "length": 2603
+    },
+    {
+      "path": "/guide/rausu-kombu",
+      "state": "URL が Google に認識されていません",
+      "lastCrawl": null,
+      "googleCanonical": null,
+      "inbound": 4,
+      "length": 2537
+    },
+    {
+      "path": "/guide/kombumaki",
+      "state": "送信して登録されました",
+      "lastCrawl": "2026-11-07T11:41:25Z",
+      "googleCanonical": "https://konbu-suki.com/guide/kombumaki",
+      "inbound": 4,
+      "length": 2780
+    },
+    {
+      "path": "/guide/kombu-katsuo-dashi",
+      "state": "URL が Google に認識されていません",
+      "lastCrawl": null,
+      "googleCanonical": null,
+      "inbound": 3,
+      "length": 2952
+    },
+    {
+      "path": "/guide/kobujime-hare",
+      "state": "送信して登録されました",
+      "lastCrawl": "2026-11-07T15:10:59Z",
+      "googleCanonical": "https://konbu-suki.com/guide/kobujime-hare",
+      "inbound": 3,
+      "length": 2530
+    },
+    {
+      "path": "/guide/kobujime-salmon",
+      "state": "送信して登録されました",
+      "lastCrawl": "2026-11-06T07:40:55Z",
+      "googleCanonical": "https://konbu-suki.com/guide/kobujime-salmon",
+      "inbound": 3,
+      "length": 2383
+    },
+    {
+      "path": "/guide/kobujime-tai",
+      "state": "送信して登録されました",
+      "lastCrawl": "2026-11-07T08:49:50Z",
+      "googleCanonical": "https://konbu-suki.com/guide/kobujime-tai",
+      "inbound": 5,
+      "length": 3024
+    },
+    {
+      "path": "/guide/kobujime-tips",
+      "state": "送信して登録されました",
+      "lastCrawl": "2026-11-07T05:04:20Z",
+      "googleCanonical": "https://konbu-suki.com/guide/kobujime-tips",
+      "inbound": 4,
+      "length": 3391
+    },
+    {
+      "path": "/guide/kobujime-chicken",
+      "state": "検出 - インデックス未登録",
+      "lastCrawl": null,
+      "googleCanonical": null,
+      "inbound": 2,
+      "length": 2256
+    },
+    {
+      "path": "/guide/kobujime-hirame",
+      "state": "送信して登録されました",
+      "lastCrawl": "2026-11-07T03:43:19Z",
+      "googleCanonical": "https://konbu-suki.com/guide/kobujime-hirame",
+      "inbound": 5,
+      "length": 1586
+    },
+    {
+      "path": "/guide/kobujime-vegetables",
+      "state": "送信して登録されました",
+      "lastCrawl": "2026-11-07T14:05:40Z",
+      "googleCanonical": "https://konbu-suki.com/guide/kobujime-vegetables",
+      "inbound": 2,
+      "length": 1778
+    },
+    {
+      "path": "/guide/kobujime",
+      "state": "送信して登録されました",
+      "lastCrawl": "2026-11-07T10:15:22Z",
+      "googleCanonical": "https://konbu-suki.com/guide/kobujime",
+      "inbound": 9,
+      "length": 3180
+    },
+    {
+      "path": "/guide/gagome-kombu",
+      "state": "検出 - インデックス未登録",
+      "lastCrawl": null,
+      "googleCanonical": null,
+      "inbound": 3,
+      "length": 2380
+    },
+    {
+      "path": "/guide/tororo-oboro",
+      "state": "送信して登録されました",
+      "lastCrawl": "2026-11-07T03:33:43Z",
+      "googleCanonical": "https://konbu-suki.com/guide/tororo-oboro",
+      "inbound": 4,
+      "length": 1902
+    },
+    {
+      "path": "/guide/kombu-water",
+      "state": "URL が Google に認識されていません",
+      "lastCrawl": null,
+      "googleCanonical": null,
+      "inbound": 4,
+      "length": 1078
+    },
+    {
+      "path": "/guide/how-to-choose-kombu",
+      "state": "送信して登録されました",
+      "lastCrawl": "2026-11-07T06:06:41Z",
+      "googleCanonical": "https://konbu-suki.com/guide/how-to-choose-kombu",
+      "inbound": 3,
+      "length": 1491
+    },
+    {
+      "path": "/guide/kombu-comparison",
+      "state": "URL が Google に認識されていません",
+      "lastCrawl": null,
+      "googleCanonical": null,
+      "inbound": 4,
+      "length": 1869
+    },
+    {
+      "path": "/guide/kombu-types",
+      "state": "送信して登録されました",
+      "lastCrawl": "2026-11-07T12:23:51Z",
+      "googleCanonical": "https://konbu-suki.com/guide/kombu-types",
+      "inbound": 9,
+      "length": 1022
+    },
+    {
+      "path": "/guide/how-to-make-dashi",
+      "state": "送信して登録されました",
+      "lastCrawl": "2026-11-07T15:03:24Z",
+      "googleCanonical": "https://konbu-suki.com/guide/how-to-make-dashi",
+      "inbound": 8,
+      "length": 1993
+    },
+    {
+      "path": "/guide/kombu-nutrition",
+      "state": "送信して登録されました",
+      "lastCrawl": "2026-11-07T20:48:33Z",
+      "googleCanonical": "https://konbu-suki.com/guide/kombu-nutrition",
+      "inbound": 3,
+      "length": 1967
+    },
+    {
+      "path": "/guide/shiokombu-guide",
+      "state": "送信して登録されました",
+      "lastCrawl": "2026-11-07T17:55:28Z",
+      "googleCanonical": "https://konbu-suki.com/guide/shiokombu-guide",
+      "inbound": 3,
+      "length": 2166
+    },
+    {
+      "path": "/guide/kombu-storage",
+      "state": "送信して登録されました",
+      "lastCrawl": "2026-11-07T21:23:10Z",
+      "googleCanonical": "https://konbu-suki.com/guide/kombu-storage",
+      "inbound": 3,
+      "length": 1565
+    },
+    {
+      "path": "/guide/kombu-recipes",
+      "state": "送信して登録されました",
+      "lastCrawl": "2026-11-07T18:58:56Z",
+      "googleCanonical": "https://konbu-suki.com/guide/kombu-recipes",
+      "inbound": 6,
+      "length": 2512
+    },
+    {
+      "path": "/guide/kombu-history",
+      "state": "送信して登録されました",
+      "lastCrawl": "2026-11-07T19:50:51Z",
+      "googleCanonical": "https://konbu-suki.com/guide/kombu-history",
+      "inbound": 2,
+      "length": 2181
+    },
+    {
+      "path": "/guide/kombu-production",
+      "state": "送信して登録されました",
+      "lastCrawl": "2026-11-07T14:13:23Z",
+      "googleCanonical": "https://konbu-suki.com/guide/kombu-production",
+      "inbound": 3,
+      "length": 1047
+    },
+    {
+      "path": "/guide/kombu-oyatsu-guide",
+      "state": "URL が Google に認識されていません",
+      "lastCrawl": null,
+      "googleCanonical": null,
+      "inbound": 6,
+      "length": 2140
+    },
+    {
+      "path": "/guide/oshaburi-kombu",
+      "state": "URL が Google に認識されていません",
+      "lastCrawl": null,
+      "googleCanonical": null,
+      "inbound": 4,
+      "length": 1504
+    },
+    {
+      "path": "/guide/miyako-kombu",
+      "state": "URL が Google に認識されていません",
+      "lastCrawl": null,
+      "googleCanonical": null,
+      "inbound": 3,
+      "length": 2311
+    },
+    {
+      "path": "/guide/otsumami-kombu",
+      "state": "URL が Google に認識されていません",
+      "lastCrawl": null,
+      "googleCanonical": null,
+      "inbound": 4,
+      "length": 1586
+    },
+    {
+      "path": "/guide/kombu-diet-oyatsu",
+      "state": "URL が Google に認識されていません",
+      "lastCrawl": null,
+      "googleCanonical": null,
+      "inbound": 4,
+      "length": 1840
+    }
+  ],
+  "priority": [
+    {
+      "path": "/guide/kombu-oyatsu-guide",
+      "state": "URL が Google に認識されていません",
+      "lastCrawl": null,
+      "googleCanonical": null,
+      "inbound": 6,
+      "length": 2140
+    },
+    {
+      "path": "/guide/kombu-processed-foods",
+      "state": "検出 - インデックス未登録",
+      "lastCrawl": null,
+      "googleCanonical": null,
+      "inbound": 4,
+      "length": 3094
+    },
+    {
+      "path": "/guide/rausu-kombu",
+      "state": "URL が Google に認識されていません",
+      "lastCrawl": null,
+      "googleCanonical": null,
+      "inbound": 4,
+      "length": 2537
+    },
+    {
+      "path": "/guide/kombu-comparison",
+      "state": "URL が Google に認識されていません",
+      "lastCrawl": null,
+      "googleCanonical": null,
+      "inbound": 4,
+      "length": 1869
+    },
+    {
+      "path": "/guide/kombu-diet-oyatsu",
+      "state": "URL が Google に認識されていません",
+      "lastCrawl": null,
+      "googleCanonical": null,
+      "inbound": 4,
+      "length": 1840
+    }
+  ]
+}
