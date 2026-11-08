@@ -3,9 +3,11 @@ import Link from "next/link";
 import Image from "next/image";
 import { SITE_NAME } from "@/lib/constants";
 import { KOMBU_BOX } from "@/lib/kombu-box";
+import { BuyButton } from "@/components/kombu-box/BuyButton";
+import { AllergyNote } from "@/components/kombu-box/AllergyNote";
 
 export const metadata: Metadata = {
-  title: `${KOMBU_BOX.name}｜中身はシークレット 昆布おやつの詰め合わせギフト ${KOMBU_BOX.priceLabel.replace("（税込・送料込み）", "")} | ${SITE_NAME}`,
+  title: `${KOMBU_BOX.name}｜中身はシークレット 昆布おやつの詰め合わせギフト ${KOMBU_BOX.priceShort} | ${SITE_NAME}`,
   description: `おしゃぶり昆布を中心に、${KOMBU_BOX.worthLabel}の昆布おやつを厳選詰め合わせ。${KOMBU_BOX.priceLabel}。${KOMBU_BOX.limitLabel}。`,
   alternates: { canonical: "/kombu-box" },
 };
@@ -29,16 +31,7 @@ export default function KombuBoxPage() {
             </p>
             <p className="mt-3 text-xs text-green-200">{KOMBU_BOX.limitLabel}で受付中</p>
             <div className="mt-6">
-              {KOMBU_BOX.paymentLink ? (
-                <a
-                  href={KOMBU_BOX.paymentLink}
-                  className="inline-block rounded-xl bg-white px-8 py-3.5 text-base font-bold text-green-800 hover:bg-green-50 transition shadow-lg"
-                >
-                  購入する
-                </a>
-              ) : (
-                <p className="text-sm text-green-200">決済リンクを準備中です</p>
-              )}
+              <BuyButton />
             </div>
             <div className="mt-8 grid grid-cols-3 gap-6 max-w-xs mx-auto md:mx-0">
               <div>
@@ -128,30 +121,14 @@ export default function KombuBoxPage() {
         </div>
       </section>
 
-      {/* アレルギー表記 */}
-      <section className="bg-gray-50 border-t border-gray-100">
-        <div className="mx-auto max-w-3xl px-4 sm:px-6 py-6">
-          <p className="text-xs text-gray-500 leading-relaxed">
-            {KOMBU_BOX.allergyNote.replace("お問い合わせください", "")}<Link href="/contact" className="text-green-700 underline">お問い合わせ</Link>ください。
-          </p>
-        </div>
-      </section>
+      <AllergyNote />
 
       {/* CTA */}
       <section className="bg-gradient-to-br from-green-700 to-green-600 text-white">
         <div className="mx-auto max-w-xl px-4 sm:px-6 py-12 text-center">
           <h2 className="text-xl font-bold mb-2">{KOMBU_BOX.limitLabel}で受付中</h2>
           <p className="text-sm text-green-100 mb-6">{KOMBU_BOX.priceLabel}・中身はシークレット</p>
-          {KOMBU_BOX.paymentLink ? (
-            <a
-              href={KOMBU_BOX.paymentLink}
-              className="inline-block rounded-xl bg-white px-8 py-3.5 text-base font-bold text-green-800 hover:bg-green-50 transition shadow-lg"
-            >
-              購入する
-            </a>
-          ) : (
-            <p className="text-sm text-green-200">決済リンクを準備中です</p>
-          )}
+          <BuyButton />
           <p className="mt-4 text-xs text-green-200">
             <Link href="/legal/tokushoho" className="underline hover:text-white">特定商取引法に基づく表記</Link>
           </p>

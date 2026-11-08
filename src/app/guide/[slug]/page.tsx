@@ -6,6 +6,7 @@ import { SITE_NAME, SITE_URL } from "@/lib/constants";
 import { GUIDES, type GuideSlug } from "@/lib/guides";
 import { guideMeta } from "@/lib/page-meta";
 import { ShopCTA } from "@/components/ShopCTA";
+import { KombuBoxBanner } from "@/components/kombu-box/KombuBoxBanner";
 import { Breadcrumb } from "@/components/Breadcrumb";
 import { FaqAccordion } from "@/components/FaqAccordion";
 import { JsonLd } from "@/components/JsonLd";
@@ -266,6 +267,8 @@ export default async function GuidePage({ params }: Props) {
           </div>
         </section>
       </article>
+
+      <KombuBoxBanner />
     </main>
   );
 }

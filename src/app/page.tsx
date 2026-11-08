@@ -6,7 +6,7 @@ import { GUIDES } from "@/lib/guides";
 import { CATEGORIES, CATEGORY_SLUGS, ORIGINS } from "@/lib/constants";
 import { ProductCard } from "@/components/ProductCard";
 import { ShopCTA } from "@/components/ShopCTA";
-import { KOMBU_BOX } from "@/lib/kombu-box";
+import { KombuBoxBanner } from "@/components/kombu-box/KombuBoxBanner";
 import { CategoryIcon } from "@/lib/category-icons";
 import { MapPin, Droplets } from "lucide-react";
 import { FaqAccordion } from "@/components/FaqAccordion";
@@ -181,21 +181,7 @@ export default async function Home() {
         </section>
       )}
 
-      {/* こんぶBOX導線 */}
-      <section className="bg-gradient-to-r from-green-700 to-green-600 border-b border-gray-100">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 py-6">
-          <Link href="/kombu-box" className="flex flex-col sm:flex-row items-center justify-between gap-4 text-white">
-            <div>
-              <p className="text-xs font-semibold text-green-300 tracking-widest">KOMBU BOX</p>
-              <p className="text-lg font-bold mt-1">昆布おやつのシークレットBOX</p>
-              <p className="text-sm text-green-100 mt-1">{KOMBU_BOX.worthLabel}を詰め合わせ。{KOMBU_BOX.limitLabel} {KOMBU_BOX.price.toLocaleString()}円</p>
-            </div>
-            <span className="shrink-0 rounded-xl bg-white px-6 py-2.5 text-sm font-bold text-green-800 hover:bg-green-50 transition">
-              詳しく見る
-            </span>
-          </Link>
-        </div>
-      </section>
+      <KombuBoxBanner />
 
       {/* 産地から探す */}
       <section className="bg-[#f8faf8] border-b border-gray-100">
