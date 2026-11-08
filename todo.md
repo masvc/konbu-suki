@@ -13,6 +13,9 @@
       - 商品ID: `prod_Vai8yeS7B9rrwP` / 価格ID: `price_1UZWitBTBrTCkCeqbX8rqU1C`
       - 配送先住所（日本のみ）・電話番号収集・特商法同意チェック・10件上限
 - [ ] **環境変数設定 → デプロイ**: `NEXT_PUBLIC_KOMBU_BOX_PAYMENT_LINK` にPayment LinkのURLを設定 → Amplify再デプロイ
+- [ ] **Stripeカスタマーポータル**: 解約を有効化 → /kombu-box の解約方法をポータルURLに差し替え
+- [ ] **特商法ページの電話番号**: TODO のまま。番号を記入するか「請求があれば遅滞なく開示」に
+- [ ] **保健所へ届出要否を確認**: 包装済み食品の詰め合わせ販売に届出が必要か電話確認
 
 ### コンテンツ（おしゃぶり昆布中心への転換）
 - [x] おやつ昆布記事5本作成（kombu-oyatsu-guide / oshaburi-kombu / miyako-kombu / otsumami-kombu / kombu-diet-oyatsu）
@@ -28,9 +31,8 @@
 - [ ] docs/snack-keywords.md の未作成記事を順次作成（酢昆布・梅昆布・コンビニで買える昆布など）
 
 ### Stripe アカウント情報
-- アカウント: コンブスキー（`acct_1UZW85BTBrTCkCeq`）
+- アカウント: コンブスキー
 - 明細書表記: KONBU-SUKI
-- 入金口座: GMOあおぞらネット銀行 / ピーキー（カ
 
 ## ブロック中（外部待ち）
 - [x] **楽天の商品検索APIを通した**（2026-11-05 完了）
