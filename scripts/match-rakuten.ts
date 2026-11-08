@@ -64,6 +64,9 @@ if (process.env.NIGHT_RUN === "1" && write && !applyFrom) {
   process.exit(1);
 }
 
+/** 楽天APIの keyword の上限（128文字以上は 400 になる） */
+const MAX_KEYWORD_LENGTH = 127;
+
 /**
  * 検索語の候補を、具体的な順に並べて作る。
  *
@@ -87,8 +90,23 @@ function buildQueries(brand: string, name: string): string[] {
     words.slice(0, 3).join(" "),
     words.slice(0, 2).join(" "),
   ];
+  // 楽天APIは128文字以上の keyword を 400（keyword must be under 128 length）で
+  // 弾く。長い商品名は語の切れ目で切り詰めてから渡す。
   // 重複を除き、短すぎるものは落とす
-  return [...new Set(candidates)].filter((q) => q.length >= 2).slice(0, 4);
+  return [...new Set(candidates.map(fitKeyword))].filter((q) => q.length >= 2).slice(0, 4);
+}
+
+function fitKeyword(query: string): string {
+  if (query.length <= MAX_KEYWORD_LENGTH) return query;
+  const words = query.split(" ");
+  let out = "";
+  for (const w of words) {
+    const next = out ? `${out} ${w}` : w;
+    if (next.length > MAX_KEYWORD_LENGTH) break;
+    out = next;
+  }
+  // 1語目だけで上限を超えるときは文字数で切る
+  return out || query.slice(0, MAX_KEYWORD_LENGTH);
 }
 
 type Row = {
