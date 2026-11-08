@@ -31,8 +31,10 @@
 - [ ] docs/snack-keywords.md の未作成記事を順次作成（酢昆布・梅昆布・コンビニで買える昆布など）
 
 ### Stripe アカウント情報
-- アカウント: コンブスキー
+- アカウント: コンブスキー（`acct_1UZW85BTBrTCkCeq`）
+- 商品ID: `prod_Vai8yeS7B9rrwP` / 価格ID: `price_1UZWitBTBrTCkCeqbX8rqU1C`
 - 明細書表記: KONBU-SUKI
+- シークレットキーは `.env` / SSM で管理（todo.mdには書かない）
 
 ## ブロック中（外部待ち）
 - [x] **楽天の商品検索APIを通した**（2026-11-05 完了）
