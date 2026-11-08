@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import Image from "next/image";
 import { SITE_NAME } from "@/lib/constants";
 
 export const metadata: Metadata = {
@@ -52,6 +53,13 @@ export default function KombuBoxPage() {
               <span className="text-xs text-green-200">縛り</span>
             </div>
           </div>
+        </div>
+      </section>
+
+      {/* BOXイラスト */}
+      <section className="bg-white border-b border-gray-100">
+        <div className="mx-auto max-w-md px-4 sm:px-6 py-8 flex justify-center">
+          <Image src="/kombu-box-illustration.webp" alt="こんぶBOXのイラスト：おしゃぶり昆布や都こんぶなどが入った箱" width={400} height={400} className="w-full max-w-sm" />
         </div>
       </section>
 

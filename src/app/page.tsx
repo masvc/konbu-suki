@@ -59,7 +59,7 @@ export default async function Home() {
       {/* Hero */}
       <section className="relative overflow-hidden bg-[#1b4332]">
         <div className="absolute inset-0">
-          <Image src="/hero-trimmed.webp" alt="" fill className="object-cover opacity-40 scale-110" priority sizes="100vw" />
+          <Image src="/hero-kombu-snack.webp" alt="おしゃぶり昆布と昆布おやつの詰め合わせ" fill className="object-cover opacity-40 scale-110" priority sizes="100vw" />
           <div className="absolute inset-0 bg-gradient-to-b from-[#1b4332]/40 to-[#2d6a4f]/50" />
         </div>
         <svg className="absolute bottom-0 left-0 right-0 text-white/5" viewBox="0 0 1440 120" preserveAspectRatio="none" style={{ height: "80px", width: "100%" }}>
