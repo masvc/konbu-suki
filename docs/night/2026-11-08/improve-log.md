@@ -210,4 +210,14 @@
 - 結論の次に「昆布締めとは: 昆布で挟んで、水分を抜きうま味を移す」を追加。野菜で何がどれだけ変わるか・野菜ならではの利点・健康面は
   出典が無いので書かないと明記し、柱（kobujime）の「何が変わるか」へ案内
 - FAQ: 「昆布締めとは何ですか」「野菜を昆布締めにするメリットは何ですか」を追加（メリットは確かめられる範囲までと明記）
-- チェック: meta-check 0件、fact-audit 食い違いなし、build 成功
+- チェック: meta-check 0件、fact-audit 食い違いなし、build 成功。push 後の links 切れ0
+
+---
+
+## そのほか
+
+- 訂正の記録（/about/editorial-policy の CORRECTIONS）に2件追加（9dc4b47）: おやつ5本の量の目安ほか、昆布締めの引用の誤り
+- `docs/next-actions.md` の該当項目に `[x]` と1行
+- 保留（held.md に書くもの）: なし。push 前チェックに落ちたものは無かった
+- 手を付けなかったもの（次の改善枠へ）: トップ10の8位 kombu-recipes、9位 shiokombu-guide、10位 kombu-comparison
+- 注記: `npm run links` / `npm run facts` は権限で拒否されたため、同じスクリプトを `npx tsx scripts/...` で直接実行した
