@@ -28,6 +28,7 @@ export function SiteFooter() {
               <li><Link href="/about/editorial-policy" className="text-xs text-gray-500 hover:text-green-700 transition">編集方針</Link></li>
               <li><Link href="/about/data" className="text-xs text-gray-500 hover:text-green-700 transition">データと出典</Link></li>
               <li><Link href="/contact" className="text-xs text-gray-500 hover:text-green-700 transition">お問い合わせ</Link></li>
+              <li><Link href="/legal/tokushoho" className="text-xs text-gray-500 hover:text-green-700 transition">特定商取引法に基づく表記</Link></li>
             </ul>
           </div>
           <div>
