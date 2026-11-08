@@ -11,8 +11,8 @@ export const metadata: Metadata = {
 export default function TokushohoPage() {
   const rows: [string, string][] = [
     ["販売業者", "ピーキー株式会社"],
-    ["代表者", "吉田将大"],
-    ["所在地", "埼玉県熊谷市筑波二丁目48番地1 中央ビル6F"],
+    ["代表者", "吉田将人"],
+    ["所在地", "埼玉県熊谷市月見町1丁目42番地"],
     ["電話番号", "TODO: 記載する（請求があった場合に遅滞なく開示）"],
     ["メールアドレス", "yoshida@peaky.co.jp"],
     ["販売URL", "https://konbu-suki.com/kombu-box"],

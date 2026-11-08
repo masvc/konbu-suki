@@ -5,6 +5,33 @@
 > 作ってしまう（一度発生済み）。
 > `.env` は `npm run env:pull` で揃える（手順は README）。
 
+## 直近TODO（2026-11-08 更新）
+
+### こんぶBOX公開（あと3ステップ）
+- [ ] **Stripe本人確認**: ダッシュボード → アカウントのステータス → 免許証アップロード
+- [ ] **Payment Link発行**: 本人確認完了後、CLIで作成（商品・価格は作成済み）
+      - 商品ID: `prod_Vai8yeS7B9rrwP` / 価格ID: `price_1UZWitBTBrTCkCeqbX8rqU1C`
+      - 配送先住所（日本のみ）・電話番号収集・特商法同意チェック・10件上限
+- [ ] **環境変数設定 → デプロイ**: `NEXT_PUBLIC_KOMBU_BOX_PAYMENT_LINK` にPayment LinkのURLを設定 → Amplify再デプロイ
+
+### コンテンツ（おしゃぶり昆布中心への転換）
+- [x] おやつ昆布記事5本作成（kombu-oyatsu-guide / oshaburi-kombu / miyako-kombu / otsumami-kombu / kombu-diet-oyatsu）
+- [x] ナビ・カテゴリで「おやつ昆布」を先頭に変更
+- [x] キーワードマップ作成（docs/snack-keywords.md）
+- [x] こんぶBOX販売ページ改修（/kombu-box → 月額990円サブスク）
+- [x] 特商法ページ作成（/legal/tokushoho）
+- [x] IndexNow 369件送信
+- [ ] **おしゃぶり昆布を何種類か買って写真を撮る** → 5記事の画像差し替え
+- [ ] **GSCから主要10ページのインデックス登録リクエスト**（手動）
+- [ ] 既存記事（昆布締め・だし系）からおやつ系記事への内部リンク追加
+- [ ] 比較表の価格をDB商品カード埋め込みに置き換え
+- [ ] docs/snack-keywords.md の未作成記事を順次作成（酢昆布・梅昆布・コンビニで買える昆布など）
+
+### Stripe アカウント情報
+- アカウント: コンブスキー（`acct_1UZW85BTBrTCkCeq`）
+- 明細書表記: KONBU-SUKI
+- 入金口座: GMOあおぞらネット銀行 / ピーキー（カ
+
 ## ブロック中（外部待ち）
 - [x] **楽天の商品検索APIを通した**（2026-11-05 完了）
   - 値は `.env` と SSM にあり（`RAKUTEN_APP_ID` と `RAKUTEN_ACCESS_KEY`）
@@ -112,15 +139,11 @@
 - [ ] ラッコキーワード前半（1〜500件）を docs/keywords に追加
 - [ ] content-plan.md レビュー → OK出し（記事執筆のブロッカー）
 
-## 開発（Claude Code）- レビュー待ち
-- [ ] content-plan.md の記事構成案 → レビュー後に本文執筆
-  - Priority 1: メーカー・老舗ランキング記事（アフィ本命）
-  - Priority 2: 保存方法 / 利尻日高羅臼の違い / どこに売ってる
-  - Priority 3: だしがら活用 / 昆布水 / わかめとの違い
+## 開発（Claude Code）- おやつ昆布中心で進める
+- [ ] docs/snack-keywords.md の未作成記事（酢昆布・梅昆布・コンビニで買える昆布おやつ・子どものおやつに昆布）
 - [ ] /about/author 運営者ページ + リピート品表示（コメントはユーザーが書く）
-
-## 開発（Claude Code）- すぐ着手可
-- [ ] 産地コラムの出典をさらに強化（北海道ぎょれん以外の公的出典を追加）
+- [ ] 既存記事からおやつ系記事への内部リンク追加
+- [ ] 比較表の価格をDB商品カード埋め込みに置き換え
 
 ## 将来（シンプル優先で後回し）
 - [ ] /tag/[slug] 食感・味タグ一覧ページ
