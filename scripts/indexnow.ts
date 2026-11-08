@@ -18,6 +18,8 @@ import path from "node:path";
 import { GUIDES } from "../src/lib/guides";
 import { INDEXNOW_KEY } from "../src/lib/indexnow";
 import { PUBLIC_SITE_URL, PUBLIC_SITE_HOST } from "./lib/site";
+import { CATEGORY_SLUGS, ORIGINS } from "../src/lib/constants";
+import { createPrisma } from "./lib/db";
 
 const ENDPOINT = "https://api.indexnow.org/indexnow";
 const PROJECT_ROOT = path.resolve(__dirname, "..");
@@ -54,7 +56,19 @@ async function main() {
   if (urlArg) {
     paths = [urlArg];
   } else if (all) {
-    paths = ["/", "/guide", ...Object.keys(GUIDES).map((s) => `/guide/${s}`)];
+    // sitemap と同じ範囲: 静的 + カテゴリ + 産地 + ガイド + 商品
+    const staticPaths = ["/", "/guide", "/producers", "/kombu-box", "/about", "/about/editorial-policy", "/about/data"];
+    const categoryPaths = CATEGORY_SLUGS.map((s: string) => `/category/${s}`);
+    const originPaths = Object.keys(ORIGINS).map((s) => `/origin/${s}`);
+    const guidePaths = Object.keys(GUIDES).map((s) => `/guide/${s}`);
+    let productPaths: string[] = [];
+    try {
+      const prisma = createPrisma();
+      const products = await prisma.product.findMany({ select: { id: true } });
+      productPaths = products.map((p: { id: number }) => `/product/${p.id}`);
+      await prisma.$disconnect();
+    } catch { /* DB接続できない場合は商品ページをスキップ */ }
+    paths = [...staticPaths, ...categoryPaths, ...originPaths, ...guidePaths, ...productPaths];
   } else {
     const slugs = changedGuideSlugs();
     paths = slugs.map((s) => `/guide/${s}`);
