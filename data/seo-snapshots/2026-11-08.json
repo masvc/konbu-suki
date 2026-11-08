@@ -1,0 +1,45 @@
+{
+  "date": "2026-11-08",
+  "period": {
+    "startDate": "2026-10-08",
+    "endDate": "2026-11-05"
+  },
+  "summary": {
+    "clicks": 0,
+    "impressions": 6,
+    "ctr": 0,
+    "position": 4.666666666666666
+  },
+  "queries": [
+    {
+      "key": "ライフ 塩昆布",
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 4
+    }
+  ],
+  "pages": [
+    {
+      "key": "https://konbu-suki.com/category/shiokombu",
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 3
+    },
+    {
+      "key": "https://konbu-suki.com/origin/hidaka",
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 4
+    },
+    {
+      "key": "https://konbu-suki.com/product/314",
+      "clicks": 0,
+      "impressions": 4,
+      "ctr": 0,
+      "position": 5.25
+    }
+  ]
+}

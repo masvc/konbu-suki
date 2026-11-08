@@ -1,0 +1,832 @@
+[
+  {
+    "slugs": [
+      "kombu-processed-foods"
+    ],
+    "keyword": "昆布 加工品",
+    "cited": false,
+    "domains": [
+      "ogurayayamamoto.co.jp",
+      "ajinomoto.com",
+      "an58.com.tw",
+      "miaolin.global",
+      "umamiinfo.com",
+      "shiire.info",
+      "kurakon.jp",
+      "kombu.or.jp",
+      "gyoren.or.jp",
+      "baidu.com",
+      "shoukakukou.com",
+      "northcoastseafoods.com",
+      "wikipedia.org",
+      "nih.gov",
+      "gvm.com.tw",
+      "businessresearchinsights.com",
+      "alaskamariculturecluster.org"
+    ],
+    "searchQueries": [
+      "昆布 加工品 要点",
+      "昆布 加工品 種類",
+      "昆布 加工品 用途",
+      "processed kelp products summary"
+    ],
+    "tokens": 2145
+  },
+  {
+    "slugs": [
+      "ma-kombu"
+    ],
+    "keyword": "真昆布",
+    "cited": false,
+    "domains": [
+      "odashi-koubou.com",
+      "odashiya.jp",
+      "kombu.or.jp",
+      "tankuma.jp",
+      "konjikyo.or.jp",
+      "kyotokonbu.com",
+      "jf-minamikayabe.or.jp",
+      "kurakon.jp",
+      "konbumura.co.jp",
+      "freshmackerel.com",
+      "yilanmart.com",
+      "anyongfresh.com",
+      "taobao.com",
+      "suisanbazar.co.jp",
+      "rakuten.ne.jp"
+    ],
+    "searchQueries": [
+      "真昆布 特徴",
+      "真昆布 産地",
+      "真昆布 用途",
+      "真昆布 だし",
+      "真昆布 種類"
+    ],
+    "tokens": 964
+  },
+  {
+    "slugs": [
+      "rausu-kombu"
+    ],
+    "keyword": "羅臼昆布",
+    "cited": false,
+    "domains": [
+      "dashi-tanbou.com",
+      "macaro-ni.jp",
+      "wikipedia.org",
+      "kurakon.jp",
+      "odashi-koubou.com",
+      "odashiya.jp",
+      "rausu-konbu.com",
+      "odashi.co.jp",
+      "rakuten.co.jp",
+      "kissui.co.jp",
+      "rausu-kombu.com"
+    ],
+    "searchQueries": [
+      "羅臼昆布 要点",
+      "羅臼昆布 特徴",
+      "羅臼昆布 用途",
+      "羅臼昆布 産地",
+      "羅臼昆布 味"
+    ],
+    "tokens": 1652
+  },
+  {
+    "slugs": [
+      "kombumaki"
+    ],
+    "keyword": "昆布巻き 作り方",
+    "cited": false,
+    "domains": [
+      "kyounoryouri.jp",
+      "youtube.com",
+      "sirogohan.com",
+      "tennenseikatsu.jp",
+      "north-dish.com",
+      "kurakon.jp",
+      "ameblo.jp"
+    ],
+    "searchQueries": [
+      "昆布巻き 作り方 要点",
+      "昆布巻き レシピ 簡単",
+      "昆布巻き 基本の作り方"
+    ],
+    "tokens": 1377
+  },
+  {
+    "slugs": [
+      "kombu-katsuo-dashi"
+    ],
+    "keyword": "昆布だし 鰹だし 違い",
+    "cited": false,
+    "domains": [
+      "dashi-tanbou.com",
+      "wikipedia.org",
+      "yamaki.co.jp",
+      "delishkitchen.tv",
+      "tankuma.jp",
+      "benbu.jp",
+      "sincerite.jp",
+      "odashiya.jp"
+    ],
+    "searchQueries": [
+      "昆布だし 鰹だし 違い",
+      "昆布だし 特徴",
+      "鰹だし 特徴"
+    ],
+    "tokens": 762
+  },
+  {
+    "slugs": [
+      "kobujime-hare"
+    ],
+    "keyword": "正月 昆布締め",
+    "cited": false,
+    "domains": [
+      "delishkitchen.tv",
+      "wikipedia.org",
+      "ameblo.jp",
+      "tankuma.jp",
+      "mi-journey.jp",
+      "maikon.tv",
+      "gurusuguri.com",
+      "toranomon-ichiba.com",
+      "shaddy.jp",
+      "chunagon.com",
+      "tennenseikatsu.jp",
+      "kyounoryouri.jp",
+      "youtube.com",
+      "croissant-online.jp",
+      "sirogohan.com",
+      "oisiso.com"
+    ],
+    "searchQueries": [
+      "正月 昆布締め 要点",
+      "昆布締めとは",
+      "正月 昆布締め 意味",
+      "昆布締め 作り方",
+      "正月 料理 昆布締め"
+    ],
+    "tokens": 2405
+  },
+  {
+    "slugs": [
+      "kobujime-salmon"
+    ],
+    "keyword": "サーモン 昆布締め",
+    "cited": true,
+    "domains": [
+      "delishkitchen.tv",
+      "wikipedia.org",
+      "ameblo.jp",
+      "orangepage.net",
+      "maff.go.jp",
+      "oceans-nadia.com",
+      "livedoor.com",
+      "konbu-suki.com",
+      "kombu.or.jp"
+    ],
+    "searchQueries": [
+      "サーモン 昆布締め 要点",
+      "昆布締め とは",
+      "サーモン 昆布締め 作り方",
+      "サーモン 昆布締め 特徴"
+    ],
+    "tokens": 1051
+  },
+  {
+    "slugs": [
+      "kobujime-tai"
+    ],
+    "keyword": "鯛 昆布締め",
+    "cited": false,
+    "domains": [
+      "medetaiya.jp",
+      "delishkitchen.tv",
+      "odashi.co.jp",
+      "sozainochikara.jp",
+      "tankuma.jp",
+      "sirogohan.com",
+      "itoyokado.co.jp",
+      "exblog.jp",
+      "rakuten.co.jp",
+      "yutori.co.jp",
+      "kanemitu.co.jp"
+    ],
+    "searchQueries": [
+      "鯛 昆布締め 要点",
+      "鯛 昆布締め 特徴",
+      "鯛 昆布締め 作り方",
+      "鯛 昆布締め 食べ方"
+    ],
+    "tokens": 1117
+  },
+  {
+    "slugs": [
+      "kobujime-tips"
+    ],
+    "keyword": "昆布締め 失敗",
+    "cited": true,
+    "domains": [
+      "konbu-suki.com",
+      "tankuma.jp",
+      "mi-journey.jp",
+      "yahoo.co.jp",
+      "umizuriguide.com",
+      "setofishing.com",
+      "surf-flatfish.com"
+    ],
+    "searchQueries": [
+      "昆布締め 失敗 要点",
+      "昆布締め 失敗例",
+      "昆布締め うまくいかない原因"
+    ],
+    "tokens": 1185
+  },
+  {
+    "slugs": [
+      "kobujime-chicken"
+    ],
+    "keyword": "鶏むね肉 昆布締め",
+    "cited": false,
+    "domains": [
+      "nichinichi-magazine.com",
+      "tabi-labo.com",
+      "togetter.com",
+      "ameblo.jp",
+      "exblog.jp",
+      "gm-takeda-shop.com",
+      "kombu.or.jp",
+      "tuberecipe.com",
+      "youtube.com",
+      "tankuma.jp",
+      "oisiso.com"
+    ],
+    "searchQueries": [
+      "鶏むね肉 昆布締め 要点",
+      "鶏むね肉 昆布締め 作り方",
+      "鶏むね肉 昆布締め 効果",
+      "鶏むね肉 昆布締め メリット",
+      "鶏むね肉 昆布締め レシピ"
+    ],
+    "tokens": 1858
+  },
+  {
+    "slugs": [
+      "kobujime-hirame"
+    ],
+    "keyword": "ヒラメ 昆布締め",
+    "cited": false,
+    "domains": [
+      "toyama-takamatsuya.com",
+      "delishkitchen.tv",
+      "wikipedia.org",
+      "sushi-kaneki.co.jp",
+      "tankuma.jp",
+      "medetaiya.jp",
+      "sozainochikara.jp",
+      "okudaya.net",
+      "aogyorui.co.jp",
+      "note.com",
+      "sushi-tanji.com",
+      "youtube.com",
+      "aomori-tourism.com",
+      "umizuriguide.com"
+    ],
+    "searchQueries": [
+      "ヒラメ 昆布締め とは",
+      "ヒラメ 昆布締め 特徴",
+      "ヒラメ 昆布締め 作り方 目的",
+      "昆布締め 旨味 理由"
+    ],
+    "tokens": 1007
+  },
+  {
+    "slugs": [
+      "kobujime-vegetables"
+    ],
+    "keyword": "野菜 昆布締め",
+    "cited": false,
+    "domains": [
+      "delishkitchen.tv",
+      "wikipedia.org",
+      "nekomanma.life",
+      "tankuma.jp",
+      "mainichigrillbu.com",
+      "sushi-kaneki.co.jp",
+      "ienomistyle.com",
+      "sozainochikara.jp",
+      "kombu.or.jp",
+      "youtube.com",
+      "olive-hitomawashi.com",
+      "r-tsushin.com",
+      "nextweekend.jp",
+      "shokuiku-daijiten.com",
+      "asahi.com",
+      "yado-toyama.jp"
+    ],
+    "searchQueries": [
+      "野菜 昆布締め 要点",
+      "野菜 昆布締め 作り方",
+      "昆布締め とは",
+      "野菜 昆布締め 種類",
+      "昆布締め メリット"
+    ],
+    "tokens": 972
+  },
+  {
+    "slugs": [
+      "kobujime"
+    ],
+    "keyword": "昆布締め 作り方",
+    "cited": false,
+    "domains": [
+      "delishkitchen.tv",
+      "tsurihack.com",
+      "mi-journey.jp",
+      "aomori-tourism.com",
+      "houkon.co.jp",
+      "sirogohan.com",
+      "serai.jp",
+      "tankuma.jp"
+    ],
+    "searchQueries": [
+      "昆布締め 作り方 要点",
+      "昆布締め レシピ 簡単"
+    ],
+    "tokens": 1238
+  },
+  {
+    "slugs": [
+      "gagome-kombu"
+    ],
+    "keyword": "がごめ昆布",
+    "cited": false,
+    "domains": [
+      "konbu-gagome.com",
+      "life-source.jp",
+      "konbumura.co.jp",
+      "oishii-hakodate.jp",
+      "konbudokoro.com",
+      "tominosuke.com",
+      "hakodate.ne.jp",
+      "grupo.jp",
+      "shibanuma.com",
+      "jirochoya.com",
+      "shinpu.jp",
+      "hakodate-yana.com",
+      "openlab.co.jp",
+      "macaro-ni.jp",
+      "rakuten.co.jp",
+      "8186.biz"
+    ],
+    "searchQueries": [
+      "がごめ昆布 要点",
+      "がごめ昆布 特徴",
+      "がごめ昆布 効能",
+      "がごめ昆布 栄養",
+      "がごめ昆布 用途"
+    ],
+    "tokens": 1497
+  },
+  {
+    "slugs": [
+      "tororo-oboro"
+    ],
+    "keyword": "とろろ昆布 おぼろ昆布 違い",
+    "cited": false,
+    "domains": [
+      "maff.go.jp",
+      "tsuruga-konbu.com",
+      "tominosuke.com",
+      "tobaya.com",
+      "n-konbu.com",
+      "konbu.jp",
+      "delishkitchen.tv",
+      "food-mania.jp",
+      "rakuten.co.jp",
+      "tairou-konbu.co.jp",
+      "wikipedia.org",
+      "kaisou-tuhan.com",
+      "kobumasa.com",
+      "shizensyokuhin.jp",
+      "note.com",
+      "sumeshiya.com"
+    ],
+    "searchQueries": [
+      "とろろ昆布 おぼろ昆布 違い",
+      "とろろ昆布 作り方",
+      "おぼろ昆布 作り方",
+      "とろろ昆布 特徴",
+      "おぼろ昆布 特徴"
+    ],
+    "tokens": 1593
+  },
+  {
+    "slugs": [
+      "kombu-water"
+    ],
+    "keyword": "昆布水 作り方",
+    "cited": false,
+    "domains": [
+      "howtocook.jp",
+      "odashiya.jp",
+      "lettuceclub.net",
+      "rakuten.ne.jp",
+      "tankuma.jp",
+      "odashi.co.jp",
+      "kombu.co.jp",
+      "delishkitchen.tv",
+      "youtube.com",
+      "kombu.or.jp"
+    ],
+    "searchQueries": [
+      "昆布水 作り方 要点",
+      "昆布水 簡単 作り方",
+      "昆布水 浸水時間",
+      "昆布水 活用法"
+    ],
+    "tokens": 1170
+  },
+  {
+    "slugs": [
+      "how-to-choose-kombu"
+    ],
+    "keyword": "昆布 選び方",
+    "cited": true,
+    "domains": [
+      "odashiya.jp",
+      "odashi.co.jp",
+      "konbu-suki.com",
+      "maikon.tv",
+      "taberutokurasuto.com",
+      "kobayashi-foods.co.jp",
+      "kodomo-meal.jp",
+      "kombu.or.jp"
+    ],
+    "searchQueries": [
+      "昆布 選び方 要点",
+      "良い昆布の見分け方",
+      "だし昆布 選び方",
+      "乾燥昆布 選び方"
+    ],
+    "tokens": 1065
+  },
+  {
+    "slugs": [
+      "kombu-comparison"
+    ],
+    "keyword": "昆布 違い",
+    "cited": false,
+    "domains": [
+      "kombu.or.jp",
+      "torii-kelp.co.jp",
+      "dashi.style",
+      "kurakon.jp",
+      "konbumura.co.jp",
+      "odashiya.jp",
+      "odashi.co.jp",
+      "kyotokonbu.com",
+      "fushitaka.com",
+      "note.com",
+      "konbu.jp"
+    ],
+    "searchQueries": [
+      "昆布 違い 種類 用途",
+      "真昆布 利尻昆布 羅臼昆布 日高昆布 違い",
+      "昆布 産地 特徴"
+    ],
+    "tokens": 1509
+  },
+  {
+    "slugs": [
+      "kombu-types"
+    ],
+    "keyword": "昆布 種類",
+    "cited": false,
+    "domains": [
+      "ogurayayamamoto.co.jp",
+      "kombu.or.jp",
+      "sokaikobo.co.jp",
+      "h-skk.or.jp",
+      "sirogohan.com",
+      "saikon.com",
+      "odashi.co.jp",
+      "fushitaka.com",
+      "odashiya.jp"
+    ],
+    "searchQueries": [
+      "昆布 種類 特徴",
+      "主要な昆布の種類",
+      "真昆布 利尻昆布 羅臼昆布 日高昆布 違い"
+    ],
+    "tokens": 1435
+  },
+  {
+    "slugs": [
+      "how-to-make-dashi"
+    ],
+    "keyword": "昆布だし 取り方",
+    "cited": false,
+    "domains": [
+      "odashiya.jp",
+      "kombu.or.jp",
+      "premium-water.net",
+      "tankuma.jp",
+      "sirogohan.com",
+      "youtube.com",
+      "delishkitchen.tv",
+      "oceans-nadia.com",
+      "cotogoto.jp"
+    ],
+    "searchQueries": [
+      "昆布だし 取り方 要点",
+      "昆布だし 作り方 基本",
+      "昆布だし 失敗しないコツ"
+    ],
+    "tokens": 1029
+  },
+  {
+    "slugs": [
+      "kombu-nutrition"
+    ],
+    "keyword": "昆布 栄養",
+    "cited": false,
+    "domains": [
+      "health2sync.com",
+      "fujicco.co.jp",
+      "marine-hakodate.jp",
+      "jaw.or.jp",
+      "kurakon.jp",
+      "kombu.or.jp",
+      "konbumura.co.jp",
+      "odashiya.jp",
+      "macaro-ni.jp",
+      "slism.jp",
+      "gyoren.or.jp",
+      "kobumasa.com"
+    ],
+    "searchQueries": [
+      "昆布 栄養",
+      "昆布 栄養成分",
+      "昆布 健康効果",
+      "昆布 食物繊維",
+      "昆布 ミネラル",
+      "昆布 ビタミン"
+    ],
+    "tokens": 877
+  },
+  {
+    "slugs": [
+      "shiokombu-guide"
+    ],
+    "keyword": "塩昆布 使い方",
+    "cited": false,
+    "domains": [
+      "orangepage.net",
+      "delishkitchen.tv",
+      "huffingtonpost.jp",
+      "kurashiru.com",
+      "kikkoman.co.jp",
+      "kombu.or.jp",
+      "kurakon.jp",
+      "macaro-ni.jp"
+    ],
+    "searchQueries": [
+      "塩昆布 使い方 レシピ",
+      "塩昆布 料理",
+      "塩昆布 簡単レシピ"
+    ],
+    "tokens": 893
+  },
+  {
+    "slugs": [
+      "kombu-storage"
+    ],
+    "keyword": "昆布 保存方法",
+    "cited": false,
+    "domains": [
+      "odashiya.jp",
+      "ogurakonbu.co.jp",
+      "taobao.com",
+      "kurakon.jp",
+      "olive-hitomawashi.com",
+      "rakuten.co.jp",
+      "freshmackerel.com",
+      "conbutw.com",
+      "kumiko-jp.com",
+      "ohwakikonbu.jp",
+      "houkisyoten.com"
+    ],
+    "searchQueries": [
+      "昆布 保存方法 要点",
+      "昆布 常温保存",
+      "昆布 冷蔵保存",
+      "昆布 冷凍保存"
+    ],
+    "tokens": 1822
+  },
+  {
+    "slugs": [
+      "kombu-recipes"
+    ],
+    "keyword": "昆布 レシピ",
+    "cited": false,
+    "domains": [
+      "kombu.or.jp",
+      "kyounoryouri.jp",
+      "sirogohan.com",
+      "odashiya.jp",
+      "kobayashi-foods.co.jp",
+      "kombu.co.jp",
+      "macaro-ni.jp",
+      "kurakon.jp",
+      "delishkitchen.tv",
+      "ajinomoto.co.jp",
+      "kikkoman.co.jp",
+      "konbu-fujii.com",
+      "gyoren.or.jp"
+    ],
+    "searchQueries": [
+      "昆布 レシピ 要点",
+      "昆布 料理 使い方",
+      "昆布 種類 料理",
+      "昆布だし レシピ",
+      "昆布を美味しく食べるレシピ"
+    ],
+    "tokens": 1508
+  },
+  {
+    "slugs": [
+      "kombu-history"
+    ],
+    "keyword": "昆布ロード",
+    "cited": false,
+    "domains": [
+      "seimi.net",
+      "uwabe.co.jp",
+      "kombu.or.jp",
+      "maikon.tv",
+      "netsuper-v.com",
+      "gov-online.go.jp",
+      "hikarikaisou.co.jp",
+      "mizu.gr.jp",
+      "westjr.co.jp",
+      "aimono.com"
+    ],
+    "searchQueries": [
+      "昆布ロード 要点",
+      "昆布ロード とは",
+      "昆布ロード 歴史",
+      "昆布ロード 役割"
+    ],
+    "tokens": 1116
+  },
+  {
+    "slugs": [
+      "kombu-production"
+    ],
+    "keyword": "昆布 産地",
+    "cited": false,
+    "domains": [
+      "1242.com",
+      "kaneryo.co.jp",
+      "kombu.or.jp",
+      "kurakon.jp",
+      "seimi.net",
+      "netshousha.com"
+    ],
+    "searchQueries": [
+      "昆布 産地 主要",
+      "昆布 主な生産地 日本"
+    ],
+    "tokens": 1548
+  },
+  {
+    "slugs": [
+      "kombu-oyatsu-guide"
+    ],
+    "keyword": "昆布 おやつ おすすめ",
+    "cited": false,
+    "domains": [
+      "kakaku.com",
+      "rakuten.co.jp",
+      "took.jp",
+      "kyokonbu.jp",
+      "sokensha.co.jp",
+      "yahoo.co.jp",
+      "konbumura.co.jp",
+      "hotpepper.jp",
+      "e-otsumami.jp",
+      "biteki.com",
+      "olive-hitomawashi.com",
+      "taberutokurasuto.com",
+      "takaoka-konbu.com",
+      "health2sync.com"
+    ],
+    "searchQueries": [
+      "昆布 おやつ おすすめ",
+      "昆布 おやつ メリット",
+      "昆布 おやつ 人気",
+      "昆布 スナック 健康"
+    ],
+    "tokens": 2337
+  },
+  {
+    "slugs": [
+      "oshaburi-kombu"
+    ],
+    "keyword": "おしゃぶり昆布 おすすめ",
+    "cited": false,
+    "domains": [
+      "dcmiyoshi.com",
+      "kakaku.com",
+      "taberutokurasuto.com",
+      "olive-hitomawashi.com",
+      "monotaro.com",
+      "stylemap.co.jp",
+      "yahoo.co.jp"
+    ],
+    "searchQueries": [
+      "おしゃぶり昆布 おすすめ 人気",
+      "おしゃぶり昆布 選び方",
+      "おしゃぶり昆布 要点"
+    ],
+    "tokens": 1327
+  },
+  {
+    "slugs": [
+      "miyako-kombu"
+    ],
+    "keyword": "都こんぶ 種類",
+    "cited": false,
+    "domains": [
+      "wikipedia.org",
+      "withnews.jp",
+      "yahoo.co.jp",
+      "monotaro.com",
+      "kakaku.com",
+      "nakanobussan.co.jp",
+      "raku-uru.jp",
+      "dagashijiten.com",
+      "rocketnews24.com",
+      "japanbrandfun.com"
+    ],
+    "searchQueries": [
+      "都こんぶ 種類",
+      "都こんぶ ラインナップ",
+      "都こんぶ 味",
+      "都こんぶ 商品"
+    ],
+    "tokens": 680
+  },
+  {
+    "slugs": [
+      "otsumami-kombu"
+    ],
+    "keyword": "おつまみ昆布 おすすめ",
+    "cited": false,
+    "domains": [
+      "kakaku.com",
+      "took.jp",
+      "kombu.or.jp",
+      "nambu.ne.jp",
+      "gyoren.or.jp",
+      "rakuten.co.jp",
+      "kobayashi-foods.co.jp",
+      "taberutokurasuto.com",
+      "natori.co.jp"
+    ],
+    "searchQueries": [
+      "おつまみ昆布 おすすめ",
+      "おつまみ昆布 選び方",
+      "おつまみ昆布 種類"
+    ],
+    "tokens": 1163
+  },
+  {
+    "slugs": [
+      "kombu-diet-oyatsu"
+    ],
+    "keyword": "昆布 おやつ ダイエット",
+    "cited": false,
+    "domains": [
+      "olive-hitomawashi.com",
+      "dcmiyoshi.com",
+      "hotpepper.jp",
+      "chance-gym.com",
+      "biteki.com",
+      "yogajournal.jp",
+      "nakano-dm.clinic",
+      "konbumura.co.jp"
+    ],
+    "searchQueries": [
+      "昆布 おやつ ダイエット 要点",
+      "昆布 おやつ ダイエット 効果",
+      "昆布 ダイエット メリット デメリット",
+      "昆布 おやつ 選び方 ダイエット"
+    ],
+    "tokens": 961
+  }
+]
