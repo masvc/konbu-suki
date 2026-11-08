@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { SITE_NAME } from "@/lib/constants";
+import { KOMBU_BOX } from "@/lib/kombu-box";
 
 export const metadata: Metadata = {
   title: `特定商取引法に基づく表記 | ${SITE_NAME}`,
@@ -16,13 +17,15 @@ export default function TokushohoPage() {
     ["電話番号", "TODO: 記載する（請求があった場合に遅滞なく開示）"],
     ["メールアドレス", "yoshida@peaky.co.jp"],
     ["販売URL", "https://konbu-suki.com/kombu-box"],
-    ["商品名", "こんぶBOX（昆布おやつ詰め合わせ）"],
-    ["販売価格", "4,980円（税込）"],
+    ["商品名", `${KOMBU_BOX.name}（昆布おやつ詰め合わせ）`],
+    ["販売価格", `${KOMBU_BOX.price.toLocaleString()}円（税込）`],
+    ["商品内容", `おしゃぶり昆布を中心に${KOMBU_BOX.worthLabel}の昆布おやつを詰め合わせ（種類・個数はシークレット）`],
     ["送料", "販売価格に含む"],
     ["お支払い方法", "クレジットカード（Stripe経由）"],
-    ["お届け時期", "ご注文から5営業日以内に発送（お届け先の地域により前後する場合があります）"],
+    ["お届け時期", `${KOMBU_BOX.shippingDays}（お届け先の地域により前後する場合があります）`],
     ["返品・交換", "商品に破損・汚損があった場合は到着後7日以内にご連絡ください。交換いたします。お客様都合による返品はお受けしておりません。"],
-    ["引き渡し時期", "ご注文から5営業日以内に発送いたします。"],
+    ["引き渡し時期", `${KOMBU_BOX.shippingDays}。`],
+    ["アレルギーについて", KOMBU_BOX.allergyNote],
   ];
 
   return (
@@ -44,7 +47,7 @@ export default function TokushohoPage() {
           </table>
         </div>
         <p className="mt-6 text-xs text-gray-400">
-          最終更新: 2026年11月8日
+          最終更新: 2026年11月9日
         </p>
       </div>
     </main>

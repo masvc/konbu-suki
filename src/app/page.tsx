@@ -6,6 +6,7 @@ import { GUIDES } from "@/lib/guides";
 import { CATEGORIES, CATEGORY_SLUGS, ORIGINS } from "@/lib/constants";
 import { ProductCard } from "@/components/ProductCard";
 import { ShopCTA } from "@/components/ShopCTA";
+import { KOMBU_BOX } from "@/lib/kombu-box";
 import { CategoryIcon } from "@/lib/category-icons";
 import { MapPin, Droplets } from "lucide-react";
 import { FaqAccordion } from "@/components/FaqAccordion";
@@ -34,7 +35,17 @@ export default async function Home() {
 
   const [totalProducts, featuredProducts, categories, recentProducts] = await Promise.all([
     prisma.product.count(),
-    prisma.product.findMany({ where: { isFeatured: true }, take: 8, orderBy: { createdAt: "desc" } }),
+    // snackカテゴリを優先表示
+    prisma.product.findMany({ where: { isFeatured: true, category: "snack" }, take: 4, orderBy: { createdAt: "desc" } })
+      .then(async (snacks) => {
+        if (snacks.length >= 8) return snacks.slice(0, 8);
+        const others = await prisma.product.findMany({
+          where: { isFeatured: true, category: { not: "snack" } },
+          take: 8 - snacks.length,
+          orderBy: { createdAt: "desc" },
+        });
+        return [...snacks, ...others];
+      }),
     prisma.product.groupBy({ by: ["category"], _count: { _all: true } }),
     prisma.product.findMany({ orderBy: { createdAt: "desc" }, take: 12 }),
   ]);
@@ -177,7 +188,7 @@ export default async function Home() {
             <div>
               <p className="text-xs font-semibold text-green-300 tracking-widest">KOMBU BOX</p>
               <p className="text-lg font-bold mt-1">昆布おやつのシークレットBOX</p>
-              <p className="text-sm text-green-100 mt-1">5,000円相当以上を詰め合わせ。先行10名限定 4,980円</p>
+              <p className="text-sm text-green-100 mt-1">{KOMBU_BOX.worthLabel}を詰め合わせ。{KOMBU_BOX.limitLabel} {KOMBU_BOX.price.toLocaleString()}円</p>
             </div>
             <span className="shrink-0 rounded-xl bg-white px-6 py-2.5 text-sm font-bold text-green-800 hover:bg-green-50 transition">
               詳しく見る

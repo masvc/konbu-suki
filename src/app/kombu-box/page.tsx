@@ -2,14 +2,13 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import Image from "next/image";
 import { SITE_NAME } from "@/lib/constants";
+import { KOMBU_BOX } from "@/lib/kombu-box";
 
 export const metadata: Metadata = {
-  title: `こんぶBOX｜中身はシークレット 昆布おやつの詰め合わせギフト 4,980円 | ${SITE_NAME}`,
-  description: "おしゃぶり昆布を中心に、全国の昆布おやつを厳選詰め合わせ。中身は届いてからのお楽しみ。4,980円・送料込み。先行10名限定。",
+  title: `${KOMBU_BOX.name}｜中身はシークレット 昆布おやつの詰め合わせギフト ${KOMBU_BOX.priceLabel.replace("（税込・送料込み）", "")} | ${SITE_NAME}`,
+  description: `おしゃぶり昆布を中心に、${KOMBU_BOX.worthLabel}の昆布おやつを厳選詰め合わせ。${KOMBU_BOX.priceLabel}。${KOMBU_BOX.limitLabel}。`,
   alternates: { canonical: "/kombu-box" },
 };
-
-const PAYMENT_LINK = process.env.NEXT_PUBLIC_KOMBU_BOX_PAYMENT_LINK || "";
 
 export default function KombuBoxPage() {
   return (
@@ -19,20 +18,20 @@ export default function KombuBoxPage() {
         <div className="mx-auto max-w-5xl px-4 sm:px-6 py-12 sm:py-16 flex flex-col md:flex-row items-center gap-8 md:gap-12">
           <div className="flex-1 text-center md:text-left">
             <p className="text-xs font-semibold text-green-300 tracking-widest mb-3">KOMBU BOX</p>
-            <h1 className="text-3xl sm:text-4xl font-bold mb-4">こんぶBOX</h1>
+            <h1 className="text-3xl sm:text-4xl font-bold mb-4">{KOMBU_BOX.name}</h1>
             <p className="text-lg sm:text-xl text-green-100 font-bold mb-2">
-              4,980円（税込・送料込み）
+              {KOMBU_BOX.priceLabel}
             </p>
             <p className="text-sm sm:text-base text-green-100 leading-relaxed">
-              5,000円相当以上の昆布おやつを、おしゃぶり昆布中心に厳選して詰め合わせ。
+              {KOMBU_BOX.worthLabel}の昆布おやつを、おしゃぶり昆布中心に厳選して詰め合わせ。
               <br />
               中身は届いてからのお楽しみ。何が入っているかは、開けてみてください。
             </p>
-            <p className="mt-3 text-xs text-green-200">先行10名限定で受付中</p>
+            <p className="mt-3 text-xs text-green-200">{KOMBU_BOX.limitLabel}で受付中</p>
             <div className="mt-6">
-              {PAYMENT_LINK ? (
+              {KOMBU_BOX.paymentLink ? (
                 <a
-                  href={PAYMENT_LINK}
+                  href={KOMBU_BOX.paymentLink}
                   className="inline-block rounded-xl bg-white px-8 py-3.5 text-base font-bold text-green-800 hover:bg-green-50 transition shadow-lg"
                 >
                   購入する
@@ -47,7 +46,7 @@ export default function KombuBoxPage() {
                 <span className="text-xs text-green-200">種類</span>
               </div>
               <div>
-                <span className="block text-2xl font-bold">4,980</span>
+                <span className="block text-2xl font-bold">{KOMBU_BOX.price.toLocaleString()}</span>
                 <span className="text-xs text-green-200">円（税込）</span>
               </div>
               <div>
@@ -110,10 +109,10 @@ export default function KombuBoxPage() {
             <table className="w-full text-sm">
               <tbody>
                 {[
-                  ["価格", "4,980円（税込・送料込み）"],
-                  ["届く中身", "おしゃぶり昆布を中心に昆布おやつを詰め合わせ（種類・個数はシークレット）"],
-                  ["配送方法", "宅急便"],
-                  ["発送時期", "ご注文から5営業日以内に発送"],
+                  ["価格", KOMBU_BOX.priceLabel],
+                  ["届く中身", `おしゃぶり昆布を中心に${KOMBU_BOX.worthLabel}の昆布おやつを詰め合わせ（種類・個数はシークレット）`],
+                  ["配送方法", KOMBU_BOX.shippingMethod],
+                  ["発送時期", KOMBU_BOX.shippingDays],
                   ["お届け先", "日本国内"],
                   ["お支払い", "クレジットカード（Stripe）"],
                   ["返品・交換", "商品に破損・汚損があった場合は到着後7日以内にご連絡ください"],
@@ -133,7 +132,7 @@ export default function KombuBoxPage() {
       <section className="bg-gray-50 border-t border-gray-100">
         <div className="mx-auto max-w-3xl px-4 sm:px-6 py-6">
           <p className="text-xs text-gray-500 leading-relaxed">
-            各商品に小麦・大豆・えびなどのアレルギー物質を含む場合があります。詳細は各パッケージの表示をご確認ください。食物アレルギーがご心配な方は、ご購入前に<Link href="/contact" className="text-green-700 underline">お問い合わせ</Link>ください。
+            {KOMBU_BOX.allergyNote.replace("お問い合わせください", "")}<Link href="/contact" className="text-green-700 underline">お問い合わせ</Link>ください。
           </p>
         </div>
       </section>
@@ -141,11 +140,11 @@ export default function KombuBoxPage() {
       {/* CTA */}
       <section className="bg-gradient-to-br from-green-700 to-green-600 text-white">
         <div className="mx-auto max-w-xl px-4 sm:px-6 py-12 text-center">
-          <h2 className="text-xl font-bold mb-2">先行10名限定で受付中</h2>
-          <p className="text-sm text-green-100 mb-6">4,980円・送料込み・中身はシークレット</p>
-          {PAYMENT_LINK ? (
+          <h2 className="text-xl font-bold mb-2">{KOMBU_BOX.limitLabel}で受付中</h2>
+          <p className="text-sm text-green-100 mb-6">{KOMBU_BOX.priceLabel}・中身はシークレット</p>
+          {KOMBU_BOX.paymentLink ? (
             <a
-              href={PAYMENT_LINK}
+              href={KOMBU_BOX.paymentLink}
               className="inline-block rounded-xl bg-white px-8 py-3.5 text-base font-bold text-green-800 hover:bg-green-50 transition shadow-lg"
             >
               購入する
