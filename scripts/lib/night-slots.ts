@@ -326,13 +326,23 @@ kombu-nutrition / kombu-production）を上から1本選び、記事の型（結
      「クロール済み」を分けて）。前夜からの増減
    - ■ 朝やること: 人の判断が必要なものだけ。0件なら「なし」
 5. \`npx tsx scripts/post-slack.ts {{DIR}}/report.md\` で Slack に流す。
-6. topic-map・next-actions・inbox・report.md を1コミットにまとめて push する。
+6. **要点を3行にまとめて、メンション付きでもう1通送る。** 報告の全文は長いので、
+   スマホの通知で読める長さにする。{{DIR}}/summary.md に次の3行だけを書き、
+   \`npx tsx scripts/post-slack.ts --mention {{DIR}}/summary.md\` で投稿する。
+
+   - 1行目「今夜の成果:」一言で。公開・改善した本数と、いちばん大きかったこと
+   - 2行目「朝やること:」URL検査の優先5本のURLを並べる。ほかに人の判断が
+     要るものがあれば足す。**無ければ「なし」と書く**
+   - 3行目「気になった点:」あれば1つだけ。無ければこの行を省く
+
+   3行に収まらないときは削る。全文は report.md にあるので、ここで繰り返さない。
+7. topic-map・next-actions・inbox・report.md・summary.md を1コミットにまとめて push する。
 
 ## 完了条件
 
 - docs/topic-map.md と docs/next-actions.md が更新されている
-- {{DIR}}/report.md がある
-- Slack に流してある`,
+- {{DIR}}/report.md と {{DIR}}/summary.md がある
+- Slack に2通（報告の全文と、メンション付きの3行）流してある`,
   },
 ];
 

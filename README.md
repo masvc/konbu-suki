@@ -250,8 +250,16 @@ cp auto-settings.example.json auto-settings.json
 ### 報告
 
 報告は最後の枠（7:00）が `docs/night/<日付>/report.md` を書いて
-`scripts/post-slack.ts` で流す。1晩1通。途中の枠は、打ち切られたときと
-異常終了したときだけ理由を流す。
+`scripts/post-slack.ts` で流す。途中の枠は、打ち切られたときと異常終了した
+ときだけ理由を流す。
+
+あわせて、要点3行を**メンション付き**でもう1通送る（`summary.md`）。
+報告の全文は長く、スマホの通知では読めないため。宛先は `.env` の
+`SLACK_MENTION`。未設定なら `<!channel>`（チャンネル全員に通知）になるので、
+人が複数いるチャンネルなら自分のメンバーIDを入れる。
+
+メンションは `escapeSlack` に通さない。`<!channel>` の山括弧が `&lt;` に
+変換されると、ただの文字列になって通知が飛ばない。
 
 ### 止めたいとき
 
