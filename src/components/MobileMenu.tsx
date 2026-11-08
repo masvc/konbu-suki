@@ -6,9 +6,9 @@ import { X } from "lucide-react";
 
 const NAV_ITEMS = [
   { href: "/search", label: "検索" },
+  { href: "/category/snack", label: "おやつ昆布" },
   { href: "/category/dashi", label: "だし昆布" },
   { href: "/category/shiokombu", label: "塩昆布" },
-  { href: "/category/snack", label: "おやつ昆布" },
   { href: "/category/tsukudani", label: "佃煮・煮物" },
   { href: "/category/tororo", label: "とろろ昆布" },
   { href: "/category/kombucha", label: "昆布茶" },

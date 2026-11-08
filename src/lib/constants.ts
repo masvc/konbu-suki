@@ -24,8 +24,8 @@ export const MOSHIMO_PL_ID = process.env.NEXT_PUBLIC_MOSHIMO_PL_ID || "";
 
 // カテゴリ定義
 export const CATEGORIES = {
+  snack: { label: "おやつ昆布", description: "おしゃぶり昆布・都こんぶ・酢昆布・おつまみ昆布など、そのまま食べられる昆布のお菓子を厳選。低カロリーで食物繊維たっぷりのヘルシーおやつ。" },
   dashi: { label: "だし昆布", description: "出汁用の昆布を産地別に比較。利尻・羅臼・日高・真昆布それぞれの味わいの違いや、用途に合った選び方を解説します。" },
-  snack: { label: "食べる昆布", description: "おやつやおつまみにぴったりの昆布を厳選。酢昆布・おしゃぶり昆布・茎わかめなど、手軽に楽しめる昆布商品を紹介します。" },
   tsukudani: { label: "佃煮・煮物", description: "昆布の佃煮・松前漬け・昆布巻きなど、ごはんのお供や常備菜になる昆布の加工品を幅広く紹介。老舗メーカーの逸品も。" },
   shiokombu: { label: "塩昆布", description: "ごはんのお供の定番、塩昆布を比較。ふじっ子・くらこん・小倉屋山本など人気ブランドの特徴や使い方を紹介します。" },
   tororo: { label: "とろろ昆布", description: "富山名産のとろろ昆布・おぼろ昆布を紹介。お吸い物やおにぎりに巻いて手軽に旨みをプラスできる昆布の薄削り商品。" },

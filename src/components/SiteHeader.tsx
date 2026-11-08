@@ -11,9 +11,9 @@ export function SiteHeader() {
           <KonbuLogo />
           <nav className="hidden md:flex items-center gap-1">
             <Link href="/search" className="rounded-lg px-3 py-1.5 text-sm text-gray-600 hover:bg-[#d8f3dc] hover:text-[#1b4332] transition">検索</Link>
+            <Link href="/category/snack" className="rounded-lg px-3 py-1.5 text-sm text-gray-600 hover:bg-[#d8f3dc] hover:text-[#1b4332] transition">おやつ昆布</Link>
             <Link href="/category/dashi" className="rounded-lg px-3 py-1.5 text-sm text-gray-600 hover:bg-[#d8f3dc] hover:text-[#1b4332] transition">だし昆布</Link>
             <Link href="/category/shiokombu" className="rounded-lg px-3 py-1.5 text-sm text-gray-600 hover:bg-[#d8f3dc] hover:text-[#1b4332] transition">塩昆布</Link>
-            <Link href="/category/snack" className="rounded-lg px-3 py-1.5 text-sm text-gray-600 hover:bg-[#d8f3dc] hover:text-[#1b4332] transition">おやつ昆布</Link>
             <Link href="/guide" className="rounded-lg px-3 py-1.5 text-sm text-gray-600 hover:bg-[#d8f3dc] hover:text-[#1b4332] transition">ガイド</Link>
             <Link href="/producers" className="rounded-lg px-3 py-1.5 text-sm text-gray-600 hover:bg-[#d8f3dc] hover:text-[#1b4332] transition">生産者</Link>
             <Link href="/kombu-box" className="rounded-lg bg-[#2d6a4f] px-3.5 py-1.5 text-sm font-medium text-white hover:bg-[#1b4332] transition ml-1">こんぶBOX</Link>
