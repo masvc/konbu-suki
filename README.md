@@ -281,6 +281,8 @@ npm run meta:generate      # meta description の案を作る
                            # 反映は npx tsx scripts/generate-meta.ts --apply <案のJSON>
 npm run sns                # 記事ごとの X 投稿文案を3つずつ docs/sns/ に作る（投稿はしない）
 npm run lighthouse         # Core Web Vitals（PAGESPEED_API_KEY が要る）
+npm run index:status       # Search Console でインデックス状況を取り、未登録の理由別に数える
+                           # URL検査でリクエストする優先5本も選ぶ（API からはリクエストできない）
 ```
 
 `/llms.txt` は記事一覧から組み立てて配信している（`src/app/llms.txt/route.ts`）。

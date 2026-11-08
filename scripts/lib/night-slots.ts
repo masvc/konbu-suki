@@ -75,11 +75,16 @@ export const SLOTS: Slot[] = [
    - アフィリリンクのクリックは \`scripts/lib/analytics-constants.ts\` の CTA_EVENTS で
      定義されている。楽天/Amazon を分けて取れるならそのように出す。
      取れない場合は「取れなかった」と理由を書く。
-3. AI引用チェックを走らせる。
+3. **インデックス状況を取る。** \`npx tsx scripts/index-status.ts\`
+   未登録の理由別件数と、URL検査でリクエストする優先5本が {{DIR}}/index-status.md に出る。
+   **「検出 - インデックス未登録」と「クロール済み - インデックス未登録」を分けて数える。**
+   前者はまだページを取得していない状態で待てば進む。後者は中身を見たうえで見送られて
+   いる状態で、記事の強化が効く。analysis.md にこの2つの件数を必ず書く。
+4. AI引用チェックを走らせる。
    - \`npx tsx scripts/ai-citation-check.ts\`
    - 狙いキーワードごとに、自サイトが引用されたか／引用されている他ドメインが出る。
      出力は {{DIR}}/ai-citation.md と .json に入る。
-4. 以上を {{DIR}}/analysis.md にまとめる。最後に
+5. 以上を {{DIR}}/analysis.md にまとめる。最後に
    **「伸びしろのある記事トップ10」** を理由つきで並べる。理由は次のような形で、
    どの数字から言えるのかを必ず書く。
    - 表示は多いが CTR が低い（→ title/description の書き直しが効く）
@@ -100,7 +105,7 @@ GSC と GA4 が空の場合、今夜の伸びしろ判断は **AI引用チェッ
 - AI が実際に投げた検索クエリ（webSearchQueries）に対し、記事が答えているか
 の3点から、トップ10を組んでください。
 
-5. **\`docs/next-actions.md\` を書き換える。** 今夜の分析から、次にやることを
+6. **\`docs/next-actions.md\` を書き換える。** 今夜の分析から、次にやることを
    自分で決めて優先度つきで並べる。指示を待たずに回すための中心になるファイルなので、
    ここが空だと後の枠が動けない。
    - CLAUDE.md「伸びしろの観点」の6つ（信頼性・構造化データ・収益導線・季節需要・
@@ -114,7 +119,8 @@ GSC と GA4 が空の場合、今夜の伸びしろ判断は **AI引用チェッ
 ## 完了条件
 
 - {{DIR}}/analysis.md があり、トップ10が理由つきで並んでいる
-- {{DIR}}/ai-citation.md がある
+- {{DIR}}/ai-citation.md と {{DIR}}/index-status.md がある
+- analysis.md に未登録の理由別件数が書かれている
 - \`docs/next-actions.md\` が今夜の分析を反映した内容になっている
 - 1コミットにまとめて push してある`,
   },
@@ -126,6 +132,10 @@ GSC と GA4 が空の場合、今夜の伸びしろ判断は **AI引用チェッ
 
 ## やること
 
+0. **{{DIR}}/index-status.md があれば先に読む。** 「クロール済み - インデックス未登録」
+   の記事があれば、**それを最優先で強化する。** Google が中身を見たうえで登録を見送って
+   いる状態なので、記事そのものを厚くするのが効く。「検出 - インデックス未登録」は
+   まだ取得されていないだけなので、記事を直しても今は効かない。混同しない。
 1. {{DIR}}/analysis.md を読む。無ければ {{DIR}}/ai-citation.md を読む。どちらも無ければ
    「分析結果が無かった」と記録し、下の「分析が無いときの進め方」に移る。
 2. 「伸びしろのある記事トップ10」の上から順に、理由に応じた直し方をする。
@@ -162,7 +172,11 @@ kombu-nutrition / kombu-production）を上から1本選び、記事の型（結
     name: "create",
     hour: 3,
     title: "新規記事",
-    prompt: `今夜の夜間作業の3枠目（新規記事）です。**3本**書いてください。
+    prompt: `今夜の夜間作業の3枠目（新規記事）です。**新規は1本まで。** 残りの時間は既存記事の
+強化に使ってください。
+
+記事の本数より、いま出している記事がインデックスされることのほうが先です
+（47本中45本が未登録）。新規を積んでも、載らなければ読まれません。
 
 ## やること
 
@@ -201,10 +215,18 @@ kombu-nutrition / kombu-production）を上から1本選び、記事の型（結
 4. 出典が足りなくて書けないものは、無理に書かない。{{DIR}}/held.md に理由を書き、
    topic-map の優先度を下げて、次の候補に移る。
 
+## 新規のあとにやること
+
+残りの時間は既存記事の強化に使う。優先順位は次のとおり。
+
+1. {{DIR}}/index-status.md の「クロール済み - インデックス未登録」の記事
+2. {{DIR}}/analysis.md の伸びしろトップ10のうち、1:00 の枠が手を付けていないもの
+3. \`npx tsx scripts/fact-audit.ts\` が出す指摘
+
 ## 完了条件
 
-- 3本 push してある（出典不足で書けなかったものがある場合は、書けた本数と
-  保留の理由が {{DIR}}/held.md に残っている）`,
+- 新規1本を push してある（出典不足で書けなかった場合は理由が {{DIR}}/held.md にある）
+- 残りの時間で既存記事を強化し、1本ずつ push してある`,
   },
   {
     name: "maintain",
@@ -229,9 +251,17 @@ kombu-nutrition / kombu-production）を上から1本選び、記事の型（結
    - \`npm run images:optimize\` （200KB超の画像。直すときは \`-- --write\`）
    - \`npx tsx scripts/lighthouse.ts\` （Core Web Vitals）。PAGESPEED_API_KEY が
      未設定だと上限に当たって測れない。その場合は「測れなかった」と記録して進む
+   - \`npx tsx scripts/check-article-links.ts --all\` （全記事の出典リンク）
+3. **インデックス促進。**
+   - サイトマップの lastmod が実際の更新日になっているか確かめる
+     （\`curl -s https://konbu-suki.com/sitemap.xml\` を2回取って値が変わらないこと。
+     取得のたびに変われば、検索側はその値を当てにしなくなる）
+   - 孤立記事がゼロであることを確かめたうえで、\`npx tsx scripts/indexnow.ts --all\` を
+     実行し、全公開URLを通知する
+   - 結果を {{DIR}}/maintain.md に書く
    - 構造化データは src/app/guide/[slug]/page.tsx が Article と FAQPage を出している。
      新しい記事で欠けていないかを確認する
-3. **楽天マッチのレビュー待ちの再照合。** 次の順で行う。これは DB 書き込みを含む。
+4. **楽天マッチのレビュー待ちの再照合。** 次の順で行う。これは DB 書き込みを含む。
    - \`npx tsx scripts/match-rakuten.ts\` で下見する（\`--write\` を付けない）。
      判定結果の JSON が scripts/tmp/ に出る
    - \`npx tsx scripts/triage-rakuten.ts <その JSON>\` で振り分ける。
@@ -243,7 +273,7 @@ kombu-nutrition / kombu-production）を上から1本選び、記事の型（結
    - 適用した件数と、レビュー待ちに残った件数を {{DIR}}/maintain.md に書く
    - **この DB 書き込みはユーザーから明示的に許可されている**（CLAUDE.md の
      「楽天マッチの自動適用」の項を参照）。許可の範囲を広げないこと
-4. やったことを {{DIR}}/maintain.md にまとめる。直した指摘、直さなかった指摘とその理由、
+5. やったことを {{DIR}}/maintain.md にまとめる。直した指摘、直さなかった指摘とその理由、
    孤立記事の有無、楽天の適用件数を書く。
 
 ## 完了条件
@@ -289,6 +319,11 @@ kombu-nutrition / kombu-production）を上から1本選び、記事の型（結
    - ■ Gemini API の利用: 呼び出し回数とトークン数（{{DIR}}/ai-citation.json の
      tokens 合計）。**利用額は API から取得できないため金額は書かない。**
      402（残高切れ）や 429（上限）が出ていた場合は、それを「朝やること」に入れる
+   - ■ **URL検査でリクエストする5本**: {{DIR}}/index-status.md の優先5本を
+     そのまま貼る。URLを1行ずつ、状態を添えて。人がこれを Search Console の
+     URL 検査に貼るだけで済む形にする。API からはリクエストできないため
+   - ■ インデックス: 登録済み何件/全何件。未登録の理由別件数（「検出」と
+     「クロール済み」を分けて）。前夜からの増減
    - ■ 朝やること: 人の判断が必要なものだけ。0件なら「なし」
 5. \`npx tsx scripts/post-slack.ts {{DIR}}/report.md\` で Slack に流す。
 6. topic-map・next-actions・inbox・report.md を1コミットにまとめて push する。

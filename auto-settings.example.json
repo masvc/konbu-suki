@@ -30,6 +30,7 @@
       "Bash(npx tsx scripts/generate-guide-images.ts:*)",
       "Bash(npx tsx scripts/generate-og-images.ts:*)",
       "Bash(npx tsx scripts/indexnow.ts:*)",
+      "Bash(npx tsx scripts/index-status.ts:*)",
       "Bash(npx tsx scripts/generate-meta.ts:*)",
       "Bash(npx tsx scripts/generate-sns.ts:*)",
       "Bash(npx tsx scripts/lighthouse.ts:*)",
