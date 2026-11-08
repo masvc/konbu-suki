@@ -14,52 +14,52 @@ const PAYMENT_LINK = process.env.NEXT_PUBLIC_KOMBU_BOX_PAYMENT_LINK || "";
 export default function KombuBoxPage() {
   return (
     <main className="flex-1">
-      {/* Hero */}
+      {/* Hero: 左テキスト・右イラスト */}
       <section className="bg-gradient-to-br from-green-800 to-green-600 text-white">
-        <div className="mx-auto max-w-5xl px-4 sm:px-6 py-16 text-center">
-          <p className="text-xs font-semibold text-green-300 tracking-widest mb-3">KOMBU BOX</p>
-          <h1 className="text-3xl sm:text-4xl font-bold mb-4">こんぶBOX</h1>
-          <p className="text-lg sm:text-xl text-green-100 font-bold mb-2">
-            月額990円（税込・送料込み）
-          </p>
-          <p className="text-sm sm:text-base text-green-100 max-w-xl mx-auto leading-relaxed">
-            おしゃぶり昆布を中心に、全国の昆布おやつを毎月3種お届け。
-            中身は届いてからのお楽しみ。いつでも解約できます。
-          </p>
-          <p className="mt-3 text-xs text-green-200">先行10名限定で受付中</p>
-          <div className="mt-6">
-            {PAYMENT_LINK ? (
-              <a
-                href={PAYMENT_LINK}
-                className="inline-block rounded-xl bg-white px-8 py-3.5 text-base font-bold text-green-800 hover:bg-green-50 transition shadow-lg"
-              >
-                先行申込はこちら
-              </a>
-            ) : (
-              <p className="text-sm text-green-200">決済リンクを準備中です</p>
-            )}
+        <div className="mx-auto max-w-5xl px-4 sm:px-6 py-12 sm:py-16 flex flex-col md:flex-row items-center gap-8 md:gap-12">
+          {/* 左: テキスト */}
+          <div className="flex-1 text-center md:text-left">
+            <p className="text-xs font-semibold text-green-300 tracking-widest mb-3">KOMBU BOX</p>
+            <h1 className="text-3xl sm:text-4xl font-bold mb-4">こんぶBOX</h1>
+            <p className="text-lg sm:text-xl text-green-100 font-bold mb-2">
+              月額990円（税込・送料込み）
+            </p>
+            <p className="text-sm sm:text-base text-green-100 leading-relaxed">
+              おしゃぶり昆布を中心に、全国の昆布おやつを毎月3種お届け。
+              中身は届いてからのお楽しみ。いつでも解約できます。
+            </p>
+            <p className="mt-3 text-xs text-green-200">先行10名限定で受付中</p>
+            <div className="mt-6">
+              {PAYMENT_LINK ? (
+                <a
+                  href={PAYMENT_LINK}
+                  className="inline-block rounded-xl bg-white px-8 py-3.5 text-base font-bold text-green-800 hover:bg-green-50 transition shadow-lg"
+                >
+                  先行申込はこちら
+                </a>
+              ) : (
+                <p className="text-sm text-green-200">決済リンクを準備中です</p>
+              )}
+            </div>
+            <div className="mt-8 grid grid-cols-3 gap-6 max-w-xs mx-auto md:mx-0">
+              <div>
+                <span className="block text-2xl font-bold">3</span>
+                <span className="text-xs text-green-200">種類</span>
+              </div>
+              <div>
+                <span className="block text-2xl font-bold">990</span>
+                <span className="text-xs text-green-200">円/月</span>
+              </div>
+              <div>
+                <span className="block text-2xl font-bold">0</span>
+                <span className="text-xs text-green-200">縛り</span>
+              </div>
+            </div>
           </div>
-          <div className="mt-8 grid grid-cols-3 gap-6 max-w-sm mx-auto">
-            <div>
-              <span className="block text-2xl font-bold">3</span>
-              <span className="text-xs text-green-200">種類</span>
-            </div>
-            <div>
-              <span className="block text-2xl font-bold">990</span>
-              <span className="text-xs text-green-200">円/月</span>
-            </div>
-            <div>
-              <span className="block text-2xl font-bold">0</span>
-              <span className="text-xs text-green-200">縛り</span>
-            </div>
+          {/* 右: イラスト */}
+          <div className="flex-shrink-0 w-full max-w-xs sm:max-w-sm md:max-w-md">
+            <Image src="/kombu-box-illustration.webp" alt="こんぶBOXのイラスト：おしゃぶり昆布や都こんぶなどが入った箱" width={400} height={400} className="w-full drop-shadow-xl" />
           </div>
-        </div>
-      </section>
-
-      {/* BOXイラスト */}
-      <section className="bg-white border-b border-gray-100">
-        <div className="mx-auto max-w-md px-4 sm:px-6 py-8 flex justify-center">
-          <Image src="/kombu-box-illustration.webp" alt="こんぶBOXのイラスト：おしゃぶり昆布や都こんぶなどが入った箱" width={400} height={400} className="w-full max-w-sm" />
         </div>
       </section>
 
