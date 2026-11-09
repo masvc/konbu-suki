@@ -185,4 +185,19 @@
 - 「どの昆布を使うか」「食べ方」から出典の無い文を外し、「食べ方」に出典とヨウ素の注意を追加
 - FAQ 追加: 「昆布締めに向いている野菜は何ですか」。「昆布はもどしてから使いますか」を2つのレシピの違いに合わせて書き直し
 - dateModified を 2026-11-10 に
-- チェック: meta-check 0件、fact-audit 食い違いなし、build 成功
+- チェック: meta-check 0件、fact-audit 食い違いなし、build 成功。push 後の `check-article-links.ts` 切れ0（3URL）
+
+---
+
+## そのほか
+
+- 訂正の記録（/about/editorial-policy の CORRECTIONS）に3件追加: 昆布巻きの煮る時間の読み違い、保存方法の引用の誤り、野菜の昆布締めの酢の食い違い
+- 保留（held.md に書くもの）: なし。push 前チェックに落ちたものは無かった
+- 手を付けなかったもの（次の改善枠へ）: トップ10の 4位 oshaburi-kombu（商品カード埋め込み＝仕組みの追加なので見送り、上記）、
+  8位 kobujime-tai（Recipe 構造化データ）、9位 otsumami-kombu（4位と同じく商品カード）、10位 shiokombu-guide
+- 分析の前提違い: 6位 rausu-kombu の「旬・採れる時期の記載が無い」は誤りで、漁期は既に書かれていた。分析枠が見出しと FAQ の q だけを
+  突き合わせているため、本文と表にある答えを拾えていない可能性がある
+- 点検枠への申し送り: 1本目の後に誤って全体のリンク検査（`check-links.ts`）を走らせたところ、外部5件が切れていた。
+  https://www.matumaeya.jp/ （404）と、もしもアフィリエイト経由の楽天商品リンク4件（donzstore 2件・elimino 2件、404）。
+  今夜直した記事の出典ではない。商品リンクは DB の値なので、この枠では触っていない
+- 注記: `npm run links` の代わりに同じ中身の `npx tsx scripts/check-article-links.ts` を直接実行した
