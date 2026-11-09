@@ -816,10 +816,30 @@ export const GUIDES: Record<string, Guide> = {
     image: "/guide/kobujime-salmon.webp",
     imageAlt: "昆布で締めたサーモンとカマンベールチーズを皿に交互に並べ、オリーブオイルとバジルを添えた様子。奥に昆布",
     datePublished: "2026-11-06",
-    dateModified: "2026-11-08",
+    dateModified: "2026-11-10",
     searchKeyword: "昆布締め 昆布",
     targetQuery: "サーモン 昆布締め",
-    related: ["kobujime-tai", "kobujime-tips", "kobujime"],
+    related: ["kobujime-tai", "kobujime-tips", "kobujime", "kobujime-arrange"],
+    // 出典（協会 7151）の置く時間は「一晩」で数字が無いため、時間の項目は省いた。
+    recipe: {
+      name: "サーモンとカマンベールチーズの昆布締め",
+      category: "昆布締め",
+      recipeYield: "2〜4人分",
+      ingredients: [
+        "サーモン（刺身用のサク） 130g",
+        "カマンベールチーズ 1個",
+        "昆布 適量",
+        "白ワイン 小さじ2",
+        "塩・黒こしょう 少々",
+        "オリーブオイル 少々",
+      ],
+      steps: [
+        { name: "切る", text: "サーモンは1cm幅に切り塩・黒こしょうを振る。カマンベールも同じくらいの厚さに切る。" },
+        { name: "昆布を敷く", text: "器に水に湿らせた昆布を敷き、白ワインを振ってサーモンとカマンベールを並べる。" },
+        { name: "挟む", text: "上から昆布をかぶせ、ラップでぴったり包んで冷蔵庫で一晩おく。" },
+        { name: "盛る", text: "サーモンとカマンベールを器に交互に並べ、オリーブオイルを振る。" },
+      ],
+    },
     sections: [
       {
         heading: "結論: 切ってから挟み、一晩。サーモンは必ず刺身用",
