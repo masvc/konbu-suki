@@ -170,6 +170,49 @@ kombu-comparison / kombu-types の重複を含めて全部に手が入った。
 gagome-kombu・kombu-nutrition・kobujime-chicken が言えることと言えないことを書いている）、「processed kelp products summary」
 （英語の問いで対象外）だけだった。残りは既存記事の節で受けられるので、検索意図が被る新規は足さない。
 
+## 2026-11-09 夜の見直し
+
+根拠は docs/night/2026-11-09/analysis.md・ai-citation.md・improve-log.md・maintain.md・index-status.md。
+Search Console は28日（10/09〜11/06）で表示14・クリック0、ガイドで表示があったのは kombu-storage（3回・16.0位）だけ。
+**順位・CTR では今夜も動かしていない。** AI引用チェック（gemini-2.5-flash、32キーワード）は **9/32**（前夜 3/31）。
+インデックスは登録 22/34（クロール済み - 未登録 0）。2026-11-10 時点のガイドは33本（kobujime-arrange を公開）。
+
+### 片付いたもの（11-10 未明の改善・新規・点検枠）
+
+kombumaki（失敗しないコツ・簡単な豚肉版）、nanakusa-gayu-dashi（食べる意味と由来）、kombu-storage（常温・冷蔵・冷凍に冒頭で答える）、
+kombu-comparison（だし昆布と食べる昆布の違い）、rausu-kombu（旬＝漁期の FAQ）、kobujime-vegetables（向いている野菜）、
+shiokombu-guide（料理の型から引く表）、昆布締め6本の Recipe 構造化データ。前夜「答えていない」とした10記事のうち8記事に手が入った。
+
+### 優先度を上げたもの
+
+| 優先 | 対象 | AI が投げた問い | 理由（1行） |
+| --- | --- | --- | --- |
+| **高** | nanakusa-gayu-dashi の登録（URL 検査・人） | 七草がゆ だし / 意味 | 「意味」の節は足したが Google 未認識のまま。12月中旬の立ち上がりまでに登録されないと中身が効かない |
+| 中 | kombu-water | 昆布水 簡単 作り方 / 作り方 基本 | 引用なし（引用元8と少ない）。「検出 - 未登録」なので登録を待ちつつ、冒頭の結論に「20g・1.5L・3時間以上」を一文で置けているかだけ見る |
+| 中 | ma-kombu | 真昆布 要点 / 特徴 / 用途 / とは | 引用なし（引用元14）。11-08 公開で登録済み。展開には答えているので、冒頭の言い切りを kombu-storage と同じ形（問いに一文ずつ）に寄せる |
+| 中 | おやつ3本（oshaburi・otsumami・miyako）の商品カード | おしゃぶり昆布 人気商品 / 都こんぶ 商品一覧 | 据え置き。ただし**ガイドに DB 商品カードを出す仕組みの追加**になるため、改善枠は見送った（CLAUDE.md「仕組みを足す前に提案」）。人の判断待ち |
+
+### 優先度を下げたもの・据え置いたもの
+
+| 対象 | 変更 | 理由（1行） |
+| --- | --- | --- |
+| 昆布締め（kobujime・hare・salmon・tips・hirame） | 中 → 低 | 7本中5本が引用された。今夜 Recipe も付いたので、しばらく手を入れず引用が続くかを見る |
+| kobujime-tai・kobujime-chicken | 中のまま | tai は Recipe を付けたばかり。chicken は「検出 - 未登録」で登録待ち |
+| kombu-types・how-to-make-dashi・kombu-recipes | 低のまま | 展開には見出しで答えており、引用元に kombu.or.jp が並ぶ。中身で差が言えないので動かさない |
+| kombu-nutrition・gagome-kombu の「健康効果」「効能」 | 低のまま | 効能は書かない方針（CLAUDE.md）。引用を狙って広げない |
+
+### 新しく足した記事候補
+
+**0件。** webSearchQueries 全32本（展開約135問）を見直した。まだ答えていない問いは
+「おしゃぶり昆布 人気商品」「人気 おつまみ昆布」（順位の根拠になる DB の値が無い）、
+「サーモン 昆布締め 歴史 / 旬」（出典が見つかっていない）、「鶏むね肉 昆布締め 効果」「昆布 加工品 健康効果」
+「昆布 おやつ ダイエット 効果」（効能は書かない方針）だけだった。残りは既存記事の節で受けられる。
+
+### 測り方の注意
+
+- 分析枠は見出しと FAQ の q だけを展開クエリと突き合わせている。rausu-kombu の「旬」は本文と表に漁期が既にあり、前提が違っていた（improve-log 6）。本文・表も見る
+- 引用はドメイン単位。未登録の記事（kombu-processed-foods・kombu-katsuo-dashi）に「引用あり」と出たのは別ページの可能性がある
+
 ## 柱と記事候補
 
 ### 柱1. 種類・産地（既存: kombu-types / kombu-production）
