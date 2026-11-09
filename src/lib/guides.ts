@@ -2208,7 +2208,7 @@ export const GUIDES: Record<string, Guide> = {
     dateModified: "2026-11-09",
     searchKeyword: "昆布 レシピ",
     targetQuery: "昆布 レシピ",
-    related: ["kombumaki", "kobujime", "kombu-oyatsu-guide", "kombu-history", "kombu-storage"],
+    related: ["kombumaki", "kobujime", "shiokombu-guide", "nanakusa-gayu-dashi", "kombu-oyatsu-guide", "kombu-history", "kombu-storage"],
     sections: [
       {
         heading: "結論: 何を作るかより、どれだけ時間があるかで選ぶ",
@@ -2229,7 +2229,7 @@ export const GUIDES: Record<string, Guide> = {
       },
       {
         heading: "昆布が主役の料理: 巻く・締める・炒め煮・漬ける",
-        body: "だしを取った後の昆布のほかに、昆布そのものを主役にする料理もあります。農林水産省の郷土料理の資料に載っているものを、昆布の使い方で分けました。\n\n昆布巻きは、北海道では日高昆布を使うことが多く、「養老昆布」の当て字から不老長寿、「子生（こぶ）」から子孫繁栄の縁起担ぎとして正月に食べられてきたとされています。昆布締めは富山県の郷土料理で、使う昆布の大半は北海道産の羅臼昆布とされています。沖縄のクーブイリチーは、千切りにした昆布をよく炒めて、豚だしや醤油、砂糖などで具材と煮込む炒め煮で、昆布の「よろこぶ」の語呂から祝い料理とされてきました。北海道の松前漬けは、細く切った昆布とするめいか・数の子を醤油などに1週間程度漬け込むものです。\n\nだしで使う料理なら、七草がゆを昆布とかつおのだしで炊く作り方が香川県の資料にあります。作り方はそれぞれの記事にまとめています。おしゃぶり昆布や都こんぶのように、昆布をそのままおやつとして食べる加工品もあります（昆布のおやつ完全ガイドの記事を参照）。北海道の昆布が各地へ運ばれ、着いた土地ごとに別の料理になった経緯は、昆布の歴史と昆布ロードの記事にまとめています。\n\n昆布巻きや佃煮、松前漬けのように昆布そのものを食べる料理は、だしに使う場合より口に入る昆布の量が多くなります。昆布にはヨウ素が多く含まれており、厚生労働省「日本人の食事摂取基準（2025年版）」ではヨウ素に耐容上限量が定められています。毎日続けてたくさん食べると、とりすぎになることがあります。甲状腺の病気で治療中の方、妊娠中・授乳中の方は、医師に相談してください。\n\n出典: 農林水産省「にっぽん伝統食図鑑」昆布巻き https://www.maff.go.jp/j/keikaku/syokubunka/traditional-foods/menu/kombumaki.html ／ 同 松前漬け https://www.maff.go.jp/j/keikaku/syokubunka/traditional-foods/menu/matumaezuke.html ／ 農林水産省「うちの郷土料理」昆布〆 富山県 https://www.maff.go.jp/j/keikaku/syokubunka/k_ryouri/search_menu/menu/37_12_toyama.html ／ 同 クーブイリチー 沖縄県 https://www.maff.go.jp/j/keikaku/syokubunka/k_ryouri/search_menu/menu/47_2_okinawa.html ／ 厚生労働省「日本人の食事摂取基準（2025年版）」 https://www.mhlw.go.jp/content/10904750/001316469.pdf",
+        body: "だしを取った後の昆布のほかに、昆布そのものを主役にする料理もあります。農林水産省の郷土料理の資料に載っているものを、昆布の使い方で分けました。\n\n昆布巻きは、北海道では日高昆布を使うことが多く、「養老昆布」の当て字から不老長寿、「子生（こぶ）」から子孫繁栄の縁起担ぎとして正月に食べられてきたとされています。昆布締めは富山県の郷土料理で、使う昆布の大半は北海道産の羅臼昆布とされています。沖縄のクーブイリチーは、千切りにした昆布をよく炒めて、豚だしや醤油、砂糖などで具材と煮込む炒め煮で、昆布の「よろこぶ」の語呂から祝い料理とされてきました。北海道の松前漬けは、細く切った昆布とするめいか・数の子を醤油などに1週間程度漬け込むものです。\n\nだしで使う料理なら、七草がゆを昆布とかつおのだしで炊く作り方が香川県の資料にあります。作り方はそれぞれの記事にまとめています。市販の塩昆布を和え物・炒め物・炊き込みご飯に使う量は、塩昆布の使い方とレシピの記事に表にしました。おしゃぶり昆布や都こんぶのように、昆布をそのままおやつとして食べる加工品もあります（昆布のおやつ完全ガイドの記事を参照）。北海道の昆布が各地へ運ばれ、着いた土地ごとに別の料理になった経緯は、昆布の歴史と昆布ロードの記事にまとめています。\n\n昆布巻きや佃煮、松前漬けのように昆布そのものを食べる料理は、だしに使う場合より口に入る昆布の量が多くなります。昆布にはヨウ素が多く含まれており、厚生労働省「日本人の食事摂取基準（2025年版）」ではヨウ素に耐容上限量が定められています。毎日続けてたくさん食べると、とりすぎになることがあります。甲状腺の病気で治療中の方、妊娠中・授乳中の方は、医師に相談してください。\n\n出典: 農林水産省「にっぽん伝統食図鑑」昆布巻き https://www.maff.go.jp/j/keikaku/syokubunka/traditional-foods/menu/kombumaki.html ／ 同 松前漬け https://www.maff.go.jp/j/keikaku/syokubunka/traditional-foods/menu/matumaezuke.html ／ 農林水産省「うちの郷土料理」昆布〆 富山県 https://www.maff.go.jp/j/keikaku/syokubunka/k_ryouri/search_menu/menu/37_12_toyama.html ／ 同 クーブイリチー 沖縄県 https://www.maff.go.jp/j/keikaku/syokubunka/k_ryouri/search_menu/menu/47_2_okinawa.html ／ 厚生労働省「日本人の食事摂取基準（2025年版）」 https://www.mhlw.go.jp/content/10904750/001316469.pdf",
         table: {
           caption: "出典: 農林水産省「にっぽん伝統食図鑑」昆布巻き・松前漬け、「うちの郷土料理」昆布〆 富山県・クーブイリチー 沖縄県、香川県「新七草がゆ」",
           headers: ["料理", "昆布の使い方", "地域・場面（資料の記載）", "このサイトの記事"],
