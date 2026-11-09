@@ -201,3 +201,17 @@
   https://www.matumaeya.jp/ （404）と、もしもアフィリエイト経由の楽天商品リンク4件（donzstore 2件・elimino 2件、404）。
   今夜直した記事の出典ではない。商品リンクは DB の値なので、この枠では触っていない
 - 注記: `npm run links` の代わりに同じ中身の `npx tsx scripts/check-article-links.ts` を直接実行した
+
+---
+
+# 3枠目（新規記事枠）の残り時間で行った強化（2026-11-10）
+
+- 新規: kobujime-arrange（content-log に記録）
+- index-status.md の「クロール済み - インデックス未登録」は0件のため、analysis.md トップ10のうち 1:00 の枠が手を付けていないものから当てた
+- **昆布締め6本に Recipe の構造化データ**（トップ10の8位 kobujime-tai と next-actions「高」）: tai（7e49a55）・vegetables（cef0d49）・chicken（13c2c14）・hirame（437cfd7）・salmon（8be3985）・kobujime（c77e64a）。
+  本文に見えている材料と手順だけを入れた。「一晩」「半日程」「3時間～」は数字として確定しないため時間の項目に入れていない
+- **shiokombu-guide**（トップ10の10位）: 料理の型（和える・炒める・炊き込む）から引く表に作り替え、協会レシピを3品足して6品にした（2487・2393・2401 を WebFetch で確認）。
+  title・description を「炒める」「6品」に合わせ、FAQ に「炒め物に入れるタイミング」「量」を足した。
+  CTR の材料は無い（GSC 表示なし）。協会の塩昆布炒飯（4870）は手順に塩昆布を入れるタイミングが無く使わなかった。
+  カテゴリ・商品への導線は本文から内部リンクを張れないため未着手（next-actions に残した）
+- fact-audit の指摘: 各コミットの前に実行して0件
