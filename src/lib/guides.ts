@@ -1193,10 +1193,31 @@ export const GUIDES: Record<string, Guide> = {
     image: "/guide/kobujime-hirame.webp",
     imageAlt: "酢で湿らせた昆布の上にヒラメの刺身を並べ、そぎ切りにして器に盛った昆布締めを添えた様子",
     datePublished: "2026-11-05",
-    dateModified: "2026-11-09",
+    dateModified: "2026-11-10",
     searchKeyword: "羅臼昆布",
     targetQuery: "ヒラメ 昆布締め",
-    related: ["kobujime", "kobujime-tai", "kobujime-vegetables"],
+    related: ["kobujime", "kobujime-tai", "kobujime-vegetables", "kobujime-arrange"],
+    // 出典（協会 1918）の置く時間は「半日程」で幅があるため、塩の5分だけを prepTime にした。
+    recipe: {
+      name: "春野菜とヒラメの昆布締め",
+      category: "昆布締め",
+      prepTime: "PT5M",
+      ingredients: [
+        "ヒラメ（刺身用） 80g",
+        "羅臼昆布 8cm×10cmを4枚",
+        "塩 適量（分量の記載なし）",
+        "酢 適量（昆布を湿らせる分）",
+        "菜の花（色よく塩茹でして冷ましたもの） 適量",
+        "筍（茹でたものの穂先、5mm程度の薄切り） 適量",
+        "レモンの薄切り 適量",
+      ],
+      steps: [
+        { name: "塩を振る", text: "ヒラメの両面に塩を振って5分程おく。" },
+        { name: "昆布を湿らせる", text: "昆布を酢で湿らせる。" },
+        { name: "挟む", text: "昆布でヒラメと茹でた野菜を挟み、冷蔵庫で半日程置く。" },
+        { name: "盛る", text: "ヒラメはそぎ切りにし、野菜と盛り合わせてレモンの薄切りを添える。" },
+      ],
+    },
     sections: [
       {
         heading: "結論: 塩を振って5分、酢で湿らせた昆布に挟んで半日",
