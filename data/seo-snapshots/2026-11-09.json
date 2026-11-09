@@ -1,0 +1,80 @@
+{
+  "date": "2026-11-09",
+  "period": {
+    "startDate": "2026-10-09",
+    "endDate": "2026-11-06"
+  },
+  "summary": {
+    "clicks": 0,
+    "impressions": 14,
+    "ctr": 0,
+    "position": 9.285714285714286
+  },
+  "queries": [
+    {
+      "key": "ライフ 塩昆布",
+      "clicks": 0,
+      "impressions": 2,
+      "ctr": 0,
+      "position": 3
+    },
+    {
+      "key": "小倉屋山本 えびす め 切り落とし",
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 31
+    },
+    {
+      "key": "日高昆布",
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 5
+    }
+  ],
+  "pages": [
+    {
+      "key": "https://konbu-suki.com/category/shiokombu",
+      "clicks": 0,
+      "impressions": 2,
+      "ctr": 0,
+      "position": 17
+    },
+    {
+      "key": "https://konbu-suki.com/guide/kombu-storage",
+      "clicks": 0,
+      "impressions": 3,
+      "ctr": 0,
+      "position": 16
+    },
+    {
+      "key": "https://konbu-suki.com/origin/hidaka",
+      "clicks": 0,
+      "impressions": 2,
+      "ctr": 0,
+      "position": 4.5
+    },
+    {
+      "key": "https://konbu-suki.com/product/143",
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 8
+    },
+    {
+      "key": "https://konbu-suki.com/product/314",
+      "clicks": 0,
+      "impressions": 5,
+      "ctr": 0,
+      "position": 4.6
+    },
+    {
+      "key": "https://konbu-suki.com/product/84",
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 8
+    }
+  ]
+}
