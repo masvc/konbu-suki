@@ -1089,10 +1089,29 @@ export const GUIDES: Record<string, Guide> = {
     image: "/guide/kobujime-chicken.webp",
     imageAlt: "昆布で締めて薄くそぎ切りにした鶏むね肉を皿に並べ、横に昆布だしの入った土鍋と箸を置いた様子",
     datePublished: "2026-11-05",
-    dateModified: "2026-11-08",
+    dateModified: "2026-11-10",
     searchKeyword: "真昆布",
     targetQuery: "鶏むね肉 昆布締め",
-    related: ["kobujime", "kobujime-hirame", "how-to-make-dashi"],
+    related: ["kobujime", "kobujime-hirame", "how-to-make-dashi", "kobujime-arrange"],
+    // 出典（協会 2142）の時間は「3時間～好きな締め加減」で上限が無いため、時間の項目は省いた。
+    // 生で食べない構成なので、最後の手順に加熱を必ず入れる。
+    recipe: {
+      name: "鶏むね肉の昆布締め",
+      category: "昆布締め",
+      ingredients: [
+        "鶏むね肉 2枚",
+        "真昆布（15cm程度） 3枚",
+        "酒 少々",
+        "しゃぶしゃぶ用の昆布だし 適量",
+      ],
+      steps: [
+        { name: "鶏肉の下ごしらえ", text: "鶏肉は皮を取り、余分な筋や脂肪はカットしておく。水気を拭き、酒少々をまぶす。" },
+        { name: "昆布を湿らせる", text: "真昆布を鶏の長さに合うようにカットし、汚れを拭いたら酒をスプレーして湿らせる。" },
+        { name: "挟む", text: "昆布・鶏・昆布・鶏・昆布の順に挟み、ラップでぴっちりとくるんで冷蔵庫に入れる。3時間から好きな締め加減で取り出す。" },
+        { name: "切る", text: "薄くそぎ切りにし器に並べる。鶏肉を少し凍らせておくと薄く切りやすい。" },
+        { name: "火を通して食べる", text: "生では食べない。昆布だしでしゃぶしゃぶにし、中心まで火を通してから食べる。" },
+      ],
+    },
     sections: [
       {
         heading: "結論: 酒で湿らせた昆布で3時間から。食べるときは必ず火を通す",
