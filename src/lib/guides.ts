@@ -894,10 +894,30 @@ export const GUIDES: Record<string, Guide> = {
     image: "/guide/kobujime-tai.webp",
     imageAlt: "昆布で締めた鯛を薄く切って紫玉ねぎとカイワレを散らしたカルパッチョと、昆布に包んだ鯛の柵を並べた様子",
     datePublished: "2026-11-06",
-    dateModified: "2026-11-08",
+    dateModified: "2026-11-10",
     searchKeyword: "昆布締め 昆布",
     targetQuery: "鯛 昆布締め",
-    related: ["kobujime", "kobujime-hirame", "kobujime-salmon", "kobujime-tips"],
+    related: ["kobujime", "kobujime-hirame", "kobujime-salmon", "kobujime-tips", "kobujime-arrange"],
+    // 出典（協会 7597）の時間は「一晩（8時間弱）ぐらい」で幅があるため、
+    // 置く時間は prepTime/totalTime に入れない。塩の10分だけを prepTime にした。
+    recipe: {
+      name: "鯛の昆布締め",
+      category: "昆布締め",
+      recipeYield: "2人前",
+      prepTime: "PT10M",
+      ingredients: [
+        "鯛（刺身用のサク） 200g",
+        "昆布 2枚（サクの長さに合わせる）",
+        "白ワイン 大さじ1（日本酒や水でも可）",
+        "塩 少々（小さじ1/2ぐらい）",
+      ],
+      steps: [
+        { name: "塩を振る", text: "鯛の柵の全体に塩を振り、10分ぐらいおく。" },
+        { name: "昆布を湿らせる", text: "鯛の長さに合わせた昆布を2枚用意して、白ワインを振る。" },
+        { name: "昆布で包む", text: "鯛を上下から昆布で挟み、ラップで巻いて冷蔵庫で一晩（8時間弱）ぐらいおく。切り身を使う場合は時間を短くする。" },
+        { name: "切る", text: "昆布を外し、好みの大きさに切って器に並べる。味が足りなければ皿に並べてから塩を振る。" },
+      ],
+    },
     sections: [
       {
         heading: "結論: 柵に塩を振って10分、昆布で包んで一晩",
