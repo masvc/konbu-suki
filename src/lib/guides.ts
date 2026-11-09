@@ -1383,10 +1383,27 @@ export const GUIDES: Record<string, Guide> = {
     image: "/guide/kobujime.webp",
     imageAlt: "湿らせた昆布の上に薄く切った白身魚を並べ、もう一枚の昆布をかぶせて挟もうとしている様子",
     datePublished: "2026-11-05",
-    dateModified: "2026-11-09",
+    dateModified: "2026-11-10",
     searchKeyword: "昆布締め 昆布",
     targetQuery: "昆布締め 作り方",
     related: ["kobujime-tips", "kobujime-hirame", "kobujime-tai", "kobujime-salmon", "kobujime-chicken", "kobujime-vegetables", "kobujime-hare", "kobujime-arrange"],
+    // 「基本の手順（魚）」の節に出ている農林水産省の富山の作り方。出典に分量・人数が無いため
+    // 材料は名前だけにし、時間（一晩）も数字が無いので省いた。
+    recipe: {
+      name: "昆布締め（富山の昆布〆）",
+      category: "昆布締め",
+      ingredients: [
+        "昆布",
+        "酢",
+        "刺身にした魚（カジキマグロ、タイ・ヒラメなどの白身魚）",
+        "刻んだ生姜",
+      ],
+      steps: [
+        { name: "昆布に酢を塗る", text: "昆布の片面に酢を塗る。" },
+        { name: "魚を敷き詰める", text: "その上に刺身にした魚を敷き詰め、刻んだ生姜を載せる。" },
+        { name: "挟んで寝かせる", text: "その上に昆布を載せ、昆布と魚がしっかりとくっつくようにラップを被せて軽く重石をして一晩寝かせる。" },
+      ],
+    },
     sections: [
       {
         heading: "結論: 湿らせた昆布で挟み、冷蔵庫に置くだけ",

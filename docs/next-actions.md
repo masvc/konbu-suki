@@ -43,7 +43,7 @@ AI引用は **9/32**（前夜 3/31）。昆布締めは7本中5本が引用、�
   - 根拠: 「七草がゆ だし」で引用なし（引用元14はだし・食品メーカー）。展開「七草がゆ 意味」に答えていない
   - 出典は農水省（うちの郷土料理・行事食）か自治体の資料を開いて確かめたものだけ。健康効果は書かない（「無病息災を願う」等、行事の説明に留める）
   - Google 未認識。URL 検査は人の作業（下の「人の判断」）
-- [ ] **昆布締めのレシピ型6本に Recipe の構造化データ**（構造化データ）— 6本のうち5本が登録済み。登録済みに効く施策
+- [x] **昆布締めのレシピ型6本に Recipe の構造化データ**（構造化データ）— 2026-11-10 済み（7e49a55 tai・cef0d49 vegetables・13c2c14 chicken・437cfd7 hirame・8be3985 salmon・kobujime はこの印と同じコミット）。分量・時間は出典に数字があるものだけ入れた。「一晩」「半日程」は時間の項目に入れていない
   - kobujime・salmon・tai・chicken・hirame・vegetables。`src/lib/guides.ts` の `recipe` を足すだけ（いま recipe があるのは kombumaki・kombu-water・how-to-make-dashi の3本）
   - category は出典の言い方に合わせる。分量が出典に無いものは空にする
   - 引用が無い tai・vegetables・chicken から先に
