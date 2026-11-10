@@ -78,7 +78,7 @@ Recipe を足した昆布締め6本）は、最終クロールが 11-07〜11-09 
 - [ ] **おやつ昆布（oshaburi・otsumami・miyako）に DB の商品カードを埋め込む**（収益導線・AIO）— 読み取りだけ。仕組みの追加で人の判断待ち（下）
   - 根拠: 3本とも引用なし。引用元に kakaku.com・rakuten.co.jp・yahoo の商品一覧。3本とも未登録（検出 2・未認識 1）
   - 「おすすめ順」は付けない（rating 41件・reviewCount 0件で根拠が無い）。済んだら ItemList の構造化データ
-- [ ] **おやつ昆布5本の SNS 文案を `docs/sns/` に**（SNS）— 28本ぶんあり、おやつ5本だけ無い（11-10 夜も確認）。仕組みを足さずに済む
+- [x] **おやつ昆布5本の SNS 文案を `docs/sns/` に**（SNS）— 2026-11-11 generate-sns で5本作成。数字を記事と突き合わせ、otsumami の「まこんぶ 18.0g」（塩昆布の値）を直した — 28本ぶんあり、おやつ5本だけ無い（11-10 夜も確認）。仕組みを足さずに済む
 - [ ] **kombu-katsuo-dashi・nanakusa-gayu-dashi に Recipe の構造化データ**（構造化データ）— Recipe があるのは9本（kombumaki・昆布締め6本・kombu-water・how-to-make-dashi）。だし系の残り2本。分量・時間は出典にあるものだけ
 - [ ] **カテゴリ・産地ページに ItemList の構造化データ**（構造化データ）— `/category/*`・`/origin/*` はパンくずだけ。GSC の表示46のうち、カテゴリ・産地は6、商品は22
 - [ ] **比較系（oshaburi-kombu・otsumami-kombu）に ItemList の構造化データ**（構造化データ）— 商品カードの後
