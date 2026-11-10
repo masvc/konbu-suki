@@ -1,0 +1,12 @@
+{
+  "slot": "analysis",
+  "title": "分析",
+  "startedAt": "2026-11-10T14:00:05.969Z",
+  "minutes": 18,
+  "limitMinutes": 100,
+  "commits": [
+    "夜間の分析: 登録25/35・引用6/33、産地コラムの出典の無い記述を次の一手に"
+  ],
+  "exit": 0,
+  "trouble": []
+}
