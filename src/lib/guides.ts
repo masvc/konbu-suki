@@ -764,10 +764,10 @@ export const GUIDES: Record<string, Guide> = {
     image: "/guide/kombu-katsuo-dashi.webp",
     imageAlt: "ほぼ無色の昆布だしと淡い金色の鰹だしをガラスの器に並べ、それぞれの横に昆布と削りかつおを置いた様子",
     datePublished: "2026-11-07",
-    dateModified: "2026-11-08",
+    dateModified: "2026-11-11",
     searchKeyword: "だし昆布",
     targetQuery: "昆布だし 鰹だし 違い",
-    related: ["how-to-make-dashi", "kombu-water", "how-to-choose-kombu", "nanakusa-gayu-dashi"],
+    related: ["how-to-make-dashi", "kombu-water", "toshikoshi-soba-dashi", "how-to-choose-kombu", "nanakusa-gayu-dashi"],
     sections: [
       {
         heading: "結論: うま味の成分と、火の入れ方が違う",
@@ -794,7 +794,7 @@ export const GUIDES: Record<string, Guide> = {
       },
       {
         heading: "合わせだし: 昆布を先に、かつおを後に",
-        body: "昆布と鰹節を両方使う合わせだし（鳥取県の資料では混合だし）は、昆布を水から熱して沸騰直前に取り出し、沸騰したら削りかつおを入れて、かつお一番だしと同じ要領で取ります。使用量は、けずりかつお2〜4%、こんぶ2〜3%です。\n\n合わせる理由について、農林水産省の資料は「昆布に含まれるグルタミン酸と鰹節に含まれるイノシン酸の二つが合わさる事で、相乗効果となり、だしのうま味を引き立たせます」としています。\n\n相乗効果で「うま味が何倍になる」という数字は、一次資料で確かめられなかったため、この記事では書いていません。\n\n出典: 農林水産省「和食ワールドチャレンジ」だし・うま味について https://www.maff.go.jp/j/yusyutu_kokusai/washoku-world-challenge/learning_03.html",
+        body: "昆布と鰹節を両方使う合わせだし（鳥取県の資料では混合だし）は、昆布を水から熱して沸騰直前に取り出し、沸騰したら削りかつおを入れて、かつお一番だしと同じ要領で取ります。使用量は、けずりかつお2〜4%、こんぶ2〜3%です。\n\n合わせる理由について、農林水産省の資料は「昆布に含まれるグルタミン酸と鰹節に含まれるイノシン酸の二つが合わさる事で、相乗効果となり、だしのうま味を引き立たせます」としています。\n\n相乗効果で「うま味が何倍になる」という数字は、一次資料で確かめられなかったため、この記事では書いていません。\n\n農林水産省が紹介する年越しそばのつゆは削り節だけで、昆布は入っていません。そこにこの手順で昆布を足す場合の分量と段取りは、年越しそばのだしの記事にまとめています。\n\n出典: 農林水産省「和食ワールドチャレンジ」だし・うま味について https://www.maff.go.jp/j/yusyutu_kokusai/washoku-world-challenge/learning_03.html",
       },
       {
         heading: "料理から引くだしの使い分け",
