@@ -83,8 +83,8 @@ Recipe を足した昆布締め6本）は、最終クロールが 11-07〜11-09 
   - 根拠: 3本とも引用なし。引用元に kakaku.com・rakuten.co.jp・yahoo の商品一覧。3本とも未登録（検出 2・未認識 1）
   - 「おすすめ順」は付けない（rating 41件・reviewCount 0件で根拠が無い）。済んだら ItemList の構造化データ
 - [x] **おやつ昆布5本の SNS 文案を `docs/sns/` に**（SNS）— 2026-11-11 generate-sns で5本作成。数字を記事と突き合わせ、otsumami の「まこんぶ 18.0g」（塩昆布の値）を直した — 28本ぶんあり、おやつ5本だけ無い（11-10 夜も確認）。仕組みを足さずに済む
-- [ ] **ヨウ素の耐容上限量の数字を kombumaki・昆布締め系にも揃える**（信頼性・健康）— 11-11 新規枠で妊娠中・授乳中は足したが、数字（成人3,000・妊婦/授乳婦2,000μg/日）は未記載のまま。上の「高」の残り
-- [ ] **kombu-katsuo-dashi・nanakusa-gayu-dashi に Recipe の構造化データ**（構造化データ）— 11-11 未着手（改善枠は analysis のトップ10を優先）。Recipe があるのは9本（kombumaki・昆布締め6本・kombu-water・how-to-make-dashi）。だし系の残り2本。分量・時間は出典にあるものだけ
+- [x] **ヨウ素の耐容上限量の数字を kombumaki・昆布締め系にも揃える**（信頼性・健康）— 2026-11-11（79899d8）。kombumaki・kobujime系全8本・kombu-katsuo-dashi・how-to-choose-kombu・kombu-recipes・kobujime-vegetablesの全箇所に成人3,000μg/日・妊婦/授乳婦2,000μg/日を追記
+- [x] **nanakusa-gayu-dashi に Recipe の構造化データ**（構造化データ）— 2026-11-11（79899d8）。香川県の資料のレシピ（だし汁3カップ・ご飯茶碗3杯・3〜4人分）。kombu-katsuo-dashiは比較・解説記事で特定のレシピの分量・手順がないためRecipe不適
 - [ ] **カテゴリ・産地ページに ItemList の構造化データ**（構造化データ）— `/category/*`・`/origin/*` はパンくずだけ。GSC の表示46のうち、カテゴリ・産地は6、商品は22
 - [ ] **比較系（oshaburi-kombu・otsumami-kombu）に ItemList の構造化データ**（構造化データ）— 商品カードの後
 - [ ] **おやつ昆布5本の画像**（技術SEO・信頼性）— 5本とも `kombu-processed-foods.webp` の流用。少なくとも alt を記事に合わせる
