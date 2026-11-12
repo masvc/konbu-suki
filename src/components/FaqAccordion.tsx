@@ -1,3 +1,5 @@
+import { InlineMarkdown, stripInlineMarkdown } from "./InlineMarkdown";
+
 type FaqItem = { q: string; a: string };
 
 type Props = {
@@ -12,7 +14,7 @@ export function FaqAccordion({ items, withJsonLd = false }: Props) {
     mainEntity: items.map((item) => ({
       "@type": "Question",
       name: item.q,
-      acceptedAnswer: { "@type": "Answer", text: item.a },
+      acceptedAnswer: { "@type": "Answer", text: stripInlineMarkdown(item.a) },
     })),
   };
 
@@ -34,7 +36,7 @@ export function FaqAccordion({ items, withJsonLd = false }: Props) {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                 </svg>
               </summary>
-              <dd className="px-4 pb-4 pl-10 text-sm text-gray-600 leading-relaxed">{item.a}</dd>
+              <dd className="px-4 pb-4 pl-10 text-sm text-gray-600 leading-relaxed"><InlineMarkdown text={item.a} /></dd>
             </details>
           </div>
         ))}
