@@ -1,0 +1,29 @@
+{
+  "$comment": "このリポジトリで動く Claude のセッション共通の権限。Slack の bot も夜間の claude -p も別のPCも、これを読む。夜間の無人実行はさらに auto-settings.json で絞られる（そちらは --settings で明示的に渡している）。",
+  "permissions": {
+    "allow": [
+      "Bash(git *)",
+      "Bash(npx tsc*)",
+      "Bash(npx tsx *)",
+      "Bash(npm run *)",
+      "Bash(gh pr *)"
+    ],
+    "deny": [
+      "Bash(git push --force:*)",
+      "Bash(git push -f:*)",
+      "Bash(git reset --hard:*)",
+      "Bash(git rebase:*)",
+      "Bash(git stash drop:*)",
+      "Bash(git stash clear)",
+      "Bash(git clean:*)",
+      "Read(./.env)",
+      "Read(./.env.*)",
+      "Edit(./.env)",
+      "Edit(./.env.*)",
+      "Read(./google-credentials.json)",
+      "Bash(npm run env:push:*)",
+      "Bash(npm run db:seed)",
+      "Bash(npm run db:migrate)"
+    ]
+  }
+}

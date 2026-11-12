@@ -1,16 +1,22 @@
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
-import Image from "next/image";
-import Link from "next/link";
-import { SITE_NAME, SITE_URL } from "@/lib/constants";
+import { SITE_URL } from "@/lib/constants";
 import { GUIDES, type GuideSlug } from "@/lib/guides";
 import { guideMeta } from "@/lib/page-meta";
-import { ShopCTA } from "@/components/ShopCTA";
 import { KombuBoxBanner } from "@/components/kombu-box/KombuBoxBanner";
 import { Breadcrumb } from "@/components/Breadcrumb";
-import { FaqAccordion } from "@/components/FaqAccordion";
 import { JsonLd } from "@/components/JsonLd";
+import { GuideHero } from "@/components/guide/GuideHero";
+import { GuideHeader } from "@/components/guide/GuideHeader";
+import { GuideToc } from "@/components/guide/GuideToc";
+import { GuideSections } from "@/components/guide/GuideSections";
+import { GuideShopBox } from "@/components/guide/GuideShopBox";
+import { GuideFaq } from "@/components/guide/GuideFaq";
+import { GuideReferences } from "@/components/guide/GuideReferences";
+import { GuideRelated } from "@/components/guide/GuideRelated";
 import { collectReferences } from "@/lib/guide-references";
+import { getRelatedGuides } from "@/lib/guide-related";
+import { buildArticleJsonLd, buildFaqJsonLd, buildRecipeJsonLd } from "@/lib/guide-jsonld";
 
 export const revalidate = 86400;
 
@@ -49,223 +55,29 @@ export default async function GuidePage({ params }: Props) {
   const guide = GUIDES[slug as GuideSlug];
   if (!guide) notFound();
 
-  // 関連記事は guide.related から引く。未指定のときだけ先頭から埋める。
-  // 全記事で先頭から埋めると、どの記事を開いても同じ4本が並ぶだけになり、
-  // 記事が増えるほど内部リンクとして働かなくなる。
-  const relatedEntries: [string, (typeof GUIDES)[string]][] = guide.related?.length
-    ? guide.related
-        .filter((s) => s !== slug && GUIDES[s as GuideSlug])
-        .map((s) => [s, GUIDES[s as GuideSlug]])
-    : Object.entries(GUIDES)
-        .filter(([s]) => s !== slug)
-        .slice(0, 4);
-
   // 参考文献は本文の「出典:」行から集める。記事ごとに一覧を別に持たせると、
   // 本文を直したときに片方だけ古くなる。
   const references = collectReferences(guide.sections);
-
-  // パンくずの構造化データは Breadcrumb コンポーネントが出している。
-  // ここで作ると二重になるので持たない。
-
-  const articleJsonLd = {
-    "@context": "https://schema.org", "@type": "Article",
-    headline: guide.title,
-    description: guide.description,
-    ...(guide.image ? { image: `${SITE_URL}${guide.image}` } : {}),
-    author: { "@type": "Organization", name: SITE_NAME },
-    publisher: { "@type": "Organization", name: SITE_NAME },
-    datePublished: guide.datePublished,
-    dateModified: guide.dateModified,
-  };
-
-  // Recipe の構造化データ。材料と手順がページに見えている記事にだけ付く。
-  // 構造化データと本文が食い違うと検索側に不正扱いされるので、guides.ts の
-  // recipe が無い記事には出さない。
-  const recipeJsonLd = guide.recipe
-    ? {
-        "@context": "https://schema.org",
-        "@type": "Recipe",
-        name: guide.recipe.name,
-        description: guide.description,
-        ...(guide.image ? { image: [`${SITE_URL}${guide.image}`] } : {}),
-        author: { "@type": "Organization", name: SITE_NAME },
-        datePublished: guide.datePublished,
-        recipeCategory: guide.recipe.category ?? "だし",
-        recipeCuisine: "日本料理",
-        ...(guide.recipe.recipeYield ? { recipeYield: guide.recipe.recipeYield } : {}),
-        ...(guide.recipe.prepTime ? { prepTime: guide.recipe.prepTime } : {}),
-        ...(guide.recipe.cookTime ? { cookTime: guide.recipe.cookTime } : {}),
-        ...(guide.recipe.totalTime ? { totalTime: guide.recipe.totalTime } : {}),
-        recipeIngredient: guide.recipe.ingredients,
-        recipeInstructions: guide.recipe.steps.map((s) => ({
-          "@type": "HowToStep",
-          name: s.name,
-          text: s.text,
-        })),
-      }
-    : null;
-
-  // FAQ構造化データ
-  const faqJsonLd = guide.faq && guide.faq.length > 0 ? {
-    "@context": "https://schema.org", "@type": "FAQPage",
-    mainEntity: guide.faq.map(f => ({
-      "@type": "Question", name: f.q,
-      acceptedAnswer: { "@type": "Answer", text: f.a },
-    })),
-  } : null;
+  const faqJsonLd = buildFaqJsonLd(guide);
+  const recipeJsonLd = buildRecipeJsonLd(guide);
 
   return (
     <main className="flex-1">
-      <JsonLd data={articleJsonLd} />
+      <JsonLd data={buildArticleJsonLd(guide)} />
       {faqJsonLd && <JsonLd data={faqJsonLd} />}
       {recipeJsonLd && <JsonLd data={recipeJsonLd} />}
 
-      {/* アイキャッチ */}
-      {guide.image && (
-        <div className="relative w-full h-48 sm:h-64 lg:h-80 bg-[#1b4332]">
-          <Image
-            src={guide.image}
-            alt={guide.imageAlt || guide.title}
-            fill
-            className="object-cover opacity-80"
-            priority
-            sizes="100vw"
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
-        </div>
-      )}
+      <GuideHero src={guide.image} alt={guide.imageAlt || guide.title} />
 
       <article className="mx-auto max-w-3xl px-4 sm:px-6 py-8">
         <Breadcrumb items={[{ label: "昆布ガイド", href: "/guide" }, { label: guide.title }]} />
-
-        <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900 mb-2 leading-tight">{guide.title}</h1>
-        <p className="text-sm text-gray-500 mb-3">{guide.description}</p>
-
-        {/* 更新日。いつ時点の内容かが分からないと、数字を扱う記事は読み手が判断できない。 */}
-        <p className="text-xs text-gray-400 mb-6">
-          <time dateTime={guide.dateModified}>{guide.dateModified}</time> 更新
-          {guide.dateModified !== guide.datePublished && (
-            <>
-              <span className="mx-1.5">/</span>
-              <time dateTime={guide.datePublished}>{guide.datePublished}</time> 公開
-            </>
-          )}
-        </p>
-
-        {/* 目次 */}
-        {guide.sections.length > 2 && (
-          <nav className="rounded-xl border border-gray-100 bg-[#f8faf8] p-4 mb-8">
-            <p className="text-xs font-bold text-gray-700 mb-2">目次</p>
-            <ol className="space-y-1.5">
-              {guide.sections.map((s, i) => (
-                <li key={i}>
-                  <a href={`#section-${i}`} className="text-xs text-[#2d6a4f] hover:underline">
-                    {i + 1}. {s.heading}
-                  </a>
-                </li>
-              ))}
-            </ol>
-          </nav>
-        )}
-
-        {/* 本文 */}
-        <div className="space-y-8">
-          {guide.sections.map((section, i) => (
-            <section key={i} id={`section-${i}`}>
-              <h2 className="text-base sm:text-lg font-bold text-gray-900 mb-3 border-l-4 border-[#52b788] pl-3">{section.heading}</h2>
-              <div className="text-sm text-gray-700 leading-relaxed whitespace-pre-line">{section.body}</div>
-              {section.table && (
-                <div className="mt-4 overflow-x-auto">
-                  <table className="w-full border-collapse text-sm">
-                    {section.table.caption && (
-                      <caption className="mb-2 text-left text-xs text-gray-500">
-                        {section.table.caption}
-                      </caption>
-                    )}
-                    <thead>
-                      <tr className="bg-[#f8faf8]">
-                        {section.table.headers.map((h, hi) => (
-                          <th
-                            key={hi}
-                            scope="col"
-                            className="border border-[#b7e4c7] px-3 py-2 text-left font-bold text-gray-900 whitespace-nowrap"
-                          >
-                            {h}
-                          </th>
-                        ))}
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {section.table.rows.map((row, ri) => (
-                        <tr key={ri}>
-                          {row.map((cell, ci) => (
-                            <td key={ci} className="border border-[#d8f3dc] px-3 py-2 align-top text-gray-700">
-                              {cell}
-                            </td>
-                          ))}
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
-              )}
-            </section>
-          ))}
-        </div>
-
-        {/* 関連商品CTA */}
-        {guide.searchKeyword && (
-          <div className="mt-10 rounded-xl border border-[#b7e4c7] bg-[#f8faf8] p-5">
-            <p className="text-sm font-bold text-gray-900 mb-3">関連商品を探す</p>
-            <ShopCTA keyword={guide.searchKeyword} />
-          </div>
-        )}
-
-        {guide.faq && guide.faq.length > 0 && (
-          <section className="mt-10">
-            <h2 className="text-base sm:text-lg font-bold text-gray-900 mb-4">よくある質問</h2>
-            <FaqAccordion items={guide.faq} />
-          </section>
-        )}
-
-        {/* 参考文献 */}
-        {references.length > 0 && (
-          <section className="mt-10 pt-8 border-t border-gray-100">
-            <h2 className="text-base font-bold text-gray-900 mb-3">参考文献</h2>
-            <p className="text-xs text-gray-500 mb-3">
-              この記事は次の資料をもとに書いています。いずれも実際に開いて内容を確認したものです。
-              出典の扱いは
-              <Link href="/about/editorial-policy" className="text-[#2d6a4f] underline">編集方針</Link>
-              にまとめています。
-            </p>
-            <ol className="space-y-1.5 list-decimal list-inside">
-              {references.map((r, i) => (
-                <li key={i} className="text-xs text-gray-600">
-                  {r.url ? (
-                    <a href={r.url} target="_blank" rel="noopener noreferrer" className="text-[#2d6a4f] underline break-all">
-                      {r.label}
-                    </a>
-                  ) : (
-                    r.label
-                  )}
-                </li>
-              ))}
-            </ol>
-          </section>
-        )}
-
-        {/* 関連記事への導線 */}
-        <section className="mt-10 pt-8 border-t border-gray-100">
-          <h2 className="text-base font-bold text-gray-900 mb-4">関連する昆布ガイド</h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-            {relatedEntries.map(([s, g]) => (
-                <Link key={s} href={`/guide/${s}`} className="group rounded-lg border border-gray-100 bg-white p-3 hover:border-[#52b788] transition">
-                  <p className="text-xs font-bold text-gray-900 group-hover:text-[#2d6a4f] transition">{g.title}</p>
-                  <p className="text-[10px] text-gray-400 mt-0.5 line-clamp-1">{g.description}</p>
-                </Link>
-              ))}
-          </div>
-        </section>
+        <GuideHeader guide={guide} />
+        <GuideToc sections={guide.sections} />
+        <GuideSections sections={guide.sections} />
+        <GuideShopBox keyword={guide.searchKeyword} />
+        <GuideFaq items={guide.faq} />
+        <GuideReferences references={references} />
+        <GuideRelated entries={getRelatedGuides(slug, guide)} />
       </article>
 
       <KombuBoxBanner />

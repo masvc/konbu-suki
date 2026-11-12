@@ -5,16 +5,16 @@
  * 記号のまま出る。検索エンジンや AI に表として読ませるには本物の table 要素が
  * 要るので、データとして持たせて描画側で組み立てる。
  */
-type GuideTable = {
+export type GuideTable = {
   caption?: string;
   headers: string[];
   rows: string[][];
 };
 
-type GuideSection = { heading: string; body: string; table?: GuideTable };
-type FAQ = { q: string; a: string };
+export type GuideSection = { heading: string; body: string; table?: GuideTable };
+export type FAQ = { q: string; a: string };
 
-type Guide = {
+export type Guide = {
   title: string;
   description: string;
   image?: string;

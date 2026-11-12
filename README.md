@@ -229,6 +229,22 @@ Slack から取り込むには `.env` に `SLACK_BOT_TOKEN`（`xoxb-` で始ま�
 - `git pull --ff-only` が通らないときは、その枠を見送って Slack に流す。
   履歴が分かれた状態で無人のまま進めるとこじれるため
 
+### セッション共通の権限（.claude/settings.json）
+
+リポジトリに入れてある。Slack の bot も、夜間の `claude -p` も、別のPCのセッションも
+これを読むので、同じ作業で止まらない。
+
+`allow` は git・tsc・tsx・npm run・gh pr。**`deny` に壊す系を入れてある**
+（`git push --force` / `reset --hard` / `rebase` / `stash drop` / `clean`、
+`.env` と認証ファイルの読み取り、DB とSSMへの書き込み）。deny は allow より強い。
+
+`Bash(git *)` だけだと force push や `reset --hard` まで通る。作業中の変更が
+`git stash` に退避されて見失う事故が実際に起きているので、取り返しのつかない
+操作だけは塞いでいる。
+
+夜間の無人実行は、さらに `auto-settings.json` で絞られる（`--settings` で明示的に
+渡しているため、こちらが優先される）。
+
 ### 初回だけ：権限ファイルを作る
 
 ```bash
