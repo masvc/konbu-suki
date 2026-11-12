@@ -1,0 +1,12 @@
+{
+  "slot": "analysis",
+  "title": "分析",
+  "startedAt": "2026-11-12T14:00:03.972Z",
+  "minutes": 12,
+  "limitMinutes": 100,
+  "commits": [
+    "夜間の分析: GSC表示201・クリック4、登録26/37（クロール済み未登録0）、AI引用5/35、次の一手を見直した"
+  ],
+  "exit": 0,
+  "trouble": []
+}
