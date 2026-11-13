@@ -1,0 +1,12 @@
+{
+  "slot": "analysis",
+  "title": "分析",
+  "startedAt": "2026-11-13T14:00:05.978Z",
+  "minutes": 16,
+  "limitMinutes": 100,
+  "commits": [
+    "夜間の分析: GSC表示300・登録27/38・AI引用8/36、塩昆布ガイドのtitle見直しを最優先に"
+  ],
+  "exit": 0,
+  "trouble": []
+}
