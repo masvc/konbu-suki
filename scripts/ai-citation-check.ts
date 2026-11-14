@@ -4,6 +4,7 @@
  * Usage:
  *   npx tsx scripts/ai-citation-check.ts              # 全記事の狙いキーワード
  *   npx tsx scripts/ai-citation-check.ts --limit 5    # 件数を絞る
+ *   npx tsx scripts/ai-citation-check.ts --match おやつ --out /tmp/x  # 語を絞る（動作確認用）
  *   npx tsx scripts/ai-citation-check.ts --out docs/night/2026-11-05
  *
  * Gemini に Google 検索を使わせて回答させ、応答に付く引用元
@@ -44,6 +45,8 @@ const stringAfter = (flag: string): string | null => {
 };
 const limit = numberAfter("--limit", 0);
 const outDir = stringAfter("--out");
+/** 狙う語にこの文字列を含むものだけ取る（動作確認用） */
+const match = stringAfter("--match");
 
 const API_KEY = process.env.GEMINI_API_KEY;
 if (!API_KEY) {
@@ -59,6 +62,12 @@ type Result = {
   cited: boolean;
   /** 引用元のドメイン（重複を除く） */
   domains: string[];
+  /**
+   * 引用された自サイトのURL（中継URLのリダイレクトを解いたもの）。
+   * ドメインだけでは、狙った記事が引かれたのか別の記事が引かれたのかが分からない。
+   * 解けなかったものは中継URLのまま入れる。
+   */
+  citedUrls: string[];
   /** Gemini が実際に投げた検索クエリ */
   searchQueries: string[];
   tokens: number;
@@ -78,27 +87,73 @@ async function ask(keyword: string): Promise<Omit<Result, "slugs" | "keyword">> 
     });
 
     // groundingChunks の web.uri は中継用のURLで、ドメインは web.title に入る。
-    // uri を見てもドメインは分からない。
+    // uri を見てもドメインは分からない。自サイトの分だけ uri のリダイレクトを解いて、
+    // どのページが引かれたかを残す。
     const meta = res.candidates?.[0]?.groundingMetadata as
-      | { groundingChunks?: { web?: { title?: string } }[]; webSearchQueries?: string[] }
+      | { groundingChunks?: { web?: { title?: string; uri?: string } }[]; webSearchQueries?: string[] }
       | undefined;
+    const chunks = meta?.groundingChunks ?? [];
     const domains = [
+      ...new Set(chunks.map((c) => c.web?.title?.trim()).filter((t): t is string => Boolean(t))),
+    ];
+    const ownUris = [
       ...new Set(
-        (meta?.groundingChunks ?? [])
-          .map((c) => c.web?.title?.trim())
-          .filter((t): t is string => Boolean(t))
+        chunks
+          .filter((c) => c.web?.title?.includes(PUBLIC_SITE_HOST))
+          .map((c) => c.web?.uri)
+          .filter((u): u is string => Boolean(u))
       ),
     ];
+    const citedUrls = [...new Set(await Promise.all(ownUris.map(resolveRedirect)))];
+    const tokens = res.usageMetadata?.totalTokenCount ?? 0;
+    const searchQueries = meta?.webSearchQueries ?? [];
+    // 引用元が0件のときは、検索の結果が返らなかった。「引用なし」と区別しないと、
+    // 取れなかった夜を「外れた」と読んでしまう（2026-11-14「昆布水 作り方」）。
+    if (chunks.length === 0) {
+      return { cited: false, domains, citedUrls, searchQueries, tokens, error: "引用元が0件（検索結果なし）" };
+    }
     return {
       cited: domains.some((d) => d.includes(PUBLIC_SITE_HOST)),
       domains,
-      searchQueries: meta?.webSearchQueries ?? [],
-      tokens: res.usageMetadata?.totalTokenCount ?? 0,
+      citedUrls,
+      searchQueries,
+      tokens,
     };
   } catch (e) {
     const message = e instanceof Error ? e.message : String(e);
-    return { cited: false, domains: [], searchQueries: [], tokens: 0, error: message };
+    return { cited: false, domains: [], citedUrls: [], searchQueries: [], tokens: 0, error: message };
   }
+}
+
+/** 中継URLの転送先を返す。解けなければ中継URLのまま返す。 */
+async function resolveRedirect(uri: string): Promise<string> {
+  try {
+    const res = await fetch(uri, { redirect: "manual", signal: AbortSignal.timeout(10_000) });
+    const location = res.headers.get("location");
+    if (location) return new URL(location, uri).toString();
+    return uri;
+  } catch {
+    return uri;
+  }
+}
+
+/** 自サイトのURLを、表で読みやすいようにパスだけにする。 */
+function toPath(url: string): string {
+  try {
+    const u = new URL(url);
+    return u.hostname.includes(PUBLIC_SITE_HOST) ? u.pathname : url;
+  } catch {
+    return url;
+  }
+}
+
+function pageCell(r: Result): string {
+  if (!r.cited) return "-";
+  const paths = r.citedUrls.map(toPath).filter((p) => p.startsWith("/"));
+  if (paths.length === 0) return "URL不明";
+  const targets = new Set(r.slugs.map((s) => `/guide/${s}`));
+  const hit = paths.some((p) => targets.has(p.replace(/\/$/, "")));
+  return `${hit ? "狙いどおり" : "**別ページ**"}: ${paths.join(" / ")}`;
 }
 
 function markdown(results: Result[]): string {
@@ -130,12 +185,19 @@ function markdown(results: Result[]): string {
 
   lines.push("## キーワード別");
   lines.push("");
-  lines.push("| 狙う語 | 記事 | 自サイト | 引用元ドメイン |");
-  lines.push("| --- | --- | --- | --- |");
+  lines.push("| 狙う語 | 記事 | 自サイト | 引用されたページ | 引用元ドメイン |");
+  lines.push("| --- | --- | --- | --- | --- |");
   for (const r of results) {
     const mark = r.error ? `取得失敗: ${r.error.slice(0, 40)}` : r.cited ? "**引用された**" : "引用なし";
-    lines.push(`| ${r.keyword} | ${r.slugs.join(" / ")} | ${mark} | ${r.domains.join(" / ") || "-"} |`);
+    lines.push(
+      `| ${r.keyword} | ${r.slugs.join(" / ")} | ${mark} | ${pageCell(r)} | ${r.domains.join(" / ") || "-"} |`
+    );
   }
+  lines.push("");
+  lines.push(
+    "「引用されたページ」: 狙いの記事が引かれたら「狙いどおり」、別のページなら「別ページ」。" +
+      "中継URLを解けなかったものは「URL不明」（ドメインでは引用ありと出ている）。"
+  );
   lines.push("");
 
   lines.push("## 引用されている他ドメイン（回数順）");
@@ -175,7 +237,9 @@ async function main() {
     slugs.push(slug);
     byKeyword.set(query, slugs);
   }
-  const entries = [...byKeyword.entries()].map(([keyword, slugs]) => ({ keyword, slugs }));
+  const entries = [...byKeyword.entries()]
+    .map(([keyword, slugs]) => ({ keyword, slugs }))
+    .filter((e) => !match || e.keyword.includes(match));
   const targets = limit > 0 ? entries.slice(0, limit) : entries;
 
   console.log(`\nAI引用チェック: ${targets.length}件 (${MODEL})\n`);
@@ -185,7 +249,8 @@ async function main() {
     const r = await ask(t.keyword);
     results.push({ slugs: t.slugs, keyword: t.keyword, ...r });
     const mark = r.error ? "ERR " : r.cited ? "引用 " : "--  ";
-    console.log(`[${i + 1}/${targets.length}] ${mark} ${t.keyword}  (${r.domains.length}ドメイン)`);
+    const pages = r.citedUrls.length > 0 ? `  ${r.citedUrls.map(toPath).join(" ")}` : "";
+    console.log(`[${i + 1}/${targets.length}] ${mark} ${t.keyword}  (${r.domains.length}ドメイン)${pages}`);
     if (i < targets.length - 1) await sleep(INTERVAL_MS);
   }
 

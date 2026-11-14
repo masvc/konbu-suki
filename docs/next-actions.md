@@ -48,7 +48,9 @@ kombu-storage は次の2夜、GSC の順位（15.5位）と AI 引用を見る�
 
 ## 高
 
-- [ ] **AI 引用を URL 単位で取る**（測り方・AIO）— 中から上げた。**4夜で4件**、未登録・未認識の記事の語で「引用あり」と出た
+- [x] **AI 引用を URL 単位で取る**（測り方・AIO）— 中から上げた。
+  — 2026-11-15 改善枠。自サイトの中継URLを解いて `citedUrls` を json に、md に「引用されたページ（狙いどおり / 別ページ / URL不明）」の列。
+    引用元0件は「取得失敗」に数える（低の「昆布水 作り方」も同時に済み）。試しに「おやつ」2語を取ると、「昆布 おやつ ダイエット」は **未認識の kombu-diet-oyatsu そのものが引用されていた**（狙いどおり）**4夜で4件**、未登録・未認識の記事の語で「引用あり」と出た
   （11-12 kombu-oyatsu-guide、11-13 oshaburi・otsumami、11-14 kombu-diet-oyatsu）
   - `scripts/ai-citation-check.ts` が groundingChunks のドメインしか残さない。自サイトの uri を（リダイレクトは解決後）json と md に残す
   - これが無いと、トップ10の10番目（おやつ系）の打ち手を決められない
@@ -138,7 +140,8 @@ kombu-storage は次の2夜、GSC の順位（15.5位）と AI 引用を見る�
 - [ ] kobujime-vegetables: 11-13 に引用が外れた。最終クロール 11-07 でページは同じ。揺れと見て触らない
 - [ ] kobujime-salmon・kobujime-chicken・kobujime-tips・rausu-kombu: 11-14 夜にそろって引用が外れた（本文は変えていない）。
   1語2回の取得（高）が入るまで中身は触らない。2回取りで2夜続けて外れたら中身を見直す
-- [ ] 「昆布水 作り方」で引用元が0ドメインだった（11-14 夜）。`ai-citation-check.ts` は失敗に数えていない。
+- [x] 「昆布水 作り方」で引用元が0ドメインだった（11-14 夜）。— 2026-11-15 改善枠で URL 単位の改修と一緒に直した（「取得失敗: 引用元が0件」と出る）
+  `ai-citation-check.ts` は失敗に数えていない。
   検索結果が空のときは「取得失敗」として数えるよう、URL 単位の改修（高）のついでに直す
 - [ ] oshaburi-kombu: 展開「メリット」「効果」。どちらも効果効能にかかるので足さない（CLAUDE.md）
 - [ ] kombu-nutrition・gagome-kombu・kombu-diet-oyatsu・kombu-water・yudofu-kombu: 展開「健康効果」「効能」「効果」「ダイエット 効果」は書かない方針（CLAUDE.md）。
