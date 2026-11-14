@@ -161,7 +161,7 @@ function auditEditions() {
  * （上記・前述・上の表）は特に意味が通らなくなるので error、後ろを指すものは warn。
  */
 function auditContextWords() {
-  const BACKWARD = ["上記", "前述", "上の表", "上の図", "先ほど"];
+  const BACKWARD = ["上記", "前述", "上の表", "上の図", "上の節", "先ほど"];
   for (const slug of Object.keys(GUIDES)) {
     for (const found of checkContextWords(guideText(slug))) {
       const backward = BACKWARD.some((w) => found.startsWith(w));

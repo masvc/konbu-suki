@@ -104,6 +104,7 @@ kombu-storage は次の2夜、GSC の順位（15.5位）と AI 引用を見る�
 - [ ] **indexnow.ts の「直近のコミットで変わった記事」の判定がずれる**（技術SEO）— 2026-11-14 新規枠で見つけた。guides.ts の diff の hunk から slug を拾うため、
   出典URLだけを直したコミットでは「対象無し」、kombu-nutrition を直したコミットでは前後の gagome-kombu・kombu-types 等を通知した。`--url` で個別に送れば回避できる。
   あわせて fact-audit は「下の節」を拾わない（「下の表」だけ）。位置に頼る語の一覧に「下の節」「上の節」を足す
+  — 2026-11-15 新規枠: fact-audit 側は済み（「上の節」は error、「下の節」は warn）。拾えた kombu-comparison の1箇所を節名で指す書き方に直した。indexnow の判定は未。なお `--url` はフルURLではなくパス（`/guide/<slug>`）を渡す。フルURLを渡すと二重になり 422
 - [x] **GA4 が落ちた夜の取り直し**（測り方）— 11-13 夜、`ga4-report.ts`・`ai-quality.ts` が 502、`ai-traffic.ts` が 429 で欠測
   — 11-14 夜の分析で3本とも1回で取れた。2夜続けての欠測ではないので、再試行は足さない。また落ちたら、そのときに足す
 - [x] **kobujime-hirame に「昆布締めの由来」の1〜2行**（AIO）
