@@ -2440,7 +2440,7 @@ export const GUIDES: Record<string, Guide> = {
     dateModified: "2026-11-11",
     searchKeyword: "昆布 種類",
     targetQuery: "昆布 種類",
-    related: ["kombu-comparison", "gagome-kombu", "rausu-kombu", "ma-kombu", "kombu-production", "kombu-life-cycle", "kombu-history"],
+    related: ["kombu-comparison", "gagome-kombu", "rausu-kombu", "ma-kombu", "kombu-production", "kombu-life-cycle", "kombu-history", "kombu-seaweed-types"],
     sections: [
       {
         heading: "結論: 主な種類は7つ。だしに挙がるのは利尻・羅臼・日高・真昆布",
@@ -2486,7 +2486,7 @@ export const GUIDES: Record<string, Guide> = {
       },
       {
         heading: "がごめ昆布について",
-        body: "がごめ昆布は、ぎょれんの7種の一覧には入っていません。北海道庁水産林務部の資料に「ガゴメ（篭目）」として載っており、詳しくはがごめ昆布の記事にまとめています。\n\n出典: 北海道 水産林務部「ガゴメ（篭目）」 https://www.pref.hokkaido.lg.jp/sr/gid/fis094.html",
+        body: "がごめ昆布は、ぎょれんの7種の一覧には入っていません。北海道庁水産林務部の資料に「ガゴメ（篭目）」として載っており、詳しくはがごめ昆布の記事にまとめています。昆布の種類どうしではなく、昆布とわかめ・ひじき・のりが海藻としてどう分類されるかは、昆布とわかめ・ひじき・のりの違いの記事にまとめています。\n\n出典: 北海道 水産林務部「ガゴメ（篭目）」 https://www.pref.hokkaido.lg.jp/sr/gid/fis094.html",
       },
     ],
     faq: [
