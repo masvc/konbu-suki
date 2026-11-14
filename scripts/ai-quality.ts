@@ -198,6 +198,47 @@ async function main() {
     }
   }
 
+  // ── 2b. CTAクリックの内訳（全流入）: イベント別・押したページ・入口ページ ──
+  // クリックは商品ページでしか起きない。どの記事から来たかは入口ページ（landingPage）で見る。
+  // サイト側のイベントには page_path も付けているが、GA4 の標準ディメンション pagePath で
+  // 取れるので、カスタムディメンションの登録は要らない。
+  console.log("\n[2b] CTAクリックの内訳（全流入）");
+  console.log("  イベント別:");
+  for (const row of totalCtaReport.data.rows || []) {
+    console.log(`    ${row.dimensionValues![0].value!.padEnd(20)} ${row.metricValues![0].value!.padStart(5)}`);
+  }
+  try {
+    const ctaPages = await ad.properties.runReport({
+      property: PROPERTY_ID,
+      requestBody: {
+        dateRanges: [{ startDate, endDate }],
+        dimensions: [{ name: "eventName" }, { name: "pagePath" }, { name: "landingPage" }],
+        metrics: [{ name: "eventCount" }],
+        dimensionFilter: {
+          orGroup: {
+            expressions: CTA_EVENTS.map((e) => ({
+              filter: { fieldName: "eventName", stringFilter: { value: e, matchType: "EXACT" as const } },
+            })),
+          },
+        },
+        orderBys: [{ metric: { metricName: "eventCount" }, desc: true }],
+        limit: "30",
+      },
+    });
+    console.log(`\n  ${"イベント".padEnd(16)} ${"押したページ".padEnd(28)} ${"入口ページ".padEnd(36)} ${"回数".padStart(4)}`);
+    console.log("  " + "-".repeat(88));
+    const rows = ctaPages.data.rows || [];
+    if (rows.length === 0) console.log("  なし");
+    for (const row of rows) {
+      const [ev, page, landing] = row.dimensionValues!.map((d) => d.value ?? "");
+      console.log(
+        `  ${ev.padEnd(16)} ${page.slice(0, 27).padEnd(28)} ${landing.slice(0, 35).padEnd(36)} ${row.metricValues![0].value!.padStart(4)}`
+      );
+    }
+  } catch (e) {
+    console.log(`  ページ別の取得に失敗: ${e instanceof Error ? e.message : String(e)}`);
+  }
+
   // ── 3. AI流入のCTAクリック内訳 ──
   if (aiCta > 0) {
     console.log("\n[3] AI流入のCTAクリック内訳");
