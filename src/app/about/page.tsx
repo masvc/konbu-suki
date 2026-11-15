@@ -122,6 +122,11 @@ export default function AboutPage() {
               にまとめました。記事どうしで数字が食い違っていないかは機械で検査しています。
             </p>
             <p className="text-sm text-gray-600 leading-relaxed">
+              海外からご覧の方へは、英語の案内を1ページだけ置いています（
+              <Link href="/en" className="text-[#2d6a4f] underline">English</Link>
+              ）。記事は日本語のみで、商品の配送先も日本国内のみです。
+            </p>
+            <p className="text-sm text-gray-600 leading-relaxed">
               誤りを見つけた場合は
               <Link href="/contact" className="text-[#2d6a4f] underline">お問い合わせ</Link>
               からご連絡ください。訂正した内容は

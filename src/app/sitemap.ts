@@ -49,6 +49,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${SITE_URL}/about`, changeFrequency: "monthly", priority: 0.5 },
     { url: `${SITE_URL}/about/editorial-policy`, changeFrequency: "monthly", priority: 0.4 },
     { url: `${SITE_URL}/about/data`, changeFrequency: "monthly", priority: 0.4 },
+    // 海外から来た人のための入口。英語の記事はまだ作っていない（docs/overseas.md）
+    { url: `${SITE_URL}/en`, changeFrequency: "monthly", priority: 0.4 },
   ];
 
   const categoryPages: MetadataRoute.Sitemap = CATEGORY_SLUGS.map((slug) => ({
