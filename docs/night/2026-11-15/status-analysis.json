@@ -1,0 +1,12 @@
+{
+  "slot": "analysis",
+  "title": "分析",
+  "startedAt": "2026-11-15T14:00:00.518Z",
+  "minutes": 13,
+  "limitMinutes": 100,
+  "commits": [
+    "夜間の分析: 表示473・クリック12、kombu-storage が初めてAI引用、登録30/40（検出未登録4・クロール済み未登録0）、次の一手を更新"
+  ],
+  "exit": 0,
+  "trouble": []
+}
