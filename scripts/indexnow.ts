@@ -89,7 +89,7 @@ async function main() {
     paths = [toPath(urlArg)];
   } else if (all) {
     // sitemap と同じ範囲: 静的 + カテゴリ + 産地 + ガイド + 商品
-    const staticPaths = ["/", "/guide", "/producers", "/kombu-box", "/about", "/about/editorial-policy", "/about/data"];
+    const staticPaths = ["/", "/guide", "/producers", "/kombu-box", "/about", "/about/editorial-policy", "/about/data", "/en"];
     const categoryPaths = CATEGORY_SLUGS.map((s: string) => `/category/${s}`);
     const originPaths = Object.keys(ORIGINS).map((s) => `/origin/${s}`);
     const guidePaths = Object.keys(GUIDES).map((s) => `/guide/${s}`);
