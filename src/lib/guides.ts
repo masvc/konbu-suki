@@ -2060,7 +2060,7 @@ export const GUIDES: Record<string, Guide> = {
     dateModified: "2026-11-07",
     searchKeyword: "がごめ昆布",
     targetQuery: "がごめ昆布",
-    related: ["tororo-oboro", "kombu-types", "kombu-processed-foods", "kombu-nutrition"],
+    related: ["tororo-oboro", "kombu-types", "kombu-processed-foods", "kombu-nutrition", "kombu-seaweed-types"],
     sections: [
       {
         heading: "結論: 函館周辺で採れる、粘りの強い昆布",
