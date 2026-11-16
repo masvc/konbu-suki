@@ -32,18 +32,44 @@ const urlArg = (() => {
   return i === -1 ? null : args[i + 1] || null;
 })();
 
-/** 直近のコミットで guides.ts が変わっていたら、変わった記事を拾う。 */
+/**
+ * 直近のコミットで guides.ts が変わっていたら、変わった記事を拾う。
+ *
+ * 変更行の行番号（新しい側）を出し、その行を含む記事を guides.ts の
+ * `  "<slug>": {` の位置から引く。以前は diff の文字列に slug が出るかで
+ * 判定していたため、related に名前が出るだけの前後の記事まで拾い、
+ * 出典URLだけを直したコミットでは何も拾わなかった。
+ */
 function changedGuideSlugs(): string[] {
   try {
-    const diff = execFileSync("/usr/bin/git", ["diff", "HEAD~1", "HEAD", "--", "src/lib/guides.ts"], {
-      cwd: PROJECT_ROOT,
-      encoding: "utf8",
+    const run = (a: string[]) => execFileSync("/usr/bin/git", a, { cwd: PROJECT_ROOT, encoding: "utf8" });
+    const diff = run(["diff", "-U0", "HEAD~1", "HEAD", "--", "src/lib/guides.ts"]);
+    const changedLines: number[] = [];
+    for (const m of diff.matchAll(/^@@ -\d+(?:,\d+)? \+(\d+)(?:,(\d+))? @@/gm)) {
+      const start = Number(m[1]);
+      const count = m[2] === undefined ? 1 : Number(m[2]);
+      // 削除だけの hunk（count 0）は、削除位置の直前の行で記事を引く
+      if (count === 0) changedLines.push(Math.max(start, 1));
+      for (let i = 0; i < count; i++) changedLines.push(start + i);
+    }
+    if (changedLines.length === 0) return [];
+
+    // 記事の開始行（1始まり）。GUIDES に無い名前（型の定義など）は外す
+    const lines = run(["show", "HEAD:src/lib/guides.ts"]).split("\n");
+    const starts: { line: number; slug: string }[] = [];
+    lines.forEach((text, i) => {
+      const m = text.match(/^  "([a-z0-9-]+)": \{/);
+      if (m && m[1] in GUIDES) starts.push({ line: i + 1, slug: m[1] });
     });
+
     const slugs = new Set<string>();
-    for (const m of diff.matchAll(/^\+\s*"([a-z0-9-]+)":\s*\{/gm)) slugs.add(m[1]);
-    // 既存記事の編集は slug 行が出ないので、変更行の近くから拾う
-    for (const slug of Object.keys(GUIDES)) {
-      if (diff.includes(`"${slug}"`)) slugs.add(slug);
+    for (const n of changedLines) {
+      let owner: string | null = null;
+      for (const s of starts) {
+        if (s.line <= n) owner = s.slug;
+        else break;
+      }
+      if (owner) slugs.add(owner);
     }
     return [...slugs];
   } catch {
@@ -51,10 +77,16 @@ function changedGuideSlugs(): string[] {
   }
 }
 
+/** `--url` はパスでもフルURLでも受ける（フルURLを渡すと二重になり 422 だった）。 */
+function toPath(u: string): string {
+  if (u.startsWith(PUBLIC_SITE_URL)) return u.slice(PUBLIC_SITE_URL.length) || "/";
+  return u.startsWith("/") ? u : `/${u}`;
+}
+
 async function main() {
   let paths: string[];
   if (urlArg) {
-    paths = [urlArg];
+    paths = [toPath(urlArg)];
   } else if (all) {
     // sitemap と同じ範囲: 静的 + カテゴリ + 産地 + ガイド + 商品
     const staticPaths = ["/", "/guide", "/producers", "/kombu-box", "/about", "/about/editorial-policy", "/about/data"];
