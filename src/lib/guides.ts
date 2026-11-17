@@ -83,7 +83,7 @@ export const GUIDES: Record<string, Guide> = {
     dateModified: "2026-11-18",
     searchKeyword: "日高昆布",
     targetQuery: "昆布 佃煮",
-    related: ["kombu-recipes", "kombu-processed-foods", "shiokombu-guide", "kombu-nutrition"],
+    related: ["kombu-recipes", "kombu-processed-foods", "shiokombu-guide", "kombu-nutrition", "kombu-types", "kombu-katsuo-dashi", "kombu-storage"],
     recipe: {
       name: "だしがら昆布のつくだ煮",
       category: "副菜",
@@ -1327,7 +1327,7 @@ export const GUIDES: Record<string, Guide> = {
     dateModified: "2026-11-11",
     searchKeyword: "だし昆布",
     targetQuery: "昆布だし 鰹だし 違い",
-    related: ["how-to-make-dashi", "kombu-water", "toshikoshi-soba-dashi", "how-to-choose-kombu", "nanakusa-gayu-dashi"],
+    related: ["how-to-make-dashi", "kombu-water", "toshikoshi-soba-dashi", "how-to-choose-kombu", "nanakusa-gayu-dashi", "kombu-tsukudani"],
     sections: [
       {
         heading: "結論: うま味の成分と、火の入れ方が違う",
@@ -1350,7 +1350,7 @@ export const GUIDES: Record<string, Guide> = {
       },
       {
         heading: "取り方の違い: 昆布は沸騰させず、かつおは沸騰した湯に入れる",
-        body: "昆布だしは、水から入れて沸騰する前に取り出します。日本昆布協会は、水に30分くらい漬けて中火にかけ、沸騰直前で取り出すとしており、煮過ぎると昆布のねばり成分が溶け出して風味を損なうとしています。鳥取県の資料も沸騰直前（90〜95℃）で取り出すとしています。\n\nかつおだしは逆に、湯を沸騰させてから削りかつおを入れます。鳥取県の資料では、ふたを取って約1分加熱したあと火を止め、2〜3分静置して上澄みを取るとしています。\n\n水出しができるのは昆布のほうです。鳥取県の資料では、こんぶの水だしは夏30〜60分・冬2〜3時間浸してから取り出すとしています。日本昆布協会の昆布水は、水1.5Lに昆布20g程度で3時間以上（できれば1晩）です。昆布だしの詳しい取り方は昆布だしの取り方の記事に、水出しは昆布水の作り方の記事にまとめています。\n\n出典: 日本昆布協会「昆布だしの取り方」 https://kombu.or.jp/power/dashi",
+        body: "昆布だしは、水から入れて沸騰する前に取り出します。日本昆布協会は、水に30分くらい漬けて中火にかけ、沸騰直前で取り出すとしており、煮過ぎると昆布のねばり成分が溶け出して風味を損なうとしています。鳥取県の資料も沸騰直前（90〜95℃）で取り出すとしています。\n\nかつおだしは逆に、湯を沸騰させてから削りかつおを入れます。鳥取県の資料では、ふたを取って約1分加熱したあと火を止め、2〜3分静置して上澄みを取るとしています。\n\n水出しができるのは昆布のほうです。鳥取県の資料では、こんぶの水だしは夏30〜60分・冬2〜3時間浸してから取り出すとしています。日本昆布協会の昆布水は、水1.5Lに昆布20g程度で3時間以上（できれば1晩）です。昆布だしの詳しい取り方は昆布だしの取り方の記事に、水出しは昆布水の作り方の記事にまとめています。だしを取った後の昆布（だしがら）の使い道は、昆布の佃煮の記事に日本昆布協会のレシピをまとめています。\n\n出典: 日本昆布協会「昆布だしの取り方」 https://kombu.or.jp/power/dashi",
       },
       {
         heading: "合わせだし: 昆布を先に、かつおを後に",
@@ -2579,7 +2579,7 @@ export const GUIDES: Record<string, Guide> = {
     dateModified: "2026-11-11",
     searchKeyword: "昆布 種類",
     targetQuery: "昆布 種類",
-    related: ["kombu-comparison", "gagome-kombu", "rausu-kombu", "ma-kombu", "kombu-production", "kombu-life-cycle", "kombu-history", "kombu-seaweed-types"],
+    related: ["kombu-comparison", "gagome-kombu", "rausu-kombu", "ma-kombu", "kombu-production", "kombu-life-cycle", "kombu-history", "kombu-seaweed-types", "kombu-tsukudani"],
     sections: [
       {
         heading: "結論: 主な種類は7つ。だしに挙がるのは利尻・羅臼・日高・真昆布",
@@ -2600,7 +2600,7 @@ export const GUIDES: Record<string, Guide> = {
       },
       {
         heading: "作りたいものから引く: 用途別に挙がっている種類",
-        body: "北海道ぎょれんの資料にある「用途」を、作りたいものの側から並べ直しました。1つの用途に複数の種類が挙がっているものは、どれを使っても資料の範囲に収まります。塩昆布・とろろ昆布などの加工品の全体は、昆布の加工品一覧の記事にまとめています。\n\n昆布締めは、ぎょれんの資料では羅臼昆布の用途に挙がっています。日本昆布協会のレシピでは、ヒラメの昆布締めに羅臼昆布、鶏むね肉の昆布締めに真昆布が使われています（昆布締めの各記事を参照）。",
+        body: "北海道ぎょれんの資料にある「用途」を、作りたいものの側から並べ直しました。1つの用途に複数の種類が挙がっているものは、どれを使っても資料の範囲に収まります。塩昆布・とろろ昆布などの加工品の全体は、昆布の加工品一覧の記事にまとめています。\n\n昆布締めは、ぎょれんの資料では羅臼昆布の用途に挙がっています。日本昆布協会のレシピでは、ヒラメの昆布締めに羅臼昆布、鶏むね肉の昆布締めに真昆布が使われています（昆布締めの各記事を参照）。\n\n佃煮は、だしを取った後の昆布でも作れます。日本昆布協会のレシピの量は、昆布の佃煮の記事にまとめています。",
         table: {
           caption: "出典: 北海道ぎょれん「北海道のこんぶ」の用途の記載を、用途ごとに並べ直したもの",
           headers: ["作りたいもの", "用途に挙がっている種類"],
