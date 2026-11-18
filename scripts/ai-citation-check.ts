@@ -6,6 +6,7 @@
  *   npx tsx scripts/ai-citation-check.ts --limit 5    # 件数を絞る
  *   npx tsx scripts/ai-citation-check.ts --match おやつ --out /tmp/x  # 語を絞る（動作確認用）
  *   npx tsx scripts/ai-citation-check.ts --out docs/night/2026-11-05
+ *   npx tsx scripts/ai-citation-check.ts --repeat 1   # 1語1回だけ（既定は2回）
  *
  * Gemini に Google 検索を使わせて回答させ、応答に付く引用元
  * （groundingChunks）に自サイトが入っているかを見る。あわせて、
@@ -44,6 +45,12 @@ const stringAfter = (flag: string): string | null => {
   return i === -1 ? null : args[i + 1] || null;
 };
 const limit = numberAfter("--limit", 0);
+/**
+ * 1語を何回取るか。1回取りだと、ページを変えていない語が一晩で出入りし
+ * （11-15〜11-18 の4夜で毎晩4〜7語）、打ち手の効果と揺れを分けられなかった。
+ * 既定は2回。トークンはおよそ回数倍になる（1回で約5.5万）。
+ */
+const repeat = Math.max(1, Math.floor(numberAfter("--repeat", 2)));
 const outDir = stringAfter("--out");
 /** 狙う語にこの文字列を含むものだけ取る（動作確認用） */
 const match = stringAfter("--match");
@@ -72,13 +79,35 @@ type Result = {
   searchQueries: string[];
   tokens: number;
   error?: string;
+  /**
+   * 回ごとの結果（--repeat）。上の各フィールドは1回目の値のまま残す
+   * （前の夜の json と比べられるように）。tokens だけは全回の合計。
+   */
+  runs?: Run[];
 };
+
+type Run = Omit<Result, "slugs" | "keyword" | "runs">;
+
+/** 取得できた回のうち、引用された回数と取得できた回数。 */
+function citedTally(r: Result): { cited: number; ok: number } {
+  const runs = r.runs ?? [r];
+  const ok = runs.filter((x) => !x.error);
+  return { cited: ok.filter((x) => x.cited).length, ok: ok.length };
+}
+
+/** 2回とも / 片方だけ / どちらもなし の3段（回数が3回以上でも同じ考え方）。 */
+function stability(r: Result): "毎回" | "一部" | "なし" | "取得失敗" {
+  const { cited, ok } = citedTally(r);
+  if (ok === 0) return "取得失敗";
+  if (cited === 0) return "なし";
+  return cited === ok ? "毎回" : "一部";
+}
 
 function sleep(ms: number): Promise<void> {
   return new Promise((r) => setTimeout(r, ms));
 }
 
-async function ask(keyword: string): Promise<Omit<Result, "slugs" | "keyword">> {
+async function ask(keyword: string): Promise<Run> {
   try {
     const res = await ai.models.generateContent({
       model: MODEL,
@@ -147,13 +176,33 @@ function toPath(url: string): string {
   }
 }
 
-function pageCell(r: Result): string {
-  if (!r.cited) return "-";
-  const paths = r.citedUrls.map(toPath).filter((p) => p.startsWith("/"));
+function pageCellOf(run: Run, slugs: string[]): string {
+  if (!run.cited) return "-";
+  const paths = run.citedUrls.map(toPath).filter((p) => p.startsWith("/"));
   if (paths.length === 0) return "URL不明";
-  const targets = new Set(r.slugs.map((s) => `/guide/${s}`));
+  const targets = new Set(slugs.map((s) => `/guide/${s}`));
   const hit = paths.some((p) => targets.has(p.replace(/\/$/, "")));
   return `${hit ? "狙いどおり" : "**別ページ**"}: ${paths.join(" / ")}`;
+}
+
+/** 回ごとの「引用されたページ」を「1回目 ／ 2回目」の形で並べる。 */
+function pageCell(r: Result): string {
+  const runs = r.runs ?? [r];
+  if (runs.length === 1) return pageCellOf(runs[0], r.slugs);
+  return runs.map((x, i) => `${i + 1}: ${x.error ? "取得失敗" : pageCellOf(x, r.slugs)}`).join(" ／ ");
+}
+
+function markCell(r: Result): string {
+  const runs = r.runs ?? [r];
+  if (runs.length === 1) {
+    return r.error ? `取得失敗: ${r.error.slice(0, 40)}` : r.cited ? "**引用された**" : "引用なし";
+  }
+  const { cited, ok } = citedTally(r);
+  const s = stability(r);
+  const label =
+    s === "毎回" ? "**毎回引用**" : s === "一部" ? "一部だけ" : s === "なし" ? "引用なし" : "取得失敗";
+  const failed = runs.length - ok;
+  return `${label}（${cited}/${ok}${failed > 0 ? `・失敗${failed}` : ""}）`;
 }
 
 function markdown(results: Result[]): string {
@@ -177,9 +226,20 @@ function markdown(results: Result[]): string {
   lines.push(`${new Date().toLocaleString("sv-SE")} 実行。モデル: ${MODEL}`);
   lines.push("");
   lines.push(
-    `狙いキーワード ${results.length}件のうち、自サイトが引用されたのは **${ok.length}件**。`
+    `狙いキーワード ${results.length}件のうち、自サイトが引用されたのは **${ok.length}件**（1回目の結果。前の夜と比べる数）。`
   );
-  lines.push(`消費トークン ${tokens.toLocaleString()}（呼び出し ${results.length}回）。`);
+  const calls = results.reduce((sum, r) => sum + (r.runs?.length ?? 1), 0);
+  if (calls > results.length) {
+    const count = (s: ReturnType<typeof stability>) => results.filter((r) => stability(r) === s).length;
+    lines.push("");
+    lines.push(
+      `1語あたり ${Math.round(calls / results.length)}回取った。` +
+        `**毎回引用 ${count("毎回")}件** / 一部だけ ${count("一部")}件 / 引用なし ${count("なし")}件 / 取得失敗 ${count("取得失敗")}件。`
+    );
+    lines.push("「一部だけ」は取るたびに入れ替わる語で、1夜の出入りを打ち手の効果と読まない。");
+  }
+  lines.push("");
+  lines.push(`消費トークン ${tokens.toLocaleString()}（呼び出し ${calls}回）。`);
   if (failed.length > 0) lines.push(`取得できなかったもの ${failed.length}件（下の表に理由）。`);
   lines.push("");
 
@@ -188,9 +248,8 @@ function markdown(results: Result[]): string {
   lines.push("| 狙う語 | 記事 | 自サイト | 引用されたページ | 引用元ドメイン |");
   lines.push("| --- | --- | --- | --- | --- |");
   for (const r of results) {
-    const mark = r.error ? `取得失敗: ${r.error.slice(0, 40)}` : r.cited ? "**引用された**" : "引用なし";
     lines.push(
-      `| ${r.keyword} | ${r.slugs.join(" / ")} | ${mark} | ${pageCell(r)} | ${r.domains.join(" / ") || "-"} |`
+      `| ${r.keyword} | ${r.slugs.join(" / ")} | ${markCell(r)} | ${pageCell(r)} | ${r.domains.join(" / ") || "-"} |`
     );
   }
   lines.push("");
@@ -246,12 +305,25 @@ async function main() {
 
   const results: Result[] = [];
   for (const [i, t] of targets.entries()) {
-    const r = await ask(t.keyword);
-    results.push({ slugs: t.slugs, keyword: t.keyword, ...r });
-    const mark = r.error ? "ERR " : r.cited ? "引用 " : "--  ";
-    const pages = r.citedUrls.length > 0 ? `  ${r.citedUrls.map(toPath).join(" ")}` : "";
-    console.log(`[${i + 1}/${targets.length}] ${mark} ${t.keyword}  (${r.domains.length}ドメイン)${pages}`);
-    if (i < targets.length - 1) await sleep(INTERVAL_MS);
+    const runs: Run[] = [];
+    for (let n = 0; n < repeat; n++) {
+      const r = await ask(t.keyword);
+      runs.push(r);
+      const mark = r.error ? "ERR " : r.cited ? "引用 " : "--  ";
+      const pages = r.citedUrls.length > 0 ? `  ${r.citedUrls.map(toPath).join(" ")}` : "";
+      const nth = repeat > 1 ? ` #${n + 1}` : "";
+      console.log(`[${i + 1}/${targets.length}]${nth} ${mark} ${t.keyword}  (${r.domains.length}ドメイン)${pages}`);
+      const last = i === targets.length - 1 && n === repeat - 1;
+      if (!last) await sleep(INTERVAL_MS);
+    }
+    const first = runs[0];
+    results.push({
+      slugs: t.slugs,
+      keyword: t.keyword,
+      ...first,
+      tokens: runs.reduce((sum, r) => sum + r.tokens, 0),
+      ...(repeat > 1 ? { runs } : {}),
+    });
   }
 
   // --out で渡された先は無いことがある。nightDir() は自分で作るが、
@@ -267,8 +339,10 @@ async function main() {
   const errors = results.filter((r) => r.error).length;
   const tokens = results.reduce((sum, r) => sum + r.tokens, 0);
   console.log(`\n${mdPath}`);
+  const steady =
+    repeat > 1 ? ` / 毎回引用 ${results.filter((r) => stability(r) === "毎回").length}・一部 ${results.filter((r) => stability(r) === "一部").length}` : "";
   console.log(
-    `SUMMARY: 引用 ${cited}/${results.length} / 取得失敗 ${errors} / トークン ${tokens}`
+    `SUMMARY: 引用 ${cited}/${results.length}${steady} / 取得失敗 ${errors} / トークン ${tokens}`
   );
 }
 
