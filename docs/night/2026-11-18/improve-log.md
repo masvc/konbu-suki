@@ -69,3 +69,11 @@
 - FAQ 追加「昆布締めに合う薬味は何ですか」: 薬味を決めた資料は無いと断ったうえで、協会レシピで合わせている食材（わさび・みょうが・かいわれと紫玉ねぎ・スプラウトとレモンの皮）と、農水省の「そのままでよい」。新しい食材・主張は足していない
 - dateModified: 2026-11-18 → 2026-11-19
 - チェック: meta-check 要修正0、`npm run build` 成功
+
+## トップ10のうち、触らなかったもの
+
+- shiokombu-guide・kombumaki・how-to-make-dashi・kobujime-hirame: 人の再クロール依頼が打ち手（クロール待ち。重ねて直すと効果が測れない）
+- kombu-storage: 11-21 の分析で判断（動いている最中）
+- kombu-water: クエリ別の内訳を取ってから（本文は触らない。next-actions の高に残る）
+- kombu-tsukudani の「歴史」: 協会・農水省の資料探しが要る。今夜は時間を健康・安全の2本と測り方に使ったので、次の枠に残す
+- otsumami-kombu・kombu-diet-oyatsu: 登録待ち（人の URL 検査）
