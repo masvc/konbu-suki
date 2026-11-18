@@ -8,6 +8,10 @@
  *   npx tsx scripts/search-console.ts pages        # ページ別
  *   npx tsx scripts/search-console.ts all          # 全レポート
  *   npx tsx scripts/search-console.ts --all-sites  # プロパティ全体（フィルタなし）
+ *   npx tsx scripts/search-console.ts queries --page /guide/kombu-water  # 1ページのクエリ内訳
+ *
+ * --page は表示・順位が動いたページで「どのクエリが増えた・落ちたか」を見るためのもの。
+ * 日数と組み合わせて（例: 7 と 28）前後を比べる。
  *
  * 必要な環境変数 (.env):
  *   GOOGLE_APPLICATION_CREDENTIALS=./google-credentials.json
@@ -59,6 +63,12 @@ async function run() {
   const daysArg = args.find(a => /^\d+$/.test(a))
   const mode = args.find(a => ['queries', 'pages', 'all', 'devices', 'countries'].includes(a)) || 'all'
   const allSites = args.includes('--all-sites')
+  const pageIdx = args.indexOf('--page')
+  const pagePath = pageIdx >= 0 ? args[pageIdx + 1] : undefined
+  if (pageIdx >= 0 && !pagePath?.startsWith('/')) {
+    console.error('--page には / で始まるパスを渡す（例: --page /guide/kombu-water）')
+    process.exit(1)
+  }
   const { startDate, endDate } = getDateRange(daysArg)
 
   // デフォルトは自サイトのみ、--all-sites でフィルタなし。
@@ -66,11 +76,13 @@ async function run() {
   // 「自サイトの URL とは何か」だけを持つ）。
   const siteUrlRegex = `^${PUBLIC_SITE_URL.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}/`
 
-  const urlFilter = allSites
-    ? undefined
-    : { dimension: 'page' as const, operator: 'includingRegex' as const, expression: siteUrlRegex }
+  const urlFilter = pagePath
+    ? { dimension: 'page' as const, operator: 'equals' as const, expression: `${PUBLIC_SITE_URL}${pagePath}` }
+    : allSites
+      ? undefined
+      : { dimension: 'page' as const, operator: 'includingRegex' as const, expression: siteUrlRegex }
 
-  const filterLabel = allSites ? 'プロパティ全体' : `${PUBLIC_SITE_HOST} のみ`
+  const filterLabel = pagePath ? `${pagePath} のみ` : allSites ? 'プロパティ全体' : `${PUBLIC_SITE_HOST} のみ`
   console.log(`\n🔍 Search Console レポート (${startDate} ~ ${endDate})`)
   console.log(`   サイト: ${SEARCH_CONSOLE_SITE}  [${filterLabel}]`)
   console.log('='.repeat(70))
