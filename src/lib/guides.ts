@@ -1723,10 +1723,10 @@ export const GUIDES: Record<string, Guide> = {
     image: "/guide/kobujime-salmon.webp",
     imageAlt: "昆布で締めたサーモンとカマンベールチーズを皿に交互に並べ、オリーブオイルとバジルを添えた様子。奥に昆布",
     datePublished: "2026-11-06",
-    dateModified: "2026-11-10",
+    dateModified: "2026-11-20",
     searchKeyword: "昆布締め 昆布",
     targetQuery: "サーモン 昆布締め",
-    related: ["kobujime-tai", "kobujime-tips", "kobujime", "kobujime-arrange"],
+    related: ["kobujime-tai", "kobujime-tips", "kobujime", "kobujime-iwashi-katsuo", "kobujime-arrange"],
     // 出典（協会 7151）の置く時間は「一晩」で数字が無いため、時間の項目は省いた。
     recipe: {
       name: "サーモンとカマンベールチーズの昆布締め",
@@ -1785,7 +1785,7 @@ export const GUIDES: Record<string, Guide> = {
       },
       {
         heading: "ほかの魚の昆布締めとの違い",
-        body: "日本昆布協会の魚の昆布締めのレシピを並べると、サーモンは「切ってから締める」点で鯛やヒラメと分かれます。塩もほかの魚と違い、黒こしょうと一緒に軽く振るだけです。",
+        body: "日本昆布協会の魚の昆布締めのレシピを並べると、サーモンは「切ってから締める」点で鯛やヒラメと分かれます。塩もほかの魚と違い、黒こしょうと一緒に軽く振るだけです。\n\n表のイワシは、焼きなすと一緒に一晩締めて生のまま食べるレシピです。締めたあとに焼いて食べる宗田鰹のレシピと合わせて、イワシとカツオの昆布締めの記事にまとめています。",
         table: {
           caption: "出典: 日本昆布協会「サーモンとカマンベールチーズの昆布締め」「昆布締めカルパッチョ」「春野菜＆ヒラメの昆布〆」「イワシと焼きなすの昆布締めカルパッチョ仕立て」",
           headers: ["魚", "形", "下味", "昆布を湿らせるもの", "冷蔵庫に置く時間"],
@@ -1821,10 +1821,10 @@ export const GUIDES: Record<string, Guide> = {
     image: "/guide/kobujime-tai.webp",
     imageAlt: "昆布で締めた鯛を薄く切って紫玉ねぎとカイワレを散らしたカルパッチョと、昆布に包んだ鯛の柵を並べた様子",
     datePublished: "2026-11-06",
-    dateModified: "2026-11-10",
+    dateModified: "2026-11-20",
     searchKeyword: "昆布締め 昆布",
     targetQuery: "鯛 昆布締め",
-    related: ["kobujime", "kobujime-hirame", "kobujime-salmon", "kobujime-tips", "kobujime-arrange"],
+    related: ["kobujime", "kobujime-hirame", "kobujime-salmon", "kobujime-iwashi-katsuo", "kobujime-tips", "kobujime-arrange"],
     // 出典（協会 7597）の時間は「一晩（8時間弱）ぐらい」で幅があるため、
     // 置く時間は prepTime/totalTime に入れない。塩の10分だけを prepTime にした。
     recipe: {
@@ -1908,7 +1908,7 @@ export const GUIDES: Record<string, Guide> = {
       },
       {
         heading: "生で食べるための注意と、昆布を食べる量",
-        body: "昆布締めは生の魚をそのまま食べる料理です。協会のレシピも「刺身用」の柵を使っています。\n\n昆布締めに使う酢や塩は、寄生虫を殺す処理にはなりません。厚生労働省は「一般的な料理で使う食酢での処理、塩漬け、醤油やわさびを付けても、アニサキス幼虫は死滅しません」としています。刺身用として売られているものを使い、締めたあとは冷蔵庫に入れて早めに食べきってください。日持ちの目安を示した公的な資料は見つかっていません。\n\n昆布にはヨウ素が多く含まれています。厚生労働省「日本人の食事摂取基準（2025年版）」ではヨウ素の耐容上限量を成人3,000μg/日、妊婦・授乳婦2,000μg/日と定めており、昆布を使った料理や佃煮などを毎日続けてたくさん食べると、とりすぎになることがあります。甲状腺の病気で治療中の方や、妊娠中・授乳中の方は、医師に相談してください。\n\n出典: 厚生労働省「アニサキスによる食中毒を予防しましょう」 https://www.mhlw.go.jp/stf/seisakunitsuite/bunya/0000042953.html ／ 厚生労働省「日本人の食事摂取基準」 https://www.mhlw.go.jp/stf/seisakunitsuite/bunya/kenkou_iryou/kenkou/eiyou/syokuji_kijyun.html",
+        body: "昆布締めは生の魚をそのまま食べる料理です。協会のレシピも「刺身用」の柵を使っています。\n\n昆布締めに使う酢や塩は、寄生虫を殺す処理にはなりません。厚生労働省は「一般的な料理で使う食酢での処理、塩漬け、醤油やわさびを付けても、アニサキス幼虫は死滅しません」としています。刺身用として売られているものを使い、締めたあとは冷蔵庫に入れて早めに食べきってください。日持ちの目安を示した公的な資料は見つかっていません。丸ごと買った魚の内臓の扱いなど、厚生労働省が挙げる予防策は、イワシとカツオの昆布締めの記事に表でまとめています。\n\n昆布にはヨウ素が多く含まれています。厚生労働省「日本人の食事摂取基準（2025年版）」ではヨウ素の耐容上限量を成人3,000μg/日、妊婦・授乳婦2,000μg/日と定めており、昆布を使った料理や佃煮などを毎日続けてたくさん食べると、とりすぎになることがあります。甲状腺の病気で治療中の方や、妊娠中・授乳中の方は、医師に相談してください。\n\n出典: 厚生労働省「アニサキスによる食中毒を予防しましょう」 https://www.mhlw.go.jp/stf/seisakunitsuite/bunya/0000042953.html ／ 厚生労働省「日本人の食事摂取基準」 https://www.mhlw.go.jp/stf/seisakunitsuite/bunya/kenkou_iryou/kenkou/eiyou/syokuji_kijyun.html",
       },
     ],
     faq: [
