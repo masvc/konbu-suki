@@ -1,0 +1,10 @@
+{
+  "slot": "create",
+  "title": "新規記事",
+  "startedAt": "2026-11-20T18:00:04.961Z",
+  "minutes": 1,
+  "limitMinutes": 100,
+  "commits": [],
+  "exit": 0,
+  "trouble": []
+}
