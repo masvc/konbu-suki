@@ -8,3 +8,14 @@
 - **人にお願いしたいこと:** Next.js をパッチ版に上げるか判断する。ビルドが通れば、このコミットをそのまま push してよい
 - push 後にやること: `npm run links`、`npx tsx scripts/indexnow.ts`
 - 同じ症状で 1本目（kobujime-iwashi-katsuo の Recipe・f88fe2a）は見落として push してしまった（improve-log.md の注）
+
+- 追記（点検枠）: 点検枠の開始時点で 0b34a00 は origin/main に入っていた（push 済み）。本番のサイトマップでも rausu-kombu の lastmod は 2026-11-21
+
+## 2026-11-21 05:00:03 点検と内部リンク の開始前
+
+未コミットの変更が残っていたので stash に退避した（`git stash list` で確認できる）。
+退避名: night-2026-11-20-maintain の前に退避
+
+```
+M docs/night/2026-11-20/held.md
+```
