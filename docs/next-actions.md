@@ -55,7 +55,8 @@ kobujime-hare（季節・11-19 に食の安全の修正）も同じ状態。報�
   - 根拠: 今夜「引用なし → 毎回引用」が2語（ヒラメ 昆布締め・野菜 昆布締め）あったが、hirame の最終クロールは 11-09（11-14 の変更より前）、vegetables は 11-07（11-10 以降変更なし）。打ち手と無関係に 0/2 → 2/2 が起きる。昆布茶 使い方は本文を変えずに 2/2 → 0/2
   - `ai-citation-check.ts` が前の日付の `ai-citation.json` の `runs` を読み、md に「前夜 → 今夜（0/2 → 2/2 等）」の列と、「引用なし → 毎回引用」「毎回引用 → 引用なし」の語の一覧を出す
   - **加えて「2夜続けて 0/2 → 2/2 を保ったか」を出す**（前々夜まで読む）。index-status.json の最終クロールが変更日より後かも並べられるとなおよい（無理なら列だけ空けておく）
-- [ ] **kobujime-iwashi-katsuo に Recipe の構造化データ**（構造化データ）— 初回クロール前に直す
+- [x] **kobujime-iwashi-katsuo に Recipe の構造化データ**（構造化データ）— 初回クロール前に直す
+  — 2026-11-21 改善枠（f88fe2a）。イワシ（協会 6191）だけ。本文の材料・手順をそのまま。ローカルビルドの SecurityFatalError を見落として push した（night/2026-11-20/improve-log.md）
   - 根拠: 昆布締めのレシピ型（beef・salmon・tai・chicken・hirame・vegetables・kobujime）は `recipe:` があるが、11-20 公開の iwashi-katsuo には無い（guides.ts 77〜151行に `recipe:` 0件）。URL 検査は未認識。AI「イワシ 昆布締め」0/2（引用元9: tsurihack・tankuma・sushi-tanji・mi-journey）、展開「作り方」「特徴」
   - 2品のうち **イワシのカルパッチョ仕立て（協会 6191）だけ**を Recipe にする。宗田鰹は材料欄の砂糖が「大さじ２」「カップ1/2」の2行あり確認できていないので、構造化データに数字を載せない
   - 材料・手順は本文の値をそのまま使う（新しい主張は足さない）。`npm run build` と meta-check を通す
