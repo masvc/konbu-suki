@@ -1956,7 +1956,7 @@ export const GUIDES: Record<string, Guide> = {
     dateModified: "2026-11-19",
     searchKeyword: "昆布締め 昆布",
     targetQuery: "昆布締め 失敗",
-    related: ["kobujime", "kobujime-hirame", "kobujime-tai", "kobujime-salmon", "kobujime-chicken", "kobujime-beef", "kobujime-arrange"],
+    related: ["kobujime", "kobujime-hirame", "kobujime-tai", "kobujime-salmon", "kobujime-chicken", "kobujime-beef", "kobujime-vegetables", "kobujime-iwashi-katsuo", "kobujime-hare", "kobujime-arrange"],
     sections: [
       {
         heading: "結論: 失敗の原因は「戻しすぎ」「置く時間」「塩」の3つ",
@@ -1986,7 +1986,7 @@ export const GUIDES: Record<string, Guide> = {
       },
       {
         heading: "置きすぎ: 長いほどおいしくなるわけではない",
-        body: "時間を延ばすと、身の水分が抜けていきます。釣り人向けの料理記事は「昆布締めにする時間を長くすればおいしくなるものでは無いので注意」とし、「長く締めすぎると水分が抜け過ぎてグミのような食感に」なると書いています。後で食べる場合も「昆布から食材は外して冷蔵保存」するよう勧めています。\n\n時間を決めるのは素材の種類より厚みです。同じ記事では、柵なら半日〜1日、薄くそぎ切りにしたものなら3〜4時間が目安とされています。日本昆布協会の鯛のレシピも、柵で一晩としたうえで「切り身を使う場合は昆布に巻く時間を短くします。」と添えています。\n\n肉は魚より長く、協会の牛肉のレシピ2品はどちらも冷蔵庫で1日です。牛肉は締めたあとか締める前に必ず火を通します（詳しくは牛肉の昆布締めの記事）。\n\n出典にある時間を、素材の厚みの順に並べて比べられます。\n\n出典: 日本昆布協会「旨味がすごい！昆布締めのコロコロステーキ」 https://kombu.or.jp/recipe/6599 ／ 日本昆布協会「和牛もも簡単ローストビーフの昆布締め」 https://kombu.or.jp/recipe/2356",
+        body: "時間を延ばすと、身の水分が抜けていきます。釣り人向けの料理記事は「昆布締めにする時間を長くすればおいしくなるものでは無いので注意」とし、「長く締めすぎると水分が抜け過ぎてグミのような食感に」なると書いています。後で食べる場合も「昆布から食材は外して冷蔵保存」するよう勧めています。\n\n時間を決めるのは素材の種類より厚みです。同じ記事では、柵なら半日〜1日、薄くそぎ切りにしたものなら3〜4時間が目安とされています。日本昆布協会の鯛のレシピも、柵で一晩としたうえで「切り身を使う場合は昆布に巻く時間を短くします。」と添えています。\n\n肉は魚より長く、協会の牛肉のレシピ2品はどちらも冷蔵庫で1日です。牛肉は締めたあとか締める前に必ず火を通します（詳しくは牛肉の昆布締めの記事）。\n\n素材ごとの手順は「ヒラメ・白身魚の昆布締め」「鯛の昆布締め」「サーモンの昆布締め」「鶏むね肉の昆布締め」「野菜の昆布締め」「イワシとカツオの昆布締め」の各記事に、お正月など食べる時刻が決まっている日の段取りは「正月・お祝いの昆布締め」の記事にまとめています。\n\n出典にある時間を、素材の厚みの順に並べて比べられます。\n\n出典: 日本昆布協会「旨味がすごい！昆布締めのコロコロステーキ」 https://kombu.or.jp/recipe/6599 ／ 日本昆布協会「和牛もも簡単ローストビーフの昆布締め」 https://kombu.or.jp/recipe/2356",
         table: {
           caption: "出典ごとの時間の記載。素材が薄いほど短い",
           headers: ["素材の形", "時間", "出典"],
@@ -2916,7 +2916,7 @@ export const GUIDES: Record<string, Guide> = {
     dateModified: "2026-11-17",
     searchKeyword: "昆布だし 取り方",
     targetQuery: "昆布だし 取り方",
-    related: ["kombu-water", "kombu-recipes", "how-to-choose-kombu", "kombu-nutrition", "kombu-katsuo-dashi", "yudofu-kombu", "toshikoshi-soba-dashi"],
+    related: ["kombu-water", "kombu-recipes", "how-to-choose-kombu", "kombu-nutrition", "kombu-katsuo-dashi", "yudofu-kombu", "toshikoshi-soba-dashi", "nanakusa-gayu-dashi"],
     recipe: {
       name: "昆布だし（煮出し）",
       recipeYield: "約1L",
@@ -3004,7 +3004,7 @@ export const GUIDES: Record<string, Guide> = {
     dateModified: "2026-11-14",
     searchKeyword: "昆布 栄養",
     targetQuery: "昆布 栄養",
-    related: ["kombu-types", "kombu-recipes", "gagome-kombu", "kombu-seaweed-types"],
+    related: ["kombu-types", "kombu-recipes", "gagome-kombu", "kombu-seaweed-types", "kombu-cha-uses", "shiokombu-guide"],
     sections: [
       {
         heading: "結論: 昆布に多いのはカリウム・カルシウム・食物繊維、そしてヨウ素",
@@ -3044,7 +3044,7 @@ export const GUIDES: Record<string, Guide> = {
       },
       {
         heading: "塩昆布と昆布だしの成分",
-        body: "昆布をそのまま食べる塩昆布と、昆布を浸けた水である昆布だしは、素干しと値が大きく違います。\n\n出典: 文部科学省「食品成分データベース」塩昆布（09022） https://fooddb.mext.go.jp/details/details.pl?ITEM_NO=9_09022_7 ／ 昆布だし 水出し（17020） https://fooddb.mext.go.jp/details/details.pl?ITEM_NO=17_17020_7",
+        body: "昆布をそのまま食べる塩昆布と、昆布を浸けた水である昆布だしは、素干しと値が大きく違います。\n\n粉末の昆布茶は、成分表では藻類ではなく、し好飲料類の「昆布茶」（16051）に載っていて、100gあたり食塩相当量51.3g・ヨウ素26,000μgです。料理に使う量と、その量を塩分・ヨウ素に換算した表は「昆布茶の使い方」の記事にまとめています。\n\n出典: 文部科学省「食品成分データベース」塩昆布（09022） https://fooddb.mext.go.jp/details/details.pl?ITEM_NO=9_09022_7 ／ 昆布だし 水出し（17020） https://fooddb.mext.go.jp/details/details.pl?ITEM_NO=17_17020_7 ／ 昆布茶（16051） https://fooddb.mext.go.jp/details/details.pl?ITEM_NO=16_16051_7",
         table: {
           caption: "出典: 日本食品標準成分表（八訂）増補2023年 塩昆布（09022）、昆布だし 水出し（17020）。いずれも100gあたり",
           headers: ["食品", "エネルギー", "ナトリウム", "カリウム", "ヨウ素"],
