@@ -1180,7 +1180,7 @@ export const GUIDES: Record<string, Guide> = {
     dateModified: "2026-11-18",
     searchKeyword: "塩昆布",
     targetQuery: "昆布 加工品",
-    related: ["tororo-oboro", "shiokombu-guide", "kombu-cha-uses", "kombu-tsukudani", "kombu-oyatsu-guide", "kombumaki"],
+    related: ["tororo-oboro", "shiokombu-guide", "kombu-cha-uses", "kombu-tsukudani", "kombu-oyatsu-guide", "miyako-kombu", "kombumaki"],
     sections: [
       {
         heading: "結論: 日本昆布協会の一覧では26種",
@@ -3551,7 +3551,7 @@ export const GUIDES: Record<string, Guide> = {
     dateModified: "2026-11-22",
     searchKeyword: "都こんぶ",
     targetQuery: "都こんぶ 種類",
-    related: ["kombu-oyatsu-guide", "oshaburi-kombu", "kombu-diet-oyatsu", "otsumami-kombu"],
+    related: ["kombu-oyatsu-guide", "oshaburi-kombu", "kombu-processed-foods", "kombu-diet-oyatsu", "otsumami-kombu"],
     sections: [
       {
         heading: "結論: 都こんぶは製造元の公式サイトで酢こんぶ7品。違いは内容量と味（梅酢・粉の量）",
