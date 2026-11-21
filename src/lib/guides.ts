@@ -3005,7 +3005,7 @@ export const GUIDES: Record<string, Guide> = {
     dateModified: "2026-11-14",
     searchKeyword: "昆布 栄養",
     targetQuery: "昆布 栄養",
-    related: ["kombu-types", "kombu-recipes", "gagome-kombu", "kombu-seaweed-types", "kombu-cha-uses", "shiokombu-guide"],
+    related: ["kombu-types", "kombu-recipes", "gagome-kombu", "kombu-seaweed-types", "kombu-cha-uses", "shiokombu-guide", "kombu-diet-oyatsu"],
     sections: [
       {
         heading: "結論: 昆布に多いのはカリウム・カルシウム・食物繊維、そしてヨウ素",
