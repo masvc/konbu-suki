@@ -1,0 +1,14 @@
+{
+  "slot": "improve",
+  "title": "既存記事の改善",
+  "startedAt": "2026-11-22T16:00:05.954Z",
+  "minutes": 3,
+  "limitMinutes": 100,
+  "commits": [
+    "改善枠の記録: 昆布茶の title と佃煮の FAQ を直し、年越しそばの具材は資料が無く見送った",
+    "昆布の佃煮に「食べ方」の FAQ を1問足した",
+    "昆布茶の使い方の title と description を「飲む以外は料理の調味料に」が一目で分かる形に直した"
+  ],
+  "exit": 0,
+  "trouble": []
+}
