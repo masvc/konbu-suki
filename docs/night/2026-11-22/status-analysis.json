@@ -1,0 +1,12 @@
+{
+  "slot": "analysis",
+  "title": "分析",
+  "startedAt": "2026-11-22T14:00:05.970Z",
+  "minutes": 22,
+  "limitMinutes": 100,
+  "commits": [
+    "夜間の分析: 表示1,372・登録33/43・AI引用 毎回9/41、昆布茶の記事の title を次の一手に"
+  ],
+  "exit": 0,
+  "trouble": []
+}
