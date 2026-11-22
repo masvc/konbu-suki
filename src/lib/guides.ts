@@ -826,7 +826,7 @@ export const GUIDES: Record<string, Guide> = {
     dateModified: "2026-11-18",
     searchKeyword: "だし昆布",
     targetQuery: "年越しそば だし",
-    related: ["kombu-katsuo-dashi", "how-to-make-dashi", "kombu-water", "nanakusa-gayu-dashi"],
+    related: ["kombu-katsuo-dashi", "how-to-make-dashi", "kombu-water", "nanakusa-gayu-dashi", "how-to-choose-kombu", "kombu-nutrition"],
     sections: [
       {
         heading: "結論: 定番のつゆは削り節だけ。昆布を足すなら水1Lに10〜20gから",
@@ -1059,7 +1059,7 @@ export const GUIDES: Record<string, Guide> = {
     dateModified: "2026-11-15",
     searchKeyword: "だし昆布",
     targetQuery: "七草がゆ だし",
-    related: ["kombu-katsuo-dashi", "how-to-make-dashi", "kombu-water", "toshikoshi-soba-dashi", "kombumaki"],
+    related: ["kombu-katsuo-dashi", "how-to-make-dashi", "kombu-water", "toshikoshi-soba-dashi", "kombumaki", "kombu-nutrition"],
     recipe: {
       name: "七草がゆ（昆布とかつおのだしで炊く）",
       category: "粥",
@@ -1299,7 +1299,7 @@ export const GUIDES: Record<string, Guide> = {
     dateModified: "2026-11-17",
     searchKeyword: "真昆布",
     targetQuery: "真昆布",
-    related: ["kombu-types", "rausu-kombu", "kombu-production", "how-to-make-dashi", "kombu-life-cycle", "kombu-history"],
+    related: ["kombu-types", "rausu-kombu", "kombu-comparison", "kombu-production", "how-to-make-dashi", "kombu-life-cycle", "kombu-history", "kombu-nutrition"],
     sections: [
       {
         heading: "結論: 道南で採れる、幅が広く肉厚なだし用の昆布",
@@ -1618,7 +1618,7 @@ export const GUIDES: Record<string, Guide> = {
     dateModified: "2026-11-11",
     searchKeyword: "だし昆布",
     targetQuery: "昆布だし 鰹だし 違い",
-    related: ["how-to-make-dashi", "kombu-water", "toshikoshi-soba-dashi", "how-to-choose-kombu", "nanakusa-gayu-dashi", "kombu-tsukudani"],
+    related: ["how-to-make-dashi", "kombu-water", "toshikoshi-soba-dashi", "how-to-choose-kombu", "nanakusa-gayu-dashi", "kombu-tsukudani", "kombu-storage", "kombu-nutrition"],
     sections: [
       {
         heading: "結論: うま味の成分と、火の入れ方が違う",
@@ -1873,7 +1873,7 @@ export const GUIDES: Record<string, Guide> = {
     dateModified: "2026-11-20",
     searchKeyword: "昆布締め 昆布",
     targetQuery: "鯛 昆布締め",
-    related: ["kobujime", "kobujime-hirame", "kobujime-salmon", "kobujime-iwashi-katsuo", "kobujime-tips", "kobujime-arrange"],
+    related: ["kobujime", "kobujime-hirame", "kobujime-salmon", "kobujime-iwashi-katsuo", "kobujime-tips", "kobujime-arrange", "kombu-comparison"],
     // 出典（協会 7597）の時間は「一晩（8時間弱）ぐらい」で幅があるため、
     // 置く時間は prepTime/totalTime に入れない。塩の10分だけを prepTime にした。
     recipe: {
@@ -2069,7 +2069,7 @@ export const GUIDES: Record<string, Guide> = {
     dateModified: "2026-11-18",
     searchKeyword: "真昆布",
     targetQuery: "鶏むね肉 昆布締め",
-    related: ["kobujime", "kobujime-beef", "kobujime-hirame", "how-to-make-dashi", "kobujime-arrange"],
+    related: ["kobujime", "kobujime-beef", "kobujime-hirame", "how-to-make-dashi", "kobujime-arrange", "kombu-water", "kombu-nutrition"],
     // 出典（協会 2142）の時間は「3時間～好きな締め加減」で上限が無いため、時間の項目は省いた。
     // 生で食べない構成なので、最後の手順に加熱を必ず入れる。
     recipe: {
@@ -2379,7 +2379,7 @@ export const GUIDES: Record<string, Guide> = {
     dateModified: "2026-11-23",
     searchKeyword: "昆布締め 昆布",
     targetQuery: "昆布締め 作り方",
-    related: ["kobujime-tips", "kobujime-hirame", "kobujime-tai", "kobujime-salmon", "kobujime-chicken", "kobujime-beef", "kobujime-iwashi-katsuo", "kobujime-vegetables", "kobujime-hare", "kobujime-arrange"],
+    related: ["kobujime-tips", "kobujime-hirame", "kobujime-tai", "kobujime-salmon", "kobujime-chicken", "kobujime-beef", "kobujime-iwashi-katsuo", "kobujime-vegetables", "kobujime-hare", "kobujime-arrange", "kombu-history", "kombu-recipes"],
     // 「基本の手順（魚）」の節に出ている農林水産省の富山の作り方。出典に分量・人数が無いため
     // 材料は名前だけにし、時間（一晩）も数字が無いので省いた。
     recipe: {
@@ -2585,7 +2585,7 @@ export const GUIDES: Record<string, Guide> = {
     dateModified: "2026-11-23",
     searchKeyword: "とろろ昆布",
     targetQuery: "とろろ昆布 おぼろ昆布 違い",
-    related: ["gagome-kombu", "kombu-types", "shiokombu-guide", "kombu-processed-foods", "yudofu-kombu", "kobujime-arrange"],
+    related: ["gagome-kombu", "kombu-types", "shiokombu-guide", "kombu-processed-foods", "yudofu-kombu", "kobujime-arrange", "how-to-choose-kombu"],
     sections: [
       {
         heading: "結論: 削る場所が違う。側面か、表面か",
@@ -2811,7 +2811,7 @@ export const GUIDES: Record<string, Guide> = {
     dateModified: "2026-11-15",
     searchKeyword: "昆布 違い",
     targetQuery: "昆布 違い",
-    related: ["kombu-types", "rausu-kombu", "ma-kombu", "how-to-make-dashi", "how-to-choose-kombu"],
+    related: ["kombu-types", "rausu-kombu", "ma-kombu", "how-to-make-dashi", "how-to-choose-kombu", "kombu-processed-foods", "gagome-kombu", "tororo-oboro", "kombu-nutrition"],
     sections: [
       {
         heading: "結論: だしの色と味で分かれる。澄んだだしは利尻・真昆布、色が付いて濃いのは羅臼",
@@ -2881,7 +2881,7 @@ export const GUIDES: Record<string, Guide> = {
     dateModified: "2026-11-11",
     searchKeyword: "昆布 種類",
     targetQuery: "昆布 種類",
-    related: ["kombu-comparison", "gagome-kombu", "rausu-kombu", "ma-kombu", "kombu-production", "kombu-life-cycle", "kombu-history", "kombu-seaweed-types", "kombu-tsukudani"],
+    related: ["kombu-comparison", "gagome-kombu", "rausu-kombu", "ma-kombu", "kombu-production", "kombu-life-cycle", "kombu-history", "kombu-seaweed-types", "kombu-tsukudani", "kombu-processed-foods"],
     sections: [
       {
         heading: "結論: 主な種類は7つ。だしに挙がるのは利尻・羅臼・日高・真昆布",
@@ -3262,7 +3262,7 @@ export const GUIDES: Record<string, Guide> = {
     dateModified: "2026-11-18",
     searchKeyword: "昆布 レシピ",
     targetQuery: "昆布 レシピ",
-    related: ["kombumaki", "kobujime", "kombu-tsukudani", "shiokombu-guide", "kombu-cha-uses","nanakusa-gayu-dashi", "toshikoshi-soba-dashi", "yudofu-kombu", "kombu-oyatsu-guide", "kombu-history", "kombu-storage"],
+    related: ["kombumaki", "kobujime", "kombu-tsukudani", "shiokombu-guide", "kombu-cha-uses","nanakusa-gayu-dashi", "toshikoshi-soba-dashi", "yudofu-kombu", "kombu-oyatsu-guide", "kombu-history", "kombu-storage", "how-to-make-dashi", "kombu-water"],
     sections: [
       {
         heading: "結論: 何を作るかより、どれだけ時間があるかで選ぶ",
@@ -3331,7 +3331,7 @@ export const GUIDES: Record<string, Guide> = {
     dateModified: "2026-11-14",
     searchKeyword: "昆布 歴史",
     targetQuery: "昆布ロード",
-    related: ["kombu-production", "kombu-life-cycle", "kombu-types", "tororo-oboro", "kobujime", "kombumaki"],
+    related: ["kombu-production", "kombu-life-cycle", "kombu-types", "tororo-oboro", "kobujime", "kombumaki", "kombu-recipes", "ma-kombu"],
     sections: [
       {
         heading: "結論: 昆布は北海道から運ばれ、着いた土地ごとに別の形になった",
@@ -3366,7 +3366,7 @@ export const GUIDES: Record<string, Guide> = {
       },
       {
         heading: "縁起物として扱われてきた",
-        body: "昆布は祝い事と結びついています。沖縄のクーブイリチーは「昆布と『よろこぶ』とかけて、結婚式などの祝い事に欠かせない料理となっている」とされ、北海道の昆布巻きも「不老長寿の願いが込められたり、子孫繁栄の意味が込められたりと縁起担ぎに正月によく食されている」と記されています。\n\n真昆布は「幅が広く肉厚。結納品などの飾りにも使われる」とされており、食べるためだけのものではない使われ方も残っています。\n\n北海道と富山の昆布巻きの作り方と違いは、おせちの昆布巻きの作り方の記事にまとめています。\n\n出典: 農林水産省「うちの郷土料理」クーブイリチー、「にっぽん伝統食図鑑」昆布巻き、北海道ぎょれん「北海道のこんぶ」",
+        body: "昆布は祝い事と結びついています。沖縄のクーブイリチーは「昆布と『よろこぶ』とかけて、結婚式などの祝い事に欠かせない料理となっている」とされ、北海道の昆布巻きも「不老長寿の願いが込められたり、子孫繁栄の意味が込められたりと縁起担ぎに正月によく食されている」と記されています。\n\n真昆布は「幅が広く肉厚。結納品などの飾りにも使われる」とされており、食べるためだけのものではない使われ方も残っています。\n\n北海道と富山の昆布巻きの作り方と違いは、おせちの昆布巻きの作り方の記事にまとめています。クーブイリチーや松前漬けなど、昆布が主役の郷土料理の一覧は昆布を使ったレシピ集の記事に、真昆布の産地と特徴は真昆布の記事にあります。\n\n出典: 農林水産省「うちの郷土料理」クーブイリチー、「にっぽん伝統食図鑑」昆布巻き、北海道ぎょれん「北海道のこんぶ」",
       },
     ],
     faq: [
@@ -3386,7 +3386,7 @@ export const GUIDES: Record<string, Guide> = {
     dateModified: "2026-11-12",
     searchKeyword: "昆布 産地 北海道",
     targetQuery: "昆布 産地",
-    related: ["kombu-types", "kombu-history", "kombu-comparison", "rausu-kombu", "ma-kombu", "kombu-life-cycle"],
+    related: ["kombu-types", "kombu-history", "kombu-comparison", "rausu-kombu", "ma-kombu", "kombu-life-cycle", "how-to-choose-kombu"],
     sections: [
       {
         heading: "結論: 日本で食べられている昆布の9割が北海道産",
@@ -3526,7 +3526,7 @@ export const GUIDES: Record<string, Guide> = {
     dateModified: "2026-11-09",
     searchKeyword: "おしゃぶり昆布 おすすめ",
     targetQuery: "おしゃぶり昆布 おすすめ",
-    related: ["kombu-oyatsu-guide", "miyako-kombu", "kombu-diet-oyatsu", "otsumami-kombu"],
+    related: ["kombu-oyatsu-guide", "miyako-kombu", "kombu-diet-oyatsu", "otsumami-kombu", "kombu-nutrition"],
     sections: [
       {
         heading: "結論: 選び方は「味付け」「原材料」「内容量」の3つを袋の表示で見る",
@@ -3652,7 +3652,7 @@ export const GUIDES: Record<string, Guide> = {
     dateModified: "2026-11-09",
     searchKeyword: "おつまみ昆布",
     targetQuery: "おつまみ昆布 おすすめ",
-    related: ["kombu-oyatsu-guide", "oshaburi-kombu", "shiokombu-guide", "kombu-processed-foods"],
+    related: ["kombu-oyatsu-guide", "oshaburi-kombu", "shiokombu-guide", "kombu-processed-foods", "gagome-kombu", "kombu-nutrition"],
     sections: [
       {
         heading: "結論: 食感で選び、塩分は袋の表示で確かめる",
