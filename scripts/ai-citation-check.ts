@@ -27,7 +27,8 @@ import path from "node:path";
 import { GoogleGenAI } from "@google/genai";
 import { GUIDES } from "../src/lib/guides";
 import { PUBLIC_SITE_HOST } from "./lib/site";
-import { nightDir } from "./lib/night";
+import { nightDate, nightDir } from "./lib/night";
+import { citationDiffMarkdown } from "./lib/ai-citation-diff";
 
 const MODEL = "gemini-2.5-flash";
 /** 呼び出しの間隔。まとめて投げると 429 が返る。 */
@@ -54,6 +55,27 @@ const repeat = Math.max(1, Math.floor(numberAfter("--repeat", 2)));
 const outDir = stringAfter("--out");
 /** 狙う語にこの文字列を含むものだけ取る（動作確認用） */
 const match = stringAfter("--match");
+
+/**
+ * --diff: Gemini を呼ばず、保存済みの夜ごとの結果を並べるだけ（前夜比）。
+ * --date で最後の夜（既定は今夜）、--nights で並べる夜の数（既定4）。
+ */
+if (args.includes("--diff")) {
+  const last = stringAfter("--date") ?? nightDate();
+  const md = citationDiffMarkdown(last, numberAfter("--nights", 4));
+  if (!md) {
+    console.error(`${last} 以前に ai-citation.json が無い。`);
+    process.exit(1);
+  }
+  if (outDir) {
+    const file = path.join(path.resolve(outDir), "ai-citation-diff.md");
+    writeFileSync(file, md);
+    console.log(`書いた: ${file}`);
+  } else {
+    console.log(md);
+  }
+  process.exit(0);
+}
 
 const API_KEY = process.env.GEMINI_API_KEY;
 if (!API_KEY) {
@@ -334,6 +356,16 @@ async function main() {
   const jsonPath = path.join(dir, "ai-citation.json");
   writeFileSync(mdPath, markdown(results));
   writeFileSync(jsonPath, JSON.stringify(results, null, 2));
+
+  // 夜のフォルダに書いたときは、前夜比も並べておく（--match などの部分取得では出さない）
+  const night = path.basename(dir);
+  if (/^\d{4}-\d{2}-\d{2}$/.test(night) && !match && !limit) {
+    const diff = citationDiffMarkdown(night);
+    if (diff) {
+      writeFileSync(path.join(dir, "ai-citation-diff.md"), diff);
+      console.log(path.join(dir, "ai-citation-diff.md"));
+    }
+  }
 
   const cited = results.filter((r) => r.cited).length;
   const errors = results.filter((r) => r.error).length;
