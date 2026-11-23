@@ -1,14 +1,14 @@
 {
-  "date": "2026-11-22",
+  "date": "2026-11-23",
   "period": {
-    "startDate": "2026-10-22",
-    "endDate": "2026-11-19"
+    "startDate": "2026-10-23",
+    "endDate": "2026-11-20"
   },
   "summary": {
-    "clicks": 33,
-    "impressions": 1372,
-    "ctr": 0.024052478134110787,
-    "position": 13.267492711370263
+    "clicks": 36,
+    "impressions": 1535,
+    "ctr": 0.023452768729641693,
+    "position": 13.23257328990228
   },
   "queries": [
     {
@@ -21,16 +21,16 @@
     {
       "key": "ライフ 塩昆布",
       "clicks": 2,
-      "impressions": 10,
-      "ctr": 0.2,
-      "position": 2.4
+      "impressions": 11,
+      "ctr": 0.18181818181818182,
+      "position": 2.3636363636363633
     },
     {
       "key": "塩昆布 おすすめ",
       "clicks": 1,
-      "impressions": 10,
-      "ctr": 0.1,
-      "position": 12.5
+      "impressions": 11,
+      "ctr": 0.09090909090909091,
+      "position": 12.272727272727273
     },
     {
       "key": "都こんぶ 酢こんぶ 違い",
@@ -63,9 +63,9 @@
     {
       "key": "konbu",
       "clicks": 0,
-      "impressions": 1,
+      "impressions": 2,
       "ctr": 0,
-      "position": 51
+      "position": 49
     },
     {
       "key": "えびす め 切り落とし",
@@ -89,6 +89,13 @@
       "position": 21.333333333333332
     },
     {
+      "key": "おしゃぶり昆布 ランキング",
+      "clicks": 0,
+      "impressions": 2,
+      "ctr": 0,
+      "position": 5.5
+    },
+    {
       "key": "おしゃぶり昆布 効果",
       "clicks": 0,
       "impressions": 1,
@@ -105,9 +112,16 @@
     {
       "key": "おせち 昆布巻き",
       "clicks": 0,
-      "impressions": 15,
+      "impressions": 16,
       "ctr": 0,
-      "position": 61.4
+      "position": 60.6875
+    },
+    {
+      "key": "おせち料理 昆布巻き",
+      "clicks": 0,
+      "impressions": 2,
+      "ctr": 0,
+      "position": 49.5
     },
     {
       "key": "おせち昆布巻き",
@@ -138,6 +152,13 @@
       "position": 5
     },
     {
+      "key": "おやつ昆布 おすすめ",
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 21
+    },
+    {
       "key": "くらこん 塩こんぶ",
       "clicks": 0,
       "impressions": 1,
@@ -159,6 +180,13 @@
       "position": 71
     },
     {
+      "key": "こんぶ おやつ",
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 7
+    },
+    {
       "key": "こんぶ 栄養",
       "clicks": 0,
       "impressions": 1,
@@ -173,11 +201,32 @@
       "position": 93
     },
     {
+      "key": "こんぶ 茶",
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 40
+    },
+    {
+      "key": "こんぶだし 取り方",
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 71
+    },
+    {
       "key": "こんぶだし 無添加",
       "clicks": 0,
       "impressions": 1,
       "ctr": 0,
       "position": 6
+    },
+    {
+      "key": "こんぶ茶",
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 40
     },
     {
       "key": "てまひまや 塩昆布",
@@ -203,9 +252,9 @@
     {
       "key": "とろろ昆布",
       "clicks": 0,
-      "impressions": 1,
+      "impressions": 2,
       "ctr": 0,
-      "position": 66
+      "position": 67.5
     },
     {
       "key": "とろろ昆布 塩分",
@@ -308,16 +357,23 @@
     {
       "key": "六彩だし",
       "clicks": 0,
-      "impressions": 53,
+      "impressions": 56,
       "ctr": 0,
-      "position": 8.773584905660378
+      "position": 8.678571428571429
     },
     {
       "key": "六彩だし レシピ",
       "clicks": 0,
+      "impressions": 2,
+      "ctr": 0,
+      "position": 4.5
+    },
+    {
+      "key": "出汁の取り方昆布",
+      "clicks": 0,
       "impressions": 1,
       "ctr": 0,
-      "position": 3
+      "position": 41
     },
     {
       "key": "函館 昆布",
@@ -343,9 +399,9 @@
     {
       "key": "利尻昆布",
       "clicks": 0,
-      "impressions": 1,
+      "impressions": 3,
       "ctr": 0,
-      "position": 55
+      "position": 44.333333333333336
     },
     {
       "key": "前島食品 こぶ茶",
@@ -399,9 +455,9 @@
     {
       "key": "塩ふき昆布 塩昆布 違い",
       "clicks": 0,
-      "impressions": 25,
+      "impressions": 29,
       "ctr": 0,
-      "position": 8.76
+      "position": 8.689655172413794
     },
     {
       "key": "塩昆布 くらこん フジッコ 比較",
@@ -425,6 +481,13 @@
       "position": 11
     },
     {
+      "key": "塩昆布 味噌汁",
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 4
+    },
+    {
       "key": "塩昆布 塩ふき昆布 違い",
       "clicks": 0,
       "impressions": 5,
@@ -434,16 +497,16 @@
     {
       "key": "塩昆布 塩分",
       "clicks": 0,
-      "impressions": 51,
+      "impressions": 57,
       "ctr": 0,
-      "position": 3.196078431372549
+      "position": 3.2280701754385963
     },
     {
       "key": "塩昆布 塩分量",
       "clicks": 0,
-      "impressions": 23,
+      "impressions": 25,
       "ctr": 0,
-      "position": 8.304347826086957
+      "position": 8.24
     },
     {
       "key": "塩昆布の塩分量",
@@ -481,6 +544,13 @@
       "position": 46
     },
     {
+      "key": "戻した昆布 日持ち",
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 6
+    },
+    {
       "key": "日高昆布",
       "clicks": 0,
       "impressions": 9,
@@ -497,9 +567,9 @@
     {
       "key": "日高昆布 特徴",
       "clicks": 0,
-      "impressions": 1,
+      "impressions": 2,
       "ctr": 0,
-      "position": 10
+      "position": 10.5
     },
     {
       "key": "昆布",
@@ -558,6 +628,13 @@
       "position": 3.5
     },
     {
+      "key": "昆布 水出し 時間",
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 11
+    },
+    {
       "key": "昆布 産地",
       "clicks": 0,
       "impressions": 2,
@@ -593,6 +670,13 @@
       "position": 6
     },
     {
+      "key": "昆布だし取り方",
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 77
+    },
+    {
       "key": "昆布佃煮 ランキング",
       "clicks": 0,
       "impressions": 1,
@@ -626,141 +710,64 @@
       "impressions": 1,
       "ctr": 0,
       "position": 54
-    },
-    {
-      "key": "昆布巻きおせち",
-      "clicks": 0,
-      "impressions": 1,
-      "ctr": 0,
-      "position": 56
-    },
-    {
-      "key": "昆布巻き中身",
-      "clicks": 0,
-      "impressions": 1,
-      "ctr": 0,
-      "position": 64
-    },
-    {
-      "key": "昆布巻き作り方",
-      "clicks": 0,
-      "impressions": 1,
-      "ctr": 0,
-      "position": 55
-    },
-    {
-      "key": "昆布水",
-      "clicks": 0,
-      "impressions": 2,
-      "ctr": 0,
-      "position": 36.5
-    },
-    {
-      "key": "昆布水 作り方",
-      "clicks": 0,
-      "impressions": 1,
-      "ctr": 0,
-      "position": 52
-    },
-    {
-      "key": "昆布水 使い方",
-      "clicks": 0,
-      "impressions": 2,
-      "ctr": 0,
-      "position": 68.5
-    },
-    {
-      "key": "昆布水 賞味期限",
-      "clicks": 0,
-      "impressions": 3,
-      "ctr": 0,
-      "position": 9
-    },
-    {
-      "key": "昆布水の作り方",
-      "clicks": 0,
-      "impressions": 2,
-      "ctr": 0,
-      "position": 65.5
-    },
-    {
-      "key": "昆布水作り方",
-      "clicks": 0,
-      "impressions": 1,
-      "ctr": 0,
-      "position": 54
-    },
-    {
-      "key": "昆布締め",
-      "clicks": 0,
-      "impressions": 1,
-      "ctr": 0,
-      "position": 83
-    },
-    {
-      "key": "昆布締め 時間",
-      "clicks": 0,
-      "impressions": 1,
-      "ctr": 0,
-      "position": 58
-    },
-    {
-      "key": "昆布締めの作り方",
-      "clicks": 0,
-      "impressions": 1,
-      "ctr": 0,
-      "position": 63
     }
   ],
   "pages": [
     {
       "key": "https://konbu-suki.com/product/314",
-      "clicks": 8,
-      "impressions": 54,
-      "ctr": 0.14814814814814814,
-      "position": 4.203703703703704
+      "clicks": 9,
+      "impressions": 60,
+      "ctr": 0.15,
+      "position": 4.183333333333334
     },
     {
       "key": "https://konbu-suki.com/product/259",
       "clicks": 4,
-      "impressions": 112,
-      "ctr": 0.03571428571428571,
-      "position": 8.803571428571429
+      "impressions": 119,
+      "ctr": 0.03361344537815126,
+      "position": 9.193277310924369
+    },
+    {
+      "key": "https://konbu-suki.com/guide/kombu-storage",
+      "clicks": 3,
+      "impressions": 150,
+      "ctr": 0.02,
+      "position": 9.04
     },
     {
       "key": "https://konbu-suki.com/guide/kobujime-tips",
       "clicks": 2,
-      "impressions": 42,
-      "ctr": 0.047619047619047616,
-      "position": 5.904761904761905
+      "impressions": 43,
+      "ctr": 0.046511627906976744,
+      "position": 5.790697674418604
     },
     {
       "key": "https://konbu-suki.com/guide/kombu-oyatsu-guide",
       "clicks": 2,
-      "impressions": 56,
-      "ctr": 0.03571428571428571,
-      "position": 8.642857142857142
-    },
-    {
-      "key": "https://konbu-suki.com/guide/kombu-storage",
-      "clicks": 2,
-      "impressions": 133,
-      "ctr": 0.015037593984962405,
-      "position": 9.097744360902256
+      "impressions": 71,
+      "ctr": 0.028169014084507043,
+      "position": 8.746478873239436
     },
     {
       "key": "https://konbu-suki.com/category/shiokombu",
       "clicks": 1,
-      "impressions": 40,
-      "ctr": 0.025,
-      "position": 9.85
+      "impressions": 43,
+      "ctr": 0.023255813953488372,
+      "position": 9.720930232558139
     },
     {
       "key": "https://konbu-suki.com/guide/how-to-choose-kombu",
       "clicks": 1,
-      "impressions": 10,
-      "ctr": 0.1,
-      "position": 6
+      "impressions": 11,
+      "ctr": 0.09090909090909091,
+      "position": 6.363636363636363
+    },
+    {
+      "key": "https://konbu-suki.com/guide/kobujime-hirame",
+      "clicks": 1,
+      "impressions": 50,
+      "ctr": 0.02,
+      "position": 22.58
     },
     {
       "key": "https://konbu-suki.com/guide/kombu-history",
@@ -772,9 +779,9 @@
     {
       "key": "https://konbu-suki.com/guide/kombu-water",
       "clicks": 1,
-      "impressions": 70,
-      "ctr": 0.014285714285714285,
-      "position": 14.771428571428572
+      "impressions": 79,
+      "ctr": 0.012658227848101266,
+      "position": 13.873417721518987
     },
     {
       "key": "https://konbu-suki.com/guide/rausu-kombu",
@@ -786,23 +793,23 @@
     {
       "key": "https://konbu-suki.com/origin/makombu",
       "clicks": 1,
-      "impressions": 21,
-      "ctr": 0.047619047619047616,
-      "position": 36.80952380952381
+      "impressions": 22,
+      "ctr": 0.045454545454545456,
+      "position": 35.18181818181818
     },
     {
       "key": "https://konbu-suki.com/origin/rausu",
       "clicks": 1,
-      "impressions": 11,
-      "ctr": 0.09090909090909091,
-      "position": 44.45454545454545
+      "impressions": 12,
+      "ctr": 0.08333333333333333,
+      "position": 40.833333333333336
     },
     {
       "key": "https://konbu-suki.com/product/11",
       "clicks": 1,
-      "impressions": 11,
-      "ctr": 0.09090909090909091,
-      "position": 6.2727272727272725
+      "impressions": 12,
+      "ctr": 0.08333333333333333,
+      "position": 6.25
     },
     {
       "key": "https://konbu-suki.com/product/110",
@@ -814,9 +821,9 @@
     {
       "key": "https://konbu-suki.com/product/147",
       "clicks": 1,
-      "impressions": 11,
-      "ctr": 0.09090909090909091,
-      "position": 8.727272727272727
+      "impressions": 12,
+      "ctr": 0.08333333333333333,
+      "position": 8.166666666666668
     },
     {
       "key": "https://konbu-suki.com/product/309",
@@ -835,9 +842,9 @@
     {
       "key": "https://konbu-suki.com/product/59",
       "clicks": 1,
-      "impressions": 14,
-      "ctr": 0.07142857142857142,
-      "position": 5.142857142857143
+      "impressions": 15,
+      "ctr": 0.06666666666666667,
+      "position": 5.333333333333333
     },
     {
       "key": "https://konbu-suki.com/product/64",
@@ -863,23 +870,23 @@
     {
       "key": "https://konbu-suki.com/category/dashi",
       "clicks": 0,
-      "impressions": 4,
+      "impressions": 5,
       "ctr": 0,
-      "position": 29
+      "position": 25
     },
     {
       "key": "https://konbu-suki.com/category/health",
       "clicks": 0,
-      "impressions": 3,
+      "impressions": 4,
       "ctr": 0,
-      "position": 9
+      "position": 7.75
     },
     {
       "key": "https://konbu-suki.com/category/kombucha",
       "clicks": 0,
-      "impressions": 19,
+      "impressions": 22,
       "ctr": 0,
-      "position": 17.473684210526315
+      "position": 19.045454545454547
     },
     {
       "key": "https://konbu-suki.com/category/seasoning",
@@ -898,9 +905,9 @@
     {
       "key": "https://konbu-suki.com/category/tororo",
       "clicks": 0,
-      "impressions": 4,
+      "impressions": 5,
       "ctr": 0,
-      "position": 77
+      "position": 75.4
     },
     {
       "key": "https://konbu-suki.com/category/tsukudani",
@@ -912,16 +919,16 @@
     {
       "key": "https://konbu-suki.com/en",
       "clicks": 0,
-      "impressions": 11,
+      "impressions": 15,
       "ctr": 0,
-      "position": 18.363636363636363
+      "position": 18.333333333333332
     },
     {
       "key": "https://konbu-suki.com/guide",
       "clicks": 0,
-      "impressions": 11,
+      "impressions": 12,
       "ctr": 0,
-      "position": 24.454545454545453
+      "position": 22.833333333333332
     },
     {
       "key": "https://konbu-suki.com/guide/gagome-kombu",
@@ -933,9 +940,9 @@
     {
       "key": "https://konbu-suki.com/guide/how-to-make-dashi",
       "clicks": 0,
-      "impressions": 48,
+      "impressions": 60,
       "ctr": 0,
-      "position": 9.895833333333334
+      "position": 14.566666666666666
     },
     {
       "key": "https://konbu-suki.com/guide/kobujime",
@@ -952,6 +959,13 @@
       "position": 23.25
     },
     {
+      "key": "https://konbu-suki.com/guide/kobujime-beef",
+      "clicks": 0,
+      "impressions": 6,
+      "ctr": 0,
+      "position": 21
+    },
+    {
       "key": "https://konbu-suki.com/guide/kobujime-chicken",
       "clicks": 0,
       "impressions": 1,
@@ -966,18 +980,11 @@
       "position": 7
     },
     {
-      "key": "https://konbu-suki.com/guide/kobujime-hirame",
-      "clicks": 0,
-      "impressions": 40,
-      "ctr": 0,
-      "position": 26.15
-    },
-    {
       "key": "https://konbu-suki.com/guide/kobujime-salmon",
       "clicks": 0,
-      "impressions": 10,
+      "impressions": 12,
       "ctr": 0,
-      "position": 22.9
+      "position": 21.666666666666668
     },
     {
       "key": "https://konbu-suki.com/guide/kobujime-tai",
@@ -989,23 +996,23 @@
     {
       "key": "https://konbu-suki.com/guide/kobujime-vegetables",
       "clicks": 0,
-      "impressions": 2,
+      "impressions": 7,
       "ctr": 0,
-      "position": 5.5
+      "position": 6.285714285714286
     },
     {
       "key": "https://konbu-suki.com/guide/kombu-cha-uses",
       "clicks": 0,
-      "impressions": 31,
+      "impressions": 34,
       "ctr": 0,
-      "position": 8.225806451612904
+      "position": 7.970588235294118
     },
     {
       "key": "https://konbu-suki.com/guide/kombu-diet-oyatsu",
       "clicks": 0,
-      "impressions": 2,
+      "impressions": 7,
       "ctr": 0,
-      "position": 1
+      "position": 7
     },
     {
       "key": "https://konbu-suki.com/guide/kombu-nutrition",
@@ -1038,30 +1045,23 @@
     {
       "key": "https://konbu-suki.com/guide/kombumaki",
       "clicks": 0,
-      "impressions": 37,
+      "impressions": 41,
       "ctr": 0,
-      "position": 54.91891891891892
+      "position": 54.73170731707317
     },
     {
       "key": "https://konbu-suki.com/guide/ma-kombu",
       "clicks": 0,
-      "impressions": 1,
+      "impressions": 2,
       "ctr": 0,
-      "position": 2
+      "position": 4
     },
     {
       "key": "https://konbu-suki.com/guide/oshaburi-kombu",
       "clicks": 0,
-      "impressions": 8,
+      "impressions": 10,
       "ctr": 0,
-      "position": 6.5
-    },
-    {
-      "key": "https://konbu-suki.com/guide/shiokombu-guide",
-      "clicks": 0,
-      "impressions": 210,
-      "ctr": 0,
-      "position": 6.280952380952381
+      "position": 5.8
     }
   ]
 }
