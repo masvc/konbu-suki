@@ -83,7 +83,7 @@ export const GUIDES: Record<string, Guide> = {
     dateModified: "2026-11-24",
     searchKeyword: "日高昆布",
     targetQuery: "おでん 昆布",
-    related: ["yudofu-kombu", "how-to-make-dashi", "kombu-recipes", "kombu-types"],
+    related: ["yudofu-kombu", "how-to-make-dashi", "kombu-recipes", "kombu-types", "kombumaki", "kombu-tsukudani"],
     sections: [
       {
         heading: "結論: おでんの昆布は「だし」と「結び昆布の具」の2役",
@@ -2984,7 +2984,7 @@ export const GUIDES: Record<string, Guide> = {
     dateModified: "2026-11-11",
     searchKeyword: "昆布 種類",
     targetQuery: "昆布 種類",
-    related: ["kombu-comparison", "gagome-kombu", "rausu-kombu", "ma-kombu", "kombu-production", "kombu-life-cycle", "kombu-history", "kombu-seaweed-types", "kombu-tsukudani", "kombu-processed-foods"],
+    related: ["kombu-comparison", "gagome-kombu", "rausu-kombu", "ma-kombu", "kombu-production", "kombu-life-cycle", "kombu-history", "kombu-seaweed-types", "kombu-tsukudani", "kombu-processed-foods", "oden-kombu"],
     sections: [
       {
         heading: "結論: 主な種類は7つ。だしに挙がるのは利尻・羅臼・日高・真昆布",
@@ -3005,7 +3005,7 @@ export const GUIDES: Record<string, Guide> = {
       },
       {
         heading: "作りたいものから引く: 用途別に挙がっている種類",
-        body: "北海道ぎょれんの資料にある「用途」を、作りたいものの側から並べ直しました。1つの用途に複数の種類が挙がっているものは、どれを使っても資料の範囲に収まります。塩昆布・とろろ昆布などの加工品の全体は、昆布の加工品一覧の記事にまとめています。\n\n昆布締めは、ぎょれんの資料では羅臼昆布の用途に挙がっています。日本昆布協会のレシピでは、ヒラメの昆布締めに羅臼昆布、鶏むね肉の昆布締めに真昆布が使われています（昆布締めの各記事を参照）。\n\n佃煮は、だしを取った後の昆布でも作れます。日本昆布協会のレシピの量は、昆布の佃煮の記事にまとめています。",
+        body: "北海道ぎょれんの資料にある「用途」を、作りたいものの側から並べ直しました。1つの用途に複数の種類が挙がっているものは、どれを使っても資料の範囲に収まります。塩昆布・とろろ昆布などの加工品の全体は、昆布の加工品一覧の記事にまとめています。\n\n昆布締めは、ぎょれんの資料では羅臼昆布の用途に挙がっています。日本昆布協会のレシピでは、ヒラメの昆布締めに羅臼昆布、鶏むね肉の昆布締めに真昆布が使われています（昆布締めの各記事を参照）。\n\n佃煮は、だしを取った後の昆布でも作れます。日本昆布協会のレシピの量は、昆布の佃煮の記事にまとめています。\n\nおでん用の昆布に挙がる日高昆布・長昆布と、日本昆布協会のおでんのレシピでの昆布の量・結び方は、おでんの昆布の記事にまとめています。",
         table: {
           caption: "出典: 北海道ぎょれん「北海道のこんぶ」の用途の記載を、用途ごとに並べ直したもの",
           headers: ["作りたいもの", "用途に挙がっている種類"],
@@ -3051,7 +3051,7 @@ export const GUIDES: Record<string, Guide> = {
     dateModified: "2026-11-17",
     searchKeyword: "昆布だし 取り方",
     targetQuery: "昆布だし 取り方",
-    related: ["kombu-water", "kombu-recipes", "how-to-choose-kombu", "kombu-nutrition", "kombu-katsuo-dashi", "yudofu-kombu", "toshikoshi-soba-dashi", "nanakusa-gayu-dashi"],
+    related: ["kombu-water", "kombu-recipes", "how-to-choose-kombu", "kombu-nutrition", "kombu-katsuo-dashi", "yudofu-kombu", "oden-kombu", "toshikoshi-soba-dashi", "nanakusa-gayu-dashi"],
     recipe: {
       name: "昆布だし（煮出し）",
       recipeYield: "約1L",
@@ -3084,7 +3084,7 @@ export const GUIDES: Record<string, Guide> = {
       },
       {
         heading: "煮出しの手順",
-        body: "協会の分量は、だし昆布10g〜20g程度（真昆布・羅臼昆布・利尻昆布・日高昆布）、水1Lです。\n\n1. 「昆布の表面を、固くしぼったふきんなどでさっと拭きます。（水洗いはしない）」\n\n2. 「分量の水に昆布を30分くらい漬ける。」\n\n3. 「中火にかけます。」\n\n4. 「沸騰直前で昆布を取り出せば完成。」\n\n沸騰直前の目安は、協会のページで「鍋の底から小さな泡がフツフツしてきたくらい」とされています。温度計が無くても、泡の出かたで見分けられます。\n\n沸騰させ続けないのは、「煮過ぎると昆布のねばり成分が溶け出し風味を損なう」ためです。\n\n出典: 日本昆布協会「昆布だしの取り方」 https://kombu.or.jp/power/dashi",
+        body: "協会の分量は、だし昆布10g〜20g程度（真昆布・羅臼昆布・利尻昆布・日高昆布）、水1Lです。\n\n1. 「昆布の表面を、固くしぼったふきんなどでさっと拭きます。（水洗いはしない）」\n\n2. 「分量の水に昆布を30分くらい漬ける。」\n\n3. 「中火にかけます。」\n\n4. 「沸騰直前で昆布を取り出せば完成。」\n\n沸騰直前の目安は、協会のページで「鍋の底から小さな泡がフツフツしてきたくらい」とされています。温度計が無くても、泡の出かたで見分けられます。\n\n沸騰させ続けないのは、「煮過ぎると昆布のねばり成分が溶け出し風味を損なう」ためです。\n\n沸騰直前に取り出した昆布を結び昆布にして、おでんの具に回す日本昆布協会のレシピは、おでんの昆布の記事にまとめています。\n\n出典: 日本昆布協会「昆布だしの取り方」 https://kombu.or.jp/power/dashi",
       },
       {
         heading: "水出し（昆布水）の手順",
@@ -3386,7 +3386,7 @@ export const GUIDES: Record<string, Guide> = {
       },
       {
         heading: "昆布が主役の料理: 巻く・締める・炒め煮・漬ける",
-        body: "だしを取った後の昆布のほかに、昆布そのものを主役にする料理もあります。農林水産省の郷土料理の資料に載っているものを、昆布の使い方で分けました。\n\n昆布巻きは、北海道では日高昆布を使うことが多く、「養老昆布」の当て字から不老長寿、「子生（こぶ）」から子孫繁栄の縁起担ぎとして正月に食べられてきたとされています。昆布締めは富山県の郷土料理で、使う昆布の大半は北海道産の羅臼昆布とされています。沖縄のクーブイリチーは、千切りにした昆布をよく炒めて、豚だしや醤油、砂糖などで具材と煮込む炒め煮で、昆布の「よろこぶ」の語呂から祝い料理とされてきました。北海道の松前漬けは、細く切った昆布とするめいか・数の子を醤油などに1週間程度漬け込むものです。\n\nだしで使う料理なら、七草がゆを昆布とかつおのだしで炊く作り方が香川県の資料にあります。湯豆腐は日本昆布協会のレシピがあり、湯豆腐の昆布の記事にまとめています。作り方はそれぞれの記事にまとめています。市販の塩昆布を和え物・炒め物・炊き込みご飯に使う量は、塩昆布の使い方とレシピの記事に表にしました。粉末の昆布茶を調味料として使う量は、昆布茶の使い方の記事に日本昆布協会のレシピ6品の表でまとめています。おしゃぶり昆布や都こんぶのように、昆布をそのままおやつとして食べる加工品もあります（昆布のおやつ完全ガイドの記事を参照）。北海道の昆布が各地へ運ばれ、着いた土地ごとに別の料理になった経緯は、昆布の歴史と昆布ロードの記事にまとめています。\n\n昆布巻きや佃煮、松前漬けのように昆布そのものを食べる料理は、だしに使う場合より口に入る昆布の量が多くなります。昆布にはヨウ素が多く含まれており、厚生労働省「日本人の食事摂取基準（2025年版）」ではヨウ素の耐容上限量を成人3,000μg/日、妊婦・授乳婦2,000μg/日と定めています。毎日続けてたくさん食べると、とりすぎになることがあります。甲状腺の病気で治療中の方、妊娠中・授乳中の方は、医師に相談してください。\n\n出典: 農林水産省「にっぽん伝統食図鑑」昆布巻き https://www.maff.go.jp/j/keikaku/syokubunka/traditional-foods/menu/kombumaki.html ／ 同 松前漬け https://www.maff.go.jp/j/keikaku/syokubunka/traditional-foods/menu/matumaezuke.html ／ 農林水産省「うちの郷土料理」昆布〆 富山県 https://www.maff.go.jp/j/keikaku/syokubunka/k_ryouri/search_menu/menu/37_12_toyama.html ／ 同 クーブイリチー 沖縄県 https://www.maff.go.jp/j/keikaku/syokubunka/k_ryouri/search_menu/menu/47_2_okinawa.html ／ 厚生労働省「日本人の食事摂取基準（2025年版）」 https://www.mhlw.go.jp/content/10904750/001316469.pdf",
+        body: "だしを取った後の昆布のほかに、昆布そのものを主役にする料理もあります。農林水産省の郷土料理の資料に載っているものを、昆布の使い方で分けました。\n\n昆布巻きは、北海道では日高昆布を使うことが多く、「養老昆布」の当て字から不老長寿、「子生（こぶ）」から子孫繁栄の縁起担ぎとして正月に食べられてきたとされています。昆布締めは富山県の郷土料理で、使う昆布の大半は北海道産の羅臼昆布とされています。沖縄のクーブイリチーは、千切りにした昆布をよく炒めて、豚だしや醤油、砂糖などで具材と煮込む炒め煮で、昆布の「よろこぶ」の語呂から祝い料理とされてきました。北海道の松前漬けは、細く切った昆布とするめいか・数の子を醤油などに1週間程度漬け込むものです。\n\nだしで使う料理なら、七草がゆを昆布とかつおのだしで炊く作り方が香川県の資料にあります。湯豆腐は日本昆布協会のレシピがあり、湯豆腐の昆布の記事にまとめています。おでんで昆布をだしと結び昆布の具の両方に使う協会のレシピは、おでんの昆布の記事にまとめています。作り方はそれぞれの記事にまとめています。市販の塩昆布を和え物・炒め物・炊き込みご飯に使う量は、塩昆布の使い方とレシピの記事に表にしました。粉末の昆布茶を調味料として使う量は、昆布茶の使い方の記事に日本昆布協会のレシピ6品の表でまとめています。おしゃぶり昆布や都こんぶのように、昆布をそのままおやつとして食べる加工品もあります（昆布のおやつ完全ガイドの記事を参照）。北海道の昆布が各地へ運ばれ、着いた土地ごとに別の料理になった経緯は、昆布の歴史と昆布ロードの記事にまとめています。\n\n昆布巻きや佃煮、松前漬けのように昆布そのものを食べる料理は、だしに使う場合より口に入る昆布の量が多くなります。昆布にはヨウ素が多く含まれており、厚生労働省「日本人の食事摂取基準（2025年版）」ではヨウ素の耐容上限量を成人3,000μg/日、妊婦・授乳婦2,000μg/日と定めています。毎日続けてたくさん食べると、とりすぎになることがあります。甲状腺の病気で治療中の方、妊娠中・授乳中の方は、医師に相談してください。\n\n出典: 農林水産省「にっぽん伝統食図鑑」昆布巻き https://www.maff.go.jp/j/keikaku/syokubunka/traditional-foods/menu/kombumaki.html ／ 同 松前漬け https://www.maff.go.jp/j/keikaku/syokubunka/traditional-foods/menu/matumaezuke.html ／ 農林水産省「うちの郷土料理」昆布〆 富山県 https://www.maff.go.jp/j/keikaku/syokubunka/k_ryouri/search_menu/menu/37_12_toyama.html ／ 同 クーブイリチー 沖縄県 https://www.maff.go.jp/j/keikaku/syokubunka/k_ryouri/search_menu/menu/47_2_okinawa.html ／ 厚生労働省「日本人の食事摂取基準（2025年版）」 https://www.mhlw.go.jp/content/10904750/001316469.pdf",
         table: {
           caption: "出典: 農林水産省「にっぽん伝統食図鑑」昆布巻き・松前漬け、「うちの郷土料理」昆布〆 富山県・クーブイリチー 沖縄県、香川県「新七草がゆ」",
           headers: ["料理", "昆布の使い方", "地域・場面（資料の記載）", "このサイトの記事"],
