@@ -1,0 +1,12 @@
+{
+  "slot": "analysis",
+  "title": "分析",
+  "startedAt": "2026-11-24T14:00:04.657Z",
+  "minutes": 22,
+  "limitMinutes": 100,
+  "commits": [
+    "夜間の分析: 羅臼昆布の引用が0/2に戻り効果の条件を3夜に、次の一手にカテゴリのItemListとおでんのFAQ（登録34/44・検出3・クロール済み0）"
+  ],
+  "exit": 0,
+  "trouble": []
+}
