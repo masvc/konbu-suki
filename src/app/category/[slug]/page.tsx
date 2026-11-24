@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { prisma } from "@/lib/prisma";
-import { CATEGORIES, type CategorySlug } from "@/lib/constants";
+import { CATEGORIES, SITE_URL, type CategorySlug } from "@/lib/constants";
 import { categoryMeta } from "@/lib/page-meta";
 import { ProductCard } from "@/components/ProductCard";
 import { ShopCTA } from "@/components/ShopCTA";
@@ -27,8 +27,29 @@ export default async function CategoryPage({ params }: Props) {
     orderBy: [{ isFeatured: "desc" }, { rating: "desc" }, { createdAt: "desc" }],
   });
 
+  // ページに並んでいる商品をそのまま ItemList にする。並び順は表示順で、
+  // おすすめ順位ではないので rating や順位の意味は持たせない。
+  const itemListJsonLd =
+    products.length > 0
+      ? {
+          "@context": "https://schema.org",
+          "@type": "ItemList",
+          name: cat.label,
+          numberOfItems: products.length,
+          itemListElement: products.map((p, i) => ({
+            "@type": "ListItem",
+            position: i + 1,
+            url: `${SITE_URL}/product/${p.id}`,
+            name: p.name,
+          })),
+        }
+      : null;
+
   return (
     <main className="flex-1">
+      {itemListJsonLd && (
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(itemListJsonLd).replace(/</g, "\\u003c") }} />
+      )}
       <section className="bg-gradient-to-b from-green-50 to-white border-b border-gray-100">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 py-10">
           {/* 他のページ種別には入っているのに、ここだけ無かった。
