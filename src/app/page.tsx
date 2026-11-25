@@ -199,8 +199,12 @@ export default async function Home() {
               sizes="(max-width: 1280px) 100vw, 1200px"
               className="h-56 w-full object-cover sm:h-72"
             />
-            {/* 左から黒を重ねる。右側は絵を見せる */}
-            <div className="absolute inset-0 bg-gradient-to-r from-black/75 via-black/55 to-black/10" />
+            {/*
+              左から黒を重ねる。右側は絵を見せる。
+              **スマホでは濃くする。** 幅が狭いと文字が絵の明るい部分まで
+              かかって読めなくなる（375pxの実機撮影で確認）。
+            */}
+            <div className="absolute inset-0 bg-gradient-to-r from-black/85 via-black/70 to-black/35 sm:from-black/75 sm:via-black/55 sm:to-black/10" />
             <div className="absolute inset-0 flex items-center">
               <div className="max-w-md px-5 sm:px-8">
                 <p className="text-[10px] font-bold tracking-widest text-[#b7e4c7] mb-1">YEAR-END</p>
