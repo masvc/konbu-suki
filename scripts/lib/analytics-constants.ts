@@ -13,8 +13,30 @@
  * 落とした。イベントを増やしたらここにも足す。
  */
 export const CTA_EVENTS = [
+  // 商品ページの購入ボタン
   "amazon_click",
   "rakuten_click",
+  // 記事の中の商品カード（2026-11-25 に追加）
+  "article_product_click",
+  "article_amazon_click",
+  "article_rakuten_click",
+  // 記事末尾の検索リンク（ShopCTA）。これまでイベントが無く測れていなかった
+  "article_amazon_search",
+  "article_rakuten_search",
+];
+
+/**
+ * 記事を入口にしたクリック。**商品ページ起点と混ぜない。**
+ *
+ * 「記事からのクリックが0」なのか「測っていないから0に見える」のかを
+ * 区別するために分けている（2026-11-25 まで後者だった）。
+ */
+export const ARTICLE_CTA_EVENTS = [
+  "article_product_click",
+  "article_amazon_click",
+  "article_rakuten_click",
+  "article_amazon_search",
+  "article_rakuten_search",
 ];
 
 /** CLI引数から日付範囲をパースする共通ヘルパー */

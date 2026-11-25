@@ -17,7 +17,7 @@
  */
 import "dotenv/config";
 import { getGA4Client, requireGA4PropertyId } from "./lib/google-auth";
-import { AI_SOURCES, CTA_EVENTS, parseDateArgs } from "./lib/analytics-constants";
+import { AI_SOURCES, ARTICLE_CTA_EVENTS, CTA_EVENTS, parseDateArgs } from "./lib/analytics-constants";
 
 const PROPERTY_ID = requireGA4PropertyId();
 const ad = getGA4Client();
@@ -199,7 +199,10 @@ async function main() {
   }
 
   // ── 2b. CTAクリックの内訳（全流入）: イベント別・押したページ・入口ページ ──
-  // クリックは商品ページでしか起きない。どの記事から来たかは入口ページ（landingPage）で見る。
+  // **2026-11-25 から、記事の中にも商品カードを置いている。**
+  // それまでクリックは商品ページでしか起きず、記事からは「どの記事を入口に
+  // 来た人が商品ページで押したか」（landingPage）でしか追えなかった。
+  // いまは記事の中で押されたぶんが article_ で始まるイベントで分かれて入る。
   // サイト側のイベントには page_path も付けているが、GA4 の標準ディメンション pagePath で
   // 取れるので、カスタムディメンションの登録は要らない。
   console.log("\n[2b] CTAクリックの内訳（全流入）");
@@ -237,6 +240,41 @@ async function main() {
     }
   } catch (e) {
     console.log(`  ページ別の取得に失敗: ${e instanceof Error ? e.message : String(e)}`);
+  }
+
+  // ── 2c. 記事を入口にしたクリック ──
+  // **商品ページ起点と分けて数える。** 「記事からのクリックが0」なのか
+  // 「測っていないから0に見える」のかを区別するために分けている。
+  try {
+    const articleCta = await ad.properties.runReport({
+      property: PROPERTY_ID,
+      requestBody: {
+        dateRanges: [{ startDate, endDate }],
+        dimensions: [{ name: "eventName" }, { name: "pagePath" }],
+        metrics: [{ name: "eventCount" }],
+        dimensionFilter: {
+          orGroup: {
+            expressions: ARTICLE_CTA_EVENTS.map((e) => ({
+              filter: { fieldName: "eventName", stringFilter: { value: e, matchType: "EXACT" as const } },
+            })),
+          },
+        },
+        orderBys: [{ metric: { metricName: "eventCount" }, desc: true }],
+        limit: "20",
+      },
+    });
+    const rows = articleCta.data.rows || [];
+    const total = rows.reduce((a, r) => a + Number(r.metricValues![0].value ?? 0), 0);
+    console.log(`\n[2c] 記事を入口にしたクリック（記事の中の商品カードと検索リンク）: ${total}件`);
+    if (rows.length === 0) {
+      console.log("  なし。記事内の商品カードは 2026-11-25 公開なので、それ以降のぶんだけ入る");
+    }
+    for (const row of rows) {
+      const [ev, page] = row.dimensionValues!.map((d) => d.value ?? "");
+      console.log(`  ${ev.padEnd(24)} ${page.slice(0, 40).padEnd(41)} ${row.metricValues![0].value!.padStart(4)}`);
+    }
+  } catch (e) {
+    console.log(`  記事起点の取得に失敗: ${e instanceof Error ? e.message : String(e)}`);
   }
 
   // ── 3. AI流入のCTAクリック内訳 ──
