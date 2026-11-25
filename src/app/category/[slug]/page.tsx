@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { prisma } from "@/lib/prisma";
@@ -58,6 +59,25 @@ export default async function CategoryPage({ params }: Props) {
           <CategoryIcon slug={slug} className="w-8 h-8 text-[#2d6a4f] mb-2" />
           <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">{cat.label}</h1>
           <p className="mt-2 text-sm text-gray-600">{cat.description}</p>
+
+          {/*
+            だしのカテゴリだけ、絵を1枚添える。
+            **カテゴリごとの絵は用意していない。** 中身と合わない絵を
+            全カテゴリに付けると、かえって分かりにくくなるため、
+            絵がある「だし」だけに出す。ファーストビューに近いが、
+            見出しより下なので lazy のままでよい。
+          */}
+          {slug === "dashi" && (
+            <Image
+              src="/images/dashi.webp"
+              alt="鍋に昆布を入れてだしを取っている台所の様子"
+              width={1200}
+              height={900}
+              loading="lazy"
+              sizes="(max-width: 768px) 100vw, 640px"
+              className="mt-5 h-40 w-full rounded-xl object-cover sm:h-52"
+            />
+          )}
           <div className="mt-4">
             <ShopCTA keyword={cat.label} />
           </div>

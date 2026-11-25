@@ -49,3 +49,7 @@ scripts/tmp/
 
 # 夜間の自動記事作成に渡す権限設定（機種ごとに変える。雛形は auto-settings.example.json）
 auto-settings.json
+
+# イラストの元画像（高解像度）。重いので追跡しない。README だけ追う
+design/originals/*
+!design/originals/README.md

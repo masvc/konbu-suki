@@ -181,6 +181,59 @@ export default async function Home() {
         </section>
       )}
 
+      {/*
+        年末の特集。
+        **画像は背景。読む内容は左に重ねる。** 文字を画像の上に置くので、
+        暗いグラデーションを重ねてコントラストを確保している。
+        ファーストビューではないので lazy（Image の priority を付けない）。
+      */}
+      <section className="border-b border-gray-100">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 py-5">
+          <div className="relative overflow-hidden rounded-2xl">
+            <Image
+              src="/images/year-end.webp"
+              alt="重箱に詰めたおせち料理と年越しそば、門松が並ぶ年末年始の食卓"
+              width={1200}
+              height={675}
+              loading="lazy"
+              sizes="(max-width: 1280px) 100vw, 1200px"
+              className="h-56 w-full object-cover sm:h-72"
+            />
+            {/* 左から黒を重ねる。右側は絵を見せる */}
+            <div className="absolute inset-0 bg-gradient-to-r from-black/75 via-black/55 to-black/10" />
+            <div className="absolute inset-0 flex items-center">
+              <div className="max-w-md px-5 sm:px-8">
+                <p className="text-[10px] font-bold tracking-widest text-[#b7e4c7] mb-1">YEAR-END</p>
+                <h2 className="text-lg sm:text-2xl font-bold text-white leading-snug">
+                  年末年始の昆布
+                </h2>
+                <p className="mt-1.5 text-xs sm:text-sm text-white/80 leading-relaxed">
+                  おせちの昆布巻き、年越しそばのだし、七草がゆ。
+                  日本昆布協会のレシピをもとに、分量と手順を出典つきでまとめています。
+                </p>
+                <ul className="mt-3 flex flex-wrap gap-2">
+                  {[
+                    ["kombumaki", "おせちの昆布巻き"],
+                    ["toshikoshi-soba-dashi", "年越しそばのだし"],
+                    ["kobujime-hare", "正月の昆布締め"],
+                    ["nanakusa-gayu-dashi", "七草がゆのだし"],
+                  ].map(([slug, label]) => (
+                    <li key={slug}>
+                      <Link
+                        href={`/guide/${slug}`}
+                        className="inline-flex min-h-9 items-center rounded-full bg-white/95 px-3 text-xs font-medium text-[#1b4332] hover:bg-white transition"
+                      >
+                        {label}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       <KombuBoxBanner />
 
       {/* 産地から探す */}
