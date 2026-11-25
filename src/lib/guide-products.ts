@@ -163,6 +163,13 @@ export const GUIDE_PRODUCTS: Record<string, GuideProductRule> = {
     heading: "昆布巻きに使う昆布",
     why: "巻いて煮るので、やわらかく煮える日高・長昆布",
   },
+  matsumaezuke: {
+    category: "dashi",
+    subcategory: ["gagome"],
+    afterSection: 4,
+    heading: "松前漬けの原料に挙がるがごめ昆布",
+    why: "北海道・協会が松前漬けの原料に挙げるのはがごめ昆布。節4（どの昆布を使うか）の直後",
+  },
   "kombu-tsukudani": {
     category: "tsukudani",
     afterSection: 1,
