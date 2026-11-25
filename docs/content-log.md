@@ -37,8 +37,14 @@ matsumaezuke は12月上旬に登録されている必要がある（正月の�
 | --- | --- |
 | 選んだ理由 | index-status の「クロール済み - 未登録」は0件。analysis.md のトップ10のうち 1:00 枠が手を付けたのは #2 hare・#4 life-cycle。残りは「触らない」「人の URL 検査」「条件つき」で、手を入れると決まっているのは #8 だけ |
 | 変えたもの | `src/lib/guide-products.ts` に `itemList` を足して2本だけ true、`src/app/guide/[slug]/page.tsx` がカードの商品を ItemList（ListItem: 表示順・名前・商品ページの URL）で出す。順位・評価は付けていない。本文・title・description・dateModified は変えていない |
-| 確認 | build 成功。動的ページのため出力の HTML は手元で見ていない。Rich Results テストは人（/category と同じ） |
-| 状態 | **公開** |
+| 確認 | build 成功。動的ページのため出力の HTML は手元で見ていない（この枠は curl が許可されていない）。Rich Results テストは人（/category と同じ） |
+| 状態 | **公開**（10a23ee） |
+
+### 見送り: kobujime-tips の「魚が硬くなる」（analysis #10）
+
+協会の `?s=締めすぎ`（結果なし）・`?s=硬く`（昆布締め以外の2品）を引いたが、昆布締めで魚が硬くなる・締めすぎの記載は見つからなかった。農水省「うちの郷土料理」の富山の一覧ページは 403。資料が無いので足していない。kobujime-tips は next-actions の「触らない記事」にも入っている。
+
+build の注意: `npm run build` の1回目が Next.js の SecurityFatalError（手元の node_modules が 16.4.3）で止まり、2回目で通る状態が続いている。告知は `next upgrade --agent=security` の実行と人への確認を求めているが、依存の更新はこの枠の範囲外なので実行していない（`npm ci` は analysis の技術SEO の項目どおり人の判断）。
 
 ## 2026-11-25 の新規記事枠（2026-11-24 夜の3枠目）
 
