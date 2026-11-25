@@ -85,3 +85,26 @@ Slack から取り込むには `.env` に次の2つが要る。webhook（送信�
 
   狙う語は「年越しそば だし」。独自要素は「定番のつゆに昆布が入っていないという事実から
   始める」こと。競合はレシピ系で、昆布が入らない前提の記事が多い。
+
+## 2026-11-25（人からの指示・対応済み）
+
+- [x] **記事から商品への導線を作る** — `src/lib/guide-products.ts`（どの記事に何を出すか）と
+      `src/components/ArticleProducts.tsx`（カード）。38本に付け、栄養・歴史・分類の4本には
+      意図的に出していない。本文の途中（節の直後）と記事末尾の2か所
+- [x] **「PR」表記・rel="sponsored"・開示** — カードに「PR」の札、リンクは
+      `nofollow sponsored`、紹介料と編集方針へのリンクを添えた。順位・評価ではないと明記
+- [x] **GA4で記事内のクリックを計測** — `article_product_click` / `article_amazon_click` /
+      `article_rakuten_click` と、記事末尾の検索リンクの `article_amazon_search` /
+      `article_rakuten_search`。`ai-quality.ts` の [2c] に「記事を入口にしたクリック」を追加
+- [x] **外部リンク切れ9件を直した** — 楽天8・Amazon 1 をDBから外し（検索リンクに落ちる）、
+      松前屋（生産者 id=7）の公式サイトはドメイン全体が404のため url を空にした。
+      `scripts/check-affiliate-links.ts` を足した（404と410だけ外す）
+
+**次の夜間で見てほしいこと**
+
+1. **記事内カードのクリックが付いているか。** `npx tsx scripts/ai-quality.ts` の [2c]。
+   公開は 11-25 なので、それ以降のぶんだけ入る
+2. **カードを出していない4本**（kombu-nutrition / kombu-seaweed-types / kombu-life-cycle /
+   kombu-history）は、意図して出していない。読んで終わる記事に広告を差し込まない判断
+3. **楽天リンクが外れた8商品**は、検索リンクに落ちている。`triage-rakuten.ts` の
+   振り分けで付け直す候補に入る
