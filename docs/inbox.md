@@ -108,3 +108,30 @@ Slack から取り込むには `.env` に次の2つが要る。webhook（送信�
    kombu-history）は、意図して出していない。読んで終わる記事に広告を差し込まない判断
 3. **楽天リンクが外れた8商品**は、検索リンクに落ちている。`triage-rakuten.ts` の
    振り分けで付け直す候補に入る
+
+## 2026-11-25 Next.js のセキュリティ更新（対応済み）
+
+**16.4.3 → 16.4.6。** npm audit で7件の勧告に該当していた（いずれも対象は
+<=16.4.4、深刻度は moderate）。メジャーの変更ではない。
+
+| 勧告 | 内容 |
+| --- | --- |
+| GHSA-mfr8-8qww-v76h | unstable_cache 経由の `use cache` で root params が漏れる |
+| GHSA-vc7v-qv4w-wrv8 | 入れ子の `use cache` でキャッシュが別の値に漏れる |
+| GHSA-7qx7-33qx-rqx2 | 画像最適化で SVG の拒否をすり抜ける |
+| GHSA-f3mh-rxg3-f5g2 | Edge ランタイムで HttpOnly クッキーが内部ヘッダに出る |
+| GHSA-pc58-hwjq-p385 | 自前ホストで取得した応答を転送する際に別の利用者へ混ざる |
+| GHSA-rhh4-g77r-r9qj | バイナリ引数の `use cache` で利用者をまたいでキャッシュが漏れる |
+| GHSA-vvgp-ww4w-46vf | Cache Components の共有フォールバックのキャッシュ汚染 |
+
+**別のワークツリー（`git worktree`）で作業した。** 本番と夜間ジョブに
+影響を出さずに確かめるため。確かめたのは、audit（next の該当0件）・
+lint（エラー0）・typecheck:scripts（エラー0）・build（静的20ページ）・
+check:offline（ERROR 0 / meta 要修正0 / 事実の整合 要修正0）。
+
+デプロイ後に本番で確認したページ：トップ・`/guide/shiokombu-guide`・
+`/product/8`・`/category/dashi`（どれも HTTP 200）。記事内の商品カードも
+出ている（PR の札・`article_product_click` を確認）。
+
+**ワークツリーの .env は、シンボリックリンクで本体のものを見せている。**
+コピーはしない。確認が終わったらリンクを外す。
