@@ -6,6 +6,8 @@ import { SITE_NAME, SITE_URL } from "@/lib/constants";
 import { GUIDES, type GuideSlug } from "@/lib/guides";
 import { guideMeta } from "@/lib/page-meta";
 import { ShopCTA } from "@/components/ShopCTA";
+import { ArticleProducts } from "@/components/ArticleProducts";
+import { productsForGuide } from "@/lib/guide-products";
 import { KombuBoxBanner } from "@/components/kombu-box/KombuBoxBanner";
 import { Breadcrumb } from "@/components/Breadcrumb";
 import { FaqAccordion } from "@/components/FaqAccordion";
@@ -59,6 +61,16 @@ export default async function GuidePage({ params }: Props) {
     : Object.entries(GUIDES)
         .filter(([s]) => s !== slug)
         .slice(0, 4);
+
+  /*
+   * 記事のテーマに合う商品。出す記事と選び方は src/lib/guide-products.ts。
+   * **合う商品が無い記事では空が返り、カードは出ない。**
+   * DBが落ちていても記事は出す（商品だけ消える）。
+   */
+  const articleProducts = await productsForGuide(slug).catch(() => ({
+    rule: null,
+    products: [],
+  }));
 
   // 参考文献は本文の「出典:」行から集める。記事ごとに一覧を別に持たせると、
   // 本文を直したときに片方だけ古くなる。
@@ -209,15 +221,32 @@ export default async function GuidePage({ params }: Props) {
                   </table>
                 </div>
               )}
+              {/* 記事のテーマに合う商品。出す節は src/lib/guide-products.ts で決める */}
+              {articleProducts.rule?.afterSection === i && (
+                <ArticleProducts
+                  products={articleProducts.products}
+                  heading={articleProducts.rule.heading}
+                  guideSlug={slug}
+                />
+              )}
             </section>
           ))}
         </div>
+
+        {/* 記事の末尾にも1組。本文の途中で出していても、読み終わりにもう一度 */}
+        {articleProducts.products.length > 0 && (
+          <ArticleProducts
+            products={articleProducts.products}
+            heading={articleProducts.rule?.heading ?? "記事に合う商品"}
+            guideSlug={slug}
+          />
+        )}
 
         {/* 関連商品CTA */}
         {guide.searchKeyword && (
           <div className="mt-10 rounded-xl border border-[#b7e4c7] bg-[#f8faf8] p-5">
             <p className="text-sm font-bold text-gray-900 mb-3">関連商品を探す</p>
-            <ShopCTA keyword={guide.searchKeyword} />
+            <ShopCTA keyword={guide.searchKeyword} source={slug} />
           </div>
         )}
 
