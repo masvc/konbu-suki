@@ -29,6 +29,15 @@ matsumaezuke は12月上旬に登録されている必要がある（正月の�
 | 書かなかったもの | 日持ちの日数（資料なし）、数の子の塩出しの時間（資料なし。袋の表示に従うと書いた）、数の子入りが縁起食である理由（資料なし）、するめいかが生か干したものか |
 | related | kombu-processed-foods・gagome-kombu・kombumaki・kombu-recipes・kobujime-hare。既存側は kombu-processed-foods・gagome-kombu・kombumaki の related に足した。guide-products.ts にがごめ昆布のカードを追加（節4の直後） |
 | 画像 | アイキャッチ・OGP とも生成済み |
+| 状態 | **公開**（c41c811） |
+
+### oshaburi-kombu・otsumami-kombu の強化【記事内カードを ItemList に】
+
+| 項目 | 内容 |
+| --- | --- |
+| 選んだ理由 | index-status の「クロール済み - 未登録」は0件。analysis.md のトップ10のうち 1:00 枠が手を付けたのは #2 hare・#4 life-cycle。残りは「触らない」「人の URL 検査」「条件つき」で、手を入れると決まっているのは #8 だけ |
+| 変えたもの | `src/lib/guide-products.ts` に `itemList` を足して2本だけ true、`src/app/guide/[slug]/page.tsx` がカードの商品を ItemList（ListItem: 表示順・名前・商品ページの URL）で出す。順位・評価は付けていない。本文・title・description・dateModified は変えていない |
+| 確認 | build 成功。動的ページのため出力の HTML は手元で見ていない。Rich Results テストは人（/category と同じ） |
 | 状態 | **公開** |
 
 ## 2026-11-25 の新規記事枠（2026-11-24 夜の3枠目）

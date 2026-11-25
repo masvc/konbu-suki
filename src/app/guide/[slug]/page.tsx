@@ -117,6 +117,25 @@ export default async function GuidePage({ params }: Props) {
       }
     : null;
 
+  // 記事内の商品カードを ItemList でも出す。guide-products.ts で itemList を
+  // 付けた記事（商品を見比べる記事）だけ。並び順はカードの表示順で、
+  // 順位・評価の意味は持たせない（カテゴリページの ItemList と同じ扱い）。
+  const itemListJsonLd =
+    articleProducts.rule?.itemList && articleProducts.products.length > 0
+      ? {
+          "@context": "https://schema.org",
+          "@type": "ItemList",
+          name: articleProducts.rule.heading,
+          numberOfItems: articleProducts.products.length,
+          itemListElement: articleProducts.products.map((p, i) => ({
+            "@type": "ListItem",
+            position: i + 1,
+            url: `${SITE_URL}/product/${p.id}`,
+            name: p.name,
+          })),
+        }
+      : null;
+
   // FAQ構造化データ
   const faqJsonLd = guide.faq && guide.faq.length > 0 ? {
     "@context": "https://schema.org", "@type": "FAQPage",
@@ -131,6 +150,7 @@ export default async function GuidePage({ params }: Props) {
       <JsonLd data={articleJsonLd} />
       {faqJsonLd && <JsonLd data={faqJsonLd} />}
       {recipeJsonLd && <JsonLd data={recipeJsonLd} />}
+      {itemListJsonLd && <JsonLd data={itemListJsonLd} />}
 
       {/* アイキャッチ */}
       {guide.image && (

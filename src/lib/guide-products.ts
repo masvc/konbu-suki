@@ -27,6 +27,12 @@ export type GuideProductRule = {
   afterSection?: number;
   /** カードの見出し。何を出しているのかを言葉で示す */
   heading: string;
+  /**
+   * 記事内カードの並びを ItemList の構造化データでも出す。
+   * **商品を見比べる記事（「〇〇 おすすめ」で探される記事）にだけ付ける。**
+   * 並び順はカードの表示順そのままで、順位・評価の意味は持たせない。
+   */
+  itemList?: boolean;
   /** なぜこの商品群なのか。画面には出さない。選び方の記録 */
   why: string;
 };
@@ -211,8 +217,8 @@ export const GUIDE_PRODUCTS: Record<string, GuideProductRule> = {
 
   /* おやつ・おつまみ */
   "kombu-oyatsu-guide": { category: "snack", afterSection: 1, heading: "昆布のおやつ", why: "おやつの総合ガイド" },
-  "oshaburi-kombu": { category: "snack", include: ["おしゃぶり"], afterSection: 1, heading: "おしゃぶり昆布", why: "おしゃぶり昆布の記事。名前で絞る" },
-  "otsumami-kombu": { category: "snack", afterSection: 1, heading: "おつまみ昆布", why: "おつまみ昆布の記事" },
+  "oshaburi-kombu": { category: "snack", include: ["おしゃぶり"], afterSection: 1, heading: "おしゃぶり昆布", itemList: true, why: "おしゃぶり昆布の記事。名前で絞る。「おすすめ」で探される記事なので ItemList も出す" },
+  "otsumami-kombu": { category: "snack", afterSection: 1, heading: "おつまみ昆布", itemList: true, why: "おつまみ昆布の記事。「おすすめ」で探される記事なので ItemList も出す" },
   "miyako-kombu": { category: "snack", include: ["都こんぶ", "都昆布"], afterSection: 1, heading: "都こんぶ", why: "製造元の商品に絞る。「中野」で絞ると同じ会社のおしゃぶり昆布まで入ってしまうので名前で絞る" },
   "kombu-diet-oyatsu": { category: "snack", afterSection: 2, heading: "昆布のおやつ", why: "ダイエットの記事。効果は書かず、商品だけ出す" },
 };
