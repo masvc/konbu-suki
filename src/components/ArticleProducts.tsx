@@ -18,6 +18,9 @@ import { amazonProductUrl, amazonSearchUrl, rakutenProductUrl, rakutenSearchUrl 
  * クリックは GA4 に送る（`article_product_click` / `article_amazon_click` /
  * `article_rakuten_click`）。記事を入口にしたクリックが、商品ページを入口に
  * したクリックと混ざらないように、イベント名を分けている。
+ *
+ * **どの記事で押されたかは `page_path` で分かる**（layout.tsx のハンドラが
+ * 付けている）ので、記事の slug は渡していない。
  */
 
 export type ArticleProduct = {
@@ -35,11 +38,9 @@ export type ArticleProduct = {
 export function ArticleProducts({
   products,
   heading,
-  guideSlug,
 }: {
   products: ArticleProduct[];
   heading: string;
-  guideSlug: string;
 }) {
   if (products.length === 0) return null;
 

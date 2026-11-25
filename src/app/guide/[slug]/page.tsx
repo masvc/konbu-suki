@@ -226,7 +226,6 @@ export default async function GuidePage({ params }: Props) {
                 <ArticleProducts
                   products={articleProducts.products}
                   heading={articleProducts.rule.heading}
-                  guideSlug={slug}
                 />
               )}
             </section>
@@ -238,7 +237,6 @@ export default async function GuidePage({ params }: Props) {
           <ArticleProducts
             products={articleProducts.products}
             heading={articleProducts.rule?.heading ?? "記事に合う商品"}
-            guideSlug={slug}
           />
         )}
 
