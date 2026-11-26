@@ -31,7 +31,19 @@ matsumaezuke は12月上旬に登録されている必要がある（正月の�
 | 書かなかったもの | 昆布を戻す時間・煮る時間（記載なし）、豚だしの取り方（三枚肉のゆで汁を使うとは書かれていない）、昆布の種類（指定なし）、昆布ロードとの関係（農水省のページに記載なし。kombu-history へ誘導するだけ） |
 | related | kombu-recipes・kombu-history・kombu-tsukudani・matsumaezuke・kombumaki。既存側は kombu-recipes・kombu-history の related に足し、kombu-recipes の「昆布が主役の料理」の表と本文から新記事を指すようにした |
 | 画像 | アイキャッチ・OGP とも生成済み |
+| 状態 | **公開**（c394b45） |
+
+### kombu-recipes の強化【だしがらで作る炒め物】
+
+| 項目 | 内容 |
+| --- | --- |
+| URL | https://konbu-suki.com/guide/kombu-recipes |
+| 選んだ理由 | index-status の「クロール済み - 未登録」は0件、fact-audit の指摘も0件。analysis.md のトップ10は 1:00 枠が #3・#6 を済ませ、残りは「触らない」「人の URL 検査」。未登録の kombu-processed-foods・kombu-comparison は GSC 0表示・AI の展開にも答えていて（analysis）、本文を直しても取得されないことは変わらない。登録済みで最終クロールが 11-07 以前、「触らない」に入っていない記事のうち、今夜開いた資料（協会 2097）がそのまま当てはまる kombu-recipes（だしがら活用の記事）を選んだ |
+| 足したもの | 節「煮込まずに炒めるなら、だしがらのクーブイリチー」（材料・手順・量が「適量」なので溜めたものをあるだけ使える・kubu-irichi へのリンク・ヨウ素は既存の節を指す）、FAQ「だしを取った後の昆布で炒め物は作れますか」。dateModified 11-27。title・description は変えていない |
+| 出典 | 日本昆布協会「出しを取った後の昆布で『クーブイリチー』」2097（今夜 topic-map に追加済み） |
 | 状態 | **公開** |
+
+その他の強化候補は見送った。kobujime-beef の GSC 語「ローストビーフ 昆布締め」は本文に15件あり答えている。how-to-choose-kombu・kombu-comparison・kombu-processed-foods は展開に答えている（analysis）。kobujime-arrange の展開「食べ頃」0件は「クロール待ちで触らない」の記事なので次の分析枠に回す。
 
 ## 2026-11-26 の新規記事枠（2026-11-25 夜の3枠目）
 
