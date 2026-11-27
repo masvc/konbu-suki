@@ -1,0 +1,12 @@
+{
+  "slot": "maintain",
+  "title": "点検と内部リンク",
+  "startedAt": "2026-11-27T20:00:05.608Z",
+  "minutes": 14,
+  "limitMinutes": 100,
+  "commits": [
+    "夜間の点検枠の記録: 孤立記事0・楽天1件を付け替え・リンク切れ1件は保留"
+  ],
+  "exit": 0,
+  "trouble": []
+}
